@@ -1,0 +1,17 @@
+//resgiter
+# POST http://localhost:8000/api/auth/register
+# Content-Type: application/json
+
+# {
+#     "account_username": "duy",
+#     "account_password": "1"
+# }
+
+//login
+POST http://localhost:8000/api/auth/login
+Content-Type: application/json
+
+{
+    "account_username": "duy",
+    "account_password": "1"
+}
