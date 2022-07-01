@@ -11,7 +11,7 @@ const accountSchema = new Schema({
         type: String,
         required: true,
     },
-    role: {
+    account_role: {
         type: String,
         required: true,
     },
