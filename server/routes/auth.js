@@ -8,9 +8,9 @@ const User = require('../model/Account')
 // @desc Register user
 // @access Public
 router.post('/register', async (req, res) => {
-    const { account_username, account_password } = req.body
+    const { account_username, account_password, role } = req.body
     //Simple validation
-    if (!account_username || !account_password)
+    if (!account_username || !account_password || !role)
         return res.status(400).json({ success: false, message: 'Missing account username or password' })
     try {
         // check for existing user
