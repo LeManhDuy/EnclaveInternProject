@@ -97,7 +97,6 @@ router.put('/:id', async(req, res) => {
             return res.status(401).json({success: false, message:'Parent not found'})
         res.json({success:true, message: 'Updated!', parent: updateParent})
     } catch {
-        console.log(error);
         return res.status(500).json({ success: false, message: '' + error })
     }
 })
@@ -114,7 +113,6 @@ router.delete('/:id', async(req, res) => {
             return res.status(401).json({success: false, message:'Parent not found'})
         res.json({success:true, message: 'Deleted!', parent: deletedParent})        
     } catch {
-        console.log(error);
         return res.status(500).json({ success: false, message: '' + error })
     }   
 })
