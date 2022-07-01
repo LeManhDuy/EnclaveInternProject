@@ -9,7 +9,7 @@ app.use(express.json())
 
 //database
 const connectDB = async () => {
-    try { //
+    try {
         await mongoose.connect(`mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@enclave-project.cnfw0.mongodb.net/?retryWrites=true&w=majority`)
         console.log('MongoDB connected')
     } catch (error) {
