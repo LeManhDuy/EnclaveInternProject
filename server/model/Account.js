@@ -14,7 +14,7 @@ const accountSchema = new Schema({
     account_role: {
         type: String,
         required: true,
-    },
+    }
 })
 
 module.exports = mongoose.model('Account',accountSchema)

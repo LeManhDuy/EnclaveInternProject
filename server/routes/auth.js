@@ -23,7 +23,8 @@ router.post('/register', async (req, res) => {
         const newUser = new User({ account_username, account_password: hashPassword, account_role })
         await newUser.save()
         //return token
-        const accessToken = jwt.sign({ userId: newUser._id }, process.env.ACCESS_TOKEN_SECRET)
+        const accessToken = jwt.sign({ userId: newUser._id }
+            , process.env.ACCESS_TOKEN_SECRET)
         res.json({ success: true, message: 'Create account successfully', accessToken })
     } catch (error) {
         return res.status(500).json({ success: false, message: '' + error })
@@ -48,11 +49,12 @@ router.post('/login', async (req, res) => {
             return res.status(400).json({ success: false, message: 'Incorrect username or password' })
 
         //all good
-        const accessToken = jwt.sign({ userId: User._id }, process.env.ACCESS_TOKEN_SECRET)
+        const accessToken = jwt.sign({ userRole: user.account_role }
+            , process.env.ACCESS_TOKEN_SECRET)
 
         switch (account_role) {
             case "Admin":
-                return res.status(200).json({ success: true, message: 'Admin - Login successfull', accessToken })
+                return res.send().status(200).json({ success: true, message: 'Admin - Login successfull', accessToken })
             case "Teacher":
                 return res.status(200).json({ success: true, message: 'Teacher - Login successfull', accessToken })
             case "Parent":
