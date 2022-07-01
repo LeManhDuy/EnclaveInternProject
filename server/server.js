@@ -23,7 +23,6 @@ connectDB()
 app.use(cors())
 
 //url
-const authRouter = require('./routes/auth')
 const teacherRouter = require('./routes/teacher')
 app.use('/api/auth', authRouter)
 app.use('/api/admin/parents', adminParentsRouter)
