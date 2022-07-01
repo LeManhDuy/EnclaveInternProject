@@ -2,6 +2,7 @@ require('dotenv').config()
 const express = require('express')
 const mongoose = require('mongoose')
 const authRouter = require('./routes/auth')
+const adminParentsRouter = require('./routes/parents')
 const cors = require('cors')
 const app = express()
 app.use(express.json())
@@ -23,6 +24,7 @@ app.use(cors())
 
 //url
 app.use('/api/auth', authRouter)
+app.use('/api/admin/parents', adminParentsRouter)
 
 //port
 const PORT = 8000
