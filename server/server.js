@@ -23,8 +23,8 @@ app.use(cors())
 //url
 const authRouter = require('./routes/auth')
 const teacherRouter = require('./routes/teacher')
-app.use('/api/auth', authRouter)
-app.use('/api/dashboard/', teacherRouter)
+app.use('/authentication', authRouter)
+app.use('/dashboard/teacher', teacherRouter)
 
 
 // login -> dahsboard -> teacher page (neu admin thi khong the den teacherpage) -> student page. 

@@ -1,5 +1,5 @@
 //resgiter
-# POST http://localhost:8000/api/auth/register
+# POST http://localhost:8000/authentication/register
 # Content-Type: application/json
 
 # {
@@ -10,7 +10,7 @@
 
 
 //login
-# POST http://localhost:8000/api/auth/login
+# POST http://localhost:8000/authentication/login
 # Content-Type: application/json
 
 # {
@@ -25,14 +25,23 @@
 # Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyUm9sZSI6IlRlYWNoZXIiLCJpYXQiOjE2NTY2NTYyMTF9.Iy30yXpI7VMTq3CnYDIyQrl2hVnZ7VFFr5kmJJicezA
 
 //teacher create student
-POST http://localhost:8000/api/dashboard/teacher
+# POST http://localhost:8000/dashboard/teacher/create-student
+# Content-Type: application/json
+# Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MmJlNTNkZWNmNDFkNTY3MGVkYmEyYTMiLCJpYXQiOjE2NTY2NjQ1MzV9.1xPUhxDpd9bO1iFwi1HwXEVFfyl7dHc37Y7ETjqCMo4
+
+# {
+#     "student_fullname": "Le Manh Duy",
+#     "student_age": 22,
+#     "student_gender" : true,
+#     "student_image": "image link",
+#     "student_behavior": "Gioi"
+# }
+
+//teacher create class
+POST http://localhost:8000/dashboard/teacher/create-class
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MmJlNTNkZWNmNDFkNTY3MGVkYmEyYTMiLCJpYXQiOjE2NTY2NjQ1MzV9.1xPUhxDpd9bO1iFwi1HwXEVFfyl7dHc37Y7ETjqCMo4
 
 {
-    "student_fullname": "Le Manh Duy",
-    "student_age": 22,
-    "student_gender" : true,
-    "student_image": "image link",
-    "student_behavior": "Gioi"
+    "class_name": "3"
 }
