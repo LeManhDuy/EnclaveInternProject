@@ -1,0 +1,25 @@
+//resgiter
+# POST http://localhost:8000/api/auth/register
+# Content-Type: application/json
+
+# {
+#     "account_username": "test4",
+#     "account_password": "1",
+#     "account_role" : "Parent"
+# }
+
+
+//login
+# POST http://localhost:8000/api/auth/login
+# Content-Type: application/json
+
+# {
+#     "account_username": "teacher",
+#     "account_password": "1",
+#     "account_role" : "Teacher"
+# }
+
+//auth
+POST http://localhost:8000/api/dashboard/teacher
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyUm9sZSI6IlRlYWNoZXIiLCJpYXQiOjE2NTY2NTYyMTF9.Iy30yXpI7VMTq3CnYDIyQrl2hVnZ7VFFr5kmJJicezA
