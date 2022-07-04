@@ -27,7 +27,7 @@
 //teacher create student
 # POST http://localhost:8000/dashboard/teacher/student/create-student
 # Content-Type: application/json
-# Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MmMyOGEzODRlNWUyMDU4ZTUwZDIyNDYiLCJpYXQiOjE2NTY5MTY1NTd9.pReRK2iynE4IGbukqPh9kFrtForaH0D2OXg7qek4W-M
+# Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MmMyOGEzODRlNWUyMDU4ZTUwZDIyNDYiLCJpYXQiOjE2NTY5MTc3NTR9.FWH2aw2CU47RDU2rKXUb672j53RjRUVfQ_Td9PdptgE
 
 # {
 #     "student_fullname": "Trats",
@@ -39,6 +39,10 @@
 #     "score_id": "62c260a9a2d8363660d1ec04",
 #     "schoolyear_id":"62c2868129241dfd205bff4d"
 # }
+//teacher get student
+GET http://localhost:8000/dashboard/teacher/student/get-all-student
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MmMyOGEzODRlNWUyMDU4ZTUwZDIyNDYiLCJpYXQiOjE2NTY5MTgwNTh9.4i2-Q0YM5Zss8XzmbtFJJIMTg-f87GGj1UfBMfsVb4A
 
 //teacher create class
 # POST http://localhost:8000/dashboard/teacher/class/create-class
