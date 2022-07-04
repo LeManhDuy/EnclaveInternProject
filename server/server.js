@@ -1,7 +1,6 @@
 require('dotenv').config()
 const express = require('express')
 const mongoose = require('mongoose')
-const authRouter = require('./routes/auth')
 const adminParentsRouter = require('./routes/parents')
 const adminRouterControl = require('./routes/admin')
 const cors = require('cors')
@@ -29,6 +28,17 @@ app.use('/api/auth', authRouter)
 app.use('/api/admin/parents', adminParentsRouter)
 app.use('/api/admin/', adminRouterControl)
 app.use('/api/dashboard/', teacherRouter)
+//admin
+const authRouter = require('./routes/auth')
+app.use('/authentication', authRouter)
+//teacher
+const studentRouter = require('./routes/student')
+const classRouter = require('./routes/class')
+app.use('/dashboard/teacher/student', studentRouter)
+app.use('/dashboard/teacher/class', classRouter)
+// app.use('/api/auth', authRouter)
+// app.use('/api/admin/parents', adminParentsRouter)
+// app.use('/api/dashboard/', teacherRouter)
 
 
 // login -> dahsboard -> teacher page (neu admin thi khong the den teacherpage) -> student page. 
