@@ -7,7 +7,7 @@ const jwt = require('jsonwebtoken')
 // @desc Create parents
 // @access Private Only Admin
 
-router.post('/', async(req, res) => {
+router.post('/', async (req, res) => {
     const {
         parent_name,
         parent_dateofbirth,
@@ -19,10 +19,10 @@ router.post('/', async(req, res) => {
     } = req.body
     // Validation
     if (!parent_name || !parent_address || !parent_phone) {
-        return res.status(400).json({ success: false, message:'Missing information.Please fill in!'})
+        return res.status(400).json({ success: false, message: 'Missing information.Please fill in!' })
     }
-    if (parent_phone.length != 10 ){
-        return res.status(400).json({ success: false, message:'Phone number must have 10 numbers'})
+    if (parent_phone.length != 10) {
+        return res.status(400).json({ success: false, message: 'Phone number must have 10 numbers' })
     }
     try {
         // Good to die
@@ -39,31 +39,31 @@ router.post('/', async(req, res) => {
         // Return token
         const accessToken = jwt.sign({ userId: parents._id }, process.env.ACCESS_TOKEN_SECRET)
         res.json({ success: true, message: 'Create account successfully', accessToken })
-    } catch(error) {
-        return res.status(500).json({ success: false, message: '' + error})
+    } catch (error) {
+        return res.status(500).json({ success: false, message: '' + error })
     }
-    
+
 })
 
 // @route GET api/admin/parents/get
 // @desc GET parents
 // @access Private Only Admin
 
-router.get('/', async(req, res) => {
+router.get('/', async (req, res) => {
     try {
         // Return token
         const allParents = await Parents.find({})
         res.json({ success: true, allParents })
-    } catch(error) {
-        return res.status(500).json({ success: false, message: '' + error})
+    } catch (error) {
+        return res.status(500).json({ success: false, message: '' + error })
     }
-    
+
 })
 
 // @route PUT api/admin/parents/
 // @desc Update parents
 // @access Private Only Admin
-router.put('/:id', async(req, res) => {
+router.put('/:id', async (req, res) => {
     const {
         parent_name,
         parent_dateofbirth,
@@ -75,10 +75,10 @@ router.put('/:id', async(req, res) => {
     } = req.body
     // Validation
     if (!parent_name || !parent_address || !parent_phone) {
-        return res.status(400).json({ success: false, message:'Missing information.Please fill in!'})
+        return res.status(400).json({ success: false, message: 'Missing information.Please fill in!' })
     }
-    if (parent_phone.length != 10 ){
-        return res.status(400).json({ success: false, message:'Phone number must have 10 numbers'})
+    if (parent_phone.length != 10) {
+        return res.status(400).json({ success: false, message: 'Phone number must have 10 numbers' })
     }
     try {
         let updateParent = {
@@ -90,12 +90,12 @@ router.put('/:id', async(req, res) => {
             parent_job,
             parent_gender,
         }
-        const postUpdateCondition = {_id: req.params.id, user: req.userId}
-        updatedParent = await Parents.findOneAndUpdate(postUpdateCondition, updateParent, {new: true})
+        const postUpdateCondition = { _id: req.params.id, user: req.userId }
+        updatedParent = await Parents.findOneAndUpdate(postUpdateCondition, updateParent, { new: true })
 
-        if (!updateParent) 
-            return res.status(401).json({success: false, message:'Parent not found'})
-        res.json({success:true, message: 'Updated!', parent: updateParent})
+        if (!updateParent)
+            return res.status(401).json({ success: false, message: 'Parent not found' })
+        res.json({ success: true, message: 'Updated!', parent: updateParent })
     } catch {
         return res.status(500).json({ success: false, message: '' + error })
     }
@@ -104,17 +104,17 @@ router.put('/:id', async(req, res) => {
 // @route DELETE api/admin/parents/
 // @desc DELETE parents
 // @access Private Only Admin
-router.delete('/:id', async(req, res) => {
+router.delete('/:id', async (req, res) => {
     try {
-        const postDeleteCondition = {_id: req.params.id, user: req.userId}
+        const postDeleteCondition = { _id: req.params.id, user: req.userId }
         const deletedParent = await Parents.findOneAndDelete(postDeleteCondition)
 
-        if (!deletedParent) 
-            return res.status(401).json({success: false, message:'Parent not found'})
-        res.json({success:true, message: 'Deleted!', parent: deletedParent})        
+        if (!deletedParent)
+            return res.status(401).json({ success: false, message: 'Parent not found' })
+        res.json({ success: true, message: 'Deleted!', parent: deletedParent })
     } catch {
         return res.status(500).json({ success: false, message: '' + error })
-    }   
+    }
 })
 
 module.exports = router

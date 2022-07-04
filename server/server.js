@@ -1,7 +1,6 @@
 require('dotenv').config()
 const express = require('express')
 const mongoose = require('mongoose')
-const authRouter = require('./routes/auth')
 const adminParentsRouter = require('./routes/parents')
 const cors = require('cors')
 const app = express()
@@ -23,9 +22,14 @@ connectDB()
 app.use(cors())
 
 //url
-const teacherRouter = require('./routes/teacher')
+//admin
+const authRouter = require('./routes/auth')
 app.use('/authentication', authRouter)
-app.use('/dashboard/teacher', teacherRouter)
+//teacher
+const studentRouter = require('./routes/student')
+const classRouter = require('./routes/class')
+app.use('/dashboard/teacher/student', studentRouter)
+app.use('/dashboard/teacher/class', classRouter)
 // app.use('/api/auth', authRouter)
 // app.use('/api/admin/parents', adminParentsRouter)
 // app.use('/api/dashboard/', teacherRouter)

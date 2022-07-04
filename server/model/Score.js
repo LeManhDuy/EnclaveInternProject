@@ -3,19 +3,19 @@ const Schema = mongoose.Schema;
 
 const scoreSchema = new Schema({
     score_ratio1: {
-        type: Float32Array,
+        type: Number,
         required: true,
     },
     score_ratio2: {
-        type: Float32Array,
+        type: Number,
         required: true,
     },
     score_ratio3: {
-        type: Float32Array,
+        type: Number,
         required: true,
     },
     score_average: {
-        type: Float32Array,
+        type: Number,
         required: true,
     },
     subject_id: {
