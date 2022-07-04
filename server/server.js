@@ -2,6 +2,8 @@ require('dotenv').config()
 const express = require('express')
 const mongoose = require('mongoose')
 const adminParentsRouter = require('./routes/parents')
+const adminRouterControl = require('./routes/admin')
+// const authRouter = require('./routes/auth')
 const adminTeachersRouter = require('./routes/teacher')
 const cors = require('cors')
 const app = express()
@@ -26,16 +28,20 @@ app.use(cors())
 const teacherRouter = require('./routes/teacher')
 // app.use('/api/auth', authRouter)
 app.use('/api/admin/parents', adminParentsRouter)
+app.use('/api/admin/', adminRouterControl)
+// app.use('/api/dashboard/', teacherRouter)
+//admin
 app.use('/api/dashboard/', teacherRouter)
 app.use('/api/admin/teachers', adminTeachersRouter)
 //admin
 const authRouter = require('./routes/auth')
+
 // app.use('/authentication', authRouter)
 //teacher
-const studentRouter = require('./routes/student')
-const classRouter = require('./routes/class')
-app.use('/dashboard/teacher/student', studentRouter)
-app.use('/dashboard/teacher/class', classRouter)
+// const studentRouter = require('./routes/student')
+// const classRouter = require('./routes/class')
+// app.use('/dashboard/teacher/student', studentRouter)
+// app.use('/dashboard/teacher/class', classRouter)
 // app.use('/api/auth', authRouter)
 app.use('/api/admin/parents', adminParentsRouter)
 // app.use('/api/dashboard/', teacherRouter)
@@ -50,5 +56,5 @@ app.use('/api/admin/parents', adminParentsRouter)
 // })
 
 //port
-const PORT = 8000
+const PORT = 8000 
 app.listen(PORT, () => console.log(`Server started ${PORT}`))
