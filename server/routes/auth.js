@@ -46,9 +46,9 @@ router.post('/login', async (req, res) => {
 
     try {
         var validatePassword
-        const admin = await Admin.findOne({ admin_email })
-        const parent = await Parents.findOne({ parent_email })
-        const teacher = await Teacher.findOne({ teacher_email })
+        const admin = await Admin.findOne({ admin_email:email })
+        const parent = await Parents.findOne({ parent_email:email })
+        const teacher = await Teacher.findOne({ teacher_email:email })
         var accessToken
         
         if ( admin ) {
