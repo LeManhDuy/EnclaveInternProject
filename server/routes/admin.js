@@ -9,10 +9,11 @@ router.post('/', async(req, res) => {
     const {
         account_username,
         account_password,
+        account_email,
         account_role,
     } = req.body
     // Validation
-    if (!account_username || !account_password || !account_role)
+    if (!account_username || !account_password || !account_role || !account_email)
         return res.status(400).json({ success: false, message: 'Please fill in complete information' })
     try {
         // check for existing user
@@ -22,7 +23,7 @@ router.post('/', async(req, res) => {
 
         // all good
         const hashPassword = await argon2.hash(account_password)
-        const newUser = new Account({ account_username, account_password: hashPassword, account_role })
+        const newUser = new Account({ account_username, account_password: hashPassword, account_role, account_email })
         await newUser.save()
         //return token
         const accessToken = jwt.sign({ userId: newUser._id }
@@ -50,16 +51,18 @@ router.put('/:id', async(req, res) => {
     const {
         account_username,
         account_password,
+        account_email,
         account_role,
     } = req.body
     // Validation
-    if (!account_username || !account_password || !account_role)
+    if (!account_username || !account_password || !account_role || !account_email)
         return res.status(400).json({ success: false, message: 'Please fill in complete information' })
     try {
         const hashPassword = await argon2.hash(account_password)
         let updateAccount = {
             account_username,
             account_password:hashPassword,
+            account_email,
             account_role,
         }
         const postUpdateCondition = {_id: req.params.id, user: req.userId}

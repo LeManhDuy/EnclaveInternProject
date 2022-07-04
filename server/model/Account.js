@@ -11,6 +11,10 @@ const accountSchema = new Schema({
         type: String,
         required: true,
     },
+    account_email: {
+        type: String,
+        required: true,
+    },
     account_role: {
         type: String,
         required: true,
