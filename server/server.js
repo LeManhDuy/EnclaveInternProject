@@ -3,6 +3,7 @@ const express = require('express')
 const mongoose = require('mongoose')
 const authRouter = require('./routes/auth')
 const adminParentsRouter = require('./routes/parents')
+const adminTeachersRouter = require('./routes/teacher')
 const cors = require('cors')
 const app = express()
 app.use(express.json())
@@ -27,6 +28,7 @@ const teacherRouter = require('./routes/teacher')
 app.use('/api/auth', authRouter)
 app.use('/api/admin/parents', adminParentsRouter)
 app.use('/api/dashboard/', teacherRouter)
+app.use('/api/admin/teachers', adminTeachersRouter)
 
 
 // login -> dahsboard -> teacher page (neu admin thi khong the den teacherpage) -> student page. 
