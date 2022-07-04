@@ -2,6 +2,10 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
 const parentsSchema = new Schema({
+    parent_password: {
+        type: String,
+        require: true,
+    },
     parent_name: {
         type: String,
         require: true,
