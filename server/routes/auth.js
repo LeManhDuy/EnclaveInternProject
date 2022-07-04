@@ -55,22 +55,27 @@ router.post('/login', async (req, res) => {
             accessToken = jwt.sign({ adminId: admin._id }
                 , process.env.ACCESS_TOKEN_SECRET)
             validatePassword = await argon2.verify(admin.admin_password, password)
+            if (!validatePassword)
+                return res.status(400).json({ success: false, message: 'Incorrect email or password' })
             return res.status(200).json({ success: true, message: 'This is admin' , accessToken})
         }
         if (parent) {
             accessToken = jwt.sign({ parentId: parent._id }
                 , process.env.ACCESS_TOKEN_SECRET)
             validatePassword = await argon2.verify(parent.parent_password, password)
+            if (!validatePassword)
+                return res.status(400).json({ success: false, message: 'Incorrect email or password' })
             return res.status(200).json({ success: true, message: 'This is parent' ,accessToken})
         }
         if(teacher) {
             accessToken = jwt.sign({ teacherId: teacher._id }
                 , process.env.ACCESS_TOKEN_SECRET)
             validatePassword = await argon2.verify(teacher.teacher_password, password)
+            if (!validatePassword)
+                return res.status(400).json({ success: false, message: 'Incorrect email or password' })
             return res.status(200).json({ success: true, message: 'This is teacher' ,accessToken})
         }
-        if (!validatePassword)
-            return res.status(400).json({ success: false, message: 'Incorrect email or password' })
+        
     } catch (error) {
         return res.status(500).json({ success: false, message: '' + error })
     }
