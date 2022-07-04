@@ -1,5 +1,5 @@
 const express = require('express')
-const Account = require('../model/Account')
+const Admin = require('../model/Admin')
 const router = express.Router()
 const jwt = require('jsonwebtoken')
 const argon2 = require('argon2')
@@ -7,28 +7,27 @@ const argon2 = require('argon2')
 // CREATE
 router.post('/', async(req, res) => {
     const {
-        account_username,
-        account_password,
-        account_email,
-        account_role,
+        admin_username,
+        admin_password,
+        admin_email,
     } = req.body
     // Validation
-    if (!account_username || !account_password || !account_role || !account_email)
+    if (!admin_username || !admin_password || !admin_email)
         return res.status(400).json({ success: false, message: 'Please fill in complete information' })
     try {
         // check for existing user
-        const user = await Account.findOne({ account_username })
+        const user = await Admin.findOne({ admin_username })
         if (user)
             return res.status(400).json({ success: false, message: 'User name is existing' })
 
         // all good
-        const hashPassword = await argon2.hash(account_password)
-        const newUser = new Account({ account_username, account_password: hashPassword, account_role, account_email })
+        const hashPassword = await argon2.hash(admin_password)
+        const newUser = new Admin({ admin_username, admin_password: hashPassword, admin_email })
         await newUser.save()
         //return token
         const accessToken = jwt.sign({ userId: newUser._id }
             , process.env.ACCESS_TOKEN_SECRET)
-        res.json({ success: true, message: 'Create account successfully', accessToken })
+        res.json({ success: true, message: 'Create admin successfully', accessToken })
     } catch (error) {
         return res.status(500).json({ success: false, message: '' + error })
     }
@@ -38,8 +37,8 @@ router.post('/', async(req, res) => {
 router.get('/', async(req, res) => {
     try {
         // Return token
-        const allAccount = await Account.find({})
-        res.json({ success: true, allAccount })
+        const alladmin = await Admin.find({})
+        res.json({ success: true, alladmin })
     } catch(error) {
         return res.status(500).json({ success: false, message: '' + error})
     }
@@ -49,28 +48,26 @@ router.get('/', async(req, res) => {
 // PUT
 router.put('/:id', async(req, res) => {
     const {
-        account_username,
-        account_password,
-        account_email,
-        account_role,
+        admin_username,
+        admin_password,
+        admin_email,
     } = req.body
     // Validation
-    if (!account_username || !account_password || !account_role || !account_email)
+    if (!admin_username || !admin_password|| !admin_email)
         return res.status(400).json({ success: false, message: 'Please fill in complete information' })
     try {
-        const hashPassword = await argon2.hash(account_password)
-        let updateAccount = {
-            account_username,
-            account_password:hashPassword,
-            account_email,
-            account_role,
+        const hashPassword = await argon2.hash(admin_password)
+        let updateadmin = {
+            admin_username,
+            admin_password:hashPassword,
+            admin_email,
         }
         const postUpdateCondition = {_id: req.params.id, user: req.userId}
-        updatedAccount = await Account.findOneAndUpdate(postUpdateCondition, updateAccount, {new: true})
+        updatedadmin = await Admin.findOneAndUpdate(postUpdateCondition, updateadmin, {new: true})
 
-        if (!updateAccount) 
-            return res.status(401).json({success: false, message:'Account not found'})
-        res.json({success:true, message: 'Updated!', parent: updateAccount})
+        if (!updateadmin) 
+            return res.status(401).json({success: false, message:'admin not found'})
+        res.json({success:true, message: 'Updated!', parent: updateadmin})
     } catch {
         return res.status(500).json({ success: false, message: '' + error })
     }
@@ -80,11 +77,11 @@ router.put('/:id', async(req, res) => {
 router.delete('/:id', async(req, res) => {
     try {
         const postDeleteCondition = {_id: req.params.id, user: req.userId}
-        const deletedAccount = await Account.findOneAndDelete(postDeleteCondition)
+        const deletedadmin = await Admin.findOneAndDelete(postDeleteCondition)
 
-        if (!deletedAccount) 
-            return res.status(401).json({success: false, message:'Account not found'})
-        res.json({success:true, message: 'Deleted!', parent: deletedAccount})        
+        if (!deletedadmin) 
+            return res.status(401).json({success: false, message:'admin not found'})
+        res.json({success:true, message: 'Deleted!', parent: deletedadmin})        
     } catch {
         return res.status(500).json({ success: false, message: '' + error })
     }   
