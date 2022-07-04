@@ -49,7 +49,7 @@ router.post('/login', async (req, res) => {
             return res.status(400).json({ success: false, message: 'Incorrect username or password' })
 
         //all good
-        const accessToken = jwt.sign({ userRole: user.account_role }
+        const accessToken = jwt.sign({ userId: user._id }
             , process.env.ACCESS_TOKEN_SECRET)
 
         switch (account_role) {
