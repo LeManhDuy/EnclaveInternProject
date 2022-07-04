@@ -10,6 +10,14 @@ const teacherSchema = new Schema({
         type: Number,
         require: true,
     },
+    teacher_email: {
+        type: String,
+        require: true,
+    },
+    teacher_password: {
+        type: String,
+        require: true,
+    },
     teacher_gender: {
         type: Boolean,
         require: true,

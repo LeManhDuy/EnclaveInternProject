@@ -24,13 +24,13 @@ app.use(cors())
 
 //url
 const teacherRouter = require('./routes/teacher')
-app.use('/api/auth', authRouter)
+// app.use('/api/auth', authRouter)
 app.use('/api/admin/parents', adminParentsRouter)
 app.use('/api/dashboard/', teacherRouter)
 app.use('/api/admin/teachers', adminTeachersRouter)
 //admin
 const authRouter = require('./routes/auth')
-app.use('/authentication', authRouter)
+// app.use('/authentication', authRouter)
 //teacher
 const studentRouter = require('./routes/student')
 const classRouter = require('./routes/class')

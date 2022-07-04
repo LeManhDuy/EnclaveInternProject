@@ -4,6 +4,7 @@ const { authTeacher } = require('../middleware/verifyRoles')
 const verifyJWT = require('../../server/middleware/verifyJWT')
 const Teachers = require('../model/Teacher')
 const jwt = require('jsonwebtoken')
+const argon2 = require('argon2')
 
 
 router.post('/teacher', verifyJWT, authTeacher("Teacher"), (req, res) => {
@@ -19,9 +20,11 @@ router.post('/', async(req, res) => {
         teacher_phone,
         is_main_teacher,
         is_user_teacher,
+        teacher_email,
+        teacher_password,
     } = req.body
     // Validation
-    if (!teacher_name || !teacher_phone ) {
+    if (!teacher_name || !teacher_phone || !teacher_email || !teacher_password ) {
         return res.status(400).json({ success: false, message:'Missing information.Please fill in!'})
     }
     if (teacher_phone.length != 10 ){
@@ -29,6 +32,7 @@ router.post('/', async(req, res) => {
     }
     try {
         // Good to die
+        const hashPassword = await argon2.hash(teacher_password)
         const teacher = new Teachers({
             teacher_name,
             teacher_age,
@@ -36,6 +40,8 @@ router.post('/', async(req, res) => {
             teacher_phone,
             is_main_teacher,
             is_user_teacher,
+            teacher_email,
+            teacher_password:hashPassword,
         })
         await teacher.save()
         // Return token
@@ -67,6 +73,8 @@ router.put('/:id', async(req, res) => {
         teacher_phone,
         is_main_teacher,
         is_user_teacher,
+        teacher_email,
+        teacher_password,
     } = req.body
     // Validation
     if (!teacher_name || !teacher_phone ) {
@@ -76,6 +84,7 @@ router.put('/:id', async(req, res) => {
         return res.status(400).json({ success: false, message:'Phone number must have 10 numbers'})
     }
     try {
+        const hashPassword = await argon2.hash(teacher_password)
         let updateTeacher = {
             teacher_name,
             teacher_age,
@@ -83,6 +92,8 @@ router.put('/:id', async(req, res) => {
             teacher_phone,
             is_main_teacher,
             is_user_teacher,
+            teacher_email,
+            teacher_password:hashPassword,
         }
         const postUpdateCondition = {_id: req.params.id, user: req.userId}
         updatedTeacher = await Teachers.findOneAndUpdate(postUpdateCondition, updateTeacher, {new: true})
