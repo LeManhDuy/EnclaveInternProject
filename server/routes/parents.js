@@ -13,7 +13,6 @@ router.post('/', async (req, res) => {
         parent_dateofbirth,
         parent_address,
         parent_phone,
-        parent_email,
         parent_job,
         parent_gender,
     } = req.body
@@ -31,7 +30,6 @@ router.post('/', async (req, res) => {
             parent_dateofbirth,
             parent_address,
             parent_phone,
-            parent_email,
             parent_job,
             parent_gender,
         })
@@ -69,7 +67,6 @@ router.put('/:id', async (req, res) => {
         parent_dateofbirth,
         parent_address,
         parent_phone,
-        parent_email,
         parent_job,
         parent_gender,
     } = req.body
@@ -86,7 +83,6 @@ router.put('/:id', async (req, res) => {
             parent_dateofbirth,
             parent_address,
             parent_phone,
-            parent_email,
             parent_job,
             parent_gender,
         }

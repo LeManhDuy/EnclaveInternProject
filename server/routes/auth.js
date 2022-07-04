@@ -8,9 +8,9 @@ const User = require('../model/Account')
 // @desc Register user
 // @access Public
 router.post('/register', async (req, res) => {
-    const { account_username, account_password, account_role } = req.body
+    const { account_username, account_password, account_role, account_email } = req.body
     //Simple validation
-    if (!account_username || !account_password || !account_role)
+    if (!account_username || !account_password || !account_role || !account_email)
         return res.status(400).json({ success: false, message: 'Please fill in complete information' })
     try {
         // check for existing user
@@ -20,7 +20,7 @@ router.post('/register', async (req, res) => {
 
         // all good
         const hashPassword = await argon2.hash(account_password)
-        const newUser = new User({ account_username, account_password: hashPassword, account_role })
+        const newUser = new User({ account_username, account_password: hashPassword, account_role, account_email })
         await newUser.save()
         //return token
         const accessToken = jwt.sign({ userId: newUser._id }

@@ -18,10 +18,10 @@ const parentsSchema = new Schema({
         type: String,
         require: true,
     },
-    parent_email: {
-        type: String,
-        require: false,
-    },
+    // parent_email: {
+    //     type: String,
+    //     require: false,
+    // },
     parent_job: {
         type: String,
         require: false,

@@ -1,25 +1,40 @@
 //resgiter
+POST http://localhost:8000/api/auth/register
+Content-Type: application/json
 # POST http://localhost:8000/authentication/register
 # Content-Type: application/json
 
-# {
-#     "account_username": "teacher",
-#     "account_password": "1",
-#     "account_role" : "Teacher"
-# }
+{
+     "account_username": "test4",
+     "account_password": "1",
+     "account_role" : "Parent"
+}
 
-
+###
 //login
+POST http://localhost:8000/api/auth/login
+Content-Type: application/json
 # POST http://localhost:8000/authentication/login
 # Content-Type: application/json
 
-# {
-#     "account_username": "teacher",
-#     "account_password": "1",
-#     "account_role" : "Teacher"
-# }
+{
+     "account_username": "teacher",
+     "account_password": "1",
+     "account_role" : "Teacher"
+}
+
+###
 
 //auth
+POST http://localhost:8000/api/admin/parents
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyUm9sZSI6IlRlYWNoZXIiLCJpYXQiOjE2NTY2NTYyMTF9.Iy30yXpI7VMTq3CnYDIyQrl2hVnZ7VFFr5kmJJicezA
+
+###
+//reset password
+http://localhost:8000/api/admin/account/resetPassword/tapnguyen01@gmail.com
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyUm9sZSI6IlRlYWNoZXIiLCJpYXQiOjE2NTY2NTYyMTF9.Iy30yXpI7VMTq3CnYDIyQrl2hVnZ7VFFr5kmJJicezA
 # POST http://localhost:8000/api/dashboard/teacher
 # Content-Type: application/json
 # Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyUm9sZSI6IlRlYWNoZXIiLCJpYXQiOjE2NTY2NTYyMTF9.Iy30yXpI7VMTq3CnYDIyQrl2hVnZ7VFFr5kmJJicezA
@@ -61,11 +76,8 @@
 
 # }
 
-//teacher create school year
-# POST http://localhost:8000/dashboard/teacher/create-schoolyear
-# Content-Type: application/json
-# Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MmJlNTNkZWNmNDFkNTY3MGVkYmEyYTMiLCJpYXQiOjE2NTY5MDU0NDR9.yk8IEbxGak17xxRZJKGbthe8PnFqY6nkKnjv8f850yQ
+{
 
-# {
-#     "schoolyear_name": "2022-2021"
-# }
+    "password":"testreset"
+}
+
