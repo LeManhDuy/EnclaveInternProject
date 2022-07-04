@@ -2,6 +2,7 @@ const express = require('express')
 const Parents = require('../model/Parents')
 const router = express.Router()
 const jwt = require('jsonwebtoken')
+const argon2 = require('argon2')
 
 // @route POST api/admin/parents/create
 // @desc Create parents
@@ -16,9 +17,10 @@ router.post('/', async (req, res) => {
         parent_email,
         parent_job,
         parent_gender,
+        parent_password,
     } = req.body
     // Validation
-    if (!parent_name || !parent_address || !parent_phone) {
+    if (!parent_name || !parent_address || !parent_phone || !parent_password) {
         return res.status(400).json({ success: false, message: 'Missing information.Please fill in!' })
     }
     if (parent_phone.length != 10) {
@@ -26,6 +28,8 @@ router.post('/', async (req, res) => {
     }
     try {
         // Good to die
+        const hashPassword = await argon2.hash(parent_password)
+
         const parents = new Parents({
             parent_name,
             parent_dateofbirth,
@@ -34,6 +38,7 @@ router.post('/', async (req, res) => {
             parent_email,
             parent_job,
             parent_gender,
+            parent_password:hashPassword,
         })
         await parents.save()
         // Return token
@@ -64,6 +69,7 @@ router.get('/', async (req, res) => {
 // @desc Update parents
 // @access Private Only Admin
 router.put('/:id', async (req, res) => {
+
     const {
         parent_name,
         parent_dateofbirth,
@@ -72,15 +78,18 @@ router.put('/:id', async (req, res) => {
         parent_email,
         parent_job,
         parent_gender,
+        parent_password,
     } = req.body
     // Validation
-    if (!parent_name || !parent_address || !parent_phone) {
+    if (!parent_name || !parent_address || !parent_phone || !parent_password) {
         return res.status(400).json({ success: false, message: 'Missing information.Please fill in!' })
     }
     if (parent_phone.length != 10) {
         return res.status(400).json({ success: false, message: 'Phone number must have 10 numbers' })
     }
     try {
+        const hashPassword = await argon2.hash(parent_password)
+
         let updateParent = {
             parent_name,
             parent_dateofbirth,
@@ -89,6 +98,7 @@ router.put('/:id', async (req, res) => {
             parent_email,
             parent_job,
             parent_gender,
+            parent_password:hashPassword,
         }
         const postUpdateCondition = { _id: req.params.id, user: req.userId }
         updatedParent = await Parents.findOneAndUpdate(postUpdateCondition, updateParent, { new: true })

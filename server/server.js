@@ -31,7 +31,7 @@ const classRouter = require('./routes/class')
 app.use('/dashboard/teacher/student', studentRouter)
 app.use('/dashboard/teacher/class', classRouter)
 // app.use('/api/auth', authRouter)
-// app.use('/api/admin/parents', adminParentsRouter)
+app.use('/api/admin/parents', adminParentsRouter)
 // app.use('/api/dashboard/', teacherRouter)
 
 
