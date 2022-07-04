@@ -3,6 +3,8 @@ const router = express.Router()
 const { authTeacher } = require('../middleware/verifyRoles')
 const verifyJWT = require('../../server/middleware/verifyJWT')
 const Teachers = require('../model/Teacher')
+const Admin = require('../model/Admin')
+const Parents = require('../model/Parents')
 const jwt = require('jsonwebtoken')
 const argon2 = require('argon2')
 
@@ -31,6 +33,12 @@ router.post('/', async(req, res) => {
         return res.status(400).json({ success: false, message:'Phone number must have 10 numbers'})
     }
     try {
+        const adminValidate = await Admin.findOne({ admin_email:teacher_email })
+        const parentValidate = await Parents.findOne({ parent_email:teacher_email })
+        const teacherValidate = await Teachers.findOne({ teacher_email })
+        if (adminValidate || parentValidate || teacherValidate)
+            return res.status(400).json({ success: false, message: 'Email address is existing' })
+        // Good to die
         // Good to die
         const hashPassword = await argon2.hash(teacher_password)
         const teacher = new Teachers({

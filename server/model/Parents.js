@@ -24,7 +24,7 @@ const parentsSchema = new Schema({
     },
     parent_email: {
         type: String,
-        require: false,
+        require: true,
     },
     parent_job: {
         type: String,

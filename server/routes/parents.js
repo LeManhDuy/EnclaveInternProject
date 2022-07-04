@@ -1,8 +1,10 @@
 const express = require('express')
-const Parents = require('../model/Parents')
 const router = express.Router()
 const jwt = require('jsonwebtoken')
 const argon2 = require('argon2')
+const Teachers = require('../model/Teacher')
+const Admin = require('../model/Admin')
+const Parents = require('../model/Parents')
 
 // @route POST api/admin/parents/create
 // @desc Create parents
@@ -27,7 +29,12 @@ router.post('/', async (req, res) => {
         return res.status(400).json({ success: false, message: 'Phone number must have 10 numbers' })
     }
     try {
-        // Good to die
+        console.log(parent_email);
+        const adminValidate = await Admin.findOne({ admin_email:parent_email })
+        const parentValidate = await Parents.findOne({ parent_email })
+        const teacherValidate = await Teachers.findOne({ teacher_email:parent_email })
+        if (adminValidate || parentValidate || teacherValidate)
+            return res.status(400).json({ success: false, message: 'Email address is existing' })
         const hashPassword = await argon2.hash(parent_password)
 
         const parents = new Parents({

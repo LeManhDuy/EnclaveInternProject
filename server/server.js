@@ -3,7 +3,7 @@ const express = require('express')
 const mongoose = require('mongoose')
 const adminParentsRouter = require('./routes/parents')
 const adminRouterControl = require('./routes/admin')
-// const authRouter = require('./routes/auth')
+const authRouter = require('./routes/auth')
 const adminTeachersRouter = require('./routes/teacher')
 const cors = require('cors')
 const app = express()
@@ -26,7 +26,7 @@ app.use(cors())
 
 //url
 const teacherRouter = require('./routes/teacher')
-// app.use('/api/auth', authRouter)
+app.use('/api/auth', authRouter)
 app.use('/api/admin/parents', adminParentsRouter)
 app.use('/api/admin/', adminRouterControl)
 // app.use('/api/dashboard/', teacherRouter)
@@ -34,7 +34,7 @@ app.use('/api/admin/', adminRouterControl)
 app.use('/api/dashboard/', teacherRouter)
 app.use('/api/admin/teachers', adminTeachersRouter)
 //admin
-const authRouter = require('./routes/auth')
+//const authRouter = require('./routes/auth')
 
 // app.use('/authentication', authRouter)
 //teacher

@@ -1,5 +1,7 @@
 const express = require('express')
+const Teachers = require('../model/Teacher')
 const Admin = require('../model/Admin')
+const Parents = require('../model/Parents')
 const router = express.Router()
 const jwt = require('jsonwebtoken')
 const argon2 = require('argon2')
@@ -16,9 +18,12 @@ router.post('/', async(req, res) => {
         return res.status(400).json({ success: false, message: 'Please fill in complete information' })
     try {
         // check for existing user
-        const user = await Admin.findOne({ admin_username })
-        if (user)
-            return res.status(400).json({ success: false, message: 'User name is existing' })
+        const adminValidate = await Admin.findOne({ admin_email })
+        const parentValidate = await Parents.findOne({ parent_email:admin_email })
+        const teacherValidate = await Teachers.findOne({ teacher_email:admin_email })
+        if ( adminValidate || parentValidate || teacherValidate)
+            return res.status(400).json({ success: false, message: 'Email address is existing' })
+        // Good to die
 
         // all good
         const hashPassword = await argon2.hash(admin_password)
