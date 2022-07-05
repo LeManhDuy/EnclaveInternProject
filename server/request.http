@@ -53,3 +53,15 @@ Content-Type: application/json
   "parent_job": "IT",
   "parent_gender": false
 }
+
+###
+
+//Login
+
+POST http://localhost:8000/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "3",
+  "password": "3"
+}
