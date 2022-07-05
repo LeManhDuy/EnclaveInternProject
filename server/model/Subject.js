@@ -7,7 +7,7 @@ const subjectSchema = new Schema({
         required: true,
     },
     subject_ratio: {
-        type: Float32Array,
+        type: Number,
         required: true,
     },
     grade_id: {
