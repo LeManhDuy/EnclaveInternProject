@@ -8,7 +8,7 @@ const classSchema = new Schema({
     },
     teacher_id: {
         type: Schema.Types.ObjectId,
-        ref: 'Account'
+        ref: 'Teacher'
     },
     grade_id: {
         type: Schema.Types.ObjectId,
