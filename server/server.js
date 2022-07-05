@@ -6,6 +6,7 @@ const adminRouterControl = require('./routes/admin')
 const authRouter = require('./routes/auth')
 const adminTeachersRouter = require('./routes/teacher')
 const classRouter = require('./routes/class')
+const gradeRouter = require('./routes/grade')
 const cors = require('cors')
 const app = express()
 app.use(express.json())
@@ -54,7 +55,7 @@ app.use('/dashboard/teacher/class', classRouter)
 // app.use('/api/auth', authRouter)
 app.use('/api/admin/parents', adminParentsRouter)
 // app.use('/api/dashboard/', teacherRouter)
-
+app.use('/api/grades', gradeRouter)
 
 // login -> dahsboard -> teacher page (neu admin thi khong the den teacherpage) -> student page. 
 // app.get('/dashboard', (req, res) => { 

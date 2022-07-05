@@ -10,26 +10,29 @@ const Parents = require('../model/Parents')
 // @desc Register user
 // @access Public
 router.post('/register', async (req, res) => {
-    const {account_username, account_password, account_role} = req.body
+    const { email, password, role } = req.body
     //Simple validation
-    if (!account_username || !account_password || !account_role)
-        return res.status(400).json({success: false, message: 'Please fill in complete information'})
+    if (!email || !password || !role)
+        return res.status(400).json({ success: false, message: 'Please fill in complete information' })
     try {
         // check for existing user
-        const admin = await Admin.findOne({admin_email})
-        const parent = await Parents.findOne({parent_email})
-        const teacher = await Teacher.findOne({teacher_email})
-        if (user)
             return res.status(400).json({success: false, message: 'User name is existing'})
+        const admin = await Admin.findOne({ admin_email:email })
+        const parent = await Parents.findOne({ parent_email:email })
+        const teacher = await Teacher.findOne({ teacher_email:email })
+        if (admin || parent || teacher)
+            return res.status(400).json({ success: false, message: 'User name is existing' })
 
         // all good
-        const hashPassword = await argon2.hash(account_password)
-        const newUser = new User({account_username, account_password: hashPassword, account_role})
-        await newUser.save()
-        //return token
-        const accessToken = jwt.sign({userId: newUser._id}
-            , process.env.ACCESS_TOKEN_SECRET)
-        res.json({success: true, message: 'Create account successfully', accessToken})
+        switch (role) {
+            case 'admin':
+                const hashPassword = await argon2.hash(password)
+                const newAdmin = new Admin({ password, account_password: hashPassword })
+                await newAdmin.save()
+                const accessToken = jwt.sign({ userId: newAdmin._id }
+                    , process.env.ACCESS_TOKEN_SECRET)
+                res.json({ success: true, message: 'Create account successfully', accessToken })
+        }
     } catch (error) {
         return res.status(500).json({success: false, message: '' + error})
     }
@@ -75,8 +78,8 @@ router.post('/login', async (req, res) => {
                 return res.status(400).json({success: false, message: 'Incorrect email or password'})
             return res.status(200).json({success: true, message: 'This is teacher', role: 'teacher', accessToken})
         }
-        if (!admin && !teacher && !parent) {
-            return res.status(400).json({success: false, message: 'This email does not exists', accessToken})
+        if (!admin && !teacher && ! parent) {
+            return res.status(400).json({ success: false, message: 'This email does not exists'})
         }
 
     } catch (error) {
