@@ -1,7 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const { authTeacher } = require('../middleware/verifyRoles')
-const verifyJWT = require('../../server/middleware/verifyJWT')
+const verifyJWT = require('../middleware/verifyJWTandTeacher')
 const Teachers = require('../model/Teacher')
 const Admin = require('../model/Admin')
 const Parents = require('../model/Parents')
@@ -9,7 +8,7 @@ const jwt = require('jsonwebtoken')
 const argon2 = require('argon2')
 
 
-router.post('/teacher', verifyJWT, authTeacher("Teacher"), (req, res) => {
+router.post('/teacher', verifyJWT, (req, res) => {
     res.send('Teacher page')
 })
 

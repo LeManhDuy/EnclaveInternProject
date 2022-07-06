@@ -24,7 +24,7 @@ const studentSchema = new Schema({
     },
     teacher_id: {
         type: Schema.Types.ObjectId,
-        ref: 'Account'
+        ref: 'Teacher'
     },
     class_id: {
         type: Schema.Types.ObjectId,
