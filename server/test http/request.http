@@ -17,7 +17,7 @@ Content-Type: application/json
     "email": "4",
     "password": "4"
 }
-
+###
 //auth
 # POST http://localhost:8000/api/dashboard/teacher
 # Content-Type: application/json
@@ -66,15 +66,20 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZWFjaGVySWQiOiI2M
 GET http://localhost:8000/dashboard/teacher/class/
 
 ###
+//get class from grade
+GET http://localhost:8000/dashboard/teacher/class/grade/62c3e18402d045ac2705de51
+###
+//get class from teacher
+GET http://localhost:8000/dashboard/teacher/class/teacher/62c2aef039a7880ce4a386a4
+
+###
 //update class
 
-PUT http://localhost:8000/dashboard/teacher/class/62c3e1f38b0a4c692e136d38
+PUT http://localhost:8000/dashboard/teacher/class/62c50809c336b285fa756e99&62c4f96e1e52a2548c415a80&62c2aef039a7880ce4a386a4
 Content-Type: application/json
 
 {
-  "class_name": "C",
-  "grade_name": "Grade 1",
-  "teacher_email": "2"
+  "class_name": "C"
 }
 
 ###
