@@ -1,8 +1,8 @@
 require('dotenv').config()
 const express = require('express')
 const router = express.Router()
-const {authTeacher} = require('../middleware/verifyRoles')
-const verifyJWT = require('../../server/middleware/verifyJWT')
+const { authTeacher } = require('../middleware/verifyRoles')
+const verifyJWT = require('../../server/middleware/verifyJWTandTeacher')
 const Class = require('../model/Class')
 const Teacher = require('../model/Teacher')
 const Grade = require('../model/Grade')
@@ -13,27 +13,27 @@ const Grade = require('../model/Grade')
 // router.post('/', verifyJWT, authTeacher("Teacher"), async (req, res) => {
 router.post('/:gradeId&:teacherId', verifyJWT, async (req, res) => {
     const { gradeId, teacherId } = req.params
-    console.log({grade: gradeId, teacher: teacherId})
+    console.log({ grade: gradeId, teacher: teacherId })
     const {
         class_name,
     } = req.body
     //Simple validation
-    const clas = await Class.findOne({ class_name: class_name})
+    const clas = await Class.findOne({ class_name: class_name })
     const gradeValidate = await Class.findById(gradeId)
     const teacherValidate = await Class.findById(gradeId)
     const grade = await Grade.findById(gradeId)
     const teacher = await Teacher.findById(teacherId)
     if (clas && gradeValidate) {
-        return res.status(400).json({success: false, message: "Class is existing in this grade!"})
+        return res.status(400).json({ success: false, message: "Class is existing in this grade!" })
     }
     if (clas && teacherValidate) {
-        return res.status(400).json({success: false, message: "class is owning by this teacher"})
+        return res.status(400).json({ success: false, message: "class is owning by this teacher" })
     }
     if (!teacher || !grade) {
-        return res.status(404).json({success: false, message: "Teacher or grade is not existing!"})
+        return res.status(404).json({ success: false, message: "Teacher or grade is not existing!" })
     }
     if (!class_name)
-        return res.status(400).json({success: false, message: 'Please fill in complete information'})
+        return res.status(400).json({ success: false, message: 'Please fill in complete information' })
     try {
         const newClass = new Class({
             class_name,
@@ -45,9 +45,9 @@ router.post('/:gradeId&:teacherId', verifyJWT, async (req, res) => {
         await grade.save()
         teacher.teacher_class = newClass._id
         await teacher.save()
-        res.json({success: true, message: 'Create class successfully', class: newClass})
+        res.json({ success: true, message: 'Create class successfully', class: newClass })
     } catch (error) {
-        return res.status(500).json({success: false, message: '' + error})
+        return res.status(500).json({ success: false, message: '' + error })
     }
 })
 
@@ -57,9 +57,9 @@ router.post('/:gradeId&:teacherId', verifyJWT, async (req, res) => {
 router.get('/', async (req, res) => {
     try {
         const allClasses = await Class.find({})
-        res.json({success: true, allClasses})
+        res.json({ success: true, allClasses })
     } catch (e) {
-        return res.status(500).json({success: false, message: e})
+        return res.status(500).json({ success: false, message: e })
     }
 })
 
@@ -68,13 +68,13 @@ router.get('/', async (req, res) => {
 // @desc get class from grade
 // @access Private
 router.get('/grade/:gradeId', async (req, res) => {
-    const {gradeId} = req.params
+    const { gradeId } = req.params
 
     try {
         const grade = await Grade.findById(gradeId).populate('classes')
-        return res.json({grade_name: grade.grade_name, classes: grade.classes})
+        return res.json({ grade_name: grade.grade_name, classes: grade.classes })
     } catch (e) {
-        return res.status(500).json({success: false, message: e})
+        return res.status(500).json({ success: false, message: e })
     }
 })
 
@@ -83,13 +83,13 @@ router.get('/grade/:gradeId', async (req, res) => {
 // @desc get class from teacher
 // @access Private
 router.get('/teacher/:teacherId', async (req, res) => {
-    const {teacherId} = req.params
+    const { teacherId } = req.params
 
     try {
         const teacher = await Teacher.findById(teacherId).populate('teacher_class')
-        return res.json({teacher_name: teacher.teacher_name, classes: teacher.teacher_class})
+        return res.json({ teacher_name: teacher.teacher_name, classes: teacher.teacher_class })
     } catch (e) {
-        return res.status(500).json({success: false, message: e})
+        return res.status(500).json({ success: false, message: e })
     }
 })
 
@@ -108,10 +108,10 @@ router.put('/:id&:gradeId&:teacherId', async (req, res) => {
     const grade = await Grade.findById(gradeId)
     const teacher = await Teacher.findById(teacherId)
     if (!teacher || !grade || !clas) {
-        return res.status(404).json({success: false, message: "Teacher or grade is not existing!"})
+        return res.status(404).json({ success: false, message: "Teacher or grade is not existing!" })
     }
     if (!class_name) {
-        return res.status(400).json({success: false, message: "Missing information. Please fill in!"})
+        return res.status(400).json({ success: false, message: "Missing information. Please fill in!" })
     }
     try {
         let old_teacher_id = clas.teacher_id
@@ -122,7 +122,7 @@ router.put('/:id&:gradeId&:teacherId', async (req, res) => {
             // teacher_id: teacher,
             // grade_id: grade
         })
-        const postUpdateCondition = {_id:req.params.id, user: req.userId}
+        const postUpdateCondition = { _id: req.params.id, user: req.userId }
 
         updatedClass = await Class.findOneAndUpdate(postUpdateCondition, updateClass, { new: true })
         console.log("day la update")
@@ -154,12 +154,12 @@ router.put('/:id&:gradeId&:teacherId', async (req, res) => {
         // }
 
         if (!updateClass) {
-            return res.status(401).json({success: false, message: "Class not found"})
+            return res.status(401).json({ success: false, message: "Class not found" })
         }
         dbClass = await Class.findById(req.params.id)
-        res.json({success: true, message: 'Updated!', class: updateClass, dbClass:dbClass})
+        res.json({ success: true, message: 'Updated!', class: updateClass, dbClass: dbClass })
     } catch (e) {
-        return res.status(500).json({success: false, message: e})
+        return res.status(500).json({ success: false, message: e })
     }
 })
 
@@ -168,16 +168,16 @@ router.put('/:id&:gradeId&:teacherId', async (req, res) => {
 // @access Private
 router.delete('/:id', async (req, res) => {
     try {
-        const postDeleteCondition = {_id: req.params.id, user: req.userId}
+        const postDeleteCondition = { _id: req.params.id, user: req.userId }
         const deleteClass = await Class.findOneAndDelete(postDeleteCondition)
 
         if (!deleteClass) {
-            return res.status(401).json({success: false, message: "Class not found!"})
+            return res.status(401).json({ success: false, message: "Class not found!" })
         }
 
-        res.json({success: true, message: "Deleted!"})
+        res.json({ success: true, message: "Deleted!" })
     } catch (e) {
-        return res.status(500).json({success: false, message: e})
+        return res.status(500).json({ success: false, message: e })
     }
 })
 
