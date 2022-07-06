@@ -3,17 +3,20 @@ const express = require('express')
 const router = express.Router()
 const verifyJWTandTeacher = require('../middleware/verifyJWTandTeacher')
 const Student = require('../model/Student')
+const Teacher = require('../model/Teacher')
 const { ObjectId } = require('mongodb');
 
 // @route GET dashboard/teacher/create-student
 // @desc create student information
 // @access Private
-router.post('/create-student', verifyJWTandTeacher, async (req, res) => {
-    const { student_fullname, student_age, student_gender, student_image, student_behavior, class_id, score_id, schoolyear_id } = req.body
+router.post('/create-student/:teacherID', verifyJWTandTeacher, async (req, res) => {
+    const { teacherID } = req.params
+    const { student_fullname, student_age, student_gender, student_image, student_behavior } = req.body
     //Simple validation
-    if (!student_fullname || !student_age || student_gender == null || !student_image || !student_behavior || !class_id || !score_id || !schoolyear_id)
+    if (!student_fullname || !student_age || student_gender == null || !student_image || !student_behavior)
         return res.status(400).json({ success: false, message: 'Please fill in complete information' })
     try {
+        const teacher = await Teacher.findById(teacherID)
         //save collection
         const newStudent = new Student({
             student_fullname,
@@ -21,13 +24,25 @@ router.post('/create-student', verifyJWTandTeacher, async (req, res) => {
             student_gender,
             student_image,
             student_behavior,
-            teacher_id: req.userId,
-            class_id: ObjectId(class_id),
-            score_id: ObjectId(score_id),
-            schoolyear_id: ObjectId(schoolyear_id)
+            teacher_id: teacher._id,
         })
         await newStudent.save()
+        teacher.students.push(newStudent._id)
+        await teacher.save()
         res.json({ success: true, message: 'Create student successfully', student: newStudent })
+    } catch (error) {
+        return res.status(500).json({ success: false, message: '' + error })
+    }
+})
+
+// @route GET dashboard/teacher/get-student-by-teacher-id
+// @desc get student information
+// @access Private
+router.get('/get-student-by-teacher-id/:teacherID', verifyJWTandTeacher, async (req, res) => {
+    const { teacherID } = req.params
+    try {
+        const teacher = await Teacher.findById(teacherID).populate('students')
+        return res.status(200).json({teacher_name:teacher.teacher_name,students: teacher.students})  
     } catch (error) {
         return res.status(500).json({ success: false, message: '' + error })
     }
@@ -49,14 +64,15 @@ router.get('/get-all-student', verifyJWTandTeacher, async (req, res) => {
 // @route GET dashboard/teacher/get-student-by-id
 // @desc get student information by id
 // @access Private
-router.get('/get-student-by-id/:id', verifyJWTandTeacher, async (req, res) => {
+router.get('/get-student-by-student-id/:studentId', verifyJWTandTeacher, async (req, res) => {
+    const { studentId } = req.params
     try {
         // Return token
-        studentId = req.params.id
-        const getStudentById = await Student.findById(ObjectId(studentId))
+        const getStudentById = await Student.findById(studentId)
+        console.log(studentId)
         if (!getStudentById)
             return res.status(401).json({ success: false, message: 'Student is not found!' })
-        res.json({ success: true, getStudentById })
+        return res.status(200).json({ getStudentById })
     } catch (error) {
         return res.status(500).json({ success: false, message: '' + error })
     }
