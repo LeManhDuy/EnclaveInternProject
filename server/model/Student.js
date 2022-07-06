@@ -30,14 +30,14 @@ const studentSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'Class'
     },
-    score_id: {
+    subjects: [{
         type: Schema.Types.ObjectId,
-        ref: 'Score'
-    },
-    schoolyear_id: {
+        ref: 'Subject'
+    }],
+    schoolyears: [{
         type: Schema.Types.ObjectId,
         ref: 'Schoolyear'
-    }
+    }],
 });
 
 module.exports = mongoose.model('Student', studentSchema)

@@ -6,14 +6,14 @@ const gradeSchema = new Schema({
         type: String,
         required: true,
     },
-    grade_subjects: {
+    subjects: [{
         type: Schema.Types.ObjectId,
         ref: 'Subject',
-    },
-    grade_class: {
+    }],
+    classes: [{
         type: Schema.Types.ObjectId,
         ref: 'Class'
-    }
+    }]
 });
 
 module.exports = mongoose.model('Grade', gradeSchema)

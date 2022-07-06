@@ -72,6 +72,17 @@ router.get('/', async(req, res) => {
     
 })
 
+router.get('/:id', async (req, res) => {
+    try {
+        const teacher = await Teachers.findOne({ _id: req.params.id })
+        if (!teacher)
+            return res.status(400).json({ success: false, message: 'Teacher not found' })
+        res.json({ success: true, teacher })
+    } catch( error) {
+        return res.status(500).json({ success: false, message: '' + error })
+    }
+})
+
 router.put('/:id', async(req, res) => {
     const {
         teacher_name,
