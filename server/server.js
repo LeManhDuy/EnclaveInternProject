@@ -27,7 +27,7 @@ app.use(cors())
 
 //url
 const teacherRouter = require('./routes/teacher')
-app.use('/api/auth', authRouter)
+app.use('/authentication', authRouter)
 app.use('/api/admin/parents', adminParentsRouter)
 app.use('/api/admin/', adminRouterControl)
 // app.use('/api/dashboard/', teacherRouter)

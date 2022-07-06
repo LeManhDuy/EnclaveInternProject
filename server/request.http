@@ -10,40 +10,58 @@
 
 
 //login
-# POST http://localhost:8000/authentication/login
-# Content-Type: application/json
+POST http://localhost:8000/authentication/login
+Content-Type: application/json
 
-# {
-#     "account_username": "teacher",
-#     "account_password": "1",
-#     "account_role" : "Teacher"
-# }
+{
+    "email": "2",
+    "password": "2"
+}
 
 //auth
 # POST http://localhost:8000/api/dashboard/teacher
 # Content-Type: application/json
 # Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyUm9sZSI6IlRlYWNoZXIiLCJpYXQiOjE2NTY2NTYyMTF9.Iy30yXpI7VMTq3CnYDIyQrl2hVnZ7VFFr5kmJJicezA
-
+###
 //teacher create student
-# POST http://localhost:8000/dashboard/teacher/student/create-student
-# Content-Type: application/json
-# Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MmMyOGEzODRlNWUyMDU4ZTUwZDIyNDYiLCJpYXQiOjE2NTY5MTc3NTR9.FWH2aw2CU47RDU2rKXUb672j53RjRUVfQ_Td9PdptgE
-
-# {
-#     "student_fullname": "Trats",
-#     "student_age": 18,
-#     "student_gender" : true,
-#     "student_image": "image link",
-#     "student_behavior": "Trungbinh",
-#     "class_id": "62bec1eace300d797af8a13b",
-#     "score_id": "62c260a9a2d8363660d1ec04",
-#     "schoolyear_id":"62c2868129241dfd205bff4d"
-# }
-//teacher get student
-GET http://localhost:8000/dashboard/teacher/student/get-all-student
+POST http://localhost:8000/dashboard/teacher/student/create-student
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MmMyOGEzODRlNWUyMDU4ZTUwZDIyNDYiLCJpYXQiOjE2NTY5MTgwNTh9.4i2-Q0YM5Zss8XzmbtFJJIMTg-f87GGj1UfBMfsVb4A
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MmMyOGEzODRlNWUyMDU4ZTUwZDIyNDYiLCJpYXQiOjE2NTY5MTc3NTR9.FWH2aw2CU47RDU2rKXUb672j53RjRUVfQ_Td9PdptgE
 
+{
+    "student_fullname": "Trats",
+    "student_age": 18,
+    "student_gender" : true,
+    "student_image": "image link",
+    "student_behavior": "Trungbinh",
+    "class_id": "62bec1eace300d797af8a13b",
+    "score_id": "62c260a9a2d8363660d1ec04",
+    "schoolyear_id":"62c2868129241dfd205bff4d"
+}
+
+###
+//teacher get student
+# GET http://localhost:8000/dashboard/teacher/student/get-all-student
+# Content-Type: application/json
+# Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZWFjaGVySWQiOiI2MmMyYWVmMDM5YTc4ODBjZTRhMzg2YTQiLCJpYXQiOjE2NTY5ODY4ODh9.6r0qdOlVjBTd3nOc-Sta2almy77UzG5BMXvhhLu2hlc
+
+###
+//teacher update student by id_student
+PUT http://localhost:8000/dashboard/teacher/student/update-student/62c288f94988419b81e1b24d
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZWFjaGVySWQiOiI2MmMyYWVmMDM5YTc4ODBjZTRhMzg2YTQiLCJpYXQiOjE2NTY5ODY4ODh9.6r0qdOlVjBTd3nOc-Sta2almy77UzG5BMXvhhLu2hlc
+
+{
+    "student_fullname": "Tratss s",
+    "student_age": 200,
+    "student_gender" : false,
+    "student_image": "image link",
+    "student_behavior": "Trungbinh",
+    "class_id": "62bec1eace300d797af8a13b",
+    "score_id": "62c260a9a2d8363660d1ec04",
+    "schoolyear_id":"62c2868129241dfd205bff4d"
+}
+###
 //teacher create class
 # POST http://localhost:8000/dashboard/teacher/class/create-class
 # Content-Type: application/json
@@ -52,6 +70,9 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MmMyO
 # {
 #     "class_name": "5"
 # }
+
+
+
 
 //teacher create score
 # POST http://localhost:8000/dashboard/teacher/create-score
