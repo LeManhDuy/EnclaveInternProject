@@ -16,7 +16,7 @@ router.post('/register', async (req, res) => {
         return res.status(400).json({ success: false, message: 'Please fill in complete information' })
     try {
         // check for existing user
-            return res.status(400).json({success: false, message: 'User name is existing'})
+        //     return res.status(400).json({success: false, message: 'User name is existing'})
         const admin = await Admin.findOne({ admin_email:email })
         const parent = await Parents.findOne({ parent_email:email })
         const teacher = await Teacher.findOne({ teacher_email:email })
@@ -48,11 +48,11 @@ router.post('/login', async (req, res) => {
         return res.status(400).json({success: false, message: 'Please fill in complete information'})
 
     try {
-        var validatePassword
+        let validatePassword
         const admin = await Admin.findOne({admin_email: email})
         const parent = await Parents.findOne({parent_email: email})
         const teacher = await Teacher.findOne({teacher_email: email})
-        var accessToken
+        let accessToken
 
         if (admin) {
             accessToken = jwt.sign({adminId: admin._id}
