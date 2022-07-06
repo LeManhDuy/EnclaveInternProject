@@ -3,15 +3,15 @@ const Schema = mongoose.Schema;
 
 const scoreSchema = new Schema({
     score_ratio1: {
-        type: Number,
+        type: [Number],
         required: true,
     },
     score_ratio2: {
-        type: Number,
+        type: [Number],
         required: true,
     },
     score_ratio3: {
-        type: Number,
+        type: [Number],
         required: true,
     },
     score_average: {

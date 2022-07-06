@@ -7,7 +7,8 @@ const authRouter = require('./routes/auth')
 const adminTeachersRouter = require('./routes/teacher')
 const classRouter = require('./routes/class')
 const gradeRouter = require('./routes/grade')
-const classRouter = require('./routes/class')
+const studentRouter = require('./routes/student')
+const scoreRouter = require('./routes/score')
 const cors = require('cors')
 const app = express()
 app.use(express.json())
@@ -37,8 +38,8 @@ app.use('/api/admin/', adminRouterControl)
 app.use('/api/dashboard/', teacherRouter)
 app.use('/api/admin/teachers', adminTeachersRouter)
 //admin
-//const authRouter = require('./routes/auth')
-
+// const authRouter = require('./routes/auth')
+//
 // app.use('/authentication', authRouter)
 //teacher
 // const studentRouter = require('./routes/student')
@@ -47,11 +48,11 @@ app.use('/api/admin/teachers', adminTeachersRouter)
 // app.use('/dashboard/teacher/class', classRouter)
 
 //student
-const studentRouter = require('./routes/student')
 app.use('/dashboard/teacher/student', studentRouter)
 //class
-// const classRouter = require('./routes/class')
 app.use('/dashboard/teacher/class', classRouter)
+//score
+app.use('/dashboard/teacher/score', scoreRouter)
 
 // app.use('/api/auth', authRouter)
 app.use('/api/admin/parents', adminParentsRouter)
