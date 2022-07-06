@@ -9,6 +9,8 @@ const subjectRouter = require('./routes/subject')
 const classRouter = require('./routes/class')
 const gradeRouter = require('./routes/grade')
 const protectorRouter = require('./routes/protector')
+const studentRouter = require('./routes/student')
+const teacherRouter = require('./routes/teacher')
 const cors = require('cors')
 const app = express()
 app.use(express.json())
@@ -29,46 +31,24 @@ connectDB()
 app.use(cors())
 
 //url
-const teacherRouter = require('./routes/teacher')
-app.use('/api/auth', authRouter)
+//admin
+app.use('/api/admin/teachers', adminTeachersRouter)
+app.use('/api/admin/parents', adminParentsRouter)
+app.use('/api/authentication', authRouter)
 app.use('/api/admin/parents', adminParentsRouter)
 app.use('/api/admin/', adminRouterControl)
-// app.use('/api/dashboard/', teacherRouter)
-//admin
-app.use('/api/dashboard/', teacherRouter)
-app.use('/api/admin/teachers', adminTeachersRouter)
-//admin
-//const authRouter = require('./routes/auth')
-
-// app.use('/authentication', authRouter)
 //teacher
-// const studentRouter = require('./routes/student')
-// const classRouter = require('./routes/class')
-// app.use('/dashboard/teacher/student', studentRouter)
-// app.use('/dashboard/teacher/class', classRouter)
-
+app.use('/api/dashboard/', teacherRouter)
 //student
-const studentRouter = require('./routes/student')
 app.use('/dashboard/teacher/student', studentRouter)
 //class
-// const classRouter = require('./routes/class')
 app.use('/dashboard/teacher/class', classRouter)
-
-// app.use('/api/auth', authRouter)
-app.use('/api/admin/parents', adminParentsRouter)
-app.use('/api/subjects', subjectRouter)
-// app.use('/api/dashboard/', teacherRouter)
+//subject
+app.use('/dashboard/teacher/subjects', subjectRouter)
+//greades
 app.use('/api/grades', gradeRouter)
 app.use('/api/protectors', protectorRouter)
 
-// login -> dahsboard -> teacher page (neu admin thi khong the den teacherpage) -> student page. 
-// app.get('/dashboard', (req, res) => { 
-//     res.send('Dashboard page')
-// })
-// app.get('/', (req, res) => {
-//     res.send('Homepage')
-// })
-
 //port
-const PORT = 8000 
+const PORT = 8000
 app.listen(PORT, () => console.log(`Server started ${PORT}`))
