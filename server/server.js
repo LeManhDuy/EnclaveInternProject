@@ -8,6 +8,7 @@ const adminTeachersRouter = require('./routes/teacher')
 const subjectRouter = require('./routes/subject')
 const classRouter = require('./routes/class')
 const gradeRouter = require('./routes/grade')
+const protectorRouter = require('./routes/protector')
 const studentRouter = require('./routes/student')
 const teacherRouter = require('./routes/teacher')
 const cors = require('cors')
@@ -46,6 +47,7 @@ app.use('/dashboard/teacher/class', classRouter)
 app.use('/dashboard/teacher/subjects', subjectRouter)
 //greades
 app.use('/api/grades', gradeRouter)
+app.use('/api/protectors', protectorRouter)
 
 //port
 const PORT = 8000
