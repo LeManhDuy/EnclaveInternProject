@@ -35,7 +35,7 @@ const parentsSchema = new Schema({
         require: true,
         default: false,
     },
-    childs: [{
+    children: [{
         type: Schema.Types.ObjectId,
         ref: 'Student',
     }],
