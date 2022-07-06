@@ -11,10 +11,10 @@ const url = `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}
 // @route GET dashboard/teacher/create-student
 // @desc create student information
 // @access Private
-router.post('/create-student', verifyJWT, authTeacher("Teacher"), async (req, res) => {
+router.post('/create-student', verifyJWT, async (req, res) => {
     const { student_fullname, student_age, student_gender, student_image, student_behavior, class_id, score_id, schoolyear_id } = req.body
     //Simple validation
-    if (!student_fullname || !student_age || !student_gender || !student_image || !student_behavior || !class_id || !score_id)
+    if (!student_fullname || !student_age || student_gender == null || !student_image || !student_behavior || !class_id || !score_id || !schoolyear_id)
         return res.status(400).json({ success: false, message: 'Please fill in complete information' })
     try {
         MongoClient.connect(url, function (err, db) {
@@ -66,7 +66,7 @@ router.get('/get-all-student', verifyJWT, async (req, res) => {
 // @route PUT dashboard/teacher/update-student
 // @desc Update stduent
 // @access Private Only Admin
-router.put('/:id', async (req, res) => {
+router.put('/update-student/:id', verifyJWT, async (req, res) => {
     const {
         student_fullname,
         student_age,
@@ -77,7 +77,7 @@ router.put('/:id', async (req, res) => {
         score_id,
         schoolyear_id } = req.body
     // Validation
-    if (!student_fullname || !student_age || !student_gender || !student_image || !student_behavior || !class_id || !score_id)
+    if (!student_fullname || !student_age || student_gender == null || !student_image || !student_behavior || !class_id || !score_id || !schoolyear_id)
         return res.status(400).json({ success: false, message: 'Please fill in complete information' })
     try {
         let updateStudent = {
@@ -91,12 +91,12 @@ router.put('/:id', async (req, res) => {
             schoolyear_id
         }
         const postUpdateCondition = { _id: req.params.id, user: req.userId }
-        updatedParent = await Parents.findOneAndUpdate(postUpdateCondition, updateParent, { new: true })
+        updatedParent = await Student.findOneAndUpdate(postUpdateCondition, updateStudent, { new: true })
 
-        if (!updateParent)
-            return res.status(401).json({ success: false, message: 'Parent not found' })
-        res.json({ success: true, message: 'Updated!', parent: updateParent })
-    } catch {
+        if (!updateStudent)
+            return res.status(401).json({ success: false, message: 'Student is not found' })
+        res.json({ success: true, message: 'Update succesfully!', parent: updateStudent })
+    } catch (error) {
         return res.status(500).json({ success: false, message: '' + error })
     }
 })
