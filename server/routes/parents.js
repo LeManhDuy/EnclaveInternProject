@@ -72,6 +72,17 @@ router.get('/', async (req, res) => {
 
 })
 
+router.get('/:id', async (req, res) => {
+    try {
+        const parent = await Parents.findOne({ _id: req.params.id })
+        if (!parent)
+            return res.status(400).json({ success: false, message: 'Parent not found' })
+        res.json({ success: true, parent })
+    } catch( error) {
+        return res.status(500).json({ success: false, message: '' + error })
+    }
+})
+
 // @route PUT api/admin/parents/
 // @desc Update parents
 // @access Private Only Admin
