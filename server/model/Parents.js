@@ -35,6 +35,14 @@ const parentsSchema = new Schema({
         require: true,
         default: false,
     },
+    childs: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Student',
+    }],
+    protectors: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Protector',
+    }]
 })
 
 module.exports = mongoose.model('Parents', parentsSchema)

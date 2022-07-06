@@ -5,6 +5,7 @@ const adminParentsRouter = require('./routes/parents')
 const adminRouterControl = require('./routes/admin')
 const authRouter = require('./routes/auth')
 const adminTeachersRouter = require('./routes/teacher')
+const subjectRouter = require('./routes/subject')
 const classRouter = require('./routes/class')
 const gradeRouter = require('./routes/grade')
 const studentRouter = require('./routes/student')
@@ -38,8 +39,8 @@ app.use('/api/admin/', adminRouterControl)
 app.use('/api/dashboard/', teacherRouter)
 app.use('/api/admin/teachers', adminTeachersRouter)
 //admin
-// const authRouter = require('./routes/auth')
-//
+//const authRouter = require('./routes/auth')
+
 // app.use('/authentication', authRouter)
 //teacher
 // const studentRouter = require('./routes/student')
@@ -56,6 +57,7 @@ app.use('/dashboard/teacher/score', scoreRouter)
 
 // app.use('/api/auth', authRouter)
 app.use('/api/admin/parents', adminParentsRouter)
+app.use('/api/subjects', subjectRouter)
 // app.use('/api/dashboard/', teacherRouter)
 app.use('/api/grades', gradeRouter)
 
