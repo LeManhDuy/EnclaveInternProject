@@ -8,6 +8,7 @@ const adminTeachersRouter = require('./routes/teacher')
 const subjectRouter = require('./routes/subject')
 const classRouter = require('./routes/class')
 const gradeRouter = require('./routes/grade')
+const protectorRouter = require('./routes/protector')
 const cors = require('cors')
 const app = express()
 app.use(express.json())
@@ -58,6 +59,7 @@ app.use('/api/admin/parents', adminParentsRouter)
 app.use('/api/subjects', subjectRouter)
 // app.use('/api/dashboard/', teacherRouter)
 app.use('/api/grades', gradeRouter)
+app.use('/api/protectors', protectorRouter)
 
 // login -> dahsboard -> teacher page (neu admin thi khong the den teacherpage) -> student page. 
 // app.get('/dashboard', (req, res) => { 
