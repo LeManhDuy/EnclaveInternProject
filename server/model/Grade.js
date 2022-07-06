@@ -9,6 +9,10 @@ const gradeSchema = new Schema({
     grade_subjects: {
         type: Schema.Types.ObjectId,
         ref: 'Subject',
+    },
+    grade_class: {
+        type: Schema.Types.ObjectId,
+        ref: 'Class'
     }
 });
 

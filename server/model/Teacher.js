@@ -36,6 +36,10 @@ const teacherSchema = new Schema({
         require: true,
         default: true,
     },
+    teacher_class: {
+        type: Schema.Types.ObjectId,
+        ref: 'Class'
+    }
 })
 
 module.exports = mongoose.model('Teacher', teacherSchema)

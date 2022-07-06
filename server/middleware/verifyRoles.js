@@ -1,9 +1,14 @@
 function authTeacher(role) {
     return (req, res, next) => {
-        var roleAuth = "Teacher"
-        if (role !== roleAuth)
-            return res.status(401).send("Don't have an allowance to access this domain");
-        next()
+        switch (role) {
+            case "Admin":
+                next()
+            case "Teacher":
+                next()
+            case "Parent":
+                next()
+        }
+        return res.status(401).send("Don't have an allowance to access this domain");
     }
 }
 
