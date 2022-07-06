@@ -3,7 +3,7 @@ const express = require('express')
 const mongoose = require('mongoose')
 const router = express.Router()
 const { authTeacher } = require('../middleware/verifyRoles')
-const verifyJWT = require('../../server/middleware/verifyJWT')
+const verifyJWT = require('../../server/middleware/verifyJWTandTeacher')
 const schoolYear = require('../model/Schoolyear')
 
 // @route GET dashboard/teacher/create-schoolyear
