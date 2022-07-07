@@ -8,6 +8,7 @@
     justify-content: space-between;
     padding: 20px 110px;
     color: var(--text-color);
+    color: white;
 }
 
 .footer-content p {
@@ -17,7 +18,7 @@
 
 .contact {
     display: flex;
-    flex-direction:column;
+    flex-direction: column;
     align-items: start;
 }
 
@@ -50,8 +51,8 @@
     height: 24px;
     margin: 8px 6px;
     margin-right: 0;
-    background-color: var(--text-color);
+    background-color: #fff;
     border-radius: 50%;
     padding: 6px;
-    color: #fff
+    color: var(--text-color);
 }
