@@ -16,3 +16,12 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZWFjaGVySWQiOiI2M
     
 }
 ###
+
+// add student and teacher to class
+GET http://localhost:8000/dashboard/teacher/class/add-student-to-class/class=62c534602c015591ce1b00dc&student=62c640bac572db9e5810e334&teacher=62c2aef039a7880ce4a386a4
+
+
+
+###
+//Get all class
+GET http://localhost:8000/dashboard/teacher/class/

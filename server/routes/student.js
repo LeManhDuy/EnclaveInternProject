@@ -87,12 +87,9 @@ router.put('/update-student/:id', verifyJWTandTeacher, async (req, res) => {
         student_age,
         student_gender,
         student_image,
-        student_behavior,
-        class_id,
-        score_id,
-        schoolyear_id } = req.body
+        student_behavior } = req.body
     // Validation
-    if (!student_fullname || !student_age || student_gender == null || !student_image || !student_behavior || !class_id || !score_id || !schoolyear_id)
+    if (!student_fullname || !student_age || student_gender == null || !student_image || !student_behavior)
         return res.status(400).json({ success: false, message: 'Please fill in complete information' })
     try {
         let updateStudent = {
@@ -100,10 +97,7 @@ router.put('/update-student/:id', verifyJWTandTeacher, async (req, res) => {
             student_age,
             student_gender,
             student_image,
-            student_behavior,
-            class_id,
-            score_id,
-            schoolyear_id
+            student_behavior
         }
         const postUpdateCondition = { _id: req.params.id, user: req.userId }
         updatedParent = await Student.findOneAndUpdate(postUpdateCondition, updateStudent, { new: true })
