@@ -14,10 +14,14 @@ const subjectSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'Grade'
     },
-    student_id: {
+    students: [{
         type: Schema.Types.ObjectId,
         ref: 'Student'
-    },
+    }],
+    students_name: [{
+        type: Schema.Types.String,
+        ref: 'Student'
+    }],
     score_id: {
         type: Schema.Types.ObjectId,
         ref: 'Score'
