@@ -73,7 +73,7 @@ router.post('/:subjectId', verifyJWT, async(req, res) => {
 // @access Private
 router.get('/', async (req, res) => {
     try {
-        const allScore = await Class.find({})
+        const allScore = await Score.find({})
         res.json({success: true, allScore})
     } catch (e) {
         return res.status(500).json({success: false, message: e})
