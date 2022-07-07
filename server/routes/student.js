@@ -4,7 +4,10 @@ const router = express.Router()
 const verifyJWTandTeacher = require('../middleware/verifyJWTandTeacher')
 const Student = require('../model/Student')
 const Teacher = require('../model/Teacher')
+const Class = require('../model/Class')
 const { ObjectId } = require('mongodb');
+const Subject = require('../model/Subject')
+const Grades = require('../model/Grade')
 
 // @route GET dashboard/teacher/create-student
 // @desc create student information
@@ -13,7 +16,7 @@ router.post('/create-student/:teacherID', verifyJWTandTeacher, async (req, res) 
     const { teacherID } = req.params
     const { student_fullname, student_age, student_gender, student_image, student_behavior } = req.body
     //Simple validation
-    if (!student_fullname || !student_age || student_gender == null || !student_image || !student_behavior)
+    if (!student_fullname || !student_age || student_gender == null || !student_image)
         return res.status(400).json({ success: false, message: 'Please fill in complete information' })
     try {
         const teacher = await Teacher.findById(teacherID)
@@ -23,7 +26,6 @@ router.post('/create-student/:teacherID', verifyJWTandTeacher, async (req, res) 
             student_age,
             student_gender,
             student_image,
-            student_behavior,
             teacher_id: teacher._id,
         })
         await newStudent.save()
@@ -42,7 +44,7 @@ router.get('/get-student-by-teacher-id/:teacherID', verifyJWTandTeacher, async (
     const { teacherID } = req.params
     try {
         const teacher = await Teacher.findById(teacherID).populate('students')
-        return res.status(200).json({teacher_name:teacher.teacher_name,students: teacher.students})  
+        return res.status(200).json({ teacher_name: teacher.teacher_name, students: teacher.students })
     } catch (error) {
         return res.status(500).json({ success: false, message: '' + error })
     }
@@ -64,15 +66,28 @@ router.get('/get-all-student', verifyJWTandTeacher, async (req, res) => {
 // @route GET dashboard/teacher/get-student-by-id
 // @desc get student information by id
 // @access Private
-router.get('/get-student-by-student-id/:studentId', verifyJWTandTeacher, async (req, res) => {
-    const { studentId } = req.params
+router.get('/get-student-by-student-id/:studentID&:classID', verifyJWTandTeacher, async (req, res) => {
+    const { studentID, classID } = req.params
     try {
         // Return token
-        const getStudentById = await Student.findById(studentId)
-        console.log(studentId)
+        const getStudentById = await Student.findById(studentID).populate("subjects", ["subject_ratio", "subject_name"])
+        //console.log(getStudentById.subjects[0].grade_id);
+        const gradeById = await Grades.findById(getStudentById.subjects[0].grade_id.toString()).populate("grade_name")
+        //console.log(gradeById);
+        const getClass = await Class.findById(classID)
         if (!getStudentById)
             return res.status(401).json({ success: false, message: 'Student is not found!' })
-        return res.status(200).json({ getStudentById })
+        return res.status(200).json({
+            // student_fullname: getStudentById.student_fullname,
+            // student_age: getStudentById.student_age,
+            // student_gender: getStudentById.student_gender,
+            // student_image: getStudentById.student_image,
+            // student_behavior: getStudentById.student_behavior,
+            // class_name: getClass.class_name,
+            getStudentById: getStudentById,
+            class_name: getClass.class_name,
+            grade_name: gradeById
+        })
     } catch (error) {
         return res.status(500).json({ success: false, message: '' + error })
     }
@@ -86,10 +101,9 @@ router.put('/update-student/:id', verifyJWTandTeacher, async (req, res) => {
         student_fullname,
         student_age,
         student_gender,
-        student_image,
-        student_behavior } = req.body
+        student_image } = req.body
     // Validation
-    if (!student_fullname || !student_age || student_gender == null || !student_image || !student_behavior)
+    if (!student_fullname || !student_age || student_gender == null || !student_image)
         return res.status(400).json({ success: false, message: 'Please fill in complete information' })
     try {
         let updateStudent = {
