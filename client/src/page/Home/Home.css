@@ -1,0 +1,14 @@
+@import "../../assets/css/variables.css";
+@import "../../assets/css/custom.css";
+
+.slider {
+    height: 713px;
+    width: 100%;
+}
+
+.slider img {
+    height: 100%;
+    width: 100%;
+    object-fit: none;
+    object-position: 35% 9%;
+}
