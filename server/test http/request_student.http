@@ -18,7 +18,19 @@ Content-Type: application/json
     "email": "4",
     "password": "4"
 }
+###
+//teacher create student
+POST http://localhost:8000/dashboard/teacher/student/create-student/62c2aef039a7880ce4a386a4
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZWFjaGVySWQiOiI2MmMyYWVmMDM5YTc4ODBjZTRhMzg2YTQiLCJpYXQiOjE2NTY5ODY4ODh9.6r0qdOlVjBTd3nOc-Sta2almy77UzG5BMXvhhLu2hlc
 
+{
+    "student_fullname" : "Marine",
+    "student_age":20,
+    "student_gender":true,
+    "student_image": "image link",
+    "student_behavior":"Trungbinh"
+}
 ###
 //teacher get all student
 GET http://localhost:8000/dashboard/teacher/student/get-all-student
@@ -33,7 +45,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZWFjaGVySWQiOiI2M
 
 ###
 //teacher get student by student id
-GET http://localhost:8000/dashboard/teacher/student/get-student-by-student-id/62c5048288e28092b08a0b1c
+GET http://localhost:8000/dashboard/teacher/student/get-student-by-student-id/62c640bac572db9e5810e334&62bec1eace300d797af8a13b
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZWFjaGVySWQiOiI2MmMyYWVmMDM5YTc4ODBjZTRhMzg2YTQiLCJpYXQiOjE2NTY5ODY4ODh9.6r0qdOlVjBTd3nOc-Sta2almy77UzG5BMXvhhLu2hlc
 
