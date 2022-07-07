@@ -18,10 +18,6 @@ const studentSchema = new Schema({
         type: String,
         required: true,
     },
-    student_behavior: {
-        type: String,
-        required: true,
-    },
     teacher_id: {
         type: Schema.Types.ObjectId,
         ref: 'Teacher'
@@ -34,6 +30,7 @@ const studentSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'Subject'
     }],
+
     schoolyears: [{
         type: Schema.Types.ObjectId,
         ref: 'Schoolyear'
