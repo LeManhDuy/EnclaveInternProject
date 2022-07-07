@@ -222,7 +222,7 @@ router.put('/:id&:gradeId&:teacherId', async (req, res) => {
     }
 })
 
-// @route DELETEdashboard/teacher/class
+// @route DELETE dashboard/teacher/class
 // @desc delete class
 // @access Private
 router.delete('/:id', async (req, res) => {
