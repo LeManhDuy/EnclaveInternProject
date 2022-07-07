@@ -59,8 +59,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZWFjaGVySWQiOiI2M
     "student_fullname": "Marinee",
     "student_age": 22,
     "student_gender" : true,
-    "student_image": "image link ne",
-    "student_behavior": "Giỏi"
+    "student_image": "image link ne"
 }
 ###
 //teacher delete student

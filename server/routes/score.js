@@ -14,14 +14,14 @@ const Teacher = require("../model/Teacher");
 // @desc create score
 // @access Private
 // router.post('/', verifyJWT, authTeacher("Teacher"), async(req, res) => {
-router.post('/:subjectId', verifyJWT, async(req, res) => {
+router.post('/:subjectId', verifyJWT, async (req, res) => {
     const { subjectId } = req.params
     const {
         score_ratio1,
         score_ratio2,
         score_ratio3
     } = req.body
-        //Simple validation
+    //Simple validation
     if (!score_ratio1 || !score_ratio2 || !score_ratio3)
         return res
             .status(400)
@@ -34,7 +34,7 @@ router.post('/:subjectId', verifyJWT, async(req, res) => {
         const subject = await Subject.findById(subjectId)
 
         if (!subject) {
-            return res.status(404).json({success: false, message: "Subject is not existing!"})
+            return res.status(404).json({ success: false, message: "Subject is not existing!" })
         }
         let arr = score_ratio1
             .concat(score_ratio2)
@@ -44,7 +44,7 @@ router.post('/:subjectId', verifyJWT, async(req, res) => {
             .concat(score_ratio3)
 
         // const arr = [parseInt(score_ratio1), parseInt(score_ratio2), parseInt(score_ratio2), parseInt(score_ratio3), parseInt(score_ratio3), parseInt(score_ratio3)];
-        console.log({arr: arr,length: arr.length})
+        console.log({ arr: arr, length: arr.length })
         let score_average = arr.reduce((a, b) => a + b, 0) / arr.length;
         score_average = score_average.toFixed(0)
         const newScore = new Score({
@@ -60,7 +60,7 @@ router.post('/:subjectId', verifyJWT, async(req, res) => {
         res.json({
             success: true,
             message: 'Create score successfully',
-            subject:subject.subject_name,
+            subject: subject.subject_name,
             score: newScore
         })
     } catch (error) {
@@ -74,9 +74,9 @@ router.post('/:subjectId', verifyJWT, async(req, res) => {
 router.get('/', async (req, res) => {
     try {
         const allScore = await Class.find({})
-        res.json({success: true, allScore})
+        res.json({ success: true, allScore })
     } catch (e) {
-        return res.status(500).json({success: false, message: e})
+        return res.status(500).json({ success: false, message: e })
     }
 })
 
@@ -126,9 +126,9 @@ router.put('/:id&:subjectId', async (req, res) => {
             score_average,
             subject_id: score.subject_id
         })
-        const postUpdateCondition = {_id: id, user: req.userId}
+        const postUpdateCondition = { _id: id, user: req.userId }
 
-        updatedScore = await Score.findOneAndUpdate(postUpdateCondition, updateScore, {new: true})
+        updatedScore = await Score.findOneAndUpdate(postUpdateCondition, updateScore, { new: true })
         console.log("day la update")
 
         if (!updateScore) {
@@ -136,16 +136,18 @@ router.put('/:id&:subjectId', async (req, res) => {
                 .status(401)
                 .json({
                     success: false,
-                    message: "Score not found"})
+                    message: "Score not found"
+                })
         }
         dbScore = await Class.findById(id)
         res.json({
             success: true,
             message: 'Updated!',
             class: updateScore,
-            dbScore: dbScore})
+            dbScore: dbScore
+        })
     } catch (e) {
-        return res.status(500).json({success: false, message: e})
+        return res.status(500).json({ success: false, message: e })
     }
 })
 

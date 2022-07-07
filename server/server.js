@@ -38,7 +38,7 @@ app.use('/api/authentication', authRouter)
 app.use('/api/admin/parents', adminParentsRouter)
 app.use('/api/admin/', adminRouterControl)
 //teacher
-app.use('/api/dashboard/', teacherRouter)
+//app.use('/api/dashboard/', teacherRouter)
 //student
 app.use('/dashboard/teacher/student', studentRouter)
 //class
