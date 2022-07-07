@@ -110,8 +110,7 @@ router.put('/update-student/:id', verifyJWTandTeacher, async (req, res) => {
             student_fullname,
             student_age,
             student_gender,
-            student_image,
-            student_behavior
+            student_image
         }
         const postUpdateCondition = { _id: req.params.id, user: req.userId }
         updatedParent = await Student.findOneAndUpdate(postUpdateCondition, updateStudent, { new: true })

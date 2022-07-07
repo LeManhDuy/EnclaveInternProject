@@ -15,7 +15,7 @@ Content-Type: application/json
 
 ###
 // update Score
-PUT http://localhost:8000/dashboard/teacher/score/62c657aaadd568bdfc7d1f74&62c4090cb0836bed0fe1f518
+PUT http://localhost:8000/dashboard/teacher/score/62c657aaadd568bdfc7d1f74
 Content-Type: application/json
 
 {
