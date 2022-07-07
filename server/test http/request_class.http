@@ -8,18 +8,18 @@ Content-Type: application/json
 }
 ###
 //teacher create class
-POST http://localhost:8000/dashboard/teacher/class/create-class
+POST http://localhost:8000/dashboard/teacher/class/62c69998be8c86c9d357985f&62c68ad4bede5107633888f6
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZWFjaGVySWQiOiI2MmMyYWVmMDM5YTc4ODBjZTRhMzg2YTQiLCJpYXQiOjE2NTcwODk0MTV9.JHRY3_KWwoyG8g4e0QNFiwXzGH6AUsannP8BWEc9lKs
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZWFjaGVySWQiOiI2MmM2OGFkNGJlZGU1MTA3NjMzODg4ZjYiLCJpYXQiOjE2NTcxODMxNTB9.zr4B2yhwd-rn2LKywhbrkx-xLL1gwWU8kI5z9PmfeP4
 
 {
-    
+    "class_name" : "D"
 }
 ###
-
-// add student and teacher to class
-GET http://localhost:8000/dashboard/teacher/class/add-student-to-class/class=62c534602c015591ce1b00dc&student=62c640bac572db9e5810e334&teacher=62c2aef039a7880ce4a386a4
-
+// add student to class
+GET http://localhost:8000/dashboard/teacher/class/add-student-to-class/class=62c69e1ddb14d59b81b46a67&student=62c69bb9be8c86c9d3579921&teacher=62c68ad4bede5107633888f6
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZWFjaGVySWQiOiI2MmM2OGFkNGJlZGU1MTA3NjMzODg4ZjYiLCJpYXQiOjE2NTcxODMxNTB9.zr4B2yhwd-rn2LKywhbrkx-xLL1gwWU8kI5z9PmfeP4
 
 
 ###

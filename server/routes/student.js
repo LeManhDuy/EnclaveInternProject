@@ -66,26 +66,23 @@ router.get('/get-all-student', verifyJWTandTeacher, async (req, res) => {
 // @route GET dashboard/teacher/get-student-by-id
 // @desc get student information by id
 // @access Private
-router.get('/get-student-by-student-id/:studentID&:classID', verifyJWTandTeacher, async (req, res) => {
-    const { studentID, classID } = req.params
+router.get('/get-student-by-student-id/:studentID', verifyJWTandTeacher, async (req, res) => {
+    const { studentID } = req.params
     try {
         // Return token
         //sutdent
         const getStudentById = await Student.findById(studentID)
-            .populate("subjects", ["score_id"])
+            .populate("subjects", ["score_id"]).populate("summary", ["summary_score", "summary_behavior"])
         //score
         const arrScoreId = []
         getStudentById.subjects.map(item => {
             arrScoreId.push(item.score_id)
         })
         const getScoreById = await Score.find({ '_id': arrScoreId }).populate("subject_id", ["subject_name", "subject_ratio"]).select("score_average")
-        //class
-        const getClass = await Class.findById(classID)
         if (!getStudentById)
             return res.status(401).json({ success: false, message: 'Student is not found!' })
         return res.status(200).json({
             getStudentById: getStudentById,
-            class_name: getClass.class_name,
             score_average: getScoreById
         })
     } catch (error) {

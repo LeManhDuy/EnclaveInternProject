@@ -1,0 +1,16 @@
+// create summary
+POST   http://localhost:8000/api/summary/62c69bb9be8c86c9d3579921
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZWFjaGVySWQiOiI2MmMyYWVmMDM5YTc4ODBjZTRhMzg2YTQiLCJpYXQiOjE2NTY5ODY4ODh9.6r0qdOlVjBTd3nOc-Sta2almy77UzG5BMXvhhLu2hlc
+
+{
+    "summary_score" : 8.0,
+    "summary_behavior" : "Giỏi"
+}
+
+
+###
+DELETE  http://localhost:8000/api/summary/62c6891b25e19b98a033f625
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZWFjaGVySWQiOiI2MmMyYWVmMDM5YTc4ODBjZTRhMzg2YTQiLCJpYXQiOjE2NTY5ODY4ODh9.6r0qdOlVjBTd3nOc-Sta2almy77UzG5BMXvhhLu2hlc
+

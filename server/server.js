@@ -57,7 +57,8 @@ app.use('/dashboard/teacher/subjects', subjectRouter)
 //greades
 app.use('/api/grades', gradeRouter)
 app.use('/api/protectors', protectorRouter)
-
+//summary
+app.use("/api/summary", summaryRouter);
 //port
 const PORT = 8000
 app.listen(PORT, () => console.log(`Server started ${PORT}`))

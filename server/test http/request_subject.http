@@ -20,10 +20,26 @@ Content-Type: application/json
 }
 
 ###
-// // add subject to grade and student
-GET  http://localhost:8000/dashboard/teacher/subjects/add-subjects-to-grade-and-student/62c4090cb0836bed0fe1f518&62c3e18402d045ac2705de51&62c640bac572db9e5810e334
+//add subject to grade and student
+GET  http://localhost:8000/dashboard/teacher/subjects/add-subjects-to-grade-and-student/62c699b4be8c86c9d3579870&62c69998be8c86c9d357985f&62c69bb9be8c86c9d3579921
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZWFjaGVySWQiOiI2MmMyYWVmMDM5YTc4ODBjZTRhMzg2YTQiLCJpYXQiOjE2NTY5ODY4ODh9.6r0qdOlVjBTd3nOc-Sta2almy77UzG5BMXvhhLu2hlc
+
+###
+//create subject
+//grade 1 : 62c69998be8c86c9d357985f
+//grade 2 : 62c6999bbe8c86c9d3579862
+//grade 3 : 62c6999ebe8c86c9d3579865
+//grade 4 : 62c699a0be8c86c9d3579868
+//grade 5 : 62c699a4be8c86c9d357986b
+POST http://localhost:8000/dashboard/teacher/subjects/create-subject/62c699a4be8c86c9d357986b
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZWFjaGVySWQiOiI2MmMyYWVmMDM5YTc4ODBjZTRhMzg2YTQiLCJpYXQiOjE2NTY5ODY4ODh9.6r0qdOlVjBTd3nOc-Sta2almy77UzG5BMXvhhLu2hlc
+
+{
+    "subject_name" : "English",
+    "subject_ratio" : 1
+}
 
 ###
 // get subject

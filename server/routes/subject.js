@@ -97,9 +97,15 @@ router.post("/create-subject/:gradeID", async (req, res) => {
         const subjectValidate = await Subjects.findOne({
             subject_name: subject_name,
         });
-        const gradeValidate = await Grades.findOne({ grade_id: grade_id });
+        let result = true;
+        const gradeValidate = await Grades.findById(gradeID);
+        console.log(subject_name);
+        gradeValidate.subjects_name.map(item => {
+            if (item === subject_name)
+                result = false;
+        })
         const grade = await Grades.findById(gradeID);
-        if (subjectValidate && gradeValidate) {
+        if (!result) {
             return res
                 .status(400)
                 .json({
@@ -122,6 +128,7 @@ router.post("/create-subject/:gradeID", async (req, res) => {
         });
         await newSubject.save();
         grade.subjects.push(newSubject._id);
+        grade.subjects_name.push(newSubject.subject_name);
         await grade.save();
         res.json({
             success: true,
