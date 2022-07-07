@@ -11,6 +11,7 @@ const gradeRouter = require("./routes/grade");
 const protectorRouter = require("./routes/protector");
 const studentRouter = require("./routes/student");
 const teacherRouter = require("./routes/teacher");
+const scoreRouter = require("./routes/score");
 const summaryRouter = require("./routes/summaryScore");
 const cors = require("cors");
 const app = express();
@@ -46,6 +47,13 @@ app.use("/api/dashboard/", teacherRouter);
 app.use("/dashboard/teacher/student", studentRouter);
 //class
 app.use("/dashboard/teacher/class", classRouter);
+//score
+app.use("/dashboard/teacher/score", scoreRouter);
+
+// app.use('/api/auth', authRouter)
+app.use("/api/admin/parents", adminParentsRouter);
+app.use("/api/subjects", subjectRouter);
+// app.use('/api/dashboard/', teacherRouter)
 //subject
 app.use("/dashboard/teacher/subjects", subjectRouter);
 //greades

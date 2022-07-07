@@ -17,7 +17,11 @@ const classSchema = new Schema({
     students: [{
         type: Schema.Types.ObjectId,
         ref: 'Student'
-    }]
+    }],
+    score_id: {
+        type: Schema.Types.ObjectId,
+        ref: 'Score'
+    }
 });
 
 module.exports = mongoose.model('Class', classSchema)
