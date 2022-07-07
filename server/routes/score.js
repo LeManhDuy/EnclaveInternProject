@@ -14,7 +14,7 @@ const Teacher = require("../model/Teacher");
 // @desc create score
 // @access Private
 // router.post('/', verifyJWT, authTeacher("Teacher"), async(req, res) => {
-router.post('/:subjectId', verifyJWT, async(req, res) => {
+router.post('/:subjectId', async(req, res) => {
     const { subjectId } = req.params
     const {
         score_ratio1,
@@ -103,7 +103,7 @@ router.put('/:id&:subjectId', async (req, res) => {
                 message: "Score or Subject is not existing!"
             })
     }
-    if (!score_ratio1 || !score_ratio2 || !score_ratio3)
+    if (!score_ratio1 && !score_ratio2 && !score_ratio3)
         return res
             .status(400)
             .json({

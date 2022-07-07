@@ -1,2 +1,25 @@
 //get all Score
 GET http://localhost:8000/dashboard/teacher/score
+
+
+###
+// create Score
+POST http://localhost:8000/dashboard/teacher/score/62c4090cb0836bed0fe1f518
+Content-Type: application/json
+
+{
+  "score_ratio1": [5, 5],
+  "score_ratio2": [9, 9],
+  "score_ratio3": [7]
+}
+
+###
+// update Score
+PUT http://localhost:8000/dashboard/teacher/score/62c657aaadd568bdfc7d1f74&62c4090cb0836bed0fe1f518
+Content-Type: application/json
+
+{
+  "score_ratio1": [7, 5],
+  "score_ratio2": [9, 9],
+  "score_ratio3": [7]
+}
