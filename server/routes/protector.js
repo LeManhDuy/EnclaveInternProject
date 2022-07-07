@@ -20,20 +20,16 @@ router.post("/:parentID", async (req, res) => {
         !protector_phone ||
         !protector_relationship
     ) {
-        return res
-            .status(400)
-            .json({
-                success: false,
-                message: "Missing information.Please fill in!",
-            });
+        return res.status(400).json({
+            success: false,
+            message: "Missing information.Please fill in!",
+        });
     }
     if (protector_phone.length != 10) {
-        return res
-            .status(400)
-            .json({
-                success: false,
-                message: "Phone number must have 10 numbers",
-            });
+        return res.status(400).json({
+            success: false,
+            message: "Phone number must have 10 numbers",
+        });
     }
     if (!parentID) {
         return res
@@ -68,12 +64,10 @@ router.get("/get-protector/:parentID", async (req, res) => {
 
     try {
         const parent = await Parents.findById(parentID).populate("protectors");
-        return res
-            .status(200)
-            .json({
-                parent_name: parent.parent_name,
-                protectors: parent.protectors,
-            });
+        return res.status(200).json({
+            parent_name: parent.parent_name,
+            protectors: parent.protectors,
+        });
     } catch (error) {
         return res.status(500).json({ success: false, message: "" + error });
     }
@@ -127,7 +121,7 @@ router.delete("/:protectorID", async (req, res) => {
             message: "Deleted!",
             protector: deletedProtector,
         });
-    } catch {
+    } catch (error) {
         return res.status(500).json({ success: false, message: "" + error });
     }
 });

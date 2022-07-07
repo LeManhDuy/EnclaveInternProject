@@ -1,11 +1,7 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const summaryScoreSchema = new Schema({
-    teacher_id: {
-        type: Schema.Types.ObjectId,
-        ref: 'Teacher'
-    },
     summary_behavior: {
         type: String,
         required: true,
@@ -13,7 +9,11 @@ const summaryScoreSchema = new Schema({
     summary_score: {
         type: Number,
         required: true,
-    }
+    },
+    student_id: {
+        type: Schema.Types.ObjectId,
+        ref: "Student",
+    },
 });
 
-module.exports = mongoose.model('SummaryScore', summaryScoreSchema)
+module.exports = mongoose.model("SummaryScore", summaryScoreSchema);
