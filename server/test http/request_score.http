@@ -1,0 +1,2 @@
+//get all Score
+GET http://localhost:8000/dashboard/teacher/score
