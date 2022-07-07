@@ -1,19 +1,21 @@
-require('dotenv').config()
-const express = require('express')
-const mongoose = require('mongoose')
-const adminParentsRouter = require('./routes/parents')
-const adminRouterControl = require('./routes/admin')
-const authRouter = require('./routes/auth')
-const adminTeachersRouter = require('./routes/teacher')
-const subjectRouter = require('./routes/subject')
-const classRouter = require('./routes/class')
-const gradeRouter = require('./routes/grade')
-const studentRouter = require('./routes/student')
-const scoreRouter = require('./routes/score')
-const protectorRouter = require('./routes/protector')
-const cors = require('cors')
-const app = express()
-app.use(express.json())
+require("dotenv").config();
+const express = require("express");
+const mongoose = require("mongoose");
+const adminParentsRouter = require("./routes/parents");
+const adminRouterControl = require("./routes/admin");
+const authRouter = require("./routes/auth");
+const adminTeachersRouter = require("./routes/teacher");
+const subjectRouter = require("./routes/subject");
+const classRouter = require("./routes/class");
+const gradeRouter = require("./routes/grade");
+const protectorRouter = require("./routes/protector");
+const studentRouter = require("./routes/student");
+const teacherRouter = require("./routes/teacher");
+const scoreRouter = require("./routes/score");
+const summaryRouter = require("./routes/summaryScore");
+const cors = require("cors");
+const app = express();
+app.use(express.json());
 
 //database
 const connectDB = async () => {
@@ -38,7 +40,7 @@ app.use('/api/authentication', authRouter)
 app.use('/api/admin/parents', adminParentsRouter)
 app.use('/api/admin/', adminRouterControl)
 //teacher
-//app.use('/api/dashboard/', teacherRouter)
+// app.use('/api/dashboard/', teacherRouter)
 //student
 app.use('/dashboard/teacher/student', studentRouter)
 //class

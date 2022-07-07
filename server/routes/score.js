@@ -14,14 +14,14 @@ const Teacher = require("../model/Teacher");
 // @desc create score
 // @access Private
 // router.post('/', verifyJWT, authTeacher("Teacher"), async(req, res) => {
-router.post('/:subjectId', verifyJWT, async (req, res) => {
+router.post('/:subjectId', async(req, res) => {
     const { subjectId } = req.params
     const {
         score_ratio1,
         score_ratio2,
         score_ratio3
     } = req.body
-    //Simple validation
+        //Simple validation
     if (!score_ratio1 || !score_ratio2 || !score_ratio3)
         return res
             .status(400)
@@ -34,7 +34,7 @@ router.post('/:subjectId', verifyJWT, async (req, res) => {
         const subject = await Subject.findById(subjectId)
 
         if (!subject) {
-            return res.status(404).json({ success: false, message: "Subject is not existing!" })
+            return res.status(404).json({success: false, message: "Subject is not existing!"})
         }
         let arr = score_ratio1
             .concat(score_ratio2)
@@ -44,7 +44,7 @@ router.post('/:subjectId', verifyJWT, async (req, res) => {
             .concat(score_ratio3)
 
         // const arr = [parseInt(score_ratio1), parseInt(score_ratio2), parseInt(score_ratio2), parseInt(score_ratio3), parseInt(score_ratio3), parseInt(score_ratio3)];
-        console.log({ arr: arr, length: arr.length })
+        console.log({arr: arr,length: arr.length})
         let score_average = arr.reduce((a, b) => a + b, 0) / arr.length;
         score_average = score_average.toFixed(0)
         const newScore = new Score({
@@ -60,7 +60,7 @@ router.post('/:subjectId', verifyJWT, async (req, res) => {
         res.json({
             success: true,
             message: 'Create score successfully',
-            subject: subject.subject_name,
+            subject:subject.subject_name,
             score: newScore
         })
     } catch (error) {
@@ -73,43 +73,50 @@ router.post('/:subjectId', verifyJWT, async (req, res) => {
 // @access Private
 router.get('/', async (req, res) => {
     try {
-        const allScore = await Class.find({})
-        res.json({ success: true, allScore })
+        const allScore = await Score.find({})
+        res.json({success: true, allScore})
     } catch (e) {
-        return res.status(500).json({ success: false, message: e })
+        return res.status(500).json({success: false, message: e})
     }
 })
 
 // @route PUT dashboard/teacher/score
 // @desc update score
 // @access Private
-router.put('/:id&:subjectId', async (req, res) => {
+router.put('/:id', async (req, res) => {
     const {
-        id,
-        subjectId
+        id
     } = req.params
-    const {
+    let {
         score_ratio1,
         score_ratio2,
         score_ratio3
     } = req.body
     const score = await Score.findById(id)
-    const subject = await Subject.findById(subjectId)
-    if (!score || !subject) {
-        return res
-            .status(404)
-            .json({
-                success: false,
-                message: "Score or Subject is not existing!"
-            })
-    }
-    if (!score_ratio1 || !score_ratio2 || !score_ratio3)
+    // if (!score) {
+    //     return res
+    //         .status(404)
+    //         .json({
+    //             success: false,
+    //             message: "Score is not existing!"
+    //         })
+    // }
+    if (!score_ratio1 && !score_ratio2 && !score_ratio3)
         return res
             .status(400)
             .json({
                 success: false,
                 message: 'Please fill in complete information'
             })
+    if (!score_ratio1) {
+        score_ratio1=score.score_ratio1
+    }
+    if (!score_ratio2) {
+        score_ratio2=score.score_ratio2
+    }
+    if (!score_ratio3) {
+        score_ratio3=score.score_ratio3
+    }
     try {
         let arr = score_ratio1
             .concat(score_ratio2)
@@ -119,16 +126,15 @@ router.put('/:id&:subjectId', async (req, res) => {
             .concat(score_ratio3)
         let score_average = arr.reduce((a, b) => a + b, 0) / arr.length;
         score_average = score_average.toFixed(0)
-        const updateScore = new Score({
+        let updateScore ={
             score_ratio1,
             score_ratio2,
             score_ratio3,
-            score_average,
-            subject_id: score.subject_id
-        })
-        const postUpdateCondition = { _id: id, user: req.userId }
+            score_average
+        }
+        const postUpdateCondition = {_id: id, user: req.userId}
 
-        updatedScore = await Score.findOneAndUpdate(postUpdateCondition, updateScore, { new: true })
+        updatedScore = await Score.findOneAndUpdate(postUpdateCondition, updateScore, {new: true})
         console.log("day la update")
 
         if (!updateScore) {
@@ -136,18 +142,15 @@ router.put('/:id&:subjectId', async (req, res) => {
                 .status(401)
                 .json({
                     success: false,
-                    message: "Score not found"
-                })
+                    message: "Score not found"})
         }
-        dbScore = await Class.findById(id)
         res.json({
             success: true,
             message: 'Updated!',
-            class: updateScore,
-            dbScore: dbScore
+            class: updateScore
         })
     } catch (e) {
-        return res.status(500).json({ success: false, message: e })
+        return res.status(500).json({success: false, message: e})
     }
 })
 
