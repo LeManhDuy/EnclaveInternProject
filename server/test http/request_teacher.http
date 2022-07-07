@@ -1,0 +1,2 @@
+//get all teacher
+GET http://localhost:8000/api/admin/teachers/
