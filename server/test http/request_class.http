@@ -17,7 +17,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZWFjaGVySWQiOiI2M
 
 ###
 //teacher create class
-#POST http://localhost:8000/dashboard/teacher/class/{{ gradeId }}&{{ teacherId }}
+#POST http://localhost:8000/dashboard/teacher/class/{{ gradeId }}&{{ teacherId }}&{{ scheduleId }}
 POST http://localhost:8000/dashboard/teacher/class/62c69998be8c86c9d357985f&62c68ad4bede5107633888f6
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZWFjaGVySWQiOiI2MmMyYWVmMDM5YTc4ODBjZTRhMzg2YTQiLCJpYXQiOjE2NTcwODk0MTV9.JHRY3_KWwoyG8g4e0QNFiwXzGH6AUsannP8BWEc9lKs
