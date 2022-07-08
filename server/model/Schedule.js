@@ -5,6 +5,10 @@ const scheduleSchema = new Schema({
     schedule_link: {
         type: String,
         require: true,
+    },
+    class: {
+        type: Schema.Types.ObjectId,
+        ref: 'Class'
     }
 })
 
