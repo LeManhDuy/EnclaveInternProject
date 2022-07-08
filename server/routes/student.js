@@ -8,7 +8,7 @@ const Class = require('../model/Class')
 const { ObjectId } = require('mongodb');
 const Subject = require('../model/Subject')
 const Grades = require('../model/Grade')
-
+const Score = require('../model/Score')
 // @route GET dashboard/teacher/create-student
 // @desc create student information
 // @access Private
@@ -31,7 +31,14 @@ router.post('/create-student/:teacherID', verifyJWTandTeacher, async (req, res) 
         await newStudent.save()
         teacher.students.push(newStudent._id)
         await teacher.save()
-        res.json({ success: true, message: 'Create student successfully', student: newStudent })
+        res.json({
+            success: true, message: 'Create student successfully',
+            studentFullName: newStudent.student_fullname,
+            studentAge: newStudent.student_age,
+            studentGender: newStudent.student_gender,
+            studentImage: newStudent.student_image,
+            teacherName: teacher.teacher_name
+        })
     } catch (error) {
         return res.status(500).json({ success: false, message: '' + error })
     }
@@ -43,8 +50,25 @@ router.post('/create-student/:teacherID', verifyJWTandTeacher, async (req, res) 
 router.get('/get-student-by-teacher-id/:teacherID', verifyJWTandTeacher, async (req, res) => {
     const { teacherID } = req.params
     try {
-        const teacher = await Teacher.findById(teacherID).populate('students')
-        return res.status(200).json({ teacher_name: teacher.teacher_name, students: teacher.students })
+        const teacher = await Teacher.findById(teacherID)
+            .populate("students", ["_id", "student_fullname", "student_gender", "student_image"])
+
+        const arrStudentId = []
+        teacher.students.map(item => {
+            arrStudentId.push(item._id)
+        })
+
+        const getStudentById = await Student.find({ '_id': arrStudentId })
+            .populate("class_id", ["class_name"])
+            .populate("teacher_id", ["teacher_name"])
+            .populate("subjects", ["subject_name"])
+            .populate("summary", ["summary_score", "summary_behavior"])
+            .select(["student_fullname", "student_age", "student_gender", "student_image"])
+
+        return res.status(200).json({
+            teacherName: teacher.teacher_name,
+            studentInformation: getStudentById
+        })
     } catch (error) {
         return res.status(500).json({ success: false, message: '' + error })
     }
@@ -57,7 +81,15 @@ router.get('/get-all-student', verifyJWTandTeacher, async (req, res) => {
     try {
         // Return token
         const allStudent = await Student.find({})
-        res.json({ success: true, allStudent })
+            .populate("class_id", ["class_name"])
+            .populate("teacher_id", ["teacher_name"])
+            .populate("subjects", ["subject_name"])
+            .populate("summary", ["summary_score", "summary_behavior"])
+            .select(["student_fullname", "student_age", "student_gender", "student_image"])
+        return res.status(200).json(
+            {
+                allStudent
+            })
     } catch (error) {
         return res.status(500).json({ success: false, message: '' + error })
     }
@@ -66,27 +98,28 @@ router.get('/get-all-student', verifyJWTandTeacher, async (req, res) => {
 // @route GET dashboard/teacher/get-student-by-id
 // @desc get student information by id
 // @access Private
-router.get('/get-student-by-student-id/:studentID&:classID', verifyJWTandTeacher, async (req, res) => {
-    const { studentID, classID } = req.params
+router.get('/get-student-by-student-id/:studentID', verifyJWTandTeacher, async (req, res) => {
+    const { studentID } = req.params
     try {
         // Return token
-        const getStudentById = await Student.findById(studentID).populate("subjects", ["subject_ratio", "subject_name"])
-        //console.log(getStudentById.subjects[0].grade_id);
-        const gradeById = await Grades.findById(getStudentById.subjects[0].grade_id.toString()).populate("grade_name")
-        //console.log(gradeById);
-        const getClass = await Class.findById(classID)
+        //sutdent
+        const getStudentById = await Student.findById(studentID)
+            .populate("class_id", ["class_name"])
+            .populate("teacher_id", ["teacher_name"])
+            .populate("subjects", ["score_id"])
+            .populate("summary", ["summary_score", "summary_behavior"])
+            .select(["student_fullname", "student_age", "student_gender", "student_image"])
+        //score
+        const arrScoreId = []
+        getStudentById.subjects.map(item => {
+            arrScoreId.push(item.score_id)
+        })
+        const getScoreById = await Score.find({ '_id': arrScoreId }).populate("subject_id", ["subject_name", "subject_ratio"]).select("score_average")
         if (!getStudentById)
             return res.status(401).json({ success: false, message: 'Student is not found!' })
         return res.status(200).json({
-            // student_fullname: getStudentById.student_fullname,
-            // student_age: getStudentById.student_age,
-            // student_gender: getStudentById.student_gender,
-            // student_image: getStudentById.student_image,
-            // student_behavior: getStudentById.student_behavior,
-            // class_name: getClass.class_name,
-            getStudentById: getStudentById,
-            class_name: getClass.class_name,
-            grade_name: gradeById
+            studentInformation: getStudentById,
+            score_average: getScoreById
         })
     } catch (error) {
         return res.status(500).json({ success: false, message: '' + error })
@@ -113,11 +146,17 @@ router.put('/update-student/:id', verifyJWTandTeacher, async (req, res) => {
             student_image
         }
         const postUpdateCondition = { _id: req.params.id, user: req.userId }
-        updatedParent = await Student.findOneAndUpdate(postUpdateCondition, updateStudent, { new: true })
+        updatedStudent = await Student.findOneAndUpdate(postUpdateCondition, updateStudent, { new: true })
 
         if (!updateStudent)
             return res.status(401).json({ success: false, message: 'Student is not found' })
-        res.json({ success: true, message: 'Update succesfully!', parent: updateStudent })
+        res.json({
+            success: true, message: 'Update succesfully!',
+            studentFullName: updatedStudent.student_fullname,
+            studentAge: updatedStudent.student_age,
+            studentGender: updatedStudent.student_gender,
+            studentImage: updatedStudent.student_image
+        })
     } catch (error) {
         return res.status(500).json({ success: false, message: '' + error })
     }

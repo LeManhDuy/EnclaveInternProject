@@ -1,0 +1,14 @@
+//create parent
+POST http://localhost:8000/api/admin/parents
+Content-Type: application/json
+
+{
+    "parent_name":"Tạ Phước Nguyên",
+    "parent_dateofbirth": "2000-12-31T17:00:00.000+00:00",
+    "parent_address":"40 Nguyễn Lương Bằng",
+    "parent_phone":"0987356234",
+    "parent_email":"tpn@gmail.com",
+    "parent_job":"Giáo viên",
+    "parent_gender":true,
+    "parent_password":"2"
+}

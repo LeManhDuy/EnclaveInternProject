@@ -1,0 +1,7 @@
+//create grade
+POST http://localhost:8000/api/grades
+Content-Type: application/json
+
+{
+    "grade_name": "Grade 5"
+}

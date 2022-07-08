@@ -1,14 +1,3 @@
-//resgiter
-# POST http://localhost:8000/authentication/register
-# Content-Type: application/json
-
-# {
-#     "account_username": "teacher",
-#     "account_password": "1",
-#     "account_role" : "Teacher"
-# }
-
-
 //login
 POST http://localhost:8000/api/authentication/login
 Content-Type: application/json
@@ -23,14 +12,6 @@ Content-Type: application/json
 # Content-Type: application/json
 # Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyUm9sZSI6IlRlYWNoZXIiLCJpYXQiOjE2NTY2NTYyMTF9.Iy30yXpI7VMTq3CnYDIyQrl2hVnZ7VFFr5kmJJicezA
 ###
-
-
-
-
-
-
-
-
 
 //teacher create score
 # POST http://localhost:8000/dashboard/teacher/create-score
