@@ -61,7 +61,7 @@ app.use('/api/protectors', protectorRouter)
 //summary
 app.use("/api/summary", summaryRouter)
 //schedule
-
+app.use("/api/schedule", scheduleRouter)
 //port
 const PORT = 8000
 app.listen(PORT, () => console.log(`Server started ${PORT}`))

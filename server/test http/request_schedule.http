@@ -1,0 +1,8 @@
+//create grade
+POST http://localhost:8000/api/schedule/create-schedule
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZWFjaGVySWQiOiI2MmM2OGFkNGJlZGU1MTA3NjMzODg4ZjYiLCJpYXQiOjE2NTcxODMxNTB9.zr4B2yhwd-rn2LKywhbrkx-xLL1gwWU8kI5z9PmfeP4
+
+{
+    "schedule_link": "schedule link 5"
+}
