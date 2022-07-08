@@ -60,7 +60,7 @@ router.post('/login', async (req, res) => {
             validatePassword = await argon2.verify(admin.admin_password, password)
             if (!validatePassword)
                 return res.status(400).json({success: false, message: 'Incorrect email or password'})
-            return res.status(200).json({success: true, message: 'This is admin', role: 'admin', accessToken})
+            return res.status(200).json({success: true, message: 'This is admin', role: 'admin', type:"Bearer", accessToken})
         }
         if (parent) {
             accessToken = jwt.sign({parentId: parent._id}
@@ -68,7 +68,7 @@ router.post('/login', async (req, res) => {
             validatePassword = await argon2.verify(parent.parent_password, password)
             if (!validatePassword)
                 return res.status(400).json({success: false, message: 'Incorrect email or password'})
-            return res.status(200).json({success: true, message: 'This is parent', role: 'parent', accessToken})
+            return res.status(200).json({success: true, message: 'This is parent', type:"Bearer", role: 'parent', accessToken})
         }
         if (teacher) {
             accessToken = jwt.sign({teacherId: teacher._id}
@@ -76,7 +76,7 @@ router.post('/login', async (req, res) => {
             validatePassword = await argon2.verify(teacher.teacher_password, password)
             if (!validatePassword)
                 return res.status(400).json({success: false, message: 'Incorrect email or password'})
-            return res.status(200).json({success: true, message: 'This is teacher', role: 'teacher', accessToken})
+            return res.status(200).json({success: true, message: 'This is teacher', type:"Bearer", role: 'teacher', accessToken})
         }
         if (!admin && !teacher && ! parent) {
             return res.status(400).json({ success: false, message: 'This email does not exists'})

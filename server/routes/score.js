@@ -30,7 +30,12 @@ router.post('/:subjectId',verifyJWT, async(req, res) => {
             })
     const subject = await Subject.findById(subjectId)
     if (!subject) {
-        return res.status(404).json({success: false, message: "Subject is not existing!"})
+        return res
+            .status(404)
+            .json({
+                success: false,
+                message: "Subject is not existing!"
+            })
     }
 
     if (subject.score_id) {
