@@ -11,6 +11,66 @@ const Score = require("../model/Score");
 const Subject = require("../model/Subject");
 const Schedule = require("../model/Schedule");
 
+// @route GET dashboard/teacher/class/add-student-to-class/{{ classId }}&{{ scheduleId }}
+// @desc add student to class
+// @access Private
+router.get('/add-schedule-to-class/:classId&:scheduleId',
+    async (req, res) => {
+        const {
+            classId,
+            scheduleId
+        } = req.params
+
+        try {
+            //validate
+            let classDB = await Class.findById(classId)
+            if (!classDB)
+                return res
+                    .status(400)
+                    .json({
+                        success: false,
+                        message: 'This class does not exists.'
+                    })
+            let schedule = await Student.findById(scheduleId)
+            if (!schedule) {
+                return res
+                    .status(400)
+                    .json({
+                        success: false,
+                        message: 'This schedule does not exists.'
+                    })
+            }
+            if (schedule.class_id) {
+                return res
+                    .status(400)
+                    .json({
+                        success: false,
+                        message: 'This schedule is already used'
+                    })
+            }
+            schedule.class_id = classDB
+            classDB.schedule_id = schedule
+            // await schedule.save()
+            // await classDB.save()
+            const showClass = await Class.findById(classId)
+                .populate('students', ['student_fullname'])
+                .populate('grade_id', ['grade_name'])
+                .populate('teacher_id',['teacher_name'])
+                .populate('schedule_id',['schedule_link'])
+            return res.json({
+                success: true,
+                message: 'Add student and teacher to class successfully',
+                class: classDB.class_name,
+                grade: showClass.grade_id,
+                teacher: showClass.teacher_id,
+                schedule: showClass.schedule_id,
+                students: showClass.students
+            })
+        } catch (error) {
+            return res.status(500).json({success: false, message: '' + error})
+        }
+    })
+
 // @route GET dashboard/teacher/class/add-student-to-class/{{ classId }}&{{ studentId }}
 // @desc add student to class
 // @access Private
@@ -64,6 +124,7 @@ router.get('/add-student-to-class/:classId&:studentId',
                 .populate('students', ['student_fullname'])
                 .populate('grade_id', ['grade_name'])
                 .populate('teacher_id',['teacher_name'])
+                .populate('schedule_id',['schedule_link'])
             return res.json({
                 success: true,
                 message: 'Add student and teacher to class successfully',
