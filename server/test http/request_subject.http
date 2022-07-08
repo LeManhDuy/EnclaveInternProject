@@ -43,6 +43,12 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZWFjaGVySWQiOiI2M
 
 ###
 // get subject
+// get subject by id
 GET http://localhost:8000/api/subjects/get-subject-by-id/62c5048288e28092b08a0b1c
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MmMyOGEzODRlNWUyMDU4ZTUwZDIyNDYiLCJpYXQiOjE2NTY5MTc3NTR9.FWH2aw2CU47RDU2rKXUb672j53RjRUVfQ_Td9PdptgE
+
+###
+//get all subject
+GET http://localhost:8000/api/subjects/
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MmMyOGEzODRlNWUyMDU4ZTUwZDIyNDYiLCJpYXQiOjE2NTY5MTc3NTR9.FWH2aw2CU47RDU2rKXUb672j53RjRUVfQ_Td9PdptgE
