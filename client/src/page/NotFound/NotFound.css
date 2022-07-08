@@ -2,33 +2,33 @@
 @import "../../assets/css/custom.css";
 
 .common {
-    width: 100%;
-    height: 100%;
     display: flex;
     justify-content: space-around;
     align-items: center;
 
 }
-
-.img_not_found img{
-    margin-top: 50px;
+.img_not_found {
     text-align: center;
-    width: 700px;
-    height: 500px;
+}
+.img_not_found img{
+    margin-top: 10vh;
+    text-align: center;
+    width: 50vw;
+    height: 80vh;
 }
 
 .body_not_found {
-    width: 40%;
+    /* width: 40%; */
     text-align: left;
 
 }
 .body_not_found img {
     padding-right: 60px;
-    margin-bottom: 30px;
+    margin-bottom: 3vh;
 }
 
 .btnBack {
-    margin-top: 30px;
+    margin-top: 3vh;
     border: 2px solid #83ACDC;
     border-radius: 20px/20px;
 }
