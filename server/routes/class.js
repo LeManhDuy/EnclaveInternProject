@@ -46,7 +46,7 @@ router.get('/add-student-to-class/class=:classId&student=:studentId&teacher=:tea
         }
 
         teacher.teacher_class = clas._id
-        student.class = clas._id
+        student.class_id = clas._id
         clas.students.push(student._id)
         await teacher.save()
         await student.save()
