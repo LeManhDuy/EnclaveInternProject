@@ -7,14 +7,13 @@ const Class = require('../model/Class')
 const Teacher = require('../model/Teacher')
 const Grade = require('../model/Grade')
 const Student = require('../model/Student')
-const Score = require("../model/Score");
-const Subject = require("../model/Subject");
 const Schedule = require("../model/Schedule");
 
 // @route GET dashboard/teacher/class/add-student-to-class/{{ classId }}&{{ scheduleId }}
 // @desc add student to class
 // @access Private
 router.get('/add-schedule-to-class/:classId&:scheduleId',
+    verifyJWT,
     async (req, res) => {
         const {
             classId,
@@ -75,6 +74,7 @@ router.get('/add-schedule-to-class/:classId&:scheduleId',
 // @desc add student to class
 // @access Private
 router.get('/add-student-to-class/:classId&:studentId',
+    verifyJWT,
     async (req, res) => {
         const {
             classId,
@@ -143,7 +143,9 @@ router.get('/add-student-to-class/:classId&:studentId',
 // @desc create class
 // @access Private
 // router.post('/:gradeId&:teacherId', verifyJWT, async (req, res) => {
-router.post('/:gradeId&:teacherId&:scheduleId', async (req, res) => {
+router.post('/:gradeId&:teacherId&:scheduleId',
+    verifyJWT,
+    async (req, res) => {
     const {gradeId, teacherId, scheduleId} = req.params
     const {
         class_name,
@@ -226,7 +228,9 @@ router.post('/:gradeId&:teacherId&:scheduleId', async (req, res) => {
 // @route GET dashboard/teacher/class
 // @desc get class
 // @access Private
-router.get('/', async (req, res) => {
+router.get('/',
+    verifyJWT,
+    async (req, res) => {
     try {
         const allClasses = await Class.find({})
         res.json({success: true, allClasses})
@@ -239,7 +243,9 @@ router.get('/', async (req, res) => {
 // @route GET dashboard/teacher/class/grade/{{ gradeId }}
 // @desc get class from grade
 // @access Private
-router.get('/grade/:gradeId', async (req, res) => {
+router.get('/grade/:gradeId',
+    verifyJWT,
+    async (req, res) => {
     const {gradeId} = req.params
 
     try {
@@ -257,7 +263,9 @@ router.get('/grade/:gradeId', async (req, res) => {
 // @route GET dashboard/teacher/class/teacher/{{ teacherId }}
 // @desc get class from teacher
 // @access Private
-router.get('/teacher/:teacherId', async (req, res) => {
+router.get('/teacher/:teacherId',
+    verifyJWT,
+    async (req, res) => {
     const {teacherId} = req.params
 
     try {
@@ -274,7 +282,9 @@ router.get('/teacher/:teacherId', async (req, res) => {
 // @route PUT dashboard/teacher/class/{{ class_id }}
 // @desc update class
 // @access Private
-router.put('/:id', async (req, res) => {
+router.put('/:id',
+    verifyJWT,
+    async (req, res) => {
     const {
         id
     } = req.params
@@ -324,7 +334,9 @@ router.put('/:id', async (req, res) => {
 // @route DELETE dashboard/teacher/class/{{ class_id }}
 // @desc delete class
 // @access Private
-router.delete('/:id', async (req, res) => {
+router.delete('/:id',
+    verifyJWT,
+    async (req, res) => {
     try {
         const classDeleteCondition = {_id: req.params.id, user: req.userId}
         const classDB = await Class.findById(classDeleteCondition._id)
