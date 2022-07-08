@@ -5,18 +5,18 @@ const verifyJWTandTeacher = require('../middleware/verifyJWTandTeacher')
 const Schedule = require('../model/Schedule')
 const { route } = require('./subject')
 // Create
-router.post("/create-schedule", verifyJWTandTeacher, async (req, res) => {
-    //const { classId } = req.params
+router.post("/create-schedule/:classId", verifyJWTandTeacher, async (req, res) => {
+    const { classId } = req.params
     const { schedule_link } = req.body;
     try {
         // Validate
-        // const Class = await Class.findById()
-        // const scheduleValidate = await Schedule.findById({ _id: grade_name });
-        // if (gradeValidate) {
-        //     return res
-        //         .status(400)
-        //         .json({ success: false, message: "Grade name is existing" });
-        // }
+        const Class = await Class.findById(classId)
+        const scheduleValidate = await Schedule.findById({ _id: grade_name });
+        if (gradeValidate) {
+            return res
+                .status(400)
+                .json({ success: false, message: "Grade name is existing" });
+        }
         const newSchedule = new Schedule({
             schedule_link: schedule_link,
         });
