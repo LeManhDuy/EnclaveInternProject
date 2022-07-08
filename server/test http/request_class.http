@@ -10,6 +10,12 @@ Authorization: Bearer
     "password": "2"
 }
 ###
+//add schedule to class
+#GET http://localhost:8000/dashboard/teacher/class/add-schedule-to-class/{{ classId }}&{{ scheduleId }}
+GET http://localhost:8000/dashboard/teacher/class/add-schedule-to-class/62c69e1ddb14d59b81b46a67&62c7b0169d8181aea0858fd4
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZWFjaGVySWQiOiI2MmMyYWVmMDM5YTc4ODBjZTRhMzg2YTQiLCJpYXQiOjE2NTcwODk0MTV9.JHRY3_KWwoyG8g4e0QNFiwXzGH6AUsannP8BWEc9lKs
+
+###
 //add student to class
 #GET http://localhost:8000/dashboard/teacher/class/add-student-to-class/{{ classId }}&{{ studentId }}
 GET http://localhost:8000/dashboard/teacher/class/add-student-to-class/62c7a916ef6c055a07106f13&62c69bffbe8c86c9d3579931
