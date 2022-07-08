@@ -17,9 +17,9 @@ router.post('/register', async (req, res) => {
     try {
         // check for existing user
         //     return res.status(400).json({success: false, message: 'User name is existing'})
-        const admin = await Admin.findOne({ admin_email: email })
-        const parent = await Parents.findOne({ parent_email: email })
-        const teacher = await Teacher.findOne({ teacher_email: email })
+        const admin = await Admin.findOne({ admin_email:email })
+        const parent = await Parents.findOne({ parent_email:email })
+        const teacher = await Teacher.findOne({ teacher_email:email })
         if (admin || parent || teacher)
             return res.status(400).json({ success: false, message: 'User name is existing' })
 
@@ -34,7 +34,7 @@ router.post('/register', async (req, res) => {
                 res.json({ success: true, message: 'Create account successfully', accessToken })
         }
     } catch (error) {
-        return res.status(500).json({ success: false, message: '' + error })
+        return res.status(500).json({success: false, message: '' + error})
     }
 })
 
@@ -42,61 +42,49 @@ router.post('/register', async (req, res) => {
 // @desc Login user
 // @access Public
 router.post('/login', async (req, res) => {
-    const { email, password } = req.body
+    const {email, password} = req.body
     //Simple validation
     if (!email || !password)
-        return res.status(400).json({ success: false, message: 'Please fill in complete information' })
+        return res.status(400).json({success: false, message: 'Please fill in complete information'})
 
     try {
         let validatePassword
-        const admin = await Admin.findOne({ admin_email: email })
-        const parent = await Parents.findOne({ parent_email: email })
-        const teacher = await Teacher.findOne({ teacher_email: email })
+        const admin = await Admin.findOne({admin_email: email})
+        const parent = await Parents.findOne({parent_email: email})
+        const teacher = await Teacher.findOne({teacher_email: email})
         let accessToken
 
         if (admin) {
-            accessToken = jwt.sign({ adminId: admin._id }
+            accessToken = jwt.sign({adminId: admin._id}
                 , process.env.ACCESS_TOKEN_SECRET)
             validatePassword = await argon2.verify(admin.admin_password, password)
             if (!validatePassword)
-                return res.status(400).json({ success: false, message: 'Incorrect email or password' })
-            return res.status(200).json({ success: true, message: 'This is admin', role: 'admin', accessToken })
+                return res.status(400).json({success: false, message: 'Incorrect email or password'})
+            return res.status(200).json({success: true, message: 'This is admin', role: 'admin', type:"Bearer", accessToken})
         }
         if (parent) {
-            accessToken = jwt.sign({ parentId: parent._id }
+            accessToken = jwt.sign({parentId: parent._id}
                 , process.env.ACCESS_TOKEN_SECRET)
             validatePassword = await argon2.verify(parent.parent_password, password)
             if (!validatePassword)
-                return res.status(400).json({ success: false, message: 'Incorrect email or password' })
-            return res.status(200).json({ success: true, message: 'This is parent', role: 'parent', accessToken })
+                return res.status(400).json({success: false, message: 'Incorrect email or password'})
+            return res.status(200).json({success: true, message: 'This is parent', type:"Bearer", role: 'parent', accessToken})
         }
         if (teacher) {
-            accessToken = jwt.sign({ teacherId: teacher._id }
+            accessToken = jwt.sign({teacherId: teacher._id}
                 , process.env.ACCESS_TOKEN_SECRET)
             validatePassword = await argon2.verify(teacher.teacher_password, password)
             if (!validatePassword)
-                return res.status(400).json({ success: false, message: 'Incorrect email or password' })
-            return res.status(200).json({ success: true, message: 'This is teacher', role: 'teacher', accessToken })
+                return res.status(400).json({success: false, message: 'Incorrect email or password'})
+            return res.status(200).json({success: true, message: 'This is teacher', type:"Bearer", role: 'teacher', accessToken})
         }
-        if (!admin && !teacher && !parent) {
-            return res.status(400).json({ success: false, message: 'This email does not exists' })
+        if (!admin && !teacher && ! parent) {
+            return res.status(400).json({ success: false, message: 'This email does not exists'})
         }
 
     } catch (error) {
-        return res.status(500).json({ success: false, message: '' + error })
+        return res.status(500).json({success: false, message: '' + error})
     }
 })
 
-// @route GET api/auth/
-// @desc Logout user
-// @access Public
-router.get('/logout', async (req, res) => {
-    try {
-        res.clearCookie("jwt")
-        return res.status(200).json({ success: true, message: 'Logout successfully!' })
-    } catch (error) {
-        return res.status(500).json({ success: false, message: '' + error })
-    }
-}
-)
 module.exports = router
