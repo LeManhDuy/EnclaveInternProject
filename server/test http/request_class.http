@@ -1,27 +1,55 @@
 //login
-POST http://localhost:8000/api/authentication/login
+// account teacher
+#Authorization: Bearer {{ teacher token }}
+POST http://localhost:8000/api/authentication/login/
 Content-Type: application/json
+Authorization: Bearer
 
 {
     "email": "2",
     "password": "2"
 }
 ###
+//add student to class
+#GET http://localhost:8000/dashboard/teacher/class/add-student-to-class/{{ classId }}&{{ studentId }}
+GET http://localhost:8000/dashboard/teacher/class/add-student-to-class/62c7a916ef6c055a07106f13&62c69bffbe8c86c9d3579931
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZWFjaGVySWQiOiI2MmMyYWVmMDM5YTc4ODBjZTRhMzg2YTQiLCJpYXQiOjE2NTcwODk0MTV9.JHRY3_KWwoyG8g4e0QNFiwXzGH6AUsannP8BWEc9lKs
+
+###
 //teacher create class
-POST http://localhost:8000/dashboard/teacher/class/create-class
+#POST http://localhost:8000/dashboard/teacher/class/{{ gradeId }}&{{ teacherId }}
+POST http://localhost:8000/dashboard/teacher/class/62c69998be8c86c9d357985f&62c68ad4bede5107633888f6
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZWFjaGVySWQiOiI2MmMyYWVmMDM5YTc4ODBjZTRhMzg2YTQiLCJpYXQiOjE2NTcwODk0MTV9.JHRY3_KWwoyG8g4e0QNFiwXzGH6AUsannP8BWEc9lKs
 
 {
-    
+    "class_name": "E"
 }
-###
-
-// add student and teacher to class
-GET http://localhost:8000/dashboard/teacher/class/add-student-to-class/class=62c534602c015591ce1b00dc&student=62c640bac572db9e5810e334&teacher=62c2aef039a7880ce4a386a4
-
 
 
 ###
 //Get all class
 GET http://localhost:8000/dashboard/teacher/class/
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZWFjaGVySWQiOiI2MmMyYWVmMDM5YTc4ODBjZTRhMzg2YTQiLCJpYXQiOjE2NTcwODk0MTV9.JHRY3_KWwoyG8g4e0QNFiwXzGH6AUsannP8BWEc9lKs
+
+###
+//Get class from teacher
+#GET http://localhost:8000/dashboard/teacher/class/teacher/{{ teacherId }}
+GET http://localhost:8000/dashboard/teacher/class/teacher/62c68ad4bede5107633888f6
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZWFjaGVySWQiOiI2MmMyYWVmMDM5YTc4ODBjZTRhMzg2YTQiLCJpYXQiOjE2NTcwODk0MTV9.JHRY3_KWwoyG8g4e0QNFiwXzGH6AUsannP8BWEc9lKs
+
+###
+//Update class
+#PUT http://localhost:8000/dashboard/teacher/class/{{ class_id }}
+PUT http://localhost:8000/dashboard/teacher/class/
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZWFjaGVySWQiOiI2MmMyYWVmMDM5YTc4ODBjZTRhMzg2YTQiLCJpYXQiOjE2NTcwODk0MTV9.JHRY3_KWwoyG8g4e0QNFiwXzGH6AUsannP8BWEc9lKs
+
+{
+  "class_name": ""
+}
+###
+//delete class
+#DELETE http://localhost:8000/dashboard/teacher/class/{{ class_id }}
+DELETE http://localhost:8000/dashboard/teacher/class/62c7a916ef6c055a07106f13
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZWFjaGVySWQiOiI2MmMyYWVmMDM5YTc4ODBjZTRhMzg2YTQiLCJpYXQiOjE2NTcwODk0MTV9.JHRY3_KWwoyG8g4e0QNFiwXzGH6AUsannP8BWEc9lKs
