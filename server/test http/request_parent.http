@@ -12,3 +12,20 @@ Content-Type: application/json
     "parent_gender":true,
     "parent_password":"2"
 }
+###
+//create protector
+POST http://localhost:8000/api/protectors/62c68c3ebede510763388905
+Content-Type: application/json
+
+{
+    
+    "protector_name":"Cao Minh Tri",
+    "protector_address": "21 Trưng Nữ Vương",
+    "protector_phone":"0341332132",
+    "protector_relationship":"Uncle Ten"
+}
+
+###
+// Show protector information
+GET http://localhost:8000/api/protectors/get-protector/62c68c3ebede510763388905
+Content-Type: application/json
