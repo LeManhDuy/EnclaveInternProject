@@ -40,12 +40,14 @@ const teacherSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'Class'
     },
-    students: [
-        {
+    students: [{
             type: Schema.Types.ObjectId,
             ref: 'Student'
-        }
-    ]
+    }],
+    notification_id: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Notification'
+    }],
 })
 
 module.exports = mongoose.model('Teacher', teacherSchema)
