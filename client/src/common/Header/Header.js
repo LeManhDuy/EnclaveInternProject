@@ -2,12 +2,27 @@ import React, { useState, useEffect, useRef } from "react"
 import Login from '../Login/Login'
 import Logo from '../../assets/image/Logo.png'
 import './Header.css'
+import AuthenticationService from "../../config/service/AuthenticationService"
+import jwt_decode from "jwt-decode"
+
 
 function Header() {
     const [isShowLogin, setIsShowLogin] = useState(false)
+    const [isLogin, setIsLogin] = useState(false)
+
+    useEffect(() => {
+      let dataLogin = JSON.parse(localStorage.getItem("@Login"))
+      const decoded = dataLogin && jwt_decode(dataLogin.accessToken)
+      if (decoded && (decoded.iat * 1000 + 10000000) > Date.now()) {
+        setIsLogin(true)
+      } else {
+        setIsLogin(false)
+        AuthenticationService.clearDataLogin()
+      }
+    }, [])
+
     const HandleOpenLogin = () => {
         setIsShowLogin(true)
-        console.log('Login click')
     }
     const HandleCloseLogin = () => {
         setIsShowLogin(false)
@@ -18,13 +33,16 @@ function Header() {
             Login
         </button>
       )
+      
+      const HandleLoginSuccess = () => {
+        setIsLogin(true)
+      }
 
       const ViewLogin = (
         <Login
           show={isShowLogin}
-        //   HandleOpenRegister={HandleOpenRegister}
           HandleCloseLogin={HandleCloseLogin}
-        //   HandleLoginSuccess={HandleLoginSuccess}
+          HandleLoginSuccess={HandleLoginSuccess}
         />
       )
     return (

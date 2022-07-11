@@ -11,15 +11,15 @@ import "./MainLayout.css";
 const MainLayout = ({ children }) => {
   //   const dispatch = useDispatch()
 
-  //   useEffect(() => {
-  //     getTopicsByDeletedFalse()
-  //   }, [])
+    // useEffect(() => {
+    //   getTopicsByDeletedFalse()
+    // }, [])
 
-  //   const getTopicsByDeletedFalse = () => {
-  //     TopicService.getTopicsByDeletedFalse().then((res) => {
-  //       dispatch(setTopics(res))
-  //     })
-  //   }
+    // const getTopicsByDeletedFalse = () => {
+    //   TopicService.getTopicsByDeletedFalse().then((res) => {
+    //     dispatch(setTopics(res))
+    //   })
+    // }
   return <div className="main-layout">{children}</div>;
 };
 
