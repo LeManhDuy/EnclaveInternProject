@@ -1,9 +1,10 @@
 const express = require("express");
 const router = express.Router();
 const Grades = require("../model/Grade");
+const verifyJWTandTeacher = require("../middleware/verifyJWTandTeacher");
 
 // Create
-router.post("/", async (req, res) => {
+router.post("/", verifyJWTandTeacher, async (req, res) => {
     const { grade_name } = req.body;
     try {
         // Validate
@@ -24,7 +25,7 @@ router.post("/", async (req, res) => {
 });
 
 // Get
-router.get("/", async (req, res) => {
+router.get("/", verifyJWTandTeacher, async (req, res) => {
     try {
         // Return token
         const allGrades = await Grades.find({});
@@ -35,7 +36,7 @@ router.get("/", async (req, res) => {
 });
 
 // Update
-router.put("/:id", async (req, res) => {
+router.put("/:gradeID", verifyJWTandTeacher, async (req, res) => {
     const { grade_name } = req.body;
     try {
         // Validate
@@ -48,7 +49,7 @@ router.put("/:id", async (req, res) => {
         let updateGrade = {
             grade_name,
         };
-        const postUpdateCondition = { _id: req.params.id };
+        const postUpdateCondition = { _id: req.params.gradeID };
         updatedGrade = await Grades.findOneAndUpdate(
             postUpdateCondition,
             updateGrade,
@@ -66,9 +67,9 @@ router.put("/:id", async (req, res) => {
 });
 
 // Delete
-router.delete("/:id", async (req, res) => {
+router.delete("/:gradeID", verifyJWTandTeacher, async (req, res) => {
     try {
-        const postDeleteCondition = { _id: req.params.id };
+        const postDeleteCondition = { _id: req.params.gradeID };
         const deletedGrade = await Grades.findOneAndDelete(postDeleteCondition);
 
         if (!deletedGrade)
