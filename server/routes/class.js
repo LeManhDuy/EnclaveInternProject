@@ -344,6 +344,16 @@ router.delete('/:id', async (req, res) => {
                     message: "Teacher not found"})
         }
         teacher.class_id = undefined
+        const grade = await Grade.findById(classDB.grade_id.toString())
+        if (!grade) {
+            return res
+                .status(401)
+                .json({
+                    success: false,
+                    message: "Student not found"})
+        }
+        grade.classes.pop(classDB._id)
+        grade.save()
         const deleteClass = await Class.findOneAndDelete(classDeleteCondition)
         classDB.students.map(async item => {
             let student = await Student.findById(item._id.toString())

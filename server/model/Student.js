@@ -32,6 +32,10 @@ const studentSchema = new Schema({
             ref: "Subject",
         },
     ],
+    scores: [{
+        type: Schema.Types.ObjectId,
+        ref: "Subject",
+    }],
     summary: {
         type: Schema.Types.ObjectId,
         ref: "SummaryScore",
