@@ -10,6 +10,10 @@ const gradeSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'Subject',
     }],
+    subjects_name: [{
+        type: Schema.Types.String,
+        ref: 'Subject'
+    }],
     classes: [{
         type: Schema.Types.ObjectId,
         ref: 'Class'

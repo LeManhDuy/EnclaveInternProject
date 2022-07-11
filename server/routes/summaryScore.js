@@ -96,15 +96,18 @@ router.put("/:id", async (req, res) => {
 router.delete("/:id", async (req, res) => {
     try {
         const postDeleteCondition = { _id: req.params.id };
+        const summary = await Summary.findById(postDeleteCondition._id);
+        const student = await Student.findById(summary.student_id.toString())
+        student.summary = undefined
+        student.save();
         const deletedSummary = await Summary.findOneAndDelete(
             postDeleteCondition
         );
-
         if (!deletedSummary)
             return res
                 .status(401)
                 .json({ success: false, message: "Summary not found" });
-        res.json({ success: true, message: "Deleted!", parent: deletedParent });
+        res.json({ success: true, message: "Deleted!", summary: deletedSummary });
     } catch (error) {
         return res.status(500).json({ success: false, message: "" + error });
     }

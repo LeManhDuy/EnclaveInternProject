@@ -9,9 +9,9 @@ POST http://localhost:8000/dashboard/teacher/score/62c69a4bbe8c86c9d35798d0
 Content-Type: application/json
 
 {
-  "score_ratio1": [5, 5],
-  "score_ratio2": [9, 9],
-  "score_ratio3": [7]
+  "score_ratio1": [5, 9],
+  "score_ratio2": [10, 9],
+  "score_ratio3": [6]
 }
 
 ###
