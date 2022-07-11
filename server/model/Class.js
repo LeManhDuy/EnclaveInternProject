@@ -18,9 +18,9 @@ const classSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'Student'
     }],
-    score_id: {
+    schedule_id: {
         type: Schema.Types.ObjectId,
-        ref: 'Score'
+        ref: 'Schedule'
     }
 });
 

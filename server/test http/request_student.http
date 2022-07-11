@@ -15,55 +15,57 @@ POST http://localhost:8000/api/authentication/login
 Content-Type: application/json
 
 {
-    "email": "4",
-    "password": "4"
+    "email": "hnt@gmail.com",
+    "password": "3"
 }
 ###
-//teacher create student
-POST http://localhost:8000/dashboard/teacher/student/create-student/62c2aef039a7880ce4a386a4
+//logoout
+get http://localhost:8000/api/authentication/logout
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZWFjaGVySWQiOiI2MmMyYWVmMDM5YTc4ODBjZTRhMzg2YTQiLCJpYXQiOjE2NTY5ODY4ODh9.6r0qdOlVjBTd3nOc-Sta2almy77UzG5BMXvhhLu2hlc
+###
+//teacher create student
+POST http://localhost:8000/dashboard/teacher/student/create-student/62c68b2ebede510763388900
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZWFjaGVySWQiOiI2MmM2OGFkNGJlZGU1MTA3NjMzODg4ZjYiLCJpYXQiOjE2NTcxODMxNTB9.zr4B2yhwd-rn2LKywhbrkx-xLL1gwWU8kI5z9PmfeP4
 
 {
-    "student_fullname" : "Marine",
-    "student_age":20,
-    "student_gender":true,
-    "student_image": "image link",
-    "student_behavior":"Trungbinh"
+    "student_fullname" : "Polly",
+    "student_age":8,
+    "student_gender":false,
+    "student_image": "image link"
 }
 ###
 //teacher get all student
 GET http://localhost:8000/dashboard/teacher/student/get-all-student
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZWFjaGVySWQiOiI2MmMyYWVmMDM5YTc4ODBjZTRhMzg2YTQiLCJpYXQiOjE2NTY5ODY4ODh9.6r0qdOlVjBTd3nOc-Sta2almy77UzG5BMXvhhLu2hlc
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZWFjaGVySWQiOiI2MmM2OGFkNGJlZGU1MTA3NjMzODg4ZjYiLCJpYXQiOjE2NTcxODMxNTB9.zr4B2yhwd-rn2LKywhbrkx-xLL1gwWU8kI5z9PmfeP4
 
 ###
 //teacher get student by teacher id
-GET http://localhost:8000/dashboard/teacher/student/get-student-by-teacher-id/62c2aef039a7880ce4a386a4
+GET http://localhost:8000/dashboard/teacher/student/get-student-by-teacher-id/62c68ad4bede5107633888f6
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZWFjaGVySWQiOiI2MmMyYWVmMDM5YTc4ODBjZTRhMzg2YTQiLCJpYXQiOjE2NTY5ODY4ODh9.6r0qdOlVjBTd3nOc-Sta2almy77UzG5BMXvhhLu2hlc
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZWFjaGVySWQiOiI2MmM2OGFkNGJlZGU1MTA3NjMzODg4ZjYiLCJpYXQiOjE2NTcxODMxNTB9.zr4B2yhwd-rn2LKywhbrkx-xLL1gwWU8kI5z9PmfeP4
 
 ###
 //teacher get student by student id
-GET http://localhost:8000/dashboard/teacher/student/get-student-by-student-id/62c640bac572db9e5810e334&62bec1eace300d797af8a13b
+GET http://localhost:8000/dashboard/teacher/student/get-student-by-student-id/62c69bb9be8c86c9d3579921
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZWFjaGVySWQiOiI2MmMyYWVmMDM5YTc4ODBjZTRhMzg2YTQiLCJpYXQiOjE2NTY5ODY4ODh9.6r0qdOlVjBTd3nOc-Sta2almy77UzG5BMXvhhLu2hlc
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZWFjaGVySWQiOiI2MmM2OGFkNGJlZGU1MTA3NjMzODg4ZjYiLCJpYXQiOjE2NTcxODMxNTB9.zr4B2yhwd-rn2LKywhbrkx-xLL1gwWU8kI5z9PmfeP4
 
 ###
 //teacher update student by id_student
-PUT http://localhost:8000/dashboard/teacher/student/update-student/62c523c7a574db45a8646b1d
+PUT http://localhost:8000/dashboard/teacher/student/update-student/62c78fb46008f5e67d096b97
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZWFjaGVySWQiOiI2MmMyYWVmMDM5YTc4ODBjZTRhMzg2YTQiLCJpYXQiOjE2NTY5ODY4ODh9.6r0qdOlVjBTd3nOc-Sta2almy77UzG5BMXvhhLu2hlc
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZWFjaGVySWQiOiI2MmM2OGFkNGJlZGU1MTA3NjMzODg4ZjYiLCJpYXQiOjE2NTcxODMxNTB9.zr4B2yhwd-rn2LKywhbrkx-xLL1gwWU8kI5z9PmfeP4
 
 {
-    "student_fullname": "Marinee",
-    "student_age": 22,
-    "student_gender" : true,
-    "student_image": "image link ne",
-    "student_behavior": "Giỏi"
+    "student_fullname": "Violet",
+    "student_age": 17,
+    "student_gender" : false,
+    "student_image": "image link !"
 }
 ###
 //teacher delete student
-DELETE  http://localhost:8000/dashboard/teacher/student/delete-student/62c523c7a574db45a8646b1d
+DELETE  http://localhost:8000/dashboard/teacher/student/delete-student/62c78fb46008f5e67d096b97
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZWFjaGVySWQiOiI2MmMyYWVmMDM5YTc4ODBjZTRhMzg2YTQiLCJpYXQiOjE2NTY5ODY4ODh9.6r0qdOlVjBTd3nOc-Sta2almy77UzG5BMXvhhLu2hlc
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZWFjaGVySWQiOiI2MmM2OGFkNGJlZGU1MTA3NjMzODg4ZjYiLCJpYXQiOjE2NTcxODMxNTB9.zr4B2yhwd-rn2LKywhbrkx-xLL1gwWU8kI5z9PmfeP4

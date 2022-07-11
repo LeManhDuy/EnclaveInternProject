@@ -97,9 +97,15 @@ router.post("/create-subject/:gradeID", async (req, res) => {
         const subjectValidate = await Subjects.findOne({
             subject_name: subject_name,
         });
-        const gradeValidate = await Grades.findOne({ grade_id: grade_id });
+        let result = true;
+        const gradeValidate = await Grades.findById(gradeID);
+        console.log(subject_name);
+        gradeValidate.subjects_name.map(item => {
+            if (item === subject_name)
+                result = false;
+        })
         const grade = await Grades.findById(gradeID);
-        if (subjectValidate && gradeValidate) {
+        if (!result) {
             return res
                 .status(400)
                 .json({
@@ -122,6 +128,7 @@ router.post("/create-subject/:gradeID", async (req, res) => {
         });
         await newSubject.save();
         grade.subjects.push(newSubject._id);
+        grade.subjects_name.push(newSubject.subject_name);
         await grade.save();
         res.json({
             success: true,
@@ -246,47 +253,3 @@ router.delete("/:id", async (req, res) => {
 });
 
 module.exports = router;
-
-// router.post('/create-subjects/:gradeID&:studentID', async (req, res) => {
-//     const { gradeID, studentID } = req.params
-//     const {
-//         subject_name,
-//         subject_ratio,
-//         grade_id,
-//         student_id,
-//     } = req.body
-//     if (!subject_name || !subject_ratio) {
-//         return res.status(400).json({ success: false, message: 'Missing information.Please fill in!' })
-//     }
-//     try {
-//         //Validate
-//         const subjectValidate = await Subjects.findOne({ subject_name: subject_name })
-//         const gradeValidate = await Grades.findOne({ grade_id: grade_id })
-//         const grade = await Grades.findById(gradeID)
-//         const student = await Student.findById(studentID)
-//         if (subjectValidate && gradeValidate) {
-//             console.log(subjectValidate)
-//             return res.status(400).json({ success: false, message: 'This subject is existing in this grade.' })
-//         }
-//         if (!grade) {
-//             return res.status(400).json({ success: false, message: 'This grade does not exists.' })
-//         }
-//         if (!student) {
-//             return res.status(400).json({ success: false, message: 'This student does not exists.' })
-//         }
-//         const newSubject = new Subjects({
-//             subject_name,
-//             subject_ratio,
-//             grade_id: grade,
-//             student_id: student,
-//         })
-//         await newSubject.save()
-//         grade.subjects.push(newSubject._id)
-//         student.subjects.push(newSubject._id)
-//         await grade.save()
-//         await student.save()
-//         res.json({ success: true, message: 'Create subject successfully', subjects: newSubject })
-//     } catch (error) {
-//         return res.status(500).json({ success: false, message: '' + error })
-//     }
-// })

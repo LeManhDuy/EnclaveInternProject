@@ -12,6 +12,7 @@ const ROUTES = {
 
   ADMIN_PAGE: {
     path: "/admin",
+    PARENTS_PATH:"/admin/parents",
     isPrivate: true,
     component: Admin,
   },
