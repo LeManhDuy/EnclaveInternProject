@@ -19,7 +19,7 @@
 .contact {
     display: flex;
     flex-direction: column;
-    align-items: start;
+    align-items: flex-start;
 }
 
 .contact-item {
@@ -43,7 +43,7 @@
 .copyright-info {
     display: flex;
     flex-direction: column;
-    align-items: end;
+    align-items: flex-end;
 }
 
 .copyright-info .icon-info{
