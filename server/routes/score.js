@@ -13,8 +13,8 @@ const Teacher = require("../model/Teacher");
 // @route POST dashboard/teacher/score/{{ subject_id }}
 // @desc create score
 // @access Private
-router.post('/:subjectId',verifyJWT, async(req, res) => {
-    const { subjectId } = req.params
+router.post('/:subjectID&:studentID',verifyJWT, async(req, res) => {
+    const { subjectID,studentID } = req.params
     let {
         score_ratio1,
         score_ratio2,
@@ -28,15 +28,33 @@ router.post('/:subjectId',verifyJWT, async(req, res) => {
                 success: false,
                 message: 'Please at least one in complete information'
             })
-    const subject = await Subject.findById(subjectId)
+    if (!subjectID || !studentID) {
+        return res
+            .status(400)
+            .json({
+                success: false,
+                message: 'Lack of information'
+            })
+    }
+    const subject = await Subject.findById(subjectID)
     if (!subject) {
-        return res.status(404).json({success: false, message: "Subject is not existing!"})
+        return res.status(404).json({
+            success: false,
+            message: "Subject is not existing!"
+        })
+    }
+    const student = await Subject.findById(studentID)
+    if (!subject) {
+        return res.status(404).json({
+            success: false,
+            message: "Student is not existing!"
+        })
     }
 
-    if (subject.score_id) {
+    if (student.score_id) {
         return res.status(400).json({
             success: false,
-            message: "This subject already have score.",
+            message: "This student already have this score of subject.",
         });
     }
     if (score_ratio1 < 0 || score_ratio1 > 10)
@@ -87,10 +105,13 @@ router.post('/:subjectId',verifyJWT, async(req, res) => {
         await newScore.save()
         subject.score_id = newScore._id
         await subject.save()
+        student.scores.push(newScore._id)
+        await student.save()
         res.json({
             success: true,
             message: 'Create score successfully',
             subject:subject.subject_name,
+            student:student.student_fullname,
             score_ratio1:newScore.score_ratio1,
             score_ratio2:newScore.score_ratio2,
             score_ratio3:newScore.score_ratio3,

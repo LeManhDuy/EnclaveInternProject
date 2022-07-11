@@ -21,6 +21,10 @@ const scoreSchema = new Schema({
     subject_id: {
         type: Schema.Types.ObjectId,
         ref: 'Subject'
+    },
+    student_id: {
+        type: Schema.Types.ObjectId,
+        ref: 'Student'
     }
 });
 
