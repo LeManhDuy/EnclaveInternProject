@@ -2,8 +2,10 @@ const express = require("express");
 const router = express.Router();
 const Summary = require("../model/SummaryScore");
 const Student = require("../model/Student");
+const verifyJWTandTeacher = require("../middleware/verifyJWTandTeacher");
+
 // Create Score For Subject
-router.post("/:studentID", async (req, res) => {
+router.post("/:studentID", verifyJWTandTeacher, async (req, res) => {
     const { studentID } = req.params;
     const { summary_behavior, summary_score } = req.body;
     if (!summary_behavior || !summary_score) {
@@ -46,7 +48,7 @@ router.post("/:studentID", async (req, res) => {
 });
 
 // Get
-router.get("/", async (req, res) => {
+router.get("/", verifyJWTandTeacher, async (req, res) => {
     try {
         // Return token
         const allSummary = await Summary.find({});
@@ -57,7 +59,7 @@ router.get("/", async (req, res) => {
 });
 
 //Update
-router.put("/:id", async (req, res) => {
+router.put("/:summaryID", verifyJWTandTeacher, async (req, res) => {
     const { summary_behavior, summary_score } = req.body;
     // Validation
     if (!summary_behavior || !summary_score) {
@@ -71,7 +73,7 @@ router.put("/:id", async (req, res) => {
             summary_behavior,
             summary_score,
         };
-        const postUpdateCondition = { _id: req.params.id };
+        const postUpdateCondition = { _id: req.params.summaryID };
         const updatedSummary = await Summary.findOneAndUpdate(
             postUpdateCondition,
             updateSummary,
@@ -93,12 +95,12 @@ router.put("/:id", async (req, res) => {
 });
 
 // Delete
-router.delete("/:id", async (req, res) => {
+router.delete("/:summaryID", verifyJWTandTeacher, async (req, res) => {
     try {
-        const postDeleteCondition = { _id: req.params.id };
+        const postDeleteCondition = { _id: req.params.summaryID };
         const summary = await Summary.findById(postDeleteCondition._id);
-        const student = await Student.findById(summary.student_id.toString())
-        student.summary = undefined
+        const student = await Student.findById(summary.student_id.toString());
+        student.summary = undefined;
         student.save();
         const deletedSummary = await Summary.findOneAndDelete(
             postDeleteCondition
@@ -107,7 +109,11 @@ router.delete("/:id", async (req, res) => {
             return res
                 .status(401)
                 .json({ success: false, message: "Summary not found" });
-        res.json({ success: true, message: "Deleted!", summary: deletedSummary });
+        res.json({
+            success: true,
+            message: "Deleted!",
+            summary: deletedSummary,
+        });
     } catch (error) {
         return res.status(500).json({ success: false, message: "" + error });
     }
