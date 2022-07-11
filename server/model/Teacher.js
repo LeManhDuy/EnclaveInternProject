@@ -1,5 +1,5 @@
-const mongoose = require('mongoose')
-const Schema = mongoose.Schema
+const mongoose = require("mongoose");
+const Schema = mongoose.Schema;
 
 const teacherSchema = new Schema({
     teacher_name: {
@@ -26,6 +26,10 @@ const teacherSchema = new Schema({
         type: String,
         require: true,
     },
+    teacher_img: {
+        type: String,
+        require: false,
+    },
     is_main_teacher: {
         type: Boolean,
         require: true,
@@ -38,14 +42,14 @@ const teacherSchema = new Schema({
     },
     teacher_class: {
         type: Schema.Types.ObjectId,
-        ref: 'Class'
+        ref: "Class",
     },
     students: [
         {
             type: Schema.Types.ObjectId,
-            ref: 'Student'
-        }
-    ]
-})
+            ref: "Student",
+        },
+    ],
+});
 
-module.exports = mongoose.model('Teacher', teacherSchema)
+module.exports = mongoose.model("Teacher", teacherSchema);
