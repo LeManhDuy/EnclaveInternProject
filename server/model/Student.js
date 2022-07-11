@@ -6,6 +6,10 @@ const studentSchema = new Schema({
         type: String,
         required: true,
     },
+    student_dateofbirth: {
+        type: Date,
+        required: true,
+    },
     student_age: {
         type: Number,
         required: true,
@@ -17,6 +21,10 @@ const studentSchema = new Schema({
     student_image: {
         type: String,
         required: true,
+    },
+    parent_id: {
+        type: Schema.Types.ObjectId,
+        ref: "Parents",
     },
     teacher_id: {
         type: Schema.Types.ObjectId,
@@ -36,12 +44,6 @@ const studentSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: "SummaryScore",
     },
-    schoolyears: [
-        {
-            type: Schema.Types.ObjectId,
-            ref: "Schoolyear",
-        },
-    ],
 });
 
 module.exports = mongoose.model("Student", studentSchema);

@@ -18,6 +18,7 @@ const scoreSchema = new Schema({
         type: Number,
         required: true,
     },
+    //1 score 1 student
     subject_id: {
         type: Schema.Types.ObjectId,
         ref: 'Subject'
