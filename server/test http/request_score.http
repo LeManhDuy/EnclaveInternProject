@@ -4,8 +4,8 @@ GET http://localhost:8000/dashboard/teacher/score
 
 ###
 // create Score
-#POST http://localhost:8000/dashboard/teacher/score/{{ subject_id }}
-POST http://localhost:8000/dashboard/teacher/score/62c69a4bbe8c86c9d35798d0
+#POST http://localhost:8000/dashboard/teacher/score/{{ subjectID }}&{{ studentID }}
+POST http://localhost:8000/dashboard/teacher/score/62c699cbbe8c86c9d3579879&62cbc71228ed8bda747c4445
 Content-Type: application/json
 
 {
@@ -17,7 +17,7 @@ Content-Type: application/json
 ###
 // update Score
 #PUT http://localhost:8000/dashboard/teacher/score/{{ score_id }}
-PUT http://localhost:8000/dashboard/teacher/score/62c795bb80c29cf62aff73b0
+PUT http://localhost:8000/dashboard/teacher/score/62cbe39ebdadac9e06ae880c
 Content-Type: application/json
 
 {
@@ -41,4 +41,4 @@ Content-Type: application/json
 
 // delete Score
 #DELETE http://localhost:8000/dashboard/teacher/score/{{ score_id }}
-DELETE http://localhost:8000/dashboard/teacher/score/62c69b25be8c86c9d3579918
+DELETE http://localhost:8000/dashboard/teacher/score/62cbf31ed8f1de755664603b

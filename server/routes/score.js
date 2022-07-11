@@ -2,25 +2,26 @@ require('dotenv').config()
 const express = require('express')
 const mongoose = require('mongoose')
 const router = express.Router()
-const { authTeacher } = require('../middleware/verifyRoles')
+const {authTeacher} = require('../middleware/verifyRoles')
 const verifyJWT = require('../../server/middleware/verifyJWTandTeacher')
 const Score = require('../model/Score')
 const Subject = require('../model/Subject')
 const Class = require("../model/Class");
 const Grade = require("../model/Grade");
 const Teacher = require("../model/Teacher");
+const Student = require('../model/Student')
 
-// @route POST dashboard/teacher/score/{{ subject_id }}
+// @route POST dashboard/teacher/score/{{ subjectID }}&{{ studentID }}
 // @desc create score
 // @access Private
-router.post('/:subjectID&:studentID',verifyJWT, async(req, res) => {
-    const { subjectID,studentID } = req.params
+router.post('/:subjectID&:studentID', async (req, res) => {
+    const {subjectID, studentID} = req.params
     let {
         score_ratio1,
         score_ratio2,
         score_ratio3
     } = req.body
-        //Validation
+    //Validation
     if (!score_ratio1 && !score_ratio2 && !score_ratio3)
         return res
             .status(400)
@@ -43,7 +44,7 @@ router.post('/:subjectID&:studentID',verifyJWT, async(req, res) => {
             message: "Subject is not existing!"
         })
     }
-    const student = await Subject.findById(studentID)
+    const student = await Student.findById(studentID)
     if (!subject) {
         return res.status(404).json({
             success: false,
@@ -51,11 +52,15 @@ router.post('/:subjectID&:studentID',verifyJWT, async(req, res) => {
         })
     }
 
-    if (student.score_id) {
-        return res.status(400).json({
-            success: false,
-            message: "This student already have this score of subject.",
-        });
+    for (let score_id of student.scores) {
+        console.log(score_id.toString())
+        let score = await Score.findById(score_id)
+        if(score.subject_id.toString() === subjectID && score.student_id.toString() === studentID) {
+            return res.status(400).json({
+                success: false,
+                message: "This student already have this score of subject.",
+            })
+        }
     }
     if (score_ratio1 < 0 || score_ratio1 > 10)
         return res
@@ -100,6 +105,7 @@ router.post('/:subjectID&:studentID',verifyJWT, async(req, res) => {
             score_ratio2,
             score_ratio3,
             score_average,
+            student_id: student,
             subject_id: subject
         })
         await newScore.save()
@@ -110,15 +116,15 @@ router.post('/:subjectID&:studentID',verifyJWT, async(req, res) => {
         res.json({
             success: true,
             message: 'Create score successfully',
-            subject:subject.subject_name,
-            student:student.student_fullname,
-            score_ratio1:newScore.score_ratio1,
-            score_ratio2:newScore.score_ratio2,
-            score_ratio3:newScore.score_ratio3,
-            score_average:newScore.score_average
+            subject: subject.subject_name,
+            student: student.student_fullname,
+            score_ratio1: newScore.score_ratio1,
+            score_ratio2: newScore.score_ratio2,
+            score_ratio3: newScore.score_ratio3,
+            score_average: newScore.score_average
         })
     } catch (error) {
-        return res.status(500).json({ success: false, message: '' + error })
+        return res.status(500).json({success: false, message: '' + error})
     }
 })
 
@@ -163,13 +169,13 @@ router.put('/:id', verifyJWT, async (req, res) => {
                 message: 'Please at least one in complete information'
             })
     if (!score_ratio1) {
-        score_ratio1=score.score_ratio1
+        score_ratio1 = score.score_ratio1
     }
     if (!score_ratio2) {
-        score_ratio2=score.score_ratio2
+        score_ratio2 = score.score_ratio2
     }
     if (!score_ratio3) {
-        score_ratio3=score.score_ratio3
+        score_ratio3 = score.score_ratio3
     }
     try {
         let arr = score_ratio1
@@ -180,7 +186,7 @@ router.put('/:id', verifyJWT, async (req, res) => {
             .concat(score_ratio3)
         let score_average = arr.reduce((a, b) => a + b, 0) / arr.length;
         score_average = score_average.toFixed(0)
-        let updateScore ={
+        let updateScore = {
             score_ratio1,
             score_ratio2,
             score_ratio3,
@@ -193,15 +199,16 @@ router.put('/:id', verifyJWT, async (req, res) => {
                 .status(401)
                 .json({
                     success: false,
-                    message: "Score not found"})
+                    message: "Score not found"
+                })
         }
         res.json({
             success: true,
             message: 'Updated!',
-            score_ratio1:updateScore.score_ratio1,
-            score_ratio2:updateScore.score_ratio2,
-            score_ratio3:updateScore.score_ratio3,
-            score_average:updateScore.score_average
+            score_ratio1: updateScore.score_ratio1,
+            score_ratio2: updateScore.score_ratio2,
+            score_ratio3: updateScore.score_ratio3,
+            score_average: updateScore.score_average
         })
     } catch (e) {
         return res.status(500).json({success: false, message: e})
@@ -238,19 +245,19 @@ router.put('/add/:id', verifyJWT, async (req, res) => {
                 message: 'Please fill in complete information'
             })
     if (!score_ratio1) {
-        score_ratio1=score.score_ratio1
+        score_ratio1 = score.score_ratio1
     } else {
-        score_ratio1=score.score_ratio1.concat(score_ratio1)
+        score_ratio1 = score.score_ratio1.concat(score_ratio1)
     }
     if (!score_ratio2) {
-        score_ratio2=score.score_ratio2
+        score_ratio2 = score.score_ratio2
     } else {
-        score_ratio2=score.score_ratio2.concat(score_ratio2)
+        score_ratio2 = score.score_ratio2.concat(score_ratio2)
     }
     if (!score_ratio3) {
-        score_ratio3=score.score_ratio3
+        score_ratio3 = score.score_ratio3
     } else {
-        score_ratio3=score.score_ratio3.concat(score_ratio3)
+        score_ratio3 = score.score_ratio3.concat(score_ratio3)
     }
     try {
         // solve average
@@ -262,7 +269,7 @@ router.put('/add/:id', verifyJWT, async (req, res) => {
             .concat(score_ratio3)
         let score_average = arr.reduce((a, b) => a + b, 0) / arr.length;
         score_average = score_average.toFixed(0)
-        let addScore ={
+        let addScore = {
             score_ratio1,
             score_ratio2,
             score_ratio3,
@@ -275,15 +282,16 @@ router.put('/add/:id', verifyJWT, async (req, res) => {
                 .status(401)
                 .json({
                     success: false,
-                    message: "Score not found"})
+                    message: "Score not found"
+                })
         }
         res.json({
             success: true,
             message: 'Added!',
-            score_ratio1:addScore.score_ratio1,
-            score_ratio2:addScore.score_ratio2,
-            score_ratio3:addScore.score_ratio3,
-            score_average:addScore.score_average
+            score_ratio1: addScore.score_ratio1,
+            score_ratio2: addScore.score_ratio2,
+            score_ratio3: addScore.score_ratio3,
+            score_average: addScore.score_average
         })
     } catch (e) {
         return res.status(500).json({success: false, message: e})
@@ -293,7 +301,7 @@ router.put('/add/:id', verifyJWT, async (req, res) => {
 // @route DELETE dashboard/teacher/score/{{ score_id }}
 // @desc delete score
 // @access Private
-router.delete('/:id', verifyJWT, async (req, res) => {
+router.delete('/:id',  async (req, res) => {
     try {
         const scoreDeleteCondition = {
             _id: req.params.id,
@@ -305,7 +313,8 @@ router.delete('/:id', verifyJWT, async (req, res) => {
                 .status(401)
                 .json({
                     success: false,
-                    message: "Score not found"})
+                    message: "Score not found"
+                })
         }
 
         const subject = await Subject.findById(score.subject_id.toString())
@@ -314,10 +323,22 @@ router.delete('/:id', verifyJWT, async (req, res) => {
                 .status(401)
                 .json({
                     success: false,
-                    message: "Subject not found"})
+                    message: "Subject not found"
+                })
         }
         subject.score_id = undefined
         subject.save()
+        const student = await Student.findById(score.student_id.toString())
+        if (!student) {
+            return res
+                .status(401)
+                .json({
+                    success: false,
+                    message: "Student not found"
+                })
+        }
+        student.scores.pop(score._id)
+        student.save()
         const deleteScore = await Score.findOneAndDelete(scoreDeleteCondition)
         if (!deleteScore) {
             return res
@@ -327,7 +348,6 @@ router.delete('/:id', verifyJWT, async (req, res) => {
                     message: "Score not found!"
                 })
         }
-
         res.json({
             success: true,
             message: "Deleted!",
