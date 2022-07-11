@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const studentSchema = new Schema({
@@ -18,26 +18,30 @@ const studentSchema = new Schema({
         type: String,
         required: true,
     },
-    student_behavior: {
-        type: String,
-        required: true,
-    },
     teacher_id: {
         type: Schema.Types.ObjectId,
-        ref: 'Teacher'
+        ref: "Teacher",
     },
     class_id: {
         type: Schema.Types.ObjectId,
-        ref: 'Class'
+        ref: "Class",
     },
-    subjects: [{
+    subjects: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: "Subject",
+        },
+    ],
+    summary: {
         type: Schema.Types.ObjectId,
-        ref: 'Subject'
-    }],
-    schoolyears: [{
-        type: Schema.Types.ObjectId,
-        ref: 'Schoolyear'
-    }],
+        ref: "SummaryScore",
+    },
+    schoolyears: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: "Schoolyear",
+        },
+    ],
 });
 
-module.exports = mongoose.model('Student', studentSchema)
+module.exports = mongoose.model("Student", studentSchema);

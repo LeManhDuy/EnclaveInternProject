@@ -13,6 +13,14 @@ const classSchema = new Schema({
     grade_id: {
         type: Schema.Types.ObjectId,
         ref: 'Grade'
+    },
+    students: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Student'
+    }],
+    schedule_id: {
+        type: Schema.Types.ObjectId,
+        ref: 'Schedule'
     }
 });
 

@@ -1,0 +1,31 @@
+//create parent
+POST http://localhost:8000/api/admin/parents
+Content-Type: application/json
+
+{
+    "parent_name":"Tạ Phước Nguyên",
+    "parent_dateofbirth": "2000-12-31T17:00:00.000+00:00",
+    "parent_address":"40 Nguyễn Lương Bằng",
+    "parent_phone":"0987356234",
+    "parent_email":"tpn@gmail.com",
+    "parent_job":"Giáo viên",
+    "parent_gender":true,
+    "parent_password":"2"
+}
+###
+//create protector
+POST http://localhost:8000/api/protectors/62c68c3ebede510763388905
+Content-Type: application/json
+
+{
+    
+    "protector_name":"Cao Minh Tri",
+    "protector_address": "21 Trưng Nữ Vương",
+    "protector_phone":"0341332132",
+    "protector_relationship":"Uncle Ten"
+}
+
+###
+// Show protector information
+GET http://localhost:8000/api/protectors/get-protector/62c68c3ebede510763388905
+Content-Type: application/json

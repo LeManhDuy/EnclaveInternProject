@@ -1,0 +1,23 @@
+//create teacher
+post http://localhost:8000/api/admin/teachers/
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZWFjaGVySWQiOiI2MmMyYWVmMDM5YTc4ODBjZTRhMzg2YTQiLCJpYXQiOjE2NTcwODk0MTV9.JHRY3_KWwoyG8g4e0QNFiwXzGH6AUsannP8BWEc9lKs
+
+{
+    "teacher_name" : "Huỳnh Hữu Hưng",
+    "teacher_age" : 75,
+    "teacher_gender" : true, 
+    "teacher_phone" : "0914056098",
+    "is_main_teacher" : false,
+    "is_user_teacher" : true,
+    "teacher_email" : "hhh@gmail.com",
+    "teacher_password" : "1"
+}
+###
+//get all (Admin)
+GET http://localhost:8000/api/admin/teachers/
+
+
+###
+// get teacher by id
+GET http://localhost:8000/api/admin/teachers/62c68ad4bede5107633888f6
