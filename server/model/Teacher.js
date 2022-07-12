@@ -26,6 +26,10 @@ const teacherSchema = new Schema({
         type: String,
         require: true,
     },
+    teacher_img: {
+        type: String,
+        require: false,
+    },
     is_main_teacher: {
         type: Boolean,
         require: true,

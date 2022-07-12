@@ -2,9 +2,10 @@ const express = require("express");
 const router = express.Router();
 const Parents = require("../model/Parents");
 const Protectors = require("../model/Protector");
+const verifyJWTandParent = require("../middleware/verifyJWTandParent");
 
 // Create
-router.post("/:parentID", async (req, res) => {
+router.post("/:parentID", verifyJWTandParent, async (req, res) => {
     const { parentID } = req.params;
     const {
         protector_name,
@@ -12,6 +13,7 @@ router.post("/:parentID", async (req, res) => {
         protector_phone,
         protector_relationship,
         parent_id,
+        protector_img,
     } = req.body;
     // Validation
     if (
@@ -44,6 +46,7 @@ router.post("/:parentID", async (req, res) => {
             protector_phone,
             protector_relationship,
             parent_id: parent,
+            protector_img,
         });
         await newProtector.save();
         parent.protectors.push(newProtector._id);
@@ -59,7 +62,7 @@ router.post("/:parentID", async (req, res) => {
 });
 
 // Get protectors from parent
-router.get("/get-protector/:parentID", async (req, res) => {
+router.get("/get-protector/:parentID", verifyJWTandParent, async (req, res) => {
     const { parentID } = req.params;
 
     try {
@@ -73,8 +76,8 @@ router.get("/get-protector/:parentID", async (req, res) => {
     }
 });
 
-// Get protectors from parent
-router.get("/:protectorID", async (req, res) => {
+// Get protectors from id
+router.get("/:protectorID", verifyJWTandParent, async (req, res) => {
     const { protectorID } = req.params;
 
     try {
@@ -89,7 +92,7 @@ router.get("/:protectorID", async (req, res) => {
 });
 
 // Update
-router.put("/:protectorID", async (req, res) => {
+router.put("/:protectorID", verifyJWTandParent, async (req, res) => {
     const { protectorID } = req.params;
     try {
         const updateProtector = req.body;
@@ -105,7 +108,7 @@ router.put("/:protectorID", async (req, res) => {
 });
 
 // Delete
-router.delete("/:protectorID", async (req, res) => {
+router.delete("/:protectorID", verifyJWTandParent, async (req, res) => {
     try {
         const postDeleteCondition = { _id: req.params.id };
         const deletedProtector = await Protectors.findOneAndDelete(

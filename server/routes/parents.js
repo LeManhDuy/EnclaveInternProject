@@ -5,12 +5,14 @@ const argon2 = require("argon2");
 const Teachers = require("../model/Teacher");
 const Admin = require("../model/Admin");
 const Parents = require("../model/Parents");
+const Protectors = require("../model/Protector");
+const verifyJWTandAdmin = require("../middleware/verifyJWTandAdmin");
 
 // @route POST api/admin/parents/create
 // @desc Create parents
 // @access Private Only Admin
 
-router.post("/", async (req, res) => {
+router.post("/", verifyJWTandAdmin, async (req, res) => {
     const {
         parent_name,
         parent_dateofbirth,
@@ -20,26 +22,22 @@ router.post("/", async (req, res) => {
         parent_job,
         parent_gender,
         parent_password,
+        parent_img,
     } = req.body;
     // Validation
     if (!parent_name || !parent_address || !parent_phone || !parent_password) {
-        return res
-            .status(400)
-            .json({
-                success: false,
-                message: "Missing information.Please fill in!",
-            });
+        return res.status(400).json({
+            success: false,
+            message: "Missing information.Please fill in!",
+        });
     }
     if (parent_phone.length != 10) {
-        return res
-            .status(400)
-            .json({
-                success: false,
-                message: "Phone number must have 10 numbers",
-            });
+        return res.status(400).json({
+            success: false,
+            message: "Phone number must have 10 numbers",
+        });
     }
     try {
-        console.log(parent_email);
         const adminValidate = await Admin.findOne({
             admin_email: parent_email,
         });
@@ -62,6 +60,7 @@ router.post("/", async (req, res) => {
             parent_job,
             parent_gender,
             parent_password: hashPassword,
+            parent_img,
         });
         await parents.save();
         // Return token
@@ -83,7 +82,7 @@ router.post("/", async (req, res) => {
 // @desc GET parents
 // @access Private Only Admin
 
-router.get("/", async (req, res) => {
+router.get("/", verifyJWTandAdmin, async (req, res) => {
     try {
         // Return token
         const allParents = await Parents.find({});
@@ -93,9 +92,9 @@ router.get("/", async (req, res) => {
     }
 });
 
-router.get("/:id", async (req, res) => {
+router.get("/:parentID", async (req, res) => {
     try {
-        const parent = await Parents.findOne({ _id: req.params.id });
+        const parent = await Parents.findById(req.params.parentID);
         if (!parent)
             return res
                 .status(400)
@@ -109,7 +108,7 @@ router.get("/:id", async (req, res) => {
 // @route PUT api/admin/parents/
 // @desc Update parents
 // @access Private Only Admin
-router.put("/:id", async (req, res) => {
+router.put("/:parentID", verifyJWTandAdmin, async (req, res) => {
     const {
         parent_name,
         parent_dateofbirth,
@@ -119,23 +118,20 @@ router.put("/:id", async (req, res) => {
         parent_job,
         parent_gender,
         parent_password,
+        parent_img,
     } = req.body;
     // Validation
     if (!parent_name || !parent_address || !parent_phone || !parent_password) {
-        return res
-            .status(400)
-            .json({
-                success: false,
-                message: "Missing information.Please fill in!",
-            });
+        return res.status(400).json({
+            success: false,
+            message: "Missing information.Please fill in!",
+        });
     }
     if (parent_phone.length != 10) {
-        return res
-            .status(400)
-            .json({
-                success: false,
-                message: "Phone number must have 10 numbers",
-            });
+        return res.status(400).json({
+            success: false,
+            message: "Phone number must have 10 numbers",
+        });
     }
     try {
         const hashPassword = await argon2.hash(parent_password);
@@ -149,8 +145,9 @@ router.put("/:id", async (req, res) => {
             parent_job,
             parent_gender,
             parent_password: hashPassword,
+            parent_img,
         };
-        const postUpdateCondition = { _id: req.params.id, user: req.userId };
+        const postUpdateCondition = { _id: req.params.parentID };
         updatedParent = await Parents.findOneAndUpdate(
             postUpdateCondition,
             updateParent,
@@ -170,9 +167,11 @@ router.put("/:id", async (req, res) => {
 // @route DELETE api/admin/parents/
 // @desc DELETE parents
 // @access Private Only Admin
-router.delete("/:id", async (req, res) => {
+router.delete("/:parentID", verifyJWTandAdmin, async (req, res) => {
     try {
-        const postDeleteCondition = { _id: req.params.id, user: req.userId };
+        const postDeleteCondition = {
+            _id: req.params.parentID,
+        };
         const deletedParent = await Parents.findOneAndDelete(
             postDeleteCondition
         );

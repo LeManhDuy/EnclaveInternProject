@@ -1,5 +1,5 @@
-const mongoose = require('mongoose')
-const Schema = mongoose.Schema
+const mongoose = require("mongoose");
+const Schema = mongoose.Schema;
 
 const parentsSchema = new Schema({
     parent_password: {
@@ -35,14 +35,22 @@ const parentsSchema = new Schema({
         require: true,
         default: false,
     },
-    children: [{
-        type: Schema.Types.ObjectId,
-        ref: 'Student',
-    }],
-    protectors: [{
-        type: Schema.Types.ObjectId,
-        ref: 'Protector',
-    }]
-})
+    parent_img: {
+        type: String,
+        require: false,
+    },
+    children: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: "Student",
+        },
+    ],
+    protectors: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: "Protector",
+        },
+    ],
+});
 
-module.exports = mongoose.model('Parents', parentsSchema)
+module.exports = mongoose.model("Parents", parentsSchema);
