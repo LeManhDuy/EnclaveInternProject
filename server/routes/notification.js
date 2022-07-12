@@ -353,7 +353,7 @@ router.delete('/public/:id', verifyJWT, async (req, res) => {
                 .status(401)
                 .json({
                     success: false,
-                    message: "Notification not found"
+                    message: "Notification not found!"
                 })
         }
         const deleteNotification = await PublicNotification.findOneAndDelete(notificationDeleteCondition)
