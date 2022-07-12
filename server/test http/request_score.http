@@ -8,7 +8,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZWFjaGVySWQiOiI2M
 ###
 // create Score
 #POST http://localhost:8000/dashboard/teacher/score/{{ subjectID }}&{{ studentID }}
-POST http://localhost:8000/dashboard/teacher/score/62c69a48be8c86c9d35798ca&62cbc71228ed8bda747c4445
+POST http://localhost:8000/dashboard/teacher/score/62c69a21be8c86c9d357989d&62cbc71228ed8bda747c4445
 POST http://localhost:8000/dashboard/teacher/score/62c699b4be8c86c9d3579870&62cbc71228ed8bda747c4445
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZWFjaGVySWQiOiI2MmM2OGFkNGJlZGU1MTA3NjMzODg4ZjYiLCJpYXQiOjE2NTc1OTIyMjR9.eZqEyxqr5k-WEm6_xd5jUdquV7czVEJ6y_Or1zcqUlE
