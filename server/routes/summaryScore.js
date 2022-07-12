@@ -4,6 +4,13 @@ const Summary = require("../model/SummaryScore");
 const Student = require("../model/Student");
 const verifyJWTandTeacher = require("../middleware/verifyJWTandTeacher");
 
+// Test
+router.get("/:studentID", async (req, res) => {
+    const { studentID } = req.params;
+    const student = await Student.findById(studentID);
+    console.log(student);
+});
+
 // Create Score For Subject
 router.post("/:studentID", verifyJWTandTeacher, async (req, res) => {
     const { studentID } = req.params;
