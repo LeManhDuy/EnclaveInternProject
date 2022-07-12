@@ -15,12 +15,12 @@ POST http://localhost:8000/api/authentication/login
 Content-Type: application/json
 
 {
-    "email": "hnt@gmail.com",
-    "password": "3"
+    "email": "nkd@gmail.com",
+    "password": "1"
 }
 ###
 //logoout
-get http://localhost:8000/api/authentication/logout
+GET http://localhost:8000/api/authentication/logout
 Content-Type: application/json
 ###
 //teacher create student
