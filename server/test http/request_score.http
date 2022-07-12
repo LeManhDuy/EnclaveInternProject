@@ -5,7 +5,7 @@ GET http://localhost:8000/dashboard/teacher/score
 ###
 // create Score
 #POST http://localhost:8000/dashboard/teacher/score/{{ subjectID }}&{{ studentID }}
-POST http://localhost:8000/dashboard/teacher/score/62c699cbbe8c86c9d3579879&62cbc71228ed8bda747c4445
+POST http://localhost:8000/dashboard/teacher/score/62c69a48be8c86c9d35798ca&62cbc71228ed8bda747c4445
 Content-Type: application/json
 
 {
