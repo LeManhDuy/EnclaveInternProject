@@ -14,10 +14,12 @@ router.get(
         const { subjectID, gradeID, studentID } = req.params;
         try {
             //Validate
-            const subject = await Subjects.findOne(subjectID._id);
+            const subject = await Subjects.findById(subjectID);
             const grade = await Grades.findById(gradeID);
             const student = await Student.findById(studentID);
             var result = false;
+            console.log(subject.students);
+            console.log(studentID);
             subject.students.map((item) => {
                 if (studentID === item.toString()) {
                     result = true;
