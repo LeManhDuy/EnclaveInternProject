@@ -44,6 +44,31 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZWFjaGVySWQiOiI2M
 
 
 ###
+// update public notification
+#PUT http://localhost:8000/api/notification/public/{{ notification_id }}
+PUT http://localhost:8000/api/notification/public/62ccf6b910ba28e1f72a818d
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZWFjaGVySWQiOiI2MmM2OGFkNGJlZGU1MTA3NjMzODg4ZjYiLCJpYXQiOjE2NTc1OTIyMjR9.eZqEyxqr5k-WEm6_xd5jUdquV7czVEJ6y_Or1zcqUlE
+
+{
+  "isCompleted": "false"
+}
+
+
+###
+// update private notification
+#PUT http://localhost:8000/api/notification/private/{{ notification_id }}
+PUT http://localhost:8000/api/notification/private/62ccf976f0b91fba281523e5
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZWFjaGVySWQiOiI2MmM2OGFkNGJlZGU1MTA3NjMzODg4ZjYiLCJpYXQiOjE2NTc1OTIyMjR9.eZqEyxqr5k-WEm6_xd5jUdquV7czVEJ6y_Or1zcqUlE
+
+{
+  "content": "thay cho phep!",
+  "isCompleted": "true"
+}
+
+
+###
 // delet public notification
 #DELET http://localhost:8000/api/notification/public/{{ notification_id }}
 DELETE http://localhost:8000/api/notification/public/62ccf6e810ba28e1f72a8190
