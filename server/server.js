@@ -13,6 +13,7 @@ const studentRouter = require("./routes/student");
 const scoreRouter = require("./routes/score");
 const summaryRouter = require("./routes/summaryScore");
 const scheduleRouter = require("./routes/schedule");
+const notificationRouter = require("./routes/notification")
 const cors = require("cors");
 const app = express();
 app.use(express.json());
@@ -63,6 +64,8 @@ app.use("/api/protectors", protectorRouter);
 app.use("/api/summary", summaryRouter);
 //schedule
 app.use("/api/schedule", scheduleRouter);
+//notification
+app.use("/api/notification", notificationRouter)
 //port
 const PORT = 8000;
 app.listen(PORT, () => console.log(`Server started ${PORT}`));

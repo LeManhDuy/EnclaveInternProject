@@ -51,6 +51,10 @@ const parentsSchema = new Schema({
             ref: "Protector",
         },
     ],
+    notifications: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Notification'
+    }]
 });
 
 module.exports = mongoose.model("Parents", parentsSchema);
