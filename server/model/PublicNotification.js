@@ -17,7 +17,7 @@ const publicNotificationSchema = new Schema({
     is_completed: {
         type: Boolean,
         required: true,
-        default: true
+        default: false
     }
 });
 

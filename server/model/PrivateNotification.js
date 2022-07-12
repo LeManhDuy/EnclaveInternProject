@@ -23,6 +23,10 @@ const privateNotificationSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'Teacher'
     },
+    parent_id: {
+        type: Schema.Types.ObjectId,
+        ref: 'Parents'
+    }
 });
 
 module.exports = mongoose.model('PrivateNotification', privateNotificationSchema)
