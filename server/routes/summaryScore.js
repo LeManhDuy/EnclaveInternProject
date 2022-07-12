@@ -2,13 +2,98 @@ const express = require("express");
 const router = express.Router();
 const Summary = require("../model/SummaryScore");
 const Student = require("../model/Student");
+const Score = require("../model/Score");
 const verifyJWTandTeacher = require("../middleware/verifyJWTandTeacher");
 
-// Test
+// Create Summary
 router.get("/:studentID", async (req, res) => {
-    const { studentID } = req.params;
-    const student = await Student.findById(studentID);
-    console.log(student);
+    try {
+        const { studentID } = req.params;
+        //student
+        const student = await Student.findById(studentID)
+            .populate("subjects", ["score_id"])
+            .populate("summary", ["summary_score", "summary_behavior"])
+            .select(["student_fullname"]);
+        if (!student)
+            return res
+                .status(401)
+                .json({ success: false, message: "Student is not found!" });
+        //score
+        const arrScoreId = [];
+        student.subjects.map((item) => {
+            arrScoreId.push(item.score_id);
+        });
+        const getScoreById = await Score.find({ _id: arrScoreId })
+            .populate("subject_id", ["subject_name", "subject_ratio"])
+            .select("score_average");
+        if (student.summary) {
+            await Summary.findByIdAndDelete(student.summary._id.toString());
+            student.summary = undefined;
+            let sum = 0;
+            let totalSubject = getScoreById.length;
+            let behavior;
+            getScoreById.map((item) => {
+                let point = item.score_average;
+                let multiple = item.subject_id.subject_ratio;
+
+                if (multiple == 2) totalSubject += 1;
+                var ratio = point * multiple;
+                sum = sum + ratio;
+            });
+            let result = sum / totalSubject;
+            if (result >= 9) behavior = "Xuất sắc";
+            else if (result >= 8 && result < 9) behavior = "Giỏi";
+            else if (result >= 7 && result < 8) behavior = "Khá";
+            else if (result >= 6 && result < 7) behavior = "Trung Bình";
+            else behavior = "Yếu";
+            const newSummary = new Summary({
+                summary_behavior: behavior,
+                summary_score: result,
+                student_id: student._id,
+            });
+            await newSummary.save();
+            student.summary = newSummary._id;
+            await student.save();
+            return res.status(200).json({
+                student: student,
+                score: getScoreById,
+                summary: newSummary,
+            });
+        } else {
+            let sum = 0;
+            let totalSubject = getScoreById.length;
+            let behavior;
+            getScoreById.map((item) => {
+                let point = item.score_average;
+                let multiple = item.subject_id.subject_ratio;
+
+                if (multiple == 2) totalSubject += 1;
+                var ratio = point * multiple;
+                sum = sum + ratio;
+            });
+            let result = sum / totalSubject;
+            if (result >= 9) behavior = "Xuất sắc";
+            else if (result >= 8 && result < 9) behavior = "Giỏi";
+            else if (result >= 7 && result < 8) behavior = "Khá";
+            else if (result >= 6 && result < 7) behavior = "Trung Bình";
+            else behavior = "Yếu";
+            const newSummary = new Summary({
+                summary_behavior: behavior,
+                summary_score: result,
+                student_id: student._id,
+            });
+            await newSummary.save();
+            student.summary = newSummary._id;
+            await student.save();
+            return res.status(200).json({
+                student: student,
+                score: getScoreById,
+                summary: newSummary,
+            });
+        }
+    } catch (error) {
+        return res.status(500).json({ success: false, message: "" + error });
+    }
 });
 
 // Create Score For Subject
