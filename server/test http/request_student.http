@@ -15,22 +15,23 @@ POST http://localhost:8000/api/authentication/login
 Content-Type: application/json
 
 {
-    "email": "hnt@gmail.com",
-    "password": "3"
+    "email": "nkd@gmail.com",
+    "password": "1"
 }
 ###
 //logoout
-get http://localhost:8000/api/authentication/logout
+GET http://localhost:8000/api/authentication/logout
 Content-Type: application/json
 ###
-//teacher create student
-POST http://localhost:8000/dashboard/teacher/student/create-student/62c68b2ebede510763388900
+//teacher create student by teacher id and parent id
+POST http://localhost:8000/dashboard/teacher/student/62c68b2ebede510763388900&62c68c3ebede510763388905
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZWFjaGVySWQiOiI2MmM2OGFkNGJlZGU1MTA3NjMzODg4ZjYiLCJpYXQiOjE2NTcxODMxNTB9.zr4B2yhwd-rn2LKywhbrkx-xLL1gwWU8kI5z9PmfeP4
 
 {
-    "student_fullname" : "Polly",
-    "student_age":8,
+    "student_fullname" : "Chris Evan",
+    "student_dateofbirth": "2020-05-11T20:14:14.796Z",
+    "student_age":20,
     "student_gender":false,
     "student_image": "image link"
 }
@@ -42,30 +43,35 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZWFjaGVySWQiOiI2M
 
 ###
 //teacher get student by teacher id
-GET http://localhost:8000/dashboard/teacher/student/get-student-by-teacher-id/62c68ad4bede5107633888f6
+GET http://localhost:8000/dashboard/teacher/student/get-student-by-teacher-id/62c68b2ebede510763388900
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZWFjaGVySWQiOiI2MmM2OGFkNGJlZGU1MTA3NjMzODg4ZjYiLCJpYXQiOjE2NTcxODMxNTB9.zr4B2yhwd-rn2LKywhbrkx-xLL1gwWU8kI5z9PmfeP4
 
 ###
 //teacher get student by student id
 GET http://localhost:8000/dashboard/teacher/student/get-student-by-student-id/62cbc71228ed8bda747c4445
+//parent get student information by student id
+GET http://localhost:8000/dashboard/teacher/student/parent-get-student-information/62cbc71228ed8bda747c4445
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZWFjaGVySWQiOiI2MmM2OGFkNGJlZGU1MTA3NjMzODg4ZjYiLCJpYXQiOjE2NTcxODMxNTB9.zr4B2yhwd-rn2LKywhbrkx-xLL1gwWU8kI5z9PmfeP4
-
+###
+//parent get student score information by student id
+GET http://localhost:8000/dashboard/teacher/student/parent-get-detailed-score-information/62cbc71228ed8bda747c4445
+Content-Type: application/json
 ###
 //teacher update student by id_student
-PUT http://localhost:8000/dashboard/teacher/student/update-student/62c78fb46008f5e67d096b97
+PUT http://localhost:8000/dashboard/teacher/student/62cbc71228ed8bda747c4445
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZWFjaGVySWQiOiI2MmM2OGFkNGJlZGU1MTA3NjMzODg4ZjYiLCJpYXQiOjE2NTcxODMxNTB9.zr4B2yhwd-rn2LKywhbrkx-xLL1gwWU8kI5z9PmfeP4
 
 {
-    "student_fullname": "Violet",
+    "student_fullname": "Jane Mighty Thor",
+    "student_dateofbirth": "2019-05-11T20:14:14.796Z",
     "student_age": 17,
     "student_gender" : false,
     "student_image": "image link !"
 }
 ###
 //teacher delete student
-DELETE  http://localhost:8000/dashboard/teacher/student/delete-student/62c78fb46008f5e67d096b97
+DELETE  http://localhost:8000/dashboard/teacher/student/62c78fb46008f5e67d096b97
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZWFjaGVySWQiOiI2MmM2OGFkNGJlZGU1MTA3NjMzODg4ZjYiLCJpYXQiOjE2NTcxODMxNTB9.zr4B2yhwd-rn2LKywhbrkx-xLL1gwWU8kI5z9PmfeP4

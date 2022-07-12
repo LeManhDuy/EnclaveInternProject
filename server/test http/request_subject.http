@@ -22,7 +22,8 @@ Content-Type: application/json
 ###
 //add subject to grade and student
 //subjectID&:gradeID&:studentID
-GET  http://localhost:8000/dashboard/teacher/subjects/add-subjects-to-grade-and-student/62c69a48be8c86c9d35798ca&62c69998be8c86c9d357985f&62cbc71228ed8bda747c4445
+GET  http://localhost:8000/dashboard/teacher/subjects/add-subjects-to-grade-and-student/62c69a21be8c86c9d357989d&62c69998be8c86c9d357985f&62cbc71228ed8bda747c4445
+GET  http://localhost:8000/dashboard/teacher/subjects/add-subjects-to-grade-and-student/62c69a1abe8c86c9d3579897&62c69998be8c86c9d357985f&62cbc71228ed8bda747c4445
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZWFjaGVySWQiOiI2MmM2OGFkNGJlZGU1MTA3NjMzODg4ZjYiLCJpYXQiOjE2NTc1OTM2NjZ9.CZkMCBEEfw6yytVghIBNwHqkfpxNCUD82_XYf4MsPZs
 

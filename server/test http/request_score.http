@@ -1,12 +1,17 @@
 //get all Score
+
 GET http://localhost:8000/dashboard/teacher/score
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZWFjaGVySWQiOiI2MmM2OGFkNGJlZGU1MTA3NjMzODg4ZjYiLCJpYXQiOjE2NTc1OTIyMjR9.eZqEyxqr5k-WEm6_xd5jUdquV7czVEJ6y_Or1zcqUlE
+
 
 
 ###
 // create Score
 #POST http://localhost:8000/dashboard/teacher/score/{{ subjectID }}&{{ studentID }}
-POST http://localhost:8000/dashboard/teacher/score/62c69a48be8c86c9d35798ca&62cbc71228ed8bda747c4445
+POST http://localhost:8000/dashboard/teacher/score/62c69a21be8c86c9d357989d&62cbc71228ed8bda747c4445
+POST http://localhost:8000/dashboard/teacher/score/62c699b4be8c86c9d3579870&62cbc71228ed8bda747c4445
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZWFjaGVySWQiOiI2MmM2OGFkNGJlZGU1MTA3NjMzODg4ZjYiLCJpYXQiOjE2NTc1OTIyMjR9.eZqEyxqr5k-WEm6_xd5jUdquV7czVEJ6y_Or1zcqUlE
 
 {
   "score_ratio1": [5, 9],
@@ -17,8 +22,10 @@ Content-Type: application/json
 ###
 // update Score
 #PUT http://localhost:8000/dashboard/teacher/score/{{ score_id }}
-PUT http://localhost:8000/dashboard/teacher/score/62cbe39ebdadac9e06ae880c
+PUT http://localhost:8000/dashboard/teacher/score/62ccdaeadbf65536c822a6a3
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZWFjaGVySWQiOiI2MmM2OGFkNGJlZGU1MTA3NjMzODg4ZjYiLCJpYXQiOjE2NTc1OTIyMjR9.eZqEyxqr5k-WEm6_xd5jUdquV7czVEJ6y_Or1zcqUlE
+
 
 {
   "score_ratio1": [7, 5],
@@ -30,8 +37,10 @@ Content-Type: application/json
 
 // add Score
 #PUT http://localhost:8000/dashboard/teacher/score/add/{{ score_id }}
-PUT http://localhost:8000/dashboard/teacher/score/add/62c795bb80c29cf62aff73b0
+PUT http://localhost:8000/dashboard/teacher/score/add/62ccdaeadbf65536c822a6a3
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZWFjaGVySWQiOiI2MmM2OGFkNGJlZGU1MTA3NjMzODg4ZjYiLCJpYXQiOjE2NTc1OTIyMjR9.eZqEyxqr5k-WEm6_xd5jUdquV7czVEJ6y_Or1zcqUlE
+
 
 {
   "score_ratio1": [9]
@@ -41,4 +50,6 @@ Content-Type: application/json
 
 // delete Score
 #DELETE http://localhost:8000/dashboard/teacher/score/{{ score_id }}
-DELETE http://localhost:8000/dashboard/teacher/score/62cbf31ed8f1de755664603b
+DELETE http://localhost:8000/dashboard/teacher/score/62ccd934dbb505c6579de32d
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZWFjaGVySWQiOiI2MmM2OGFkNGJlZGU1MTA3NjMzODg4ZjYiLCJpYXQiOjE2NTc1OTIyMjR9.eZqEyxqr5k-WEm6_xd5jUdquV7czVEJ6y_Or1zcqUlE
+
