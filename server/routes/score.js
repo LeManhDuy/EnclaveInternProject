@@ -53,15 +53,29 @@ router.post('/:subjectID&:studentID', verifyJWT, async (req, res) => {
     }
 
     for (let score_id of student.scores) {
-        console.log(score_id.toString())
         let score = await Score.findById(score_id)
-        if(score.subject_id.toString() === subjectID && score.student_id.toString() === studentID) {
+        if (score.subject_id.toString() === subjectID && score.student_id.toString() === studentID) {
             return res.status(400).json({
                 success: false,
                 message: "This student already have this score of subject.",
             })
         }
     }
+    let notHaveSubject = true
+    for (let subject_id of student.subjects) {
+        console.log(subject_id.toString() === subjectID.toString())
+        if (subject_id.toString() === subjectID.toString()) {
+            notHaveSubject = false
+            break
+        }
+    }
+    if (notHaveSubject) {
+        return res.status(400).json({
+            success: false,
+            message: "This student don't have this subject. add project first!",
+        })
+    }
+
     if (score_ratio1 < 0 || score_ratio1 > 10)
         return res
             .status(400)
@@ -337,7 +351,7 @@ router.delete('/:id', verifyJWT, async (req, res) => {
                     message: "Student not found"
                 })
         }
-        student.scores=student.scores.filter(item => item._id.toString() !== score._id.toString())
+        student.scores = student.scores.filter(item => item._id.toString() !== score._id.toString())
         console.log(student.scores)
         student.save()
         const deleteScore = await Score.findOneAndDelete(scoreDeleteCondition)
