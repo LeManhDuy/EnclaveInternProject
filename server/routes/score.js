@@ -14,7 +14,7 @@ const Student = require('../model/Student')
 // @route POST dashboard/teacher/score/{{ subjectID }}&{{ studentID }}
 // @desc create score
 // @access Private
-router.post('/:subjectID&:studentID', async (req, res) => {
+router.post('/:subjectID&:studentID', verifyJWT, async (req, res) => {
     const {subjectID, studentID} = req.params
     let {
         score_ratio1,
@@ -301,7 +301,7 @@ router.put('/add/:id', verifyJWT, async (req, res) => {
 // @route DELETE dashboard/teacher/score/{{ score_id }}
 // @desc delete score
 // @access Private
-router.delete('/:id',  async (req, res) => {
+router.delete('/:id', verifyJWT, async (req, res) => {
     try {
         const scoreDeleteCondition = {
             _id: req.params.id,
@@ -337,7 +337,8 @@ router.delete('/:id',  async (req, res) => {
                     message: "Student not found"
                 })
         }
-        student.scores.pop(score._id)
+        student.scores=student.scores.filter(item => item._id.toString() !== score._id.toString())
+        console.log(student.scores)
         student.save()
         const deleteScore = await Score.findOneAndDelete(scoreDeleteCondition)
         if (!deleteScore) {

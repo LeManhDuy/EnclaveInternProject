@@ -18,6 +18,8 @@ router.get(
             const grade = await Grades.findById(gradeID);
             const student = await Student.findById(studentID);
             var result = false;
+            console.log(subject.students);
+            console.log(studentID);
             subject.students.map((item) => {
                 if (studentID === item.toString()) {
                     result = true;
