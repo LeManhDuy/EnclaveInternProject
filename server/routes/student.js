@@ -6,6 +6,7 @@ const Student = require("../model/Student");
 const Teacher = require("../model/Teacher");
 const Parent = require("../model/Parents");
 const Score = require("../model/Score");
+const SummaryScore = require("../model/SummaryScore");
 
 // @route GET dashboard/teacher/create-student
 // @desc create student information
@@ -69,8 +70,7 @@ router.post("/:teacherID&:parentID", verifyJWTandTeacher, async (req, res) => {
 // @route GET dashboard/teacher/get-student-by-teacher-id
 // @desc get student information
 // @access Private
-router.get(
-    "/get-student-by-teacher-id/:teacherID",
+router.get("/get-student-by-teacher-id/:teacherID",
     verifyJWTandTeacher,
     async (req, res) => {
         const { teacherID } = req.params;
@@ -167,40 +167,42 @@ router.get("/parent-get-student-information/:studentID", async (req, res) => {
 // @route GET dashboard/teacher/parent-get-student-score-information
 // @desc parent get student score information by student id
 // @access Private
-router.get(
-    "/parent-get-detailed-score-information/:studentID",
-    async (req, res) => {
-        const { studentID } = req.params;
-        try {
-            // Return token
-            //sutdent
-            const getStudentById = await Student.findById(studentID)
-                .populate("subjects", ["_id"])
-                .select("student_fullname");
+router.get("/parent-get-detailed-score-information/:studentID", async (req, res) => {
+    const { studentID } = req.params;
+    try {
+        // Return token
+        //sutdent
+        const getStudentById = await Student.findById(studentID)
+            .populate("subjects", ["_id"])
+            .select("student_fullname");
 
-            const arrSubjectId = [];
-            getStudentById.subjects.map((item) => {
-                arrSubjectId.push(item._id);
-            });
+        const arrSubjectId = [];
+        getStudentById.subjects.map((item) => {
+            arrSubjectId.push(item._id);
+        });
 
-            const getScorebySubjectId = await Score.find({
-                subject_id: arrSubjectId,
-            }).populate("subject_id", ["subject_name"]);
+        const getScorebySubjectId = await Score.find({
+            subject_id: arrSubjectId,
+        }).populate("subject_id", ["subject_name"]);
 
-            if (!getStudentById)
-                return res
-                    .status(401)
-                    .json({ success: false, message: "Student is not found!" });
-            return res.status(200).json({
-                studentFullName: getStudentById.student_fullname,
-                scoreInformation: getScorebySubjectId,
-            });
-        } catch (error) {
+        const getSummaryScoreByStudentId = await SummaryScore.find({ student_id: studentID })
+
+        if (!getStudentById)
             return res
-                .status(500)
-                .json({ success: false, message: "" + error });
-        }
+                .status(401)
+                .json({ success: false, message: "Student is not found!" });
+        return res.status(200).json({
+            studentFullName: getStudentById.student_fullname,
+            detailedScoreInformation: getScorebySubjectId,
+            summaryScore: getSummaryScoreByStudentId.map(getSummaryScoreByStudentId => getSummaryScoreByStudentId.summary_score),
+            summaryBehavior: getSummaryScoreByStudentId.map(getSummaryScoreByStudentId => getSummaryScoreByStudentId.summary_behavior),
+        });
+    } catch (error) {
+        return res
+            .status(500)
+            .json({ success: false, message: "" + error });
     }
+}
 );
 
 // @route PUT dashboard/teacher/update-student
