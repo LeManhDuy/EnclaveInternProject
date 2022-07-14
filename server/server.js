@@ -17,7 +17,10 @@ const notificationRouter = require("./routes/notification");
 const cors = require("cors");
 const app = express();
 app.use(express.json());
+//Static Image
 app.use("/uploads/parents", express.static("uploads/parents"));
+app.use("/uploads/teachers", express.static("uploads/teachers"));
+app.use("/uploads/protectors", express.static("uploads/protectors"));
 
 //database
 const connectDB = async () => {

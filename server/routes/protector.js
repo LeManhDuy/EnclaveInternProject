@@ -3,63 +3,82 @@ const router = express.Router();
 const Parents = require("../model/Parents");
 const Protectors = require("../model/Protector");
 const verifyJWTandParent = require("../middleware/verifyJWTandParent");
+const multer = require("multer");
+
+// Storage
+const storage = multer.diskStorage({
+    destination: function (req, res, cb) {
+        cb(null, "./uploads/protectors");
+    },
+    filename: function (req, file, cb) {
+        cb(null, Date.now() + file.originalname);
+    },
+});
+
+const upload = multer({ storage: storage });
 
 // Create
-router.post("/:parentID", verifyJWTandParent, async (req, res) => {
-    const { parentID } = req.params;
-    const {
-        protector_name,
-        protector_address,
-        protector_phone,
-        protector_relationship,
-        parent_id,
-        protector_img,
-    } = req.body;
-    // Validation
-    if (
-        !protector_name ||
-        !protector_address ||
-        !protector_phone ||
-        !protector_relationship
-    ) {
-        return res.status(400).json({
-            success: false,
-            message: "Missing information.Please fill in!",
-        });
-    }
-    if (protector_phone.length != 10) {
-        return res.status(400).json({
-            success: false,
-            message: "Phone number must have 10 numbers",
-        });
-    }
-    if (!parentID) {
-        return res
-            .status(400)
-            .json({ success: false, message: "Cannot find the parentID!" });
-    }
-    try {
-        const parent = await Parents.findById(parentID);
-        const newProtector = new Protectors({
+router.post(
+    "/:parentID",
+    upload.single("protector_img"),
+    verifyJWTandParent,
+    async (req, res) => {
+        const { parentID } = req.params;
+        const {
             protector_name,
             protector_address,
             protector_phone,
             protector_relationship,
-            parent_id: parent,
-            protector_img,
-        });
-        await newProtector.save();
-        parent.protectors.push(newProtector._id);
-        await parent.save();
-        res.json({
-            success: true,
-            message: "Create subject successfully",
-            protector: newProtector,
-        });
-    } catch (error) {
-        return res.status(500).json({ success: false, message: "" + error });
+            parent_id,
+        } = req.body;
+        // Validation
+        if (
+            !protector_name ||
+            !protector_address ||
+            !protector_phone ||
+            !protector_relationship
+        ) {
+            return res.status(400).json({
+                success: false,
+                message: "Missing information.Please fill in!",
+            });
+        }
+        if (protector_phone.length != 10) {
+            return res.status(400).json({
+                success: false,
+                message: "Phone number must have 10 numbers",
+            });
+        }
+        if (!parentID) {
+            return res
+                .status(400)
+                .json({ success: false, message: "Cannot find the parentID!" });
+        }
+        try {
+            const parent = await Parents.findById(parentID);
+            const newProtector = new Protectors({
+                protector_name,
+                protector_address,
+                protector_phone,
+                protector_relationship,
+                parent_id: parent,
+                protector_img: req.file.path,
+            });
+            await newProtector.save();
+            parent.protectors.push(newProtector._id);
+            await parent.save();
+            res.json({
+                success: true,
+                message: "Create subject successfully",
+                protector: newProtector,
+            });
+        } catch (error) {
+            return res
+                .status(500)
+                .json({ success: false, message: "" + error });
+        }
     }
-});
+);
 
 // Get protectors from parent
 router.get("/get-protector/:parentID", verifyJWTandParent, async (req, res) => {
