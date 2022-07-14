@@ -36,8 +36,6 @@ router.post(
             teacher_age,
             teacher_gender,
             teacher_phone,
-            is_main_teacher,
-            is_user_teacher,
             teacher_email,
             teacher_password,
         } = req.body;
@@ -80,8 +78,6 @@ router.post(
                 teacher_age,
                 teacher_gender,
                 teacher_phone,
-                is_main_teacher,
-                is_user_teacher,
                 teacher_email,
                 teacher_password: hashPassword,
                 teacher_img: req.file.path,
@@ -129,64 +125,67 @@ router.get("/:teacherID", verifyJWTandAdmin, async (req, res) => {
     }
 });
 
-router.put("/:teacherID", verifyJWTandAdmin, async (req, res) => {
-    const {
-        teacher_name,
-        teacher_age,
-        teacher_gender,
-        teacher_phone,
-        is_main_teacher,
-        is_user_teacher,
-        teacher_email,
-        teacher_password,
-        teacher_img,
-    } = req.body;
-    // Validation
-    if (!teacher_name || !teacher_phone) {
-        return res.status(400).json({
-            success: false,
-            message: "Missing information.Please fill in!",
-        });
-    }
-    if (teacher_phone.length != 10) {
-        return res.status(400).json({
-            success: false,
-            message: "Phone number must have 10 numbers",
-        });
-    }
-    try {
-        const hashPassword = await argon2.hash(teacher_password);
-        let updateTeacher = {
+router.put(
+    "/:teacherID",
+    upload.single("teacher_img"),
+    verifyJWTandAdmin,
+    async (req, res) => {
+        const {
             teacher_name,
             teacher_age,
             teacher_gender,
             teacher_phone,
-            is_main_teacher,
-            is_user_teacher,
             teacher_email,
-            teacher_password: hashPassword,
+            teacher_password,
             teacher_img,
-        };
-        const postUpdateCondition = { _id: req.params.teacherID };
-        updatedTeacher = await Teachers.findOneAndUpdate(
-            postUpdateCondition,
-            updateTeacher,
-            { new: true }
-        );
+        } = req.body;
+        // Validation
+        if (!teacher_name || !teacher_phone) {
+            return res.status(400).json({
+                success: false,
+                message: "Missing information.Please fill in!",
+            });
+        }
+        if (teacher_phone.length != 10) {
+            return res.status(400).json({
+                success: false,
+                message: "Phone number must have 10 numbers",
+            });
+        }
+        try {
+            const hashPassword = await argon2.hash(teacher_password);
+            let updateTeacher = {
+                teacher_name,
+                teacher_age,
+                teacher_gender,
+                teacher_phone,
+                teacher_email,
+                teacher_password: hashPassword,
+                teacher_img: req.file.path,
+            };
+            const postUpdateCondition = { _id: req.params.teacherID };
+            updatedTeacher = await Teachers.findOneAndUpdate(
+                postUpdateCondition,
+                updateTeacher,
+                { new: true }
+            );
 
-        if (!updateTeacher)
+            if (!updateTeacher)
+                return res
+                    .status(401)
+                    .json({ success: false, message: "Teacher not found" });
+            res.json({
+                success: true,
+                message: "Updated!",
+                teacher: updateTeacher,
+            });
+        } catch (error) {
             return res
-                .status(401)
-                .json({ success: false, message: "Teacher not found" });
-        res.json({
-            success: true,
-            message: "Updated!",
-            teacher: updateTeacher,
-        });
-    } catch (error) {
-        return res.status(500).json({ success: false, message: "" + error });
+                .status(500)
+                .json({ success: false, message: "" + error });
+        }
     }
-});
+);
 
 router.delete("/:teacherID", verifyJWTandAdmin, async (req, res) => {
     try {
