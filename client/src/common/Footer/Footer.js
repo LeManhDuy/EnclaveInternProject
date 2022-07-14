@@ -37,9 +37,9 @@ function Footer() {
                   </div>
 
                   <div className="info">
-                    <FontAwesomeIcon className = "icon-info" icon={faFacebook} />
-                    <FontAwesomeIcon className = "icon-info" icon={faInstagramSquare} />
-                    <FontAwesomeIcon className = "icon-info" icon={faYoutube} />
+                    <FontAwesomeIcon className = "icon-info facebook" icon={faFacebook} />
+                    <FontAwesomeIcon className = "icon-info instagram" icon={faInstagramSquare} />
+                    <FontAwesomeIcon className = "icon-info youtube" icon={faYoutube} />
                   </div>
                 </div>
             </div>

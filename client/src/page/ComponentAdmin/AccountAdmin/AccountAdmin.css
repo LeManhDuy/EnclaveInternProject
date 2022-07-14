@@ -1,0 +1,116 @@
+@import "../../../assets/css/variables.css";
+@import "../../../assets/css/custom.css";
+
+.main-container {
+  width: 100%;  
+  margin: 30px 40px;
+  /* background: rgb(255, 231, 235) */
+}
+
+.main-container header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  padding: 0 30px;
+}
+
+.main-container header h3{
+  width: 30%;
+  display: inline;
+  color: var(--text-color);
+  text-align: left;
+}
+
+.main-container header .right-header{
+  display: inline;
+  width: 70%;
+  text-align: right;
+}
+
+.right-header .search-box{
+  display: inline;
+  position: relative;
+}
+
+.right-header .btn-search{
+  background: none;
+  position: absolute;
+  right: 0;
+  margin: 0;
+  padding: 0 0px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.right-header button{
+  margin: 0 4px;
+  background: var(--primary-color);
+  color: #fff;
+  font-size: 18px;
+}
+
+.right-header button:hover{
+  margin: 0 4px;
+  background: var(--primary-hover-color);
+  color: #fff;
+  font-size: 18px;
+}
+
+.btn-search .icon-search {
+  width: 20px;
+  color: var(--text-color);
+  opacity: 0.8;
+}
+
+.search-box .input-search {
+  padding: 8px 8px;
+  padding-right: 32px;
+  margin-left: 4px;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.paging {
+  display: flex;
+  align-items: center;
+  justify-content:space-between;
+  color: var(--text-color);
+}
+
+.paging .icon{
+  width: 16px;
+  margin: 0 10px;
+  color: var(--text-color);
+}
+
+.paging button:hover .icon{
+  color: #fff;
+}
+
+.paging button{
+  color: var(--text-color);
+  border: 2px solid var(--primary-color);
+  background: #fff;
+  margin: 0 2px;
+}
+
+.paging button:hover{
+  color: #fff;
+  background: var(--primary-color);
+}
+
+.table-content {
+  text-align: left;
+  margin: 30px 0;
+  border-radius: 8px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+  /* padding: 30px 0px; */
+  overflow: hidden;
+}
+
+.table-content table {
+  color: var(--text-color);
+  font-size: var(--font-large);
+}
+
+
