@@ -21,6 +21,7 @@ app.use(express.json());
 app.use("/uploads/parents", express.static("uploads/parents"));
 app.use("/uploads/teachers", express.static("uploads/teachers"));
 app.use("/uploads/protectors", express.static("uploads/protectors"));
+app.use("/uploads/students", express.static("uploads/students"));
 
 //database
 const connectDB = async () => {
