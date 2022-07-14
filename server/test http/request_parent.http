@@ -15,11 +15,11 @@ Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbklkIjoiNjJjNjhkMTNiZWRlNTEwNzYzMzg4OTBmIiwiaWF0IjoxNjU3NTI0NjU2fQ.7JCfNVSk22yZG5h0rpRMYaWLDquYQ_LDvk-JJIP_YjQ
 
 {
-    "parent_name":"Trí Minh Cao",
+    "parent_name":"Leo",
     "parent_dateofbirth": "2001-12-01T17:00:00.000+00:00",
     "parent_address":"54 Nguyễn Lương Bằng",
     "parent_phone":"0987356234",
-    "parent_email":"cmt@gmail.com",
+    "parent_email":"leo@gmail.com",
     "parent_job":"Begger",
     "parent_gender":true,
     "parent_password":"2",
@@ -59,3 +59,10 @@ Content-Type: application/json
 GET http://localhost:8000/api/protectors/get-protector/62cbd1e7a9cce1d1aa83261d
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXJlbnRJZCI6IjYyY2JkMWU3YTljY2UxZDFhYTgzMjYxZCIsImlhdCI6MTY1NzUyNDkxN30.t1PyfIlmDREdCbU7BVD2C-f3rEq2PVwBkIUso2xojwg
+
+
+###
+// GET
+GET http://localhost:8000/api/admin/parents
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbklkIjoiNjJjNjhkMTNiZWRlNTEwNzYzMzg4OTBmIiwiaWF0IjoxNjU3NTI0NjU2fQ.7JCfNVSk22yZG5h0rpRMYaWLDquYQ_LDvk-JJIP_YjQ
