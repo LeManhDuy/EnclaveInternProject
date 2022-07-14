@@ -27,5 +27,11 @@
 .btnBack {
     margin-top: 3vh;
     border: 2px solid #83ACDC;
-    border-radius: 20px/20px;
+    border-radius: 4px;
+    background: #fff;
+}
+
+.btnBack:hover {
+    background: var(--primary-color);
+    color: #fff
 }
