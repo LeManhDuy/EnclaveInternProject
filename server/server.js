@@ -13,10 +13,14 @@ const studentRouter = require("./routes/student");
 const scoreRouter = require("./routes/score");
 const summaryRouter = require("./routes/summaryScore");
 const scheduleRouter = require("./routes/schedule");
-const notificationRouter = require("./routes/notification")
+const notificationRouter = require("./routes/notification");
 const cors = require("cors");
 const app = express();
 app.use(express.json());
+//Static Image
+app.use("/uploads/parents", express.static("uploads/parents"));
+app.use("/uploads/teachers", express.static("uploads/teachers"));
+app.use("/uploads/protectors", express.static("uploads/protectors"));
 
 //database
 const connectDB = async () => {
@@ -65,7 +69,7 @@ app.use("/api/summary", summaryRouter);
 //schedule
 app.use("/api/schedule", scheduleRouter);
 //notification
-app.use("/api/notification", notificationRouter)
+app.use("/api/notification", notificationRouter);
 //port
 const PORT = 8000;
 app.listen(PORT, () => console.log(`Server started ${PORT}`));

@@ -37,7 +37,7 @@ const parentsSchema = new Schema({
     },
     parent_img: {
         type: String,
-        require: false,
+        require: true,
     },
     children: [
         {
@@ -51,10 +51,12 @@ const parentsSchema = new Schema({
             ref: "Protector",
         },
     ],
-    notifications: [{
-        type: Schema.Types.ObjectId,
-        ref: 'Notification'
-    }]
+    notifications: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: "Notification",
+        },
+    ],
 });
 
 module.exports = mongoose.model("Parents", parentsSchema);
