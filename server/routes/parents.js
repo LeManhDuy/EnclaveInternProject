@@ -132,35 +132,12 @@ router.get("/:parentID", async (req, res) => {
 // @route PUT api/admin/parents/
 // @desc Update parents
 // @access Private Only Admin
-router.put("/:parentID", verifyJWTandAdmin, async (req, res) => {
-    const {
-        parent_name,
-        parent_dateofbirth,
-        parent_address,
-        parent_phone,
-        parent_email,
-        parent_job,
-        parent_gender,
-        parent_password,
-        parent_img,
-    } = req.body;
-    // Validation
-    if (!parent_name || !parent_address || !parent_phone || !parent_password) {
-        return res.status(400).json({
-            success: false,
-            message: "Missing information.Please fill in!",
-        });
-    }
-    if (parent_phone.length != 10) {
-        return res.status(400).json({
-            success: false,
-            message: "Phone number must have 10 numbers",
-        });
-    }
-    try {
-        const hashPassword = await argon2.hash(parent_password);
-
-        let updateParent = {
+router.put(
+    "/:parentID",
+    upload.single("parent_img"),
+    verifyJWTandAdmin,
+    async (req, res) => {
+        const {
             parent_name,
             parent_dateofbirth,
             parent_address,
@@ -168,25 +145,64 @@ router.put("/:parentID", verifyJWTandAdmin, async (req, res) => {
             parent_email,
             parent_job,
             parent_gender,
-            parent_password: hashPassword,
+            parent_password,
             parent_img,
-        };
-        const postUpdateCondition = { _id: req.params.parentID };
-        updatedParent = await Parents.findOneAndUpdate(
-            postUpdateCondition,
-            updateParent,
-            { new: true }
-        );
+        } = req.body;
+        // Validation
+        if (
+            !parent_name ||
+            !parent_address ||
+            !parent_phone ||
+            !parent_password
+        ) {
+            return res.status(400).json({
+                success: false,
+                message: "Missing information.Please fill in!",
+            });
+        }
+        if (parent_phone.length != 10) {
+            return res.status(400).json({
+                success: false,
+                message: "Phone number must have 10 numbers",
+            });
+        }
+        try {
+            const hashPassword = await argon2.hash(parent_password);
 
-        if (!updateParent)
+            let updateParent = {
+                parent_name,
+                parent_dateofbirth,
+                parent_address,
+                parent_phone,
+                parent_email,
+                parent_job,
+                parent_gender,
+                parent_password: hashPassword,
+                parent_img: req.file.path,
+            };
+            const postUpdateCondition = { _id: req.params.parentID };
+            updatedParent = await Parents.findOneAndUpdate(
+                postUpdateCondition,
+                updateParent,
+                { new: true }
+            );
+
+            if (!updateParent)
+                return res
+                    .status(401)
+                    .json({ success: false, message: "Parent not found" });
+            res.json({
+                success: true,
+                message: "Updated!",
+                parent: updateParent,
+            });
+        } catch (error) {
             return res
-                .status(401)
-                .json({ success: false, message: "Parent not found" });
-        res.json({ success: true, message: "Updated!", parent: updateParent });
-    } catch (error) {
-        return res.status(500).json({ success: false, message: "" + error });
+                .status(500)
+                .json({ success: false, message: "" + error });
+        }
     }
-});
+);
 
 // @route DELETE api/admin/parents/
 // @desc DELETE parents

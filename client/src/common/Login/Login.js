@@ -3,10 +3,10 @@ import "./Login.css"
 import loginPicture from '../../assets/image/login_picture.png'
 import Logo from '../../assets/image/Logo.png'
 // import Loader from "../../lib/Loader/Loader"
-import { useDispatch } from "react-redux"
+// import { useDispatch } from "react-redux"
 import "../../lib/ModalCustom/ModalCustom"
 import AuthenticationService from "../../config/service/AuthenticationService"
-import { setDataLogin } from "../../config/redux/ActionCreators"
+// import { setDataLogin } from "../../config/redux/ActionCreators"
 import ModalCustom from "../../lib/ModalCustom/ModalCustom"
 // import { useForm } from "react-hook-form"
 // import * as yup from "yup"
@@ -50,10 +50,12 @@ function Login(props) {
           props.HandleCloseLogin()
           props.HandleLoginSuccess()
           AuthenticationService.saveDataLogin(res)
-          if(res.role=="teacher"|| res.role=="admin")
-            history.push(ROUTES.ADMIN_PAGE.path)
+          if(res.role=="admin")
+            history.push(ROUTES.ADMIN_PAGE.ADMIN_HOME)
+          else if (res.role=="teacher")
+            history.push(ROUTES.TEACHER_PAGE.PARENTS_PATH)
           else
-            history.push(ROUTES.PARENTS_PAGE.path)
+            history.push(ROUTES.PARENTS_PAGE.TEACHER_PATH)
           // dispatch(setDataLogin(res))
         }
         else

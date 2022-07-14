@@ -39,16 +39,15 @@ ul {
   list-style: none;
 }
 
-/* a {
-  color: $text-color;
+a{
+  color: var(--text-color);
+  text-decoration: none;
+}
+a:focus, a:hover, a:active {
 
-  &:focus,
-  &:hover,
-  &:active {
-    color: $link-hover-color;
-    text-decoration: none;
-  }
-}  */
+  color: var(--text-color);
+  text-decoration: none;
+} 
 input {
   outline: none;
   border-width: 1px;
@@ -85,4 +84,26 @@ button {
   border: none;
   border-radius: 4px;
   padding: 8px 16px;
+}
+
+hr {
+  border: 1px solid var(--text-color);
+}
+
+table {
+  width: 100%;
+  padding: 30px;
+}
+
+th {
+  background-color: var(--primary-color);
+  margin-right: 10px;
+}
+
+tr {
+  border-top: 1px solid var(--primary-color)
+}
+
+th, td {
+  padding: 15px;
 }

@@ -111,20 +111,62 @@ router.get("/:protectorID", verifyJWTandParent, async (req, res) => {
 });
 
 // Update
-router.put("/:protectorID", verifyJWTandParent, async (req, res) => {
-    const { protectorID } = req.params;
-    try {
-        const updateProtector = req.body;
-        const result = await Protectors.findByIdAndUpdate(
-            protectorID,
-            updateProtector
-        );
-
-        return res.status(200).json({ success: true, message: "Updated!" });
-    } catch (error) {
-        return res.status(400).json({ success: false, message: "" + error });
+router.put(
+    "/:protectorID",
+    upload.single("protector_img"),
+    verifyJWTandParent,
+    async (req, res) => {
+        const { protectorID } = req.params;
+        const {
+            protector_name,
+            protector_address,
+            protector_phone,
+            protector_relationship,
+        } = req.body;
+        // Validation
+        if (
+            !protector_name ||
+            !protector_address ||
+            !protector_phone ||
+            !protector_relationship
+        ) {
+            return res.status(400).json({
+                success: false,
+                message: "Missing information.Please fill in!",
+            });
+        }
+        if (protector_phone.length != 10) {
+            return res.status(400).json({
+                success: false,
+                message: "Phone number must have 10 numbers",
+            });
+        }
+        try {
+            const updateProtector = {
+                protector_name,
+                protector_address,
+                protector_phone,
+                protector_relationship,
+                protector_img: req.file.path,
+            };
+            const postUpdateCondition = { _id: req.params.protectorID };
+            updatedProtector = await Teachers.findOneAndUpdate(
+                postUpdateCondition,
+                updateProtector,
+                { new: true }
+            );
+            if (!updatedProtector)
+                return res
+                    .status(401)
+                    .json({ success: false, message: "Protector not found" });
+            return res.status(200).json({ success: true, message: "Updated!" });
+        } catch (error) {
+            return res
+                .status(400)
+                .json({ success: false, message: "" + error });
+        }
     }
-});
+);
 
 // Delete
 router.delete("/:protectorID", verifyJWTandParent, async (req, res) => {
