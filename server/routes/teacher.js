@@ -137,7 +137,6 @@ router.put(
             teacher_phone,
             teacher_email,
             teacher_password,
-            teacher_img,
         } = req.body;
         // Validation
         if (!teacher_name || !teacher_phone) {
@@ -170,7 +169,7 @@ router.put(
                 { new: true }
             );
 
-            if (!updateTeacher)
+            if (!updatedTeacher)
                 return res
                     .status(401)
                     .json({ success: false, message: "Teacher not found" });
