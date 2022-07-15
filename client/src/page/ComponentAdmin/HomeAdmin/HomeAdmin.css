@@ -1,0 +1,110 @@
+@import "../../../assets/css/variables.css";
+@import "../../../assets/css/custom.css";
+
+* {
+    font-family: "Comic Sans MS", cursive, sans-serif;
+}
+.common {
+    position: relative;
+}
+.home-message {
+    width: 300px;
+    height: auto;
+    margin-left: 100px;
+    height: auto;
+    text-align: left;
+}
+
+.home-message .fa.fa-circle.one {
+    color: rgb(231, 181, 87);
+    font-size: 130px;
+    margin: 30px;
+    top: 0;
+    position: absolute;
+    left: 20px;
+}
+
+.home-message .fa.fa-circle.two {
+    color: rgb(231, 181, 87);
+    font-size: 130px;
+    margin: 30px;
+    top: 50px;
+    right:30px;
+    position: absolute;
+    
+}
+
+.home-message .fa.fa-circle.three {
+    color: rgb(231, 181, 87);
+    font-size: 130px;
+    margin: 30px;
+    bottom: 0;
+    right: 300px;
+    position: absolute;
+    
+}
+
+.home-message .fa.fa-circle.four {
+    color: var(--text-color);
+    font-size: 50px;
+    margin: 30px;
+    top: 0;
+    left: 200px;
+    position: absolute;
+    
+}
+
+.home-message .fa.fa-circle.five {
+    color: var(--text-color);
+    font-size: 50px;
+    margin: 30px;
+    bottom: 100px;
+    right: 200px;
+    position: absolute;
+    
+}
+
+.home-message .fa.fa-circle.six {
+    color: var(--primary-color);
+    font-size: 15px;
+    margin: 30px;
+    top: 150px;
+    right: 500px;
+    position: absolute;
+    
+}
+
+.home-message .fa.fa-circle.seven {
+    color: var(--primary-color);
+    font-size: 15px;
+    margin: 30px;
+    bottom: 350px;
+    right: 20px;
+    position: absolute;
+    
+}
+
+.home-message .fa.fa-circle.eight {
+    color: var(--primary-color);
+    font-size: 15px;
+    margin: 30px;
+    bottom: 100px;
+    right: 40px;
+    position: absolute;
+    
+}
+.home-message h1 {
+    font-size: 50px;
+    height: auto;
+    color: #002E64;
+}
+
+.home-message h3 {
+    color: #83ACDC;
+}
+
+.home-image img{
+    width: 500px;
+    height: auto;
+}
+
