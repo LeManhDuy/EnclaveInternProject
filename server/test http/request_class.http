@@ -1,14 +1,20 @@
 //login
+
 // account teacher
 #Authorization: Bearer {{ teacher token }}
 POST http://localhost:8000/api/authentication/login/
 Content-Type: application/json
-Authorization: Bearer
 
 {
-    "email": "2",
-    "password": "2"
+    "email": "nkd@gmail.com",
+    "password": "1"
 }
+###
+//add teacher to class
+#GET http://localhost:8000/dashboard/teacher/class/add-teacher-to-class/{{ classId }}&{{ teacherId }}
+GET http://localhost:8000/dashboard/teacher/class/add-teacher-to-class/62c69e80db14d59b81b46a71&62c68b2abede5107633888fb
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZWFjaGVySWQiOiI2MmM2OGFkNGJlZGU1MTA3NjMzODg4ZjYiLCJpYXQiOjE2NTc4NTE0ODF9.WB3Vm4A-wRtTE_d-1-oAwJ0hvD8XXERAWcJ0ArXTPvw
+
 ###
 //add schedule to class
 #GET http://localhost:8000/dashboard/teacher/class/add-schedule-to-class/{{ classId }}&{{ scheduleId }}
