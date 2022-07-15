@@ -52,10 +52,10 @@ function Login(props) {
           AuthenticationService.saveDataLogin(res)
           if(res.role=="admin")
             history.push(ROUTES.ADMIN_PAGE.ADMIN_HOME)
-          else if (res.role=="teacher")
-            history.push(ROUTES.TEACHER_PAGE.PARENTS_PATH)
+          else if (res.role=="parent")
+            history.push(ROUTES.PARENTS_PAGE.PARENTS_PATH)
           else
-            history.push(ROUTES.PARENTS_PAGE.TEACHER_PATH)
+            history.push(ROUTES.TEACHER_PAGE.TEACHER_PATH)
           // dispatch(setDataLogin(res))
         }
         else
@@ -101,7 +101,7 @@ function Login(props) {
                       name="password"
                       placeholder = "Password"
                   />
-                  <Link to>Forgot password?</Link>
+                  {/* <Link to>Forgot password?</Link> */}
                   <button type="submit" className="login">
                     Login
                   </button>
