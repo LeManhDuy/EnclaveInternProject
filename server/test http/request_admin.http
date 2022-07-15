@@ -1,3 +1,15 @@
+###
+//login (Admin)
+POST http://localhost:8000/api/authentication/login
+Content-Type: application/json
+
+{
+    "email": "keren@gmail.com",
+    "password": "123456"
+}
+
+
+###
 //create admin
 POST http://localhost:8000/api/admin
 Content-Type: application/json
@@ -5,5 +17,16 @@ Content-Type: application/json
 {
     "admin_username": "Keren",
     "admin_password": "3",
+    "admin_email": "keren@gmail.com"
+}
+
+###
+PUT http://localhost:8000/api/admin/62c68d1ebede510763388914
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbklkIjoiNjJjNjhkMTNiZWRlNTEwNzYzMzg4OTBmIiwiaWF0IjoxNjU3ODc0ODM3fQ.9JhTeeaGsDURamjVZrGeinDHOB4xO9YR6SYaYF6bbS8
+
+{
+    "admin_username": "Kerenn",
+    "admin_password": "123456",
     "admin_email": "keren@gmail.com"
 }
