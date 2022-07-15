@@ -67,13 +67,20 @@
   width: 100%;
 }
 
-.right-content button {
+.right-content .login {
   width: 100%;
   height: 50px;
   background: var(--primary-color);
-  color: var(--text-color);
+  color:#fff;
   font-weight: 600;
   font-size: var( --font-big-large);
   margin-top: 16px;
 }
+
+.right-content .login:hover {
+  background: var(--primary-hover-color);
+  color: #fff
+}
+
+
 
