@@ -1,5 +1,5 @@
 //create teacher
-post http://localhost:8000/api/admin/teachers/
+POST http://localhost:8000/api/admin/teachers/
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZWFjaGVySWQiOiI2MmMyYWVmMDM5YTc4ODBjZTRhMzg2YTQiLCJpYXQiOjE2NTcwODk0MTV9.JHRY3_KWwoyG8g4e0QNFiwXzGH6AUsannP8BWEc9lKs
 
@@ -16,6 +16,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZWFjaGVySWQiOiI2M
 ###
 //get all (Admin)
 GET http://localhost:8000/api/admin/teachers/
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZWFjaGVySWQiOiI2MmMyYWVmMDM5YTc4ODBjZTRhMzg2YTQiLCJpYXQiOjE2NTcwODk0MTV9.JHRY3_KWwoyG8g4e0QNFiwXzGH6AUsannP8BWEc9lKs
 
 
 ###
