@@ -10,54 +10,66 @@ const classRouter = require("./routes/class");
 const gradeRouter = require("./routes/grade");
 const protectorRouter = require("./routes/protector");
 const studentRouter = require("./routes/student");
-const teacherRouter = require("./routes/teacher");
 const scoreRouter = require("./routes/score");
 const summaryRouter = require("./routes/summaryScore");
+const scheduleRouter = require("./routes/schedule");
+const notificationRouter = require("./routes/notification");
 const cors = require("cors");
 const app = express();
 app.use(express.json());
+//Static Image
+app.use("/uploads/parents", express.static("uploads/parents"));
+app.use("/uploads/teachers", express.static("uploads/teachers"));
+app.use("/uploads/protectors", express.static("uploads/protectors"));
 
 //database
 const connectDB = async () => {
     try {
-        await mongoose.connect(`mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@enclave-project.cnfw0.mongodb.net/?retryWrites=true&w=majority`)
-        console.log('MongoDB connected')
+        await mongoose.connect(
+            `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@enclave-project.cnfw0.mongodb.net/?retryWrites=true&w=majority`
+        );
+        console.log("MongoDB connected");
     } catch (error) {
-        console.log(error.message)
-        process.exit(1)
+        console.log(error.message);
+        process.exit(1);
     }
-}
-connectDB()
+};
+connectDB();
 
 //cors
-app.use(cors())
+app.use(cors());
 
 //url
 //admin
-app.use('/api/admin/teachers', adminTeachersRouter)
-app.use('/api/admin/parents', adminParentsRouter)
-app.use('/api/authentication', authRouter)
-app.use('/api/admin/parents', adminParentsRouter)
-app.use('/api/admin/', adminRouterControl)
+app.use("/api/admin/teachers", adminTeachersRouter);
+app.use("/api/admin/parents", adminParentsRouter);
+app.use("/api/authentication", authRouter);
+app.use("/api/admin/parents", adminParentsRouter);
+app.use("/api/admin/", adminRouterControl);
 //teacher
 // app.use('/api/dashboard/', teacherRouter)
 //student
-app.use('/dashboard/teacher/student', studentRouter)
+app.use("/dashboard/teacher/student", studentRouter);
 //class
-app.use('/dashboard/teacher/class', classRouter)
+app.use("/dashboard/teacher/class", classRouter);
 //score
-app.use('/dashboard/teacher/score', scoreRouter)
+app.use("/dashboard/teacher/score", scoreRouter);
 
 // app.use('/api/auth', authRouter)
-app.use('/api/admin/parents', adminParentsRouter)
-app.use('/api/subjects', subjectRouter)
+app.use("/api/admin/parents", adminParentsRouter);
+app.use("/api/subjects", subjectRouter);
 // app.use('/api/dashboard/', teacherRouter)
 //subject
-app.use('/dashboard/teacher/subjects', subjectRouter)
+app.use("/dashboard/teacher/subjects", subjectRouter);
 //greades
-app.use('/api/grades', gradeRouter)
-app.use('/api/protectors', protectorRouter)
-
+app.use("/api/grades", gradeRouter);
+app.use("/api/protectors", protectorRouter);
+//summary
+app.use("/api/summary", summaryRouter);
+//schedule
+app.use("/api/schedule", scheduleRouter);
+//notification
+app.use("/api/notification", notificationRouter);
 //port
-const PORT = 8000
-app.listen(PORT, () => console.log(`Server started ${PORT}`))
+const PORT = 8000;
+app.listen(PORT, () => console.log(`Server started ${PORT}`));

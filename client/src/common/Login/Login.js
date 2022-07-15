@@ -5,24 +5,21 @@ import Logo from '../../assets/image/Logo.png'
 // import Loader from "../../lib/Loader/Loader"
 // import { useDispatch } from "react-redux"
 import "../../lib/ModalCustom/ModalCustom"
-// import icPageITMedia from "../../assets/images/icPageITMedia.jpg"
-// import AuthenticationService from "../../config/service/AuthenticationService"
+import AuthenticationService from "../../config/service/AuthenticationService"
 // import { setDataLogin } from "../../config/redux/ActionCreators"
-// import { useTranslation } from "react-i18next"
 import ModalCustom from "../../lib/ModalCustom/ModalCustom"
 // import { useForm } from "react-hook-form"
 // import * as yup from "yup"
 // import { yupResolver } from "@hookform/resolvers/yup"
 import { Link } from "react-router-dom"
-// import ROUTES from "../../constants/routes"
-// import { isMobile } from "react-device-detect"
+import ROUTES from "../../constants/routes"
+import { useHistory } from "react-router-dom"
 
 function Login(props) {
-  // const { t } = useTranslation()
   // const [errorMessage, setErrorMessage] = useState("")
   // const dispatch = useDispatch()
-  // const [isLoading, setIsLoading] = useState(false)
-
+  const [isLoading, setIsLoading] = useState(false)
+  const history = useHistory();
   // const schema = yup.object().shape({
   //   username: yup.string().required(t("Authentication.EmailOrUsernameNotNull")),
   //   password: yup.string().required(t("Authentication.PasswordNotNull"))
@@ -34,34 +31,42 @@ function Login(props) {
   //   formState: { errors }
   // } = useForm({ resolver: yupResolver(schema) })
 
-  // const handleLogin = (data, event) => {
-  //   event.preventDefault()
-  //   setIsLoading(true)
-  //   AuthenticationService.postLogin({
-  //     username: data.username,
-  //     password: data.password
-  //   })
-  //     .then((res) => {
-  //       setIsLoading(false)
-  //       switch (res.status) {
-  //         case 400:
-  //           setErrorMessage(t("Authentication.DoesNotExists"))
-  //           break
-  //         case 401:
-  //           setErrorMessage(t("Authentication.PasswordIncorrect"))
-  //           break
-  //         case 403:
-  //           setErrorMessage(t("Authentication.InactiveEmail"))
-  //           break
-  //         default:
-  //           props.HandleCloseLogin()
-  //           props.HandleLoginSuccess()
-  //           AuthenticationService.saveDataLogin(res)
-  //           dispatch(setDataLogin(res))
-  //       }
-  //     })
-  //     .catch(() => setIsLoading(false))
-  // }
+  // const validateEmail = (email) => {
+  //   const re =
+  //     /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  //   return re.test(String(email).toLowerCase());
+  // };
+
+  const handleLogin = (event) => {
+    event.preventDefault()
+    setIsLoading(true)
+    AuthenticationService.postLogin({
+      email: document.querySelector('#input-username').value,
+      password: document.querySelector('#input-password').value
+    })
+      .then((res) => {
+        setIsLoading(false)
+        if(res.success){
+          props.HandleCloseLogin()
+          props.HandleLoginSuccess()
+          AuthenticationService.saveDataLogin(res)
+          if(res.role=="admin")
+            history.push(ROUTES.ADMIN_PAGE.ADMIN_HOME)
+          else if (res.role=="teacher")
+            history.push(ROUTES.TEACHER_PAGE.PARENTS_PATH)
+          else
+            history.push(ROUTES.PARENTS_PAGE.TEACHER_PATH)
+          // dispatch(setDataLogin(res))
+        }
+        else
+        {
+          setErrorMessage("Does Not Exists")
+          
+        }
+        }
+      )
+      .catch(() => setIsLoading(false))
+  }
 
   // const HandleRegister = () => {
   //   props.HandleOpenRegister()
@@ -74,7 +79,7 @@ function Login(props) {
         handleCloseModalCustom={props.HandleCloseLogin}
         content={
           <div className="login-container">
-            <form onSubmit>
+            <form onSubmit = {handleLogin}>
               <div className ='login-content'>
                 <div className = 'left-content'>
                     <h1>Blue School</h1>
@@ -91,8 +96,8 @@ function Login(props) {
                       placeholder = "Username"
                   />
                   <input
-                      id="input-username"
-                      type="text"
+                      id="input-password"
+                      type="password"
                       name="password"
                       placeholder = "Password"
                   />

@@ -13,14 +13,11 @@
 .img_not_found img{
     margin-top: 10vh;
     text-align: center;
-    width: 50vw;
     height: 80vh;
 }
 
 .body_not_found {
-    /* width: 40%; */
     text-align: left;
-
 }
 .body_not_found img {
     padding-right: 60px;
@@ -30,5 +27,11 @@
 .btnBack {
     margin-top: 3vh;
     border: 2px solid #83ACDC;
-    border-radius: 20px/20px;
+    border-radius: 4px;
+    background: #fff;
+}
+
+.btnBack:hover {
+    background: var(--primary-color);
+    color: #fff
 }

@@ -2,64 +2,86 @@ const express = require("express");
 const router = express.Router();
 const Parents = require("../model/Parents");
 const Protectors = require("../model/Protector");
+const verifyJWTandParent = require("../middleware/verifyJWTandParent");
+const multer = require("multer");
+
+// Storage
+const storage = multer.diskStorage({
+    destination: function (req, res, cb) {
+        cb(null, "./uploads/protectors");
+    },
+    filename: function (req, file, cb) {
+        cb(null, Date.now() + file.originalname);
+    },
+});
+
+const upload = multer({ storage: storage });
 
 // Create
-router.post("/:parentID", async (req, res) => {
-    const { parentID } = req.params;
-    const {
-        protector_name,
-        protector_address,
-        protector_phone,
-        protector_relationship,
-        parent_id,
-    } = req.body;
-    // Validation
-    if (
-        !protector_name ||
-        !protector_address ||
-        !protector_phone ||
-        !protector_relationship
-    ) {
-        return res.status(400).json({
-            success: false,
-            message: "Missing information.Please fill in!",
-        });
-    }
-    if (protector_phone.length != 10) {
-        return res.status(400).json({
-            success: false,
-            message: "Phone number must have 10 numbers",
-        });
-    }
-    if (!parentID) {
-        return res
-            .status(400)
-            .json({ success: false, message: "Cannot find the parentID!" });
-    }
-    try {
-        const parent = await Parents.findById(parentID);
-        const newProtector = new Protectors({
+router.post(
+    "/:parentID",
+    upload.single("protector_img"),
+    verifyJWTandParent,
+    async (req, res) => {
+        const { parentID } = req.params;
+        const {
             protector_name,
             protector_address,
             protector_phone,
             protector_relationship,
-            parent_id: parent,
-        });
-        await newProtector.save();
-        parent.protectors.push(newProtector._id);
-        await parent.save();
-        res.json({
-            success: true,
-            message: "Create subject successfully",
-            protector: newProtector,
-        });
-    } catch (error) {
-        return res.status(500).json({ success: false, message: "" + error });
+            parent_id,
+        } = req.body;
+        // Validation
+        if (
+            !protector_name ||
+            !protector_address ||
+            !protector_phone ||
+            !protector_relationship
+        ) {
+            return res.status(400).json({
+                success: false,
+                message: "Missing information.Please fill in!",
+            });
+        }
+        if (protector_phone.length != 10) {
+            return res.status(400).json({
+                success: false,
+                message: "Phone number must have 10 numbers",
+            });
+        }
+        if (!parentID) {
+            return res
+                .status(400)
+                .json({ success: false, message: "Cannot find the parentID!" });
+        }
+        try {
+            const parent = await Parents.findById(parentID);
+            const newProtector = new Protectors({
+                protector_name,
+                protector_address,
+                protector_phone,
+                protector_relationship,
+                parent_id: parent,
+                protector_img: req.file.path,
+            });
+            await newProtector.save();
+            parent.protectors.push(newProtector._id);
+            await parent.save();
+            res.json({
+                success: true,
+                message: "Create subject successfully",
+                protector: newProtector,
+            });
+        } catch (error) {
+            return res
+                .status(500)
+                .json({ success: false, message: "" + error });
+        }
     }
-});
+);
 
 // Get protectors from parent
-router.get("/get-protector/:parentID", async (req, res) => {
+router.get("/get-protector/:parentID", verifyJWTandParent, async (req, res) => {
     const { parentID } = req.params;
 
     try {
@@ -73,8 +95,8 @@ router.get("/get-protector/:parentID", async (req, res) => {
     }
 });
 
-// Get protectors from parent
-router.get("/:protectorID", async (req, res) => {
+// Get protectors from id
+router.get("/:protectorID", verifyJWTandParent, async (req, res) => {
     const { protectorID } = req.params;
 
     try {
@@ -89,23 +111,65 @@ router.get("/:protectorID", async (req, res) => {
 });
 
 // Update
-router.put("/:protectorID", async (req, res) => {
-    const { protectorID } = req.params;
-    try {
-        const updateProtector = req.body;
-        const result = await Protectors.findByIdAndUpdate(
-            protectorID,
-            updateProtector
-        );
-
-        return res.status(200).json({ success: true, message: "Updated!" });
-    } catch (error) {
-        return res.status(400).json({ success: false, message: "" + error });
+router.put(
+    "/:protectorID",
+    upload.single("protector_img"),
+    verifyJWTandParent,
+    async (req, res) => {
+        const { protectorID } = req.params;
+        const {
+            protector_name,
+            protector_address,
+            protector_phone,
+            protector_relationship,
+        } = req.body;
+        // Validation
+        if (
+            !protector_name ||
+            !protector_address ||
+            !protector_phone ||
+            !protector_relationship
+        ) {
+            return res.status(400).json({
+                success: false,
+                message: "Missing information.Please fill in!",
+            });
+        }
+        if (protector_phone.length != 10) {
+            return res.status(400).json({
+                success: false,
+                message: "Phone number must have 10 numbers",
+            });
+        }
+        try {
+            const updateProtector = {
+                protector_name,
+                protector_address,
+                protector_phone,
+                protector_relationship,
+                protector_img: req.file.path,
+            };
+            const postUpdateCondition = { _id: req.params.protectorID };
+            updatedProtector = await Teachers.findOneAndUpdate(
+                postUpdateCondition,
+                updateProtector,
+                { new: true }
+            );
+            if (!updatedProtector)
+                return res
+                    .status(401)
+                    .json({ success: false, message: "Protector not found" });
+            return res.status(200).json({ success: true, message: "Updated!" });
+        } catch (error) {
+            return res
+                .status(400)
+                .json({ success: false, message: "" + error });
+        }
     }
-});
+);
 
 // Delete
-router.delete("/:protectorID", async (req, res) => {
+router.delete("/:protectorID", verifyJWTandParent, async (req, res) => {
     try {
         const postDeleteCondition = { _id: req.params.id };
         const deletedProtector = await Protectors.findOneAndDelete(
