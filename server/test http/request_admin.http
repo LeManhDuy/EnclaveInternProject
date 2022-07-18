@@ -13,20 +13,21 @@ Content-Type: application/json
 //create admin
 POST http://localhost:8000/api/admin
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbklkIjoiNjJjNjhkMTNiZWRlNTEwNzYzMzg4OTBmIiwiaWF0IjoxNjU3ODc0ODM3fQ.9JhTeeaGsDURamjVZrGeinDHOB4xO9YR6SYaYF6bbS8
 
 {
-    "admin_username": "Keren",
-    "admin_password": "3",
-    "admin_email": "keren@gmail.com"
+    "admin_username": "Leo3",
+    "admin_password": "123456",
+    "admin_email": "leo3@gmail.com"
 }
 
 ###
-PUT http://localhost:8000/api/admin/62c68d1ebede510763388914
+PUT http://localhost:8000/api/admin/62d0d6ef7fdc3b0205a2749e
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbklkIjoiNjJjNjhkMTNiZWRlNTEwNzYzMzg4OTBmIiwiaWF0IjoxNjU3ODc0ODM3fQ.9JhTeeaGsDURamjVZrGeinDHOB4xO9YR6SYaYF6bbS8
 
 {
-    "admin_username": "Kerenn",
+    "admin_username": "Nguyễn Hữu Dinh",
     "admin_password": "123456",
-    "admin_email": "keren@gmail.com"
+    "admin_email": "nhd_admin@gmail.com"
 }
