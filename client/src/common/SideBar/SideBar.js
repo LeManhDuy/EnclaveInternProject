@@ -4,12 +4,11 @@ import Logo from "../../assets/image/Logo.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faAngleRight,
-  faArrowRightToBracket,
   faHouse,
   faUsers,
   faRightFromBracket,
 } from "@fortawesome/free-solid-svg-icons";
-import { Link, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 import AuthenticationService from "../../config/service/AuthenticationService"
 
 function SideBar() {
@@ -23,12 +22,11 @@ function SideBar() {
     }
   }
 
-  const history = useHistory()
 
   const handleLogout = () => {
     if(AuthenticationService.isLogin()){
       AuthenticationService.clearDataLogin();
-      history.push("/")
+      window.location.reload(false)
     }
   }
 

@@ -10,36 +10,17 @@ import NotFound from "../page/NotFound/NotFound";
 import HomeAdmin from "../page/ComponentAdmin/HomeAdmin/HomeAdmin";
 import AccountAdmin from "../page/ComponentAdmin/AccountAdmin/AccountAdmin";
 import Parents from "../page/Parents/Parents"
+import Teacher from "../page/Teacher/Teacher"
 import PublicRoute from "./PublicRoute";
 import AdminRoute from "./AdminRoute/AdminRoute";
 import ParentsRoute from "./ParentsRoute/ParentsRoute";
+import TeacherRoute from "./TeacherRoute/TeacherRoute";
 
 const Routes = () => {
   return (
     <Router>
       <MainLayout>
         <Switch>
-          {/* {Object.values(ROUTES).map((route, index) => {
-            if (route.isPrivate) {
-              return (
-                <PrivateRoute
-                  path={route.path}
-                  exact
-                  component={route.component}
-                  key={index}
-                />
-              )
-            }
-
-            return (
-              <Route
-                path={route.path}
-                exact
-                component={route.component}
-                key={index}
-              />
-            )
-          })} */}
 
           <PublicRoute
             component={Home}
@@ -63,6 +44,12 @@ const Routes = () => {
             component={Parents}
             exact
             path={ROUTES.PARENTS_PAGE.PARENTS_PATH}
+          />
+
+          <TeacherRoute
+            component={Teacher}
+            exact
+            path={ROUTES.TEACHER_PAGE.TEACHER_PATH}
           />
 
           <PublicRoute component={NotFound} path={ROUTES.NOT_FOUND_PAGE.path} />

@@ -24,11 +24,15 @@ const isAdmin = () => {
 }
 
 const isParents = () => {
-  return JSON.parse(localStorage.getItem("@Login")).role==="teacher"
+  return JSON.parse(localStorage.getItem("@Login")).role==="parent"
 }
 
 const isTeacher = () => {
-  return JSON.parse(localStorage.getItem("@Login")).role==="parent"
+  return JSON.parse(localStorage.getItem("@Login")).role==="teacher"
+}
+
+const getData = () => {
+  return JSON.parse(localStorage.getItem("@Login"))
 }
 
 const AuthenticationService = {
@@ -38,7 +42,8 @@ const AuthenticationService = {
   isLogin,
   isAdmin,
   isParents,
-  isTeacher
+  isTeacher,
+  getData
 }
 
 export default AuthenticationService
