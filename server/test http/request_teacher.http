@@ -1,17 +1,18 @@
 //create teacher
 POST http://localhost:8000/api/admin/teachers/
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZWFjaGVySWQiOiI2MmMyYWVmMDM5YTc4ODBjZTRhMzg2YTQiLCJpYXQiOjE2NTcwODk0MTV9.JHRY3_KWwoyG8g4e0QNFiwXzGH6AUsannP8BWEc9lKs
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbklkIjoiNjJjNjhkMTNiZWRlNTEwNzYzMzg4OTBmIiwiaWF0IjoxNjU3ODc0ODM3fQ.9JhTeeaGsDURamjVZrGeinDHOB4xO9YR6SYaYF6bbS8
 
 {
-    "teacher_name" : "Huỳnh Hữu Hưng",
+    "teacher_name" : "Leo1",
     "teacher_age" : 75,
     "teacher_gender" : true, 
     "teacher_phone" : "0914056098",
     "is_main_teacher" : false,
     "is_user_teacher" : true,
-    "teacher_email" : "hhh@gmail.com",
-    "teacher_password" : "1"
+    "teacher_email" : "leoteacher1@gmail.com",
+    "teacher_password" : "123456",
+    "teacher_img":""
 }
 ###
 //get all (Admin)
@@ -22,3 +23,21 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZWFjaGVySWQiOiI2M
 ###
 // get teacher by id
 GET http://localhost:8000/api/admin/teachers/62c68ad4bede5107633888f6
+
+###
+// Edit
+PUT http://localhost:8000/api/admin/teachers/62c68ad4bede5107633888f6
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbklkIjoiNjJjNjhkMTNiZWRlNTEwNzYzMzg4OTBmIiwiaWF0IjoxNjU3ODc0ODM3fQ.9JhTeeaGsDURamjVZrGeinDHOB4xO9YR6SYaYF6bbS8
+
+{
+    "teacher_name" : "Ninh Khánh DUy",
+    "teacher_age" : 45,
+    "teacher_gender" : true, 
+    "teacher_phone" : "0914056098",
+    "is_main_teacher" : false,
+    "is_user_teacher" : true,
+    "teacher_email" : "nkd@gmail.com",
+    "teacher_password" : "123456",
+    "teacher_img":""
+}
