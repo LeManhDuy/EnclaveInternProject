@@ -121,7 +121,7 @@ router.delete("/:id", verifyJWTandAdmin, async (req, res) => {
                 .status(401)
                 .json({ success: false, message: "admin not found" });
         res.json({ success: true, message: "Deleted!", parent: deletedadmin });
-    } catch {
+    } catch(error) {
         return res.status(500).json({ success: false, message: "" + error });
     }
 });

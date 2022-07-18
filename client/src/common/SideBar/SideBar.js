@@ -82,6 +82,78 @@ function SideBar() {
                 />
               </Link>
             </li>
+
+            <li>
+              <Link
+                key={1}
+                className={
+                  "item" +
+                  (window.location.pathname === "/admin/class"
+                    ? " active"
+                    : "")
+                }
+                to={"/admin/class"}
+              >
+                <FontAwesomeIcon className="icon" icon={faUsers} />
+                <p>Class</p>
+                <FontAwesomeIcon
+                  className={
+                    window.location.pathname === "/admin/class"
+                      ? " show"
+                      : " arrow"
+                  }
+                  icon={faAngleRight}
+                />
+              </Link>
+            </li>
+
+            <li>
+              <Link
+                key={1}
+                className={
+                  "item" +
+                  (window.location.pathname === "/admin/grade"
+                    ? " active"
+                    : "")
+                }
+                to={"/admin/grade"}
+              >
+                <FontAwesomeIcon className="icon" icon={faUsers} />
+                <p>Grade</p>
+                <FontAwesomeIcon
+                  className={
+                    window.location.pathname === "/admin/grade"
+                      ? " show"
+                      : " arrow"
+                  }
+                  icon={faAngleRight}
+                />
+              </Link>
+            </li>
+
+            <li>
+              <Link
+                key={1}
+                className={
+                  "item" +
+                  (window.location.pathname === "/admin/subject"
+                    ? " active"
+                    : "")
+                }
+                to={"/admin/subject"}
+              >
+                <FontAwesomeIcon className="icon" icon={faUsers} />
+                <p>Subject</p>
+                <FontAwesomeIcon
+                  className={
+                    window.location.pathname === "/admin/subject"
+                      ? " show"
+                      : " arrow"
+                  }
+                  icon={faAngleRight}
+                />
+              </Link>
+            </li>
           </ul>
         </div>
         <div className="account">
