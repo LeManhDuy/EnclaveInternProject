@@ -11,7 +11,7 @@
   z-index: 1090;
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, #83addccc, #8ae8dccc);
+  background: linear-gradient(90deg, #aac0d9cc, #c7e9e4cc);
   opacity: 0;
   transition: visibility 0s, opacity 0.15s linear;
 }
