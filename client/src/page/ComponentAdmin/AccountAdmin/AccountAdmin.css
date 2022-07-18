@@ -7,7 +7,6 @@
 }
 
 .main-container header {
-  width: 100%;
   display: flex;
   align-items: center;
   padding: 0 30px;
@@ -35,7 +34,6 @@
 
 .main-container header .right-header{
   display: inline;
-  width: 70%;
   text-align: right;
 }
 

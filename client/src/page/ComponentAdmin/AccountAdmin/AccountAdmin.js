@@ -7,6 +7,8 @@ import {
   faArrowRightLong,
 } from "@fortawesome/free-solid-svg-icons";
 import AccountService from "../../../config/service/AccountService";
+import ModalCustom from "../../../lib/ModalCustom/ModalCustom";
+import ConfirmAlert from "../../../lib/ConfirmAlert/ConfirmAlert";
 
 function AccountAdmin() {
   const [parents, setParents] = useState([]);
@@ -14,6 +16,9 @@ function AccountAdmin() {
   const [teacher, setTeacher] = useState([]);
   const [dropValue, setDropValue] = useState("admin");
   const [state, setState] = useState(false);
+  const [isDelete, setIsDelete] = useState(false);
+  const [id, setId] = useState("");
+  const [name, setName] = useState("");
   useEffect(() => {
     getParents();
     getAdmins();
@@ -33,9 +38,9 @@ function AccountAdmin() {
         Type of account
         <select className="dropdown-account" value={value} onChange={onChange}>
           {options.map((option) => (
-            <option 
-            key = {option.key}
-            value={option.value}>{option.label}</option>
+            <option key={option.key} value={option.value}>
+              {option.label}
+            </option>
           ))}
         </select>
       </label>
@@ -122,14 +127,17 @@ function AccountAdmin() {
     ));
 
     function click(e) {
-      const id = e.target.parentElement.parentElement.getAttribute('data-key')
-      if(dropValue==="admin")
-      AccountService.deleteAccountAdminById(id).then((res)=>res)
-      else if(dropValue==="parents")
-      AccountService.deleteAccountParentsById(id).then((res)=>res)
-      else
-      AccountService.deleteAccountTeacherById(id).then((res)=>res)
-      setState(!state)
+      const id = e.target.parentElement.parentElement.getAttribute("data-key");
+      if (e.target.className.includes("btn-delete")) {
+        setIsDelete(true);
+        setId(id);
+        setName(
+          e.target.parentElement.parentElement.querySelectorAll("td")[1]
+            .textContent
+        );
+      } else if (e.target.className.includes("btn-edit")) {
+        //TODO edited
+      }
     }
 
     let headerAccount;
@@ -144,19 +152,46 @@ function AccountAdmin() {
       );
     }
     return (
-      <table id="table" >
+      <table id="table">
         <thead>{headerAccount}</thead>
         <tbody>{accountItem}</tbody>
       </table>
     );
   };
 
+  const handleCloseModalCustom = () => {
+    setIsDelete(false);
+  };
+
+  const handleDelete = () => {
+    if (dropValue === "admin")
+      AccountService.deleteAccountAdminById(id).then((res) => res);
+    else if (dropValue === "parents")
+      AccountService.deleteAccountParentsById(id).then((res) => res);
+    else AccountService.deleteAccountTeacherById(id).then((res) => res);
+    setState(!state);
+    setIsDelete(false);
+  };
+
+  const ConfirmDelete = (
+    <ModalCustom
+      show={isDelete}
+      content={
+        <ConfirmAlert
+          handleCloseModalCustom={handleCloseModalCustom}
+          handleDelete={handleDelete}
+          title={`Do you want to delete the ${name}?`}
+        />
+      }
+      handleCloseModalCustom={handleCloseModalCustom}
+    />
+  );
 
   return (
     <div className="main-container">
       <header>
         <div>
-          <h3>Account</h3>
+          <h3>Manage Account</h3>
           <Dropdown
             label="What do we eat?"
             options={options}
@@ -217,6 +252,7 @@ function AccountAdmin() {
             />
           </button>
         </div>
+        <div> {isDelete ? ConfirmDelete : null} </div>
       </footer>
     </div>
   );
