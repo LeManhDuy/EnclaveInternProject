@@ -136,6 +136,17 @@ function APIPost(url, params) {
 //   return response
 // }
 
+function APIDelete(url) {
+  url = REACT_APP_API_ENDPOINT + "api/" + url
+  return fetch(url, {
+    method: "DELETE",
+    headers: {
+      Authorization: getToken()
+    }
+  })
+    .then((response) => response.json())
+}
+
 const HandleApi = {
 //   APIGetPublic,
   APIPostPublic,
@@ -145,7 +156,8 @@ const HandleApi = {
   APIGetWithToken,
 //   APIPostWithToken,
 //   APIPostWithFormData,
-//   APIPutWithFormData
+//   APIPutWithFormData,
+APIDelete,
 }
 
 export default HandleApi

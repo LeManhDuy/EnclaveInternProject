@@ -8,7 +8,7 @@ import jwt_decode from "jwt-decode";
 
 function Home() {
   return (
-    <div>
+    <div className="">
       <Header />
       <div className="home-container">
         <div className="slider">

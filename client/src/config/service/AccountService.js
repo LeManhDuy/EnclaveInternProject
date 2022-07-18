@@ -16,6 +16,18 @@ const getAccountsTeacher = async () => {
 //   return await HandleApi.APIGetWithToken(`accounts/${id}`)
 // }
 
+const deleteAccountParentsById = async (id) => {
+  return await HandleApi.APIDelete(`admin/parents/${id}`)
+}
+
+const deleteAccountAdminById = async (id) => {
+  return await HandleApi.APIDelete(`admin/${id}`)
+}
+
+const deleteAccountTeacherById = async (id) => {
+  return await HandleApi.APIDelete(`admin/teachers/${id}`)
+}
+
 // const updateProfile = async (params) => {
 //   return await HandleApi.APIPutWithToken("accounts", params)
 // }
@@ -25,7 +37,11 @@ const AccountService = {
   getAccountsAdmin,
   getAccountsTeacher,
   //  getAccountById,
-  //   updateProfile
+  //   updateProfile,
+  deleteAccountParentsById,
+  deleteAccountAdminById,
+  deleteAccountTeacherById,
+
 };
 
 export default AccountService;
