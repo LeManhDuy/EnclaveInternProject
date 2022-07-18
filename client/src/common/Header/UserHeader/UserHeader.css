@@ -24,8 +24,8 @@
     padding: 0 8px;
     font-size: 18px;
     text-transform: uppercase;
-    line-height: 7vh;
-    height: 7vh;
+    line-height: 70px;
+    height: 70px;
 }
 
 .user-header .item-header a:hover{
