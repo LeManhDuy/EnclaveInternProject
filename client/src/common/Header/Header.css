@@ -2,7 +2,7 @@
 @import "../../assets/css/custom.css";
 
 .nav-content {
-    height: 7vh;
+    height: 70px;
     width: 100%;
     background-color: var(--primary-color);
     display: flex;
