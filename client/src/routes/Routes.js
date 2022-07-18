@@ -9,6 +9,9 @@ import Home from "../page/Home/Home";
 import NotFound from "../page/NotFound/NotFound";
 import HomeAdmin from "../page/ComponentAdmin/HomeAdmin/HomeAdmin";
 import AccountAdmin from "../page/ComponentAdmin/AccountAdmin/AccountAdmin";
+import ClassAdmin from "../page/ComponentAdmin/ClassAdmin/ClassAdmin";
+import GradeAdmin from "../page/ComponentAdmin/GradeAdmin/GradeAdmin";
+import SubjectAdmin from "../page/ComponentAdmin/SubjectAdmin/SubjectAdmin";
 import Parents from "../page/Parents/Parents"
 import Teacher from "../page/Teacher/Teacher"
 import PublicRoute from "./PublicRoute";
@@ -38,6 +41,24 @@ const Routes = () => {
             component={AccountAdmin}
             exact
             path={ROUTES.ADMIN_PAGE.ACCOUNT_ADMIN}
+          />
+
+          <AdminRoute
+            component={ClassAdmin}
+            exact
+            path={ROUTES.ADMIN_PAGE.CLASS_ADMIN}
+          />
+
+          <AdminRoute
+            component={GradeAdmin}
+            exact
+            path={ROUTES.ADMIN_PAGE.GRADE_ADMIN}
+          />
+          
+          <AdminRoute
+            component={SubjectAdmin}
+            exact
+            path={ROUTES.ADMIN_PAGE.SUBJECT_ADMIN}
           />
 
           <ParentsRoute

@@ -13,11 +13,11 @@ const ROUTES = {
   },
 
   ADMIN_PAGE: {
-    // path: "/admin",
     ADMIN_HOME: "/admin",
     ACCOUNT_ADMIN: "/admin/account",
-    // isPrivate: true,
-    // component: Admin,
+    CLASS_ADMIN: "/admin/class",
+    GRADE_ADMIN: "/admin/grade",
+    SUBJECT_ADMIN: "/admin/subject",
   },
 
   PARENTS_PAGE: {

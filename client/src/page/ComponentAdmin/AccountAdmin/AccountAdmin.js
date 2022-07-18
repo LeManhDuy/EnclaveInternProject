@@ -30,7 +30,7 @@ function AccountAdmin() {
   const Dropdown = ({ value, options, onChange }) => {
     return (
       <label>
-        Choose account
+        Type of account
         <select className="dropdown-account" value={value} onChange={onChange}>
           {options.map((option) => (
             <option 
@@ -120,7 +120,7 @@ function AccountAdmin() {
         </td>
       </tr>
     ));
-    
+
     function click(e) {
       const id = e.target.parentElement.parentElement.getAttribute('data-key')
       if(dropValue==="admin")
