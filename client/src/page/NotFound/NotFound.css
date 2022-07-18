@@ -31,6 +31,10 @@
     background: #fff;
 }
 
+.btnBack .fa-solid{
+    margin-right: 6px;
+}
+
 .btnBack:hover {
     background: var(--primary-color);
     color: #fff

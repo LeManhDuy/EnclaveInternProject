@@ -4,12 +4,11 @@ import Logo from "../../assets/image/Logo.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faAngleRight,
-  faArrowRightToBracket,
   faHouse,
   faUsers,
   faRightFromBracket,
 } from "@fortawesome/free-solid-svg-icons";
-import { Link, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 import AuthenticationService from "../../config/service/AuthenticationService"
 
 function SideBar() {
@@ -23,12 +22,11 @@ function SideBar() {
     }
   }
 
-  const history = useHistory()
 
   const handleLogout = () => {
     if(AuthenticationService.isLogin()){
       AuthenticationService.clearDataLogin();
-      history.push("/")
+      window.location.reload(false)
     }
   }
 
@@ -77,6 +75,78 @@ function SideBar() {
                 <FontAwesomeIcon
                   className={
                     window.location.pathname === "/admin/account"
+                      ? " show"
+                      : " arrow"
+                  }
+                  icon={faAngleRight}
+                />
+              </Link>
+            </li>
+
+            <li>
+              <Link
+                key={1}
+                className={
+                  "item" +
+                  (window.location.pathname === "/admin/class"
+                    ? " active"
+                    : "")
+                }
+                to={"/admin/class"}
+              >
+                <FontAwesomeIcon className="icon" icon={faUsers} />
+                <p>Class</p>
+                <FontAwesomeIcon
+                  className={
+                    window.location.pathname === "/admin/class"
+                      ? " show"
+                      : " arrow"
+                  }
+                  icon={faAngleRight}
+                />
+              </Link>
+            </li>
+
+            <li>
+              <Link
+                key={1}
+                className={
+                  "item" +
+                  (window.location.pathname === "/admin/grade"
+                    ? " active"
+                    : "")
+                }
+                to={"/admin/grade"}
+              >
+                <FontAwesomeIcon className="icon" icon={faUsers} />
+                <p>Grade</p>
+                <FontAwesomeIcon
+                  className={
+                    window.location.pathname === "/admin/grade"
+                      ? " show"
+                      : " arrow"
+                  }
+                  icon={faAngleRight}
+                />
+              </Link>
+            </li>
+
+            <li>
+              <Link
+                key={1}
+                className={
+                  "item" +
+                  (window.location.pathname === "/admin/subject"
+                    ? " active"
+                    : "")
+                }
+                to={"/admin/subject"}
+              >
+                <FontAwesomeIcon className="icon" icon={faUsers} />
+                <p>Subject</p>
+                <FontAwesomeIcon
+                  className={
+                    window.location.pathname === "/admin/subject"
                       ? " show"
                       : " arrow"
                   }

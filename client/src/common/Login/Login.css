@@ -82,5 +82,30 @@
   color: #fff
 }
 
+.right-content .error {
+  display: none;
+  opacity: 0;
+  text-align: left;
+  margin: 0;
+  padding:0;
+  width:100%;
+}
+
+.right-content .error-hidden {
+  display: none;
+  opacity: 0;
+}
+
+.right-content .error-show {
+  display: block;
+  opacity: 1;
+  animation: error 1s 1;
+}
+
+@keyframes error {
+  from {opacity: 0;}
+  to {opacity: 1;}
+}
+
 
 

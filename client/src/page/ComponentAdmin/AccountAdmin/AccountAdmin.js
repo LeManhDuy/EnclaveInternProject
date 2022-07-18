@@ -13,11 +13,12 @@ function AccountAdmin() {
   const [admin, setAdmin] = useState([]);
   const [teacher, setTeacher] = useState([]);
   const [dropValue, setDropValue] = useState("admin");
+  const [state, setState] = useState(false);
   useEffect(() => {
     getParents();
     getAdmins();
     getTeachers();
-  }, []);
+  }, [dropValue, state]);
 
   const options = [
     // { label: 'All', value: 'all' },
@@ -29,7 +30,7 @@ function AccountAdmin() {
   const Dropdown = ({ value, options, onChange }) => {
     return (
       <label>
-        Choose account
+        Type of account
         <select className="dropdown-account" value={value} onChange={onChange}>
           {options.map((option) => (
             <option 
@@ -119,10 +120,18 @@ function AccountAdmin() {
         </td>
       </tr>
     ));
+
     function click(e) {
-      console.log(e.target.parentElement.parentElement.getAttribute('data-key'));
-      // console.log(e.target.parentElement.get)
+      const id = e.target.parentElement.parentElement.getAttribute('data-key')
+      if(dropValue==="admin")
+      AccountService.deleteAccountAdminById(id).then((res)=>res)
+      else if(dropValue==="parents")
+      AccountService.deleteAccountParentsById(id).then((res)=>res)
+      else
+      AccountService.deleteAccountTeacherById(id).then((res)=>res)
+      setState(!state)
     }
+
     let headerAccount;
     if (value === "parents" || value === "admin" || value === "teacher") {
       headerAccount = (
@@ -134,14 +143,6 @@ function AccountAdmin() {
         </tr>
       );
     }
-    // else if(value==="teacher"){
-    //   <tr>
-    //       <th>User name</th>
-    //       <th>Full name</th>
-    //       <th>Role</th>
-    //       <th>Action</th>
-    //     </tr>
-    // }
     return (
       <table id="table" >
         <thead>{headerAccount}</thead>
@@ -150,9 +151,7 @@ function AccountAdmin() {
     );
   };
 
-  // document.querySelector("table").addEventListener('click',(e)=>{
-  //     console.log("hee");
-  //   })
+
   return (
     <div className="main-container">
       <header>

@@ -13,25 +13,29 @@ const ROUTES = {
   },
 
   ADMIN_PAGE: {
-    // path: "/admin",
     ADMIN_HOME: "/admin",
     ACCOUNT_ADMIN: "/admin/account",
-    // isPrivate: true,
-    // component: Admin,
+    CLASS_ADMIN: "/admin/class",
+    GRADE_ADMIN: "/admin/grade",
+    SUBJECT_ADMIN: "/admin/subject",
   },
 
   PARENTS_PAGE: {
     // path: "/parents",
     // isPrivate: true,
     // component: Parents,
-    PARENTS_PATH: "/parents"
+    PARENTS_PATH: "/parents",
+    PARENTS_STUDENT_PATH: "/parents/student",
+    PARENTS_PARENTS_PATH: "/parents/parents"
   },
 
   TEACHER_PAGE: {
     // path: "/teacher",
     // isPrivate: true,
     // component: Teacher,
-    TEACHER_PATH: "/teacher"
+    TEACHER_PATH: "/teacher",
+    TEACHER_STUDENT_PATH: "/teacher/student",
+    TEACHER_CLASS_PATH: "/teacher/class",
   },
 
   NOT_FOUND_PAGE: {

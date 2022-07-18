@@ -3,15 +3,23 @@ const express = require('express')
 const router = express.Router()
 const verifyJWTandTeacher = require('../middleware/verifyJWTandTeacher')
 const Schedule = require('../model/Schedule')
-const ObjectId = require('mongodb')
 const Class = require('../model/Class')
+const multer = require("multer")
 
+const storage = multer.diskStorage({
+    destination: function (req, res, cb) {
+        cb(null, "./uploads/schedules")
+    },
+    filename: function (req, file, cb) {
+        cb(null, Date.now() + file.originalname)
+    },
+})
+const upload = multer({ storage: storage })
 // @route POST /api/schedule/create-schedule/{classId}
 // @desc create schedule by class id
 // @access Private
-router.post("/create-schedule/:classId", verifyJWTandTeacher, async (req, res) => {
+router.post("/:classId", verifyJWTandTeacher, upload.single("schedule_link"), async (req, res) => {
     const { classId } = req.params
-    const { schedule_link } = req.body
     try {
         // Validate
         const scheduleValidate = await Schedule.findOne({ 'class': classId })
@@ -22,7 +30,7 @@ router.post("/create-schedule/:classId", verifyJWTandTeacher, async (req, res) =
                 .json({ success: false, message: "Schedule already exists in this class!" })
         }
         const newSchedule = new Schedule({
-            schedule_link: schedule_link,
+            schedule_link: req.file.path,
             class: classId
         })
         await newSchedule.save()
@@ -37,7 +45,7 @@ router.post("/create-schedule/:classId", verifyJWTandTeacher, async (req, res) =
 // @route GET /api/schedule/get-schedule
 // @desc get schedule
 // @access Private
-router.get("/get-schedule", verifyJWTandTeacher, async (req, res) => {
+router.get("", verifyJWTandTeacher, async (req, res) => {
     try {
         // Return token
         const allSchedule = await Schedule.find().populate("class", ["class_name"]).select("schedule_link")
@@ -53,22 +61,13 @@ router.get("/get-schedule", verifyJWTandTeacher, async (req, res) => {
 // @route PUT /api/schedule/update-schedule/{schedule-id}
 // @desc update schedule
 // @access Private
-router.put("/update-schedule/:scheduleId", verifyJWTandTeacher, async (req, res) => {
-    const { schedule_link } = req.body
+router.put("/:scheduleId", verifyJWTandTeacher, upload.single("schedule_link"), async (req, res) => {
     try {
         // Validate
-        const scheduleValidate = await Schedule.findOne({ 'schedule_link': schedule_link })
-        if (scheduleValidate) {
-            return res
-                .status(400)
-                .json({ success: false, message: "This link is already exists!" })
-        }
         let updateSchedule = {
-            schedule_link
+            schedule_link: req.file.path,
         }
-        console.log("2", updateSchedule)
         const postUpdateCondition = { _id: req.params.scheduleId }
-        console.log("3", postUpdateCondition)
         updateSchedule = await Schedule.findOneAndUpdate(
             postUpdateCondition,
             updateSchedule,
@@ -87,7 +86,7 @@ router.put("/update-schedule/:scheduleId", verifyJWTandTeacher, async (req, res)
 // @route DELETE /api/schedule/delete-schedule/{schedule-id}
 // @desc delete schedule
 // @access Private
-router.delete("/delete-schedule/:scheduleId", verifyJWTandTeacher, async (req, res) => {
+router.delete("/:scheduleId", verifyJWTandTeacher, async (req, res) => {
     try {
         const postDeleteCondition = { _id: req.params.scheduleId };
         const scheduleDB = await Schedule.findById(postDeleteCondition._id)
