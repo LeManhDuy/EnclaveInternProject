@@ -6,32 +6,35 @@ import {
     faArrowLeftLong,
     faArrowRightLong,
 } from "@fortawesome/free-solid-svg-icons";
-import AccountService from "../../../config/service/AccountService";
+import SubjectService from "../../../config/service/SubjectService";
+import ModalCustom from "../../../lib/ModalCustom/ModalCustom";
+import ConfirmAlert from "../../../lib/ConfirmAlert/ConfirmAlert";
 
 function SubjectAdmin() {
-    const [parents, setParents] = useState([]);
-    const [admin, setAdmin] = useState([]);
-    const [teacher, setTeacher] = useState([]);
-    const [grade, setGrade] = useState([]);
+    const [subject, setSubject] = useState([]);
     const [dropValue, setDropValue] = useState("all");
     const [state, setState] = useState(false);
+    const [isDelete, setIsDelete] = useState(false);
+    const [id, setId] = useState("");
+    const [name, setName] = useState("");
+
     useEffect(() => {
-        getParents();
-        getAdmins();
-        getTeachers();
+        getSubject();
     }, [dropValue, state]);
 
     const options = [
-        // { label: 'All', value: 'all' },
-        { key: 1, label: "Admin", value: "admin" },
-        { key: 2, label: "Parents", value: "parents" },
-        { key: 3, label: "Teacher", value: "teacher" },
+        { key: 0, label: "All", value: "all" },
+        { key: 1, label: "Grade 1", value: "grade 1" },
+        { key: 2, label: "Grade 2", value: "grade 2" },
+        { key: 3, label: "Grade 3", value: "grade 3" },
+        { key: 4, label: "Grade 4", value: "grade 4" },
+        { key: 5, label: "Grade 5", value: "grade 5" },
     ];
 
     const Dropdown = ({ value, options, onChange }) => {
         return (
             <label>
-                Type of account
+                Choose grade
                 <select
                     className="dropdown-account"
                     value={value}
@@ -49,76 +52,53 @@ function SubjectAdmin() {
 
     const handleChange = (event) => {
         setDropValue(event.target.value);
+        console.log(event.target.value);
     };
 
-    const getParents = () => {
-        AccountService.getAccountsParents()
+    const getSubject = () => {
+        SubjectService.getSubjects()
             .then((response) => {
-                const dataSources = response.allParents.map((item, index) => {
+                const dataSources = response.allSubjects.map((item, index) => {
                     return {
                         key: index + 1,
                         id: item._id,
-                        name: item.parent_name,
-                        email: item.parent_email,
-                        address: item.parent_address,
-                        birth: item.parent_dateofbirth,
-                        phone: item.parent_phone,
-                        job: item.parent_job,
-                        gender: item.parent_gender,
+                        name: item.subject_name,
+                        ratio: item.subject_ratio,
+                        grade: item.grade_name,
                     };
                 });
-                setParents(dataSources);
+                setSubject(dataSources);
             })
             .catch((error) => {
                 console.log(error);
             });
     };
 
-    const getAdmins = () => {
-        AccountService.getAccountsAdmin()
+    const getSubjectByGradeId = (id) => {
+        SubjectService.getSubjectsByGradeId(id)
             .then((response) => {
-                const dataSources = response.alladmin.map((item, index) => {
+                const dataSources = response.allSubjects.map((item, index) => {
                     return {
                         key: index + 1,
                         id: item._id,
-                        name: item.admin_username,
-                        email: item.admin_email,
+                        name: item.subject_name,
+                        ratio: item.subject_ratio,
+                        grade: item.grade_name,
                     };
                 });
-                setAdmin(dataSources);
+                setSubject(dataSources);
             })
             .catch((error) => {
                 console.log(error);
             });
     };
 
-    const getTeachers = () => {
-        AccountService.getAccountsTeacher()
-            .then((response) => {
-                const dataSources = response.allTeachers.map((item, index) => {
-                    return {
-                        key: index + 1,
-                        id: item._id,
-                        name: item.teacher_name,
-                        email: item.teacher_email,
-                        age: item.teacher_age,
-                        gender: item.teacher_gender,
-                        phone: item.teacher_phone,
-                    };
-                });
-                setTeacher(dataSources);
-            })
-            .catch((error) => {
-                console.log(error);
-            });
-    };
-
-    const TableAccounts = ({ accounts, value }) => {
-        const accountItem = accounts.map((item) => (
+    const TableSubjects = ({ subjects, value }) => {
+        const subjectItem = subjects.map((item) => (
             <tr data-key={item.id} key={item.id}>
-                <td>{item.email}</td>
                 <td>{item.name}</td>
-                <td>{value.toUpperCase()}</td>
+                <td>{item.ratio}</td>
+                <td>{item.grade}</td>
                 <td onClick={click}>
                     <i className="fa-regular fa-pen-to-square btn-edit"></i>
                     <i className="fa-regular fa-trash-can btn-delete"></i>
@@ -129,32 +109,65 @@ function SubjectAdmin() {
         function click(e) {
             const id =
                 e.target.parentElement.parentElement.getAttribute("data-key");
-            if (dropValue === "admin")
-                AccountService.deleteAccountAdminById(id).then((res) => res);
-            else if (dropValue === "parents")
-                AccountService.deleteAccountParentsById(id).then((res) => res);
-            else AccountService.deleteAccountTeacherById(id).then((res) => res);
-            setState(!state);
+            if (e.target.className.includes("btn-delete")) {
+                setIsDelete(true);
+                setId(id);
+                setName(
+                    e.target.parentElement.parentElement.querySelectorAll(
+                        "td"
+                    )[0].textContent +
+                        " from " +
+                        e.target.parentElement.parentElement.querySelectorAll(
+                            "td"
+                        )[2].textContent
+                );
+            } else if (e.target.className.includes("btn-edit")) {
+                //TODO edited
+            }
         }
 
-        let headerAccount;
-        if (value === "parents" || value === "admin" || value === "teacher") {
-            headerAccount = (
+        let headerSubject;
+        if (!value) {
+            headerSubject = (
                 <tr>
-                    <th>User name</th>
-                    <th>Full name</th>
-                    <th>Role</th>
+                    <th>Name</th>
+                    <th>Ratio</th>
+                    <th>Grade</th>
                     <th>Action</th>
                 </tr>
             );
         }
         return (
             <table id="table">
-                <thead>{headerAccount}</thead>
-                <tbody>{accountItem}</tbody>
+                <thead>{headerSubject}</thead>
+                <tbody>{subjectItem}</tbody>
             </table>
         );
     };
+
+    const handleCloseModalCustom = () => {
+        setIsDelete(false);
+    };
+
+    const handleDelete = () => {
+        SubjectService.deleteSubjectsById(id).then((res) => res);
+        setState(!state);
+        setIsDelete(false);
+    };
+
+    const ConfirmDelete = (
+        <ModalCustom
+            show={isDelete}
+            content={
+                <ConfirmAlert
+                    handleCloseModalCustom={handleCloseModalCustom}
+                    handleDelete={handleDelete}
+                    title={`Do you want to delete the ${name}?`}
+                />
+            }
+            handleCloseModalCustom={handleCloseModalCustom}
+        />
+    );
 
     return (
         <div className="main-container">
@@ -186,13 +199,14 @@ function SubjectAdmin() {
                 </div>
             </header>
             <div className="table-content">
-                {dropValue === "parents" ? (
+                <TableSubjects subjects={subject} />
+                {/* {dropValue === "parents" ? (
                     <TableAccounts accounts={parents} value={dropValue} />
                 ) : dropValue === "admin" ? (
                     <TableAccounts accounts={admin} value={dropValue} />
                 ) : (
                     <TableAccounts accounts={teacher} value={dropValue} />
-                )}
+                )} */}
             </div>
             <footer>
                 <hr></hr>
@@ -221,6 +235,7 @@ function SubjectAdmin() {
                         />
                     </button>
                 </div>
+                <div> {isDelete ? ConfirmDelete : null} </div>
             </footer>
         </div>
     );

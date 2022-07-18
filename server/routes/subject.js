@@ -118,6 +118,7 @@ router.post("/create-subject/:gradeID", verifyJWTandAdmin, async (req, res) => {
             subject_name,
             subject_ratio,
             grade_id: grade,
+            grade_name: grade.grade_name,
         });
         await newSubject.save();
         grade.subjects.push(newSubject._id);
