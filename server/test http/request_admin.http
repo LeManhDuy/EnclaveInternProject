@@ -15,6 +15,9 @@ POST http://localhost:8000/api/admin
 Content-Type: application/json
 
 {
+    "admin_username": "Nguyễn Hữu Dinh",
+    "admin_password": "1",
+    "admin_email": "nhd_admin@gmail.com"
     "admin_username": "Keren",
     "admin_password": "3",
     "admin_email": "keren@gmail.com"

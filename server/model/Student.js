@@ -10,17 +10,13 @@ const studentSchema = new Schema({
         type: Date,
         required: true,
     },
-    student_age: {
-        type: Number,
-        required: true,
-    },
     student_gender: {
         type: Boolean,
         required: true,
     },
     student_image: {
         type: String,
-        required: true,
+        required: false,
     },
     parent_id: {
         type: Schema.Types.ObjectId,
