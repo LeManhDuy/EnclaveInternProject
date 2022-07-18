@@ -12,7 +12,7 @@ const SubjectAdmin = () => {
         <div className="main-container">
           <header>
             <div>
-              <h3>Account</h3>
+              <h3>Manage Subject</h3>
               {/* <Dropdown
                 label="What do we eat?"
                 options={options}
@@ -21,7 +21,7 @@ const SubjectAdmin = () => {
               /> */}
             </div>
             <div className="right-header">
-              <button className="btn-account">Add account</button>
+              <button className="btn-account">Add subject</button>
               <div className="search-box">
                 <button className="btn-search">
                   <FontAwesomeIcon
@@ -48,40 +48,100 @@ const SubjectAdmin = () => {
             <table id="table">
           <thead>
             <tr>
-              <th>User name</th>
-              <th>Full name</th>
-              <th>Role</th>
+              <th>Subject</th>
+              <th>Coefficient</th>
               <th>Action</th>
             </tr>
           </thead>
           <tbody>
             <tr >
-              <td>Dinh@gmail.com</td>
-              <td>Nguyen Huu Dinh</td>
-              <td>Admin</td>
+              <td>Mathematics</td>
+              <td>2</td>
+              <td>
+                <i className="fa-regular fa-pen-to-square btn-edit"></i>
+                <i className="fa-regular fa-trash-can btn-delete"></i>
+              </td>
+            </tr>
+            <tr >
+              <td>History</td>
+              <td>1</td>
+              <td>
+                <i className="fa-regular fa-pen-to-square btn-edit"></i>
+                <i className="fa-regular fa-trash-can btn-delete"></i>
+              </td>
+            </tr>
+            <tr >
+              <td>Geography</td>
+              <td>1</td>
+              <td>
+                <i className="fa-regular fa-pen-to-square btn-edit"></i>
+                <i className="fa-regular fa-trash-can btn-delete"></i>
+              </td>
+            </tr>
+            <tr >
+              <td>Science</td>
+              <td>1</td>
+              <td>
+                <i className="fa-regular fa-pen-to-square btn-edit"></i>
+                <i className="fa-regular fa-trash-can btn-delete"></i>
+              </td>
+            </tr>
+            <tr >
+              <td>English</td>
+              <td>1</td>
+              <td>
+                <i className="fa-regular fa-pen-to-square btn-edit"></i>
+                <i className="fa-regular fa-trash-can btn-delete"></i>
+              </td>
+            </tr>
+            <tr >
+              <td>Physical Education</td>
+              <td>1</td>
+              <td>
+                <i className="fa-regular fa-pen-to-square btn-edit"></i>
+                <i className="fa-regular fa-trash-can btn-delete"></i>
+              </td>
+            </tr>
+            {/* <tr >
+              <td>Music</td>
+              <td>1</td>
               <td >
                 <i className="fa-regular fa-pen-to-square btn-edit"></i>
                 <i className="fa-regular fa-trash-can btn-delete"></i>
               </td>
             </tr>
             <tr >
-              <td>Dinh@gmail.com</td>
-              <td>Nguyen Huu Dinh</td>
-              <td>Admin</td>
+              <td>Ethics</td>
+              <td>1</td>
               <td >
                 <i className="fa-regular fa-pen-to-square btn-edit"></i>
                 <i className="fa-regular fa-trash-can btn-delete"></i>
               </td>
             </tr>
             <tr >
-              <td>Dinh@gmail.com</td>
-              <td>Nguyen Huu Dinh</td>
-              <td>Admin</td>
+              <td>Computers</td>
+              <td>1</td>
               <td >
                 <i className="fa-regular fa-pen-to-square btn-edit"></i>
                 <i className="fa-regular fa-trash-can btn-delete"></i>
               </td>
             </tr>
+            <tr >
+              <td>Vietnamese</td>
+              <td>2</td>
+              <td >
+                <i className="fa-regular fa-pen-to-square btn-edit"></i>
+                <i className="fa-regular fa-trash-can btn-delete"></i>
+              </td>
+            </tr>
+            <tr >
+              <td>Art</td>
+              <td>1</td>
+              <td >
+                <i className="fa-regular fa-pen-to-square btn-edit"></i>
+                <i className="fa-regular fa-trash-can btn-delete"></i>
+              </td>
+            </tr> */}
           </tbody>
         </table>
           </div>
@@ -98,11 +158,11 @@ const SubjectAdmin = () => {
               <div className="list-number">
                 <button>1</button>
                 <button>2</button>
-                <button>3</button>
+                {/* <button>3</button>
                 <button>...</button>
                 <button>4</button>
                 <button>5</button>
-                <button>6</button>
+                <button>6</button> */}
               </div>
               <button className="next">
                 Next
