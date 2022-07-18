@@ -57,6 +57,12 @@ router.post(
                 message: "Phone number must have 10 numbers",
             });
         }
+        if (teacher_password.length < 6) {
+            return res.status(400).json({
+                success: false,
+                message: "Password must have at least 6 characters.",
+            });
+        }
         try {
             const adminValidate = await Admin.findOne({
                 admin_email: teacher_email,
@@ -149,6 +155,12 @@ router.put(
             return res.status(400).json({
                 success: false,
                 message: "Phone number must have 10 numbers",
+            });
+        }
+        if (teacher_password.length < 6) {
+            return res.status(400).json({
+                success: false,
+                message: "Password must have at least 6 characters.",
             });
         }
         try {

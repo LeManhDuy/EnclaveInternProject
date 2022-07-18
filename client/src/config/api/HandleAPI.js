@@ -12,7 +12,7 @@ const header = {
 function getToken() {
   if (AuthenticationService.isLogin()) {
     let data = JSON.parse(localStorage.getItem("@Login"))
-    return data.type + " " + data.token
+    return data.type + " " + data.accessToken
   }
 }
 
@@ -35,7 +35,6 @@ function APIPostPublic(url, params) {
     },
     body: JSON.stringify(params)
   })
-    .then(checkStatus)
     .then((response) => response.json())
 }
 
@@ -52,17 +51,16 @@ function APIPostPublic(url, params) {
 //     .then((response) => response.json())
 // }
 
-// function APIGetWithToken(url) {
-//   url = REACT_APP_API_ENDPOINT + "api/v1/" + url
-//   return fetch(url, {
-//     method: "GET",
-//     headers: {
-//       Authorization: getToken()
-//     }
-//   })
-//     .then(checkStatus)
-//     .then((response) => response.json())
-// }
+function APIGetWithToken(url) {
+  url = REACT_APP_API_ENDPOINT + "api/" + url
+  return fetch(url, {
+    method: "GET",
+    headers: {
+      Authorization: getToken()
+    }
+  })
+    .then((response) => response.json())
+}
 
 function APIPost(url, params) {
   url = REACT_APP_API_ENDPOINT + "api/" + url
@@ -138,16 +136,28 @@ function APIPost(url, params) {
 //   return response
 // }
 
+function APIDelete(url) {
+  url = REACT_APP_API_ENDPOINT + "api/" + url
+  return fetch(url, {
+    method: "DELETE",
+    headers: {
+      Authorization: getToken()
+    }
+  })
+    .then((response) => response.json())
+}
+
 const HandleApi = {
 //   APIGetPublic,
   APIPostPublic,
 //   APIPutPublic,
   APIPost,
 //   APIPut,
-//   APIGetWithToken,
+  APIGetWithToken,
 //   APIPostWithToken,
 //   APIPostWithFormData,
-//   APIPutWithFormData
+//   APIPutWithFormData,
+APIDelete,
 }
 
 export default HandleApi

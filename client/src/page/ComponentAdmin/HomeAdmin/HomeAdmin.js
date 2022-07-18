@@ -1,22 +1,31 @@
 import React from "react";
 import "./HomeAdmin.css"
 import PictureWelcome from "../../../assets/image/welcome.png"
+import { useHistory } from "react-router-dom"
+
 function HomeAdmin() {
+    const history = useHistory();
+    const HandleBackToHome = () => {
+        history.push('/')
+    }
     return (
-        <div class="common">
-            <div class="home-message">
-                <i class="fa fa-circle one"></i>
-                <i class="fa fa-circle two"></i>
-                <i class="fa fa-circle three"></i>
-                <i class="fa fa-circle four"></i>
-                <i class="fa fa-circle five"></i>
-                <i class="fa fa-circle six"></i>
-                <i class="fa fa-circle seven"></i>
-                <i class="fa fa-circle eight"></i>
+        <div className="common">
+            <div className="home-message">
+                <i className="fa fa-circle one"></i>
+                <i className="fa fa-circle two"></i>
+                <i className="fa fa-circle three"></i>
+                <i className="fa fa-circle four"></i>
+                <i className="fa fa-circle five"></i>
+                <i className="fa fa-circle six"></i>
+                <i className="fa fa-circle seven"></i>
+                <i className="fa fa-circle eight"></i>
                 <h1>Hello</h1>
-                <h3>You have a message in your notification.</h3>
+                <h3>Welcome to the admin page.</h3>
+                <button class="btnBack" onClick = {HandleBackToHome}>
+                    Go to Home
+                    </button>
             </div>
-            <div class="home-image">
+            <div className="home-image">
                 <img src={PictureWelcome} />
             </div>
         </div>

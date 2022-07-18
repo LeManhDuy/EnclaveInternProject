@@ -29,6 +29,28 @@
     url(./fonts/Oswald-Regular.ttf) format("truetype");
 }
 
+html {
+  scroll-behavior: smooth;
+
+}
+
+::-webkit-scrollbar {
+  width: 0.8em;
+}
+
+::-webkit-scrollbar-track {
+  background:#2c5d96;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(45deg, #ec008c, #fc6767);
+  border-radius: 100vw;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(135deg, #ec008c, #fc6767);
+}
+
 body {
   background-color: var(--body-bg) ;
 }
@@ -84,6 +106,7 @@ button {
   border: none;
   border-radius: 4px;
   padding: 8px 16px;
+  color: var(--text-color)
 }
 
 hr {

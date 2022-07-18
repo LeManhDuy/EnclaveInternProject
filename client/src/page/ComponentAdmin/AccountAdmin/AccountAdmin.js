@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./AccountAdmin.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -6,15 +6,166 @@ import {
   faArrowLeftLong,
   faArrowRightLong,
 } from "@fortawesome/free-solid-svg-icons";
+import AccountService from "../../../config/service/AccountService";
 
 function AccountAdmin() {
+  const [parents, setParents] = useState([]);
+  const [admin, setAdmin] = useState([]);
+  const [teacher, setTeacher] = useState([]);
+  const [dropValue, setDropValue] = useState("admin");
+  const [state, setState] = useState(false);
+  useEffect(() => {
+    getParents();
+    getAdmins();
+    getTeachers();
+  }, [dropValue, state]);
+
+  const options = [
+    // { label: 'All', value: 'all' },
+    { key: 1, label: "Admin", value: "admin" },
+    { key: 2, label: "Parents", value: "parents" },
+    { key: 3, label: "Teacher", value: "teacher" },
+  ];
+
+  const Dropdown = ({ value, options, onChange }) => {
+    return (
+      <label>
+        Choose account
+        <select className="dropdown-account" value={value} onChange={onChange}>
+          {options.map((option) => (
+            <option 
+            key = {option.key}
+            value={option.value}>{option.label}</option>
+          ))}
+        </select>
+      </label>
+    );
+  };
+
+  const handleChange = (event) => {
+    setDropValue(event.target.value);
+  };
+
+  const getParents = () => {
+    AccountService.getAccountsParents()
+      .then((response) => {
+        const dataSources = response.allParents.map((item, index) => {
+          return {
+            key: index + 1,
+            id: item._id,
+            name: item.parent_name,
+            email: item.parent_email,
+            address: item.parent_address,
+            birth: item.parent_dateofbirth,
+            phone: item.parent_phone,
+            job: item.parent_job,
+            gender: item.parent_gender,
+          };
+        });
+        setParents(dataSources);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const getAdmins = () => {
+    AccountService.getAccountsAdmin()
+      .then((response) => {
+        const dataSources = response.alladmin.map((item, index) => {
+          return {
+            key: index + 1,
+            id: item._id,
+            name: item.admin_username,
+            email: item.admin_email,
+          };
+        });
+        setAdmin(dataSources);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const getTeachers = () => {
+    AccountService.getAccountsTeacher()
+      .then((response) => {
+        const dataSources = response.allTeachers.map((item, index) => {
+          return {
+            key: index + 1,
+            id: item._id,
+            name: item.teacher_name,
+            email: item.teacher_email,
+            age: item.teacher_age,
+            gender: item.teacher_gender,
+            phone: item.teacher_phone,
+          };
+        });
+        setTeacher(dataSources);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const TableAccounts = ({ accounts, value }) => {
+    const accountItem = accounts.map((item) => (
+      <tr data-key={item.id} key={item.id}>
+        <td>{item.email}</td>
+        <td>{item.name}</td>
+        <td>{value.toUpperCase()}</td>
+        <td onClick={click}>
+          <i className="fa-regular fa-pen-to-square btn-edit"></i>
+          <i className="fa-regular fa-trash-can btn-delete"></i>
+        </td>
+      </tr>
+    ));
+    
+    function click(e) {
+      const id = e.target.parentElement.parentElement.getAttribute('data-key')
+      if(dropValue==="admin")
+      AccountService.deleteAccountAdminById(id).then((res)=>res)
+      else if(dropValue==="parents")
+      AccountService.deleteAccountParentsById(id).then((res)=>res)
+      else
+      AccountService.deleteAccountTeacherById(id).then((res)=>res)
+      setState(!state)
+    }
+
+    let headerAccount;
+    if (value === "parents" || value === "admin" || value === "teacher") {
+      headerAccount = (
+        <tr>
+          <th>User name</th>
+          <th>Full name</th>
+          <th>Role</th>
+          <th>Action</th>
+        </tr>
+      );
+    }
+    return (
+      <table id="table" >
+        <thead>{headerAccount}</thead>
+        <tbody>{accountItem}</tbody>
+      </table>
+    );
+  };
+
+
   return (
     <div className="main-container">
       <header>
-        <h3>Account</h3>
+        <div>
+          <h3>Account</h3>
+          <Dropdown
+            label="What do we eat?"
+            options={options}
+            value={dropValue}
+            onChange={handleChange}
+          />
+        </div>
         <div className="right-header">
           <button className="btn-account">Add account</button>
-          <button className="btn-delete">Delete</button>
           <div className="search-box">
             <button className="btn-search">
               <FontAwesomeIcon
@@ -31,78 +182,13 @@ function AccountAdmin() {
         </div>
       </header>
       <div className="table-content">
-        <table>
-          <thead>
-            <tr>
-              <th>User name</th>
-              <th>Full name</th>
-              <th>Role</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>huudinhnguyen001k@gmail.com</td>
-              <td>Nguyen Huu Dinh</td>
-              <td>Teacher</td>
-              <td>...</td>
-            </tr>
-            <tr>
-              <td>hoangnhattan@gmail.com</td>
-              <td>Hoang Nhat Tan</td>
-              <td>Parents</td>
-              <td>...</td>
-            </tr>
-            <tr>
-              <td>hoangnhattan@gmail.com</td>
-              <td>Hoang Nhat Tan</td>
-              <td>Parents</td>
-              <td>...</td>
-            </tr>
-            <tr>
-              <td>hoangnhattan@gmail.com</td>
-              <td>Hoang Nhat Tan</td>
-              <td>Parents</td>
-              <td>...</td>
-            </tr>
-            <tr>
-              <td>hoangnhattan@gmail.com</td>
-              <td>Hoang Nhat Tan</td>
-              <td>Parents</td>
-              <td>...</td>
-            </tr>
-            <tr>
-              <td>hoangnhattan@gmail.com</td>
-              <td>Hoang Nhat Tan</td>
-              <td>Parents</td>
-              <td>...</td>
-            </tr>
-            <tr>
-              <td>hoangnhattan@gmail.com</td>
-              <td>Hoang Nhat Tan</td>
-              <td>Parents</td>
-              <td>...</td>
-            </tr>
-            <tr>
-              <td>hoangnhattan@gmail.com</td>
-              <td>Hoang Nhat Tan</td>
-              <td>Parents</td>
-              <td>...</td>
-            </tr>
-            <tr>
-              <td>hoangnhattan@gmail.com</td>
-              <td>Hoang Nhat Tan</td>
-              <td>Parents</td>
-              <td>...</td>
-            </tr>
-            <tr>
-              <td>hoangnhattan@gmail.com</td>
-              <td>Hoang Nhat Tan</td>
-              <td>Parents</td>
-              <td>...</td>
-            </tr>
-          </tbody>
-        </table>
+        {dropValue === "parents" ? (
+          <TableAccounts accounts={parents} value={dropValue} />
+        ) : dropValue === "admin" ? (
+          <TableAccounts accounts={admin} value={dropValue} />
+        ) : (
+          <TableAccounts accounts={teacher} value={dropValue} />
+        )}
       </div>
       <footer>
         <hr></hr>

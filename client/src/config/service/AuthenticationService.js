@@ -19,11 +19,31 @@ const isLogin = () => {
   return !!localStorage.getItem("@Login")
 }
 
+const isAdmin = () => {
+  return JSON.parse(localStorage.getItem("@Login")).role==="admin"
+}
+
+const isParents = () => {
+  return JSON.parse(localStorage.getItem("@Login")).role==="parent"
+}
+
+const isTeacher = () => {
+  return JSON.parse(localStorage.getItem("@Login")).role==="teacher"
+}
+
+const getData = () => {
+  return JSON.parse(localStorage.getItem("@Login"))
+}
+
 const AuthenticationService = {
   postLogin,
   saveDataLogin,
   clearDataLogin,
-  isLogin
+  isLogin,
+  isAdmin,
+  isParents,
+  isTeacher,
+  getData
 }
 
 export default AuthenticationService

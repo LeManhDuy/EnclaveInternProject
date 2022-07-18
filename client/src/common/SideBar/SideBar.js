@@ -1,23 +1,41 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "./SideBar.css";
 import Logo from "../../assets/image/Logo.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faAngleRight,
-  faArrowRightToBracket,
   faHouse,
   faUsers,
   faRightFromBracket,
 } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
+import AuthenticationService from "../../config/service/AuthenticationService"
 
 function SideBar() {
+  const [fullName, setFullName] = useState("")
+  useEffect(() => {
+    getAdmin();
+  },[])
+  const getAdmin = () => {
+    if(AuthenticationService.isAdmin()){
+      setFullName(JSON.parse(localStorage.getItem("@Login")).admin.admin_username)
+    }
+  }
+
+
+  const handleLogout = () => {
+    if(AuthenticationService.isLogin()){
+      AuthenticationService.clearDataLogin();
+      window.location.reload(false)
+    }
+  }
+
   return (
     <div>
       <div className="side-bar-main">
         <div className="logo">
           <img src={Logo}></img>
-          <h3>Blue school</h3>
+          <h3>Blue School</h3>
         </div>
         <div className="list-button">
           <ul>
@@ -69,10 +87,10 @@ function SideBar() {
         <div className="account">
           <img src={Logo}></img>
           <div className="name-role">
-            <h5>Hoang Nhat Tan</h5>
+            <h5>{fullName}</h5>
             <p>Admin</p>
           </div>
-          <button className="logout">
+          <button onClick ={handleLogout} className="logout">
             <FontAwesomeIcon className="icon" icon={faRightFromBracket} />
           </button>
         </div>
