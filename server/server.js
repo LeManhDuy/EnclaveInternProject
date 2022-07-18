@@ -22,6 +22,7 @@ app.use("/uploads/parents", express.static("uploads/parents"));
 app.use("/uploads/teachers", express.static("uploads/teachers"));
 app.use("/uploads/protectors", express.static("uploads/protectors"));
 app.use("/uploads/students", express.static("uploads/students"));
+app.use("/uploads/schedule", express.static("uploads/schedules"));
 
 //database
 const connectDB = async () => {
@@ -50,7 +51,7 @@ app.use("/api/admin/", adminRouterControl);
 //teacher
 // app.use('/api/dashboard/', teacherRouter)
 //student
-app.use("/dashboard/teacher/student", studentRouter);
+app.use("/api/student", studentRouter);
 //class
 app.use("/dashboard/teacher/class", classRouter);
 //score
