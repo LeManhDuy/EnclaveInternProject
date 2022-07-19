@@ -1,27 +1,117 @@
-import React from 'react'
-import './GradeAdmin.css'
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import React, { useState, useEffect } from "react";
+import "./GradeAdmin.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
     faMagnifyingGlass,
     faArrowLeftLong,
     faArrowRightLong,
 } from "@fortawesome/free-solid-svg-icons";
+import GradeService from "../../../config/service/GradeService";
+import ModalCustom from "../../../lib/ModalCustom/ModalCustom";
+import ConfirmAlert from "../../../lib/ConfirmAlert/ConfirmAlert";
 
 const GradeAdmin = () => {
-    const getGrade = () => {
+    const [grade, setGrade] = useState([]);
+    const [state, setState] = useState(false);
+    const [isDelete, setIsDelete] = useState(false);
+    const [name, setName] = useState("");
+    const [id, setId] = useState("");
 
-    }
+    useEffect(() => {
+        getGrade();
+    }, []);
+
+    const getGrade = () => {
+        GradeService.getGrades()
+            .then((response) => {
+                const dataSources = response.allGrades.map((item, index) => {
+                    return {
+                        key: index + 1,
+                        id: item._id,
+                        name: item.grade_name,
+                    };
+                });
+                console.log(dataSources);
+                setGrade(dataSources);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    };
+
+    const TableGrades = ({ grades, value }) => {
+        const gradeItem = grades.map((item) => (
+            <tr data-key={item.id} key={item.id}>
+                <td>{item.name}</td>
+                <td onClick={click}>
+                    <i className="fa-regular fa-pen-to-square btn-edit"></i>
+                    <i className="fa-regular fa-trash-can btn-delete"></i>
+                </td>
+            </tr>
+        ));
+
+        function click(e) {
+            const id =
+                e.target.parentElement.parentElement.getAttribute("data-key");
+            if (e.target.className.includes("btn-delete")) {
+                setIsDelete(true);
+                setId(id);
+                setName(
+                    e.target.parentElement.parentElement.querySelectorAll(
+                        "td"
+                    )[0].textContent
+                );
+            } else if (e.target.className.includes("btn-edit")) {
+                //TODO edited
+            }
+        }
+
+        let headerSubject;
+        if (!value) {
+            headerSubject = (
+                <tr>
+                    <th>Name</th>
+                    <th>Action</th>
+                </tr>
+            );
+        }
+        return (
+            <table id="table">
+                <thead className="table-head-row">{headerSubject}</thead>
+                <tbody className="table-row">{gradeItem}</tbody>
+            </table>
+        );
+    };
+
+    const handleCloseModalCustom = () => {
+        setIsDelete(false);
+    };
+
+    const handleDelete = () => {
+        SubjectService.deleteSubjectsById(id).then((res) => res);
+        setState(!state);
+        setIsDelete(false);
+    };
+
+    const ConfirmDelete = (
+        <ModalCustom
+            show={isDelete}
+            content={
+                <ConfirmAlert
+                    handleCloseModalCustom={handleCloseModalCustom}
+                    handleDelete={handleDelete}
+                    title={`Do you want to delete the ${name}?`}
+                />
+            }
+            handleCloseModalCustom={handleCloseModalCustom}
+        />
+    );
+
     return (
         <div className="main-container">
             <header>
                 <div>
                     <h3>Manage Grade</h3>
-                    {/* <Dropdown
-                label="What do we eat?"
-                options={options}
-                value={dropValue}
-                onChange={handleChange}
-              /> */}
                 </div>
                 <div className="right-header">
                     <button className="btn-account">Add Grade</button>
@@ -41,72 +131,7 @@ const GradeAdmin = () => {
                 </div>
             </header>
             <div className="table-content">
-                {/* {dropValue === "parents" ? (
-              <TableAccounts accounts={parents} value={dropValue} />
-            ) : dropValue === "admin" ? (
-              <TableAccounts accounts={admin} value={dropValue} />
-            ) : (
-              <TableAccounts accounts={teacher} value={dropValue} />
-            )} */}
-                <table id="table" >
-                    <thead className='table-head-row'>
-                    <tr >
-                        <th >Grade</th>
-                        {/*<th>Full name</th>*/}
-                        {/*<th>Role</th>*/}
-                        <th colSpan>Action</th>
-                    </tr>
-                    </thead>
-                    <tbody className='table-row'>
-                    <tr>
-                        <td>1</td>
-                        {/*<td>Nguyen Huu Dinh</td>*/}
-                        {/*<td>Admin</td>*/}
-                        <td>
-                            <i className="fa-regular fa-pen-to-square btn-edit"></i>
-                            <i className="fa-regular fa-trash-can btn-delete"></i>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>2</td>
-                        {/*<td>Nguyen Huu Dinh</td>*/}
-                        {/*<td>Admin</td>*/}
-                        <td>
-                            <i className="fa-regular fa-pen-to-square btn-edit"></i>
-                            <i className="fa-regular fa-trash-can btn-delete"></i>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>3</td>
-                        {/*<td>Nguyen Huu Dinh</td>*/}
-                        {/*<td>Admin</td>*/}
-                        <td>
-                            <i className="fa-regular fa-pen-to-square btn-edit"></i>
-                            <i className="fa-regular fa-trash-can btn-delete"></i>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <a href={'http://localhost:3000/admin/class'}>4</a>
-                        </td>
-                        {/*<td>Nguyen Huu Dinh</td>*/}
-                        {/*<td>Admin</td>*/}
-                        <td>
-                            <i className="fa-regular fa-pen-to-square btn-edit"></i>
-                            <i className="fa-regular fa-trash-can btn-delete"></i>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>5</td>
-                        {/*<td>Nguyen Huu Dinh</td>*/}
-                        {/*<td>Admin</td>*/}
-                        <td>
-                            <i className="fa-regular fa-pen-to-square btn-edit"></i>
-                            <i className="fa-regular fa-trash-can btn-delete"></i>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
+                <TableGrades grades={grade} />
             </div>
             <footer>
                 <hr></hr>
@@ -135,9 +160,10 @@ const GradeAdmin = () => {
                         />
                     </button>
                 </div>
+                <div> {isDelete ? ConfirmDelete : null} </div>
             </footer>
         </div>
     );
-}
+};
 
 export default GradeAdmin;
