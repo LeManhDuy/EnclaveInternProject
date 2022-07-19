@@ -53,16 +53,16 @@ app.use("/api/admin/", adminRouterControl);
 //student
 app.use("/api/student", studentRouter);
 //class
-app.use("/dashboard/teacher/class", classRouter);
+app.use("/api/teacher/class", classRouter);
 //score
-app.use("/dashboard/teacher/score", scoreRouter);
+app.use("/api/teacher/score", scoreRouter);
 
 // app.use('/api/auth', authRouter)
 app.use("/api/admin/parents", adminParentsRouter);
 app.use("/api/subjects", subjectRouter);
 // app.use('/api/dashboard/', teacherRouter)
 //subject
-app.use("/dashboard/teacher/subjects", subjectRouter);
+app.use("/api/teacher/subjects", subjectRouter);
 //greades
 app.use("/api/grades", gradeRouter);
 app.use("/api/protectors", protectorRouter);

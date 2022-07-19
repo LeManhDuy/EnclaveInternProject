@@ -220,13 +220,6 @@ function SubjectAdmin() {
             </header>
             <div className="table-content">
                 <TableSubjects subjects={subject} />
-                {/* {dropValue === "parents" ? (
-                    <TableAccounts accounts={parents} value={dropValue} />
-                ) : dropValue === "admin" ? (
-                    <TableAccounts accounts={admin} value={dropValue} />
-                ) : (
-                    <TableAccounts accounts={teacher} value={dropValue} />
-                )} */}
             </div>
             <footer>
                 <hr></hr>
