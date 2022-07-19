@@ -9,7 +9,7 @@ const Grade = require("../model/Grade");
 const Student = require("../model/Student");
 const Schedule = require("../model/Schedule");
 
-// @route GET dashboard/teacher/class/add-teacher-to-class/{{ classId }}&{{  }}
+// @route GET dashboard/teacher/class/add-teacher-to-class/{{ classId }}&{{ teacherId }}
 // @desc add student to class
 // @access Private
 router.get(

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./ClassAdmin.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -7,21 +7,57 @@ import {
   faArrowRightLong,
 } from "@fortawesome/free-solid-svg-icons";
 
-const ClassAdmin = () => {
+
+
+function ClassAdmin() {
+  const [dropValue, setDropValue] = useState("admin");
+  const [state, setState] = useState(false);
+  useEffect(() => {
+
+  }, [dropValue, state]);
+
+  const options = [
+    // { label: 'All', value: 'all' },
+    { key: 1, label: "1", value: "1" },
+    { key: 2, label: "2", value: "2" },
+    { key: 3, label: "3", value: "3" },
+    { key: 4, label: "4", value: "4" },
+    { key: 5, label: "5", value: "5" },
+  ];
+
+  const Dropdown = ({ value, options, onChange }) => {
+    return (
+      <label>
+        Type of class
+        <select className="dropdown-account" value={value} onChange={onChange}>
+          {options.map((option) => (
+            <option
+              key={option.key}
+              value={option.value}>{option.label}</option>
+          ))}
+        </select>
+      </label>
+    );
+  };
+
+  const handleChange = (event) => {
+    setDropValue(event.target.value);
+  };
+
   return (
     <div className="main-container">
       <header>
         <div>
-          <h3>Account</h3>
-          {/* <Dropdown
-                label="What do we eat?"
-                options={options}
-                value={dropValue}
-                onChange={handleChange}
-              /> */}
+          <h3>Manage Class</h3>
+          <Dropdown
+            label="What do we eat?"
+            options={options}
+            value={dropValue}
+            onChange={handleChange}
+          />
         </div>
         <div className="right-header">
-          <button className="btn-account">Add account</button>
+          <button className="btn-account">Add class</button>
           <div className="search-box">
             <button className="btn-search">
               <FontAwesomeIcon
@@ -48,36 +84,21 @@ const ClassAdmin = () => {
         <table id="table">
           <thead>
             <tr>
-              <th>User name</th>
-              <th>Full name</th>
-              <th>Role</th>
-              <th>Action</th>
+              <th className="th-content">Class name</th>
+              <th className="th-content">Action</th>
             </tr>
           </thead>
           <tbody>
             <tr >
-              <td>Dinh@gmail.com</td>
-              <td>Nguyen Huu Dinh</td>
-              <td>Admin</td>
-              <td >
+              <td className="td-content">1A</td>
+              <td className="th-content">
                 <i className="fa-regular fa-pen-to-square btn-edit"></i>
                 <i className="fa-regular fa-trash-can btn-delete"></i>
               </td>
             </tr>
             <tr >
-              <td>Dinh@gmail.com</td>
-              <td>Nguyen Huu Dinh</td>
-              <td>Admin</td>
-              <td >
-                <i className="fa-regular fa-pen-to-square btn-edit"></i>
-                <i className="fa-regular fa-trash-can btn-delete"></i>
-              </td>
-            </tr>
-            <tr >
-              <td>Dinh@gmail.com</td>
-              <td>Nguyen Huu Dinh</td>
-              <td>Admin</td>
-              <td >
+              <td className="th-content">2A</td>
+              <td className="th-content">
                 <i className="fa-regular fa-pen-to-square btn-edit"></i>
                 <i className="fa-regular fa-trash-can btn-delete"></i>
               </td>
