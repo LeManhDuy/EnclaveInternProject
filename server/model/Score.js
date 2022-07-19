@@ -11,7 +11,7 @@ const scoreSchema = new Schema({
         required: true,
     },
     score_ratio3: {
-        type: [Number],
+        type: Number,
         required: true,
     },
     score_average: {

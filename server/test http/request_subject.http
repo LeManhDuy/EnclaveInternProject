@@ -20,10 +20,18 @@ Content-Type: application/json
 }
 
 ###
+//add subject to student
+//subjectID&&:studentID
+GET  http://localhost:8000/dashboard/teacher/subjects/add-subjects-to-student/62d66ab6fc6167c1f2531ce4&62cf98aa577393612c8dd812
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbklkIjoiNjJjNjhkMWViZWRlNTEwNzYzMzg4OTE0IiwiaWF0IjoxNjU4MjE5Mjg1fQ.d0TKY8p3RctdpsjvfppjXkVs6M0XpGwbtel2Db4b5rI
+
+
+###
 //add subject to grade and student
 //subjectID&:gradeID&:studentID
-GET  http://localhost:8000/dashboard/teacher/subjects/add-subjects-to-grade-and-student/62c69a4bbe8c86c9d35798d0&62c699a4be8c86c9d357986b&62cbc71228ed8bda747c4445
-GET  http://localhost:8000/dashboard/teacher/subjects/add-subjects-to-grade-and-student/62c69a1abe8c86c9d3579897&62c69998be8c86c9d357985f&62cbc71228ed8bda747c4445
+GET  http://localhost:8000/dashboard/teacher/subjects/add-subjects-to-grade-and-student/62d5247bc044b0e1c2bfc720&62c69998be8c86c9d357985f&62cbc71228ed8bda747c4445
+#GET  http://localhost:8000/dashboard/teacher/subjects/add-subjects-to-grade-and-student/62c69a1abe8c86c9d3579897&62c69998be8c86c9d357985f&62cbc71228ed8bda747c4445
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZWFjaGVySWQiOiI2MmM2OGFkNGJlZGU1MTA3NjMzODg4ZjYiLCJpYXQiOjE2NTc1OTM2NjZ9.CZkMCBEEfw6yytVghIBNwHqkfpxNCUD82_XYf4MsPZs
 
@@ -34,12 +42,12 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZWFjaGVySWQiOiI2M
 //grade 3 : 62c6999ebe8c86c9d3579865
 //grade 4 : 62c699a0be8c86c9d3579868
 //grade 5 : 62c699a4be8c86c9d357986b
-POST http://localhost:8000/dashboard/teacher/subjects/create-subject/62c6999bbe8c86c9d3579862
+POST http://localhost:8000/dashboard/teacher/subjects/create-subject/62c69998be8c86c9d357985f
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbklkIjoiNjJjNjhkMWViZWRlNTEwNzYzMzg4OTE0IiwiaWF0IjoxNjU4MTMwODgwfQ.CUWOwDELYZ7AOsm9SXhp4wi1adrTYj3dXlkT1GaHzVc
 
 {
-    "subject_name" : "History",
+    "subject_name" : "text",
     "subject_ratio" : 1
 }
 

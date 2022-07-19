@@ -1,0 +1,37 @@
+.main-container-edit {
+    margin: 30px 40px;
+}
+
+.header-content {
+    display: flex;
+    justify-content: space-between;
+}
+
+.table-content-edit {
+    text-align: left;
+    margin: 30px 0;
+    border-radius: 8px;
+    box-shadow: rgb(0 0 0 / 10%) 0px 4px 12px;
+    overflow: auto;
+    width: 50%;
+}
+
+.btn-save {
+    width: 100px;
+    height: 50px;
+    background-color: #fff;
+    color: var(--text-color);
+    border: 2px solid var(--primary-color);
+}
+
+.btn-save:hover {
+    width: 100px;
+    height: 50px;
+    background-color: var(--primary-color);
+    color: #fff;
+}
+
+.btn-position {
+    display: flex;
+    flex-direction: row-reverse;
+}
