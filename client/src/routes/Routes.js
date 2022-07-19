@@ -13,12 +13,14 @@ import ClassAdmin from "../page/ComponentAdmin/ClassAdmin/ClassAdmin";
 import GradeAdmin from "../page/ComponentAdmin/GradeAdmin/GradeAdmin";
 import SubjectAdmin from "../page/ComponentAdmin/SubjectAdmin/SubjectAdmin";
 import ScheduleAdmin from "../page/ComponentAdmin/ScheduleAdmin/ScheduleAdmin";
-import Parents from "../page/Parents/Parents";
-import Teacher from "../page/Teacher/Teacher";
 import PublicRoute from "./PublicRoute";
 import AdminRoute from "./AdminRoute/AdminRoute";
 import ParentsRoute from "./ParentsRoute/ParentsRoute";
 import TeacherRoute from "./TeacherRoute/TeacherRoute";
+import ScoreTeacher from "../page/Teacher/ScoreTeacher/ScoreTeacher"
+import ClassTeacher from "../page/Teacher/ClassTeacher/ClassTeacher"
+import ScheduleTeacher from "../page/Teacher/ScheduleTeacher/ScheduleTeacher"
+import NotificationTeacher from "../page/Teacher/NotificationTeacher/NotificationTeacher"
 
 const Routes = () => {
     return (
@@ -67,16 +69,34 @@ const Routes = () => {
                         path={ROUTES.ADMIN_PAGE.SCHEDULE_ADMIN}
                     />
 
-                    <ParentsRoute
+                    {/* <ParentsRoute
                         component={Parents}
                         exact
                         path={ROUTES.PARENTS_PAGE.PARENTS_PATH}
+                    /> */}
+
+                    <TeacherRoute
+                        component={ScoreTeacher}
+                        exact
+                        path={ROUTES.TEACHER_PAGE.TEACHER_SCORE_PATH}
                     />
 
                     <TeacherRoute
-                        component={Teacher}
+                        component={ClassTeacher}
                         exact
-                        path={ROUTES.TEACHER_PAGE.TEACHER_PATH}
+                        path={ROUTES.TEACHER_PAGE.TEACHER_CLASS_PATH}
+                    />
+
+                    <TeacherRoute
+                        component={ScheduleTeacher}
+                        exact
+                        path={ROUTES.TEACHER_PAGE.TEACHER_SCHEDULE_PATH}
+                    />
+
+                    <TeacherRoute
+                        component={NotificationTeacher}
+                        exact
+                        path={ROUTES.TEACHER_PAGE.TEACHER_NOTIFICATION_PATH}
                     />
 
                     <PublicRoute

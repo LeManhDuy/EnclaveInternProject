@@ -1,9 +1,3 @@
-import Home from "../page/Home/Home";
-import Admin from "../page/Admin/Admin";
-import Parents from "../page/Parents/Parents";
-import NotFound from "../page/NotFound/NotFound";
-import Teacher from "../page/Teacher/Teacher";
-
 const ROUTES = {
     HOME_PAGE: {
         // path: "/",
@@ -22,21 +16,15 @@ const ROUTES = {
     },
 
     PARENTS_PAGE: {
-        // path: "/parents",
-        // isPrivate: true,
-        // component: Parents,
-        PARENTS_PATH: "/parents",
         PARENTS_STUDENT_PATH: "/parents/student",
         PARENTS_PARENTS_PATH: "/parents/parents",
     },
 
     TEACHER_PAGE: {
-        // path: "/teacher",
-        // isPrivate: true,
-        // component: Teacher,
-        TEACHER_PATH: "/teacher",
-        TEACHER_STUDENT_PATH: "/teacher/student",
+        TEACHER_SCORE_PATH: "/teacher/score",
         TEACHER_CLASS_PATH: "/teacher/class",
+        TEACHER_SCHEDULE_PATH: "/teacher/schedule",
+        TEACHER_NOTIFICATION_PATH: "/teacher/notification",
     },
 
     NOT_FOUND_PAGE: {

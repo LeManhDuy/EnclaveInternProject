@@ -13,7 +13,7 @@ function useOutsideAlerter(ref, handle) {
      */
     function handleClickOutside(event) {
       if (ref.current && !ref.current.contains(event.target)) {
-        handle(event)
+        handle(event);
       }
     }
     // Bind the event listener
@@ -29,7 +29,7 @@ function UserHeader() {
   const [open, setOpen] = useState(false);
   const wrapperRef = useRef(null);
   useOutsideAlerter(wrapperRef, () => {
-    setOpen(false)
+    setOpen(false);
   });
   const optionsParents = [
     { key: 1, label: "Home", link: ROUTES.HOME_PAGE.HOME_PATH },
@@ -49,33 +49,57 @@ function UserHeader() {
     { key: 1, label: "Home", link: ROUTES.HOME_PAGE.HOME_PATH },
     {
       key: 2,
-      label: "Student",
-      link: ROUTES.TEACHER_PAGE.TEACHER_STUDENT_PATH,
+      label: "Class",
+      link: ROUTES.TEACHER_PAGE.TEACHER_CLASS_PATH,
     },
     {
       key: 3,
-      label: "Class",
-      link: ROUTES.TEACHER_PAGE.TEACHER_CLASS_PATH,
+      label: "Score",
+      link: ROUTES.TEACHER_PAGE.TEACHER_SCORE_PATH,
+    },
+    {
+      key: 4,
+      label: "Schedule",
+      link: ROUTES.TEACHER_PAGE.TEACHER_SCHEDULE_PATH,
+    },
+    {
+      key: 5,
+      label: "Notification",
+      link: ROUTES.TEACHER_PAGE.TEACHER_NOTIFICATION_PATH,
     },
   ];
 
   const optionsAdmin = [
     {
       key: 1,
+      label: "Home",
+      link: ROUTES.HOME_PAGE.HOME_PATH,
+    },
+    {
+      key: 2,
       label: "Admin",
       link: ROUTES.ADMIN_PAGE.ADMIN_HOME,
     },
     {
-      key: 2,
+      key: 3,
       label: "Accounts",
       link: ROUTES.ADMIN_PAGE.ACCOUNT_ADMIN,
     },
-  ];
-
-  const optionsDropDown = [
-    { value: "chocolate", label: "Chocolate", copy: true },
-    { value: "strawberry", label: "Strawberry", copy: true },
-    { value: "vanilla", label: "Vanilla", copy: true },
+    {
+      key: 4,
+      label: "Class",
+      link: ROUTES.ADMIN_PAGE.CLASS_ADMIN,
+    },
+    {
+      key: 5,
+      label: "Grade",
+      link: ROUTES.ADMIN_PAGE.GRADE_ADMIN,
+    },
+    {
+      key: 6,
+      label: "Subject",
+      link: ROUTES.ADMIN_PAGE.SUBJECT_ADMIN,
+    },
   ];
 
   const ItemHeader = ({ options }) => {
@@ -117,8 +141,8 @@ function UserHeader() {
         <h6>{AuthenticationService.getData().role.toUpperCase()}</h6>
       </div>
       <div className="avatar" ref={wrapperRef}>
-        <img src={Logo} onClick={() => setOpen(!open)}/>
-        {open ? <AvatarDropdown HandleLogout={HandleLogout}/> : null}
+        <img src={Logo} onClick={() => setOpen(!open)} />
+        {open ? <AvatarDropdown HandleLogout={HandleLogout} /> : null}
       </div>
     </div>
   );

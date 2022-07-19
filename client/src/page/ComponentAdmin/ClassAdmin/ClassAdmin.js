@@ -84,13 +84,15 @@ function ClassAdmin() {
         <table id="table">
           <thead>
             <tr>
-              <th className="th-content">Class name</th>
+              <th className="th-content">Class</th>
+              <th className="th-content">Teacher</th>
               <th className="th-content">Action</th>
             </tr>
           </thead>
           <tbody>
             <tr >
               <td className="td-content">1A</td>
+              <td className="td-content">Nhat Tan</td>
               <td className="th-content">
                 <i className="fa-regular fa-pen-to-square btn-edit"></i>
                 <i className="fa-regular fa-trash-can btn-delete"></i>
@@ -98,6 +100,7 @@ function ClassAdmin() {
             </tr>
             <tr >
               <td className="th-content">2A</td>
+              <td className="th-content">Huu Dinh</td>
               <td className="th-content">
                 <i className="fa-regular fa-pen-to-square btn-edit"></i>
                 <i className="fa-regular fa-trash-can btn-delete"></i>

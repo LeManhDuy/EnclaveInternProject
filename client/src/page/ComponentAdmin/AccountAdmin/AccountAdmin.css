@@ -150,6 +150,10 @@
   color: var(--error-color);
 }
 
+.table-content table .btn-view {
+  color: rgb(224, 175, 0)
+}
+
 
 
 /* .table-content table thead {
