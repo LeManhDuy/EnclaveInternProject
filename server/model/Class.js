@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const classSchema = new Schema({
@@ -8,20 +8,30 @@ const classSchema = new Schema({
     },
     teacher_id: {
         type: Schema.Types.ObjectId,
-        ref: 'Teacher'
+        ref: "Teacher",
+    },
+    teacher_name: {
+        type: Schema.Types.String,
+        ref: "Teacher",
     },
     grade_id: {
         type: Schema.Types.ObjectId,
-        ref: 'Grade'
+        ref: "Grade",
     },
-    students: [{
-        type: Schema.Types.ObjectId,
-        ref: 'Student'
-    }],
+    grade_name: {
+        type: Schema.Types.String,
+        ref: "Grade",
+    },
+    students: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: "Student",
+        },
+    ],
     schedule_id: {
         type: Schema.Types.ObjectId,
-        ref: 'Schedule'
-    }
+        ref: "Schedule",
+    },
 });
 
-module.exports = mongoose.model('Class', classSchema)
+module.exports = mongoose.model("Class", classSchema);

@@ -247,6 +247,8 @@ router.post("/:gradeId&:teacherId&:scheduleId", verifyJWT, async (req, res) => {
             class_name,
             teacher_id: teacher,
             grade_id: grade,
+            teacher_name: teacher.teacher_name,
+            grade_name: grade.grade_name,
         });
         await newClass.save();
         grade.classes.push(newClass._id);
@@ -260,6 +262,8 @@ router.post("/:gradeId&:teacherId&:scheduleId", verifyJWT, async (req, res) => {
             teacher: teacher.teacher_name,
             grade: grade.grade_name,
             schedule: schedule.schedule_link,
+            grade_name: grade.grade_name,
+            teacher_name: teacher.teacher_name,
         });
     } catch (error) {
         return res.status(500).json({
@@ -290,6 +294,7 @@ router.get("/grade/:gradeId", verifyJWT, async (req, res) => {
     try {
         const grade = await Grade.findById(gradeId).populate("classes");
         return res.json({
+            grade_id: grade._id,
             grade_name: grade.grade_name,
             classes: grade.classes,
         });
@@ -330,12 +335,10 @@ router.put("/:id", verifyJWT, async (req, res) => {
             message: "Class is not existing!",
         });
     if (!class_name) {
-        return res
-            .status(400)
-            .json({
-                success: false,
-                message: "Missing information. Please fill in!",
-            });
+        return res.status(400).json({
+            success: false,
+            message: "Missing information. Please fill in!",
+        });
     }
     try {
         const updateClass = {

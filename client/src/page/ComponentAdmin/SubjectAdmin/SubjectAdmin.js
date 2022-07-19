@@ -24,15 +24,6 @@ function SubjectAdmin() {
         getGrade();
     }, [dropValue, state]);
 
-    const options = [
-        { key: 0, label: "All", value: "all" },
-        { key: 1, label: "Grade 1", value: "grade 1" },
-        { key: 2, label: "Grade 2", value: "grade 2" },
-        { key: 3, label: "Grade 3", value: "grade 3" },
-        { key: 4, label: "Grade 4", value: "grade 4" },
-        { key: 5, label: "Grade 5", value: "grade 5" },
-    ];
-
     const Dropdown = ({ value, options, onChange }) => {
         return (
             <label>
@@ -229,13 +220,6 @@ function SubjectAdmin() {
             </header>
             <div className="table-content">
                 <TableSubjects subjects={subject} />
-                {/* {dropValue === "parents" ? (
-                    <TableAccounts accounts={parents} value={dropValue} />
-                ) : dropValue === "admin" ? (
-                    <TableAccounts accounts={admin} value={dropValue} />
-                ) : (
-                    <TableAccounts accounts={teacher} value={dropValue} />
-                )} */}
             </div>
             <footer>
                 <hr></hr>
