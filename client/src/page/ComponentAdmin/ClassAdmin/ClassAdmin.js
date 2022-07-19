@@ -174,7 +174,7 @@ const ClassAdmin = () => {
     };
 
     const handleDelete = () => {
-        SubjectService.deleteSubjectsById(id).then((res) => res);
+        ClassService.deleteClassById(id).then((res) => res);
         setState(!state);
         setIsDelete(false);
     };

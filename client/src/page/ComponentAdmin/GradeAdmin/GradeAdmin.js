@@ -88,7 +88,7 @@ const GradeAdmin = () => {
     };
 
     const handleDelete = () => {
-        SubjectService.deleteSubjectsById(id).then((res) => res);
+        GradeService.deleteClassById(id).then((res) => res);
         setState(!state);
         setIsDelete(false);
     };
