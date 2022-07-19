@@ -1,10 +1,10 @@
 const express = require("express");
 const router = express.Router();
 const Grades = require("../model/Grade");
-const verifyJWTandTeacher = require("../middleware/verifyJWTandTeacher");
+const verifyJWTandAdmin = require("../middleware/verifyJWTandAdmin");
 
 // Create
-router.post("/", verifyJWTandTeacher, async (req, res) => {
+router.post("/", verifyJWTandAdmin, async (req, res) => {
     const { grade_name } = req.body;
     try {
         // Validate
@@ -25,7 +25,7 @@ router.post("/", verifyJWTandTeacher, async (req, res) => {
 });
 
 // Get
-router.get("/", verifyJWTandTeacher, async (req, res) => {
+router.get("/", verifyJWTandAdmin, async (req, res) => {
     try {
         // Return token
         const allGrades = await Grades.find({});
@@ -35,8 +35,19 @@ router.get("/", verifyJWTandTeacher, async (req, res) => {
     }
 });
 
+// Get by id
+router.get("/:gradeID", verifyJWTandAdmin, async (req, res) => {
+    try {
+        // Return token
+        const grades = await Grades.findById(req.params.gradeID);
+        res.json({ success: true, grades });
+    } catch (error) {
+        return res.status(500).json({ success: false, message: "" + error });
+    }
+});
+
 // Update
-router.put("/:gradeID", verifyJWTandTeacher, async (req, res) => {
+router.put("/:gradeID", verifyJWTandAdmin, async (req, res) => {
     const { grade_name } = req.body;
     try {
         // Validate
@@ -67,7 +78,7 @@ router.put("/:gradeID", verifyJWTandTeacher, async (req, res) => {
 });
 
 // Delete
-router.delete("/:gradeID", verifyJWTandTeacher, async (req, res) => {
+router.delete("/:gradeID", verifyJWTandAdmin, async (req, res) => {
     try {
         const postDeleteCondition = { _id: req.params.gradeID };
         const deletedGrade = await Grades.findOneAndDelete(postDeleteCondition);

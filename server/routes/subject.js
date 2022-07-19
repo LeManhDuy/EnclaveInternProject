@@ -5,11 +5,12 @@ const Grades = require("../model/Grade");
 const Student = require("../model/Student");
 const { ObjectId } = require("mongodb");
 const verifyJWTandTeacher = require("../middleware/verifyJWTandTeacher");
+const verifyJWTandAdmin = require("../middleware/verifyJWTandAdmin");
 
 // add subjects to grade id and student id
 router.get(
     "/add-subjects-to-grade-and-student/:subjectID&:gradeID&:studentID",
-    verifyJWTandTeacher,
+    verifyJWTandAdmin,
     async (req, res) => {
         const { subjectID, gradeID, studentID } = req.params;
         try {
@@ -80,66 +81,61 @@ router.get(
 
 //create subject
 // Create
-router.post(
-    "/create-subject/:gradeID",
-    verifyJWTandTeacher,
-    async (req, res) => {
-        const { gradeID } = req.params;
-        const { subject_name, subject_ratio, grade_id } = req.body;
-        if (!subject_name || !subject_ratio) {
+router.post("/create-subject/:gradeID", verifyJWTandAdmin, async (req, res) => {
+    const { gradeID } = req.params;
+    const { subject_name, subject_ratio, grade_id } = req.body;
+    if (!subject_name || !subject_ratio) {
+        return res.status(400).json({
+            success: false,
+            message: "Missing information.Please fill in!",
+        });
+    }
+    try {
+        //Validate
+        const subjectValidate = await Subjects.findOne({
+            subject_name: subject_name,
+        });
+        let result = true;
+        const gradeValidate = await Grades.findById(gradeID);
+        console.log(subject_name);
+        gradeValidate.subjects_name.map((item) => {
+            if (item === subject_name) result = false;
+        });
+        const grade = await Grades.findById(gradeID);
+        if (!result) {
             return res.status(400).json({
                 success: false,
-                message: "Missing information.Please fill in!",
+                message: "This subject is existing in this grade.",
             });
         }
-        try {
-            //Validate
-            const subjectValidate = await Subjects.findOne({
-                subject_name: subject_name,
+        if (!grade) {
+            return res.status(400).json({
+                success: false,
+                message: "This grade does not exists.",
             });
-            let result = true;
-            const gradeValidate = await Grades.findById(gradeID);
-            console.log(subject_name);
-            gradeValidate.subjects_name.map((item) => {
-                if (item === subject_name) result = false;
-            });
-            const grade = await Grades.findById(gradeID);
-            if (!result) {
-                return res.status(400).json({
-                    success: false,
-                    message: "This subject is existing in this grade.",
-                });
-            }
-            if (!grade) {
-                return res.status(400).json({
-                    success: false,
-                    message: "This grade does not exists.",
-                });
-            }
-            const newSubject = new Subjects({
-                subject_name,
-                subject_ratio,
-                grade_id: grade,
-            });
-            await newSubject.save();
-            grade.subjects.push(newSubject._id);
-            grade.subjects_name.push(newSubject.subject_name);
-            await grade.save();
-            res.json({
-                success: true,
-                message: "Create subject successfully",
-                subjects: newSubject,
-            });
-        } catch (error) {
-            return res
-                .status(500)
-                .json({ success: false, message: "" + error });
         }
+        const newSubject = new Subjects({
+            subject_name,
+            subject_ratio,
+            grade_id: grade,
+            grade_name: grade.grade_name,
+        });
+        await newSubject.save();
+        grade.subjects.push(newSubject._id);
+        grade.subjects_name.push(newSubject.subject_name);
+        await grade.save();
+        res.json({
+            success: true,
+            message: "Create subject successfully",
+            subjects: newSubject,
+        });
+    } catch (error) {
+        return res.status(500).json({ success: false, message: "" + error });
     }
-);
+});
 
 // Get
-router.get("/", verifyJWTandTeacher, async (req, res) => {
+router.get("/", verifyJWTandAdmin, async (req, res) => {
     try {
         // Return token
         const allSubjects = await Subjects.find({});
@@ -163,7 +159,7 @@ router.get("/", verifyJWTandTeacher, async (req, res) => {
 // })
 
 // Get subjects from grade
-router.get("/:gradeID", verifyJWTandTeacher, async (req, res) => {
+router.get("/:gradeID", verifyJWTandAdmin, async (req, res) => {
     const { gradeID } = req.params;
 
     try {
@@ -179,7 +175,7 @@ router.get("/:gradeID", verifyJWTandTeacher, async (req, res) => {
 // Get subject from student
 router.get(
     "/get-subject-by-id/:studentID",
-    verifyJWTandTeacher,
+    verifyJWTandAdmin,
     async (req, res) => {
         const { studentID } = req.params;
         try {
@@ -200,7 +196,7 @@ router.get(
 );
 
 // Update
-router.put("/:id", verifyJWTandTeacher, async (req, res) => {
+router.put("/:id", verifyJWTandAdmin, async (req, res) => {
     const { subject_name, subject_ratio, grade_id } = req.body;
     // Validation
     if (!subject_name || !subject_ratio || !grade_id) {
@@ -233,7 +229,7 @@ router.put("/:id", verifyJWTandTeacher, async (req, res) => {
 });
 
 // Delete
-router.delete("/:id", verifyJWTandTeacher, async (req, res) => {
+router.delete("/:id", verifyJWTandAdmin, async (req, res) => {
     try {
         const postDeleteCondition = { _id: req.params.id };
         const deletedSubject = await Subjects.findOneAndDelete(
