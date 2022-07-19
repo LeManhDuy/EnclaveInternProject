@@ -9,6 +9,57 @@ const verifyJWTandAdmin = require("../middleware/verifyJWTandAdmin");
 
 // add subjects to grade id and student id
 router.get(
+    "/add-subjects-to-student/:subjectID&:studentID",
+    verifyJWTandAdmin,
+    async (req, res) => {
+        const { subjectID, studentID } = req.params;
+        try {
+            //Validate
+            const subject = await Subjects.findById(subjectID);
+            const student = await Student.findById(studentID);
+            var result = false;
+            subject.students.map((item) => {
+                if (studentID === item.toString()) {
+                    result = true;
+                    return result;
+                }
+            });
+
+            //Validate
+            if (!student) {
+                return res.status(400).json({
+                    success: false,
+                    message: "This student does not exists.",
+                });
+            }
+            if (result) {
+                return res.status(400).json({
+                    success: false,
+                    message: "This student is in this subject",
+                });
+            }
+            student.subjects.push(subject._id);
+            subject.students.push(student._id);
+            subject.students_name.push(student.student_fullname);
+            await student.save();
+            await subject.save();
+            return res.json({
+                success: true,
+                message: "Add student to subject successfully",
+                subject_name: subject.subject_name,
+                subject_ratio: subject.subject_ratio,
+                students: subject.students_name,
+            });
+        } catch (error) {
+            return res
+                .status(500)
+                .json({ success: false, message: "" + error });
+        }
+    }
+);
+
+// add subjects to grade id and student id
+router.get(
     "/add-subjects-to-grade-and-student/:subjectID&:gradeID&:studentID",
     verifyJWTandAdmin,
     async (req, res) => {
