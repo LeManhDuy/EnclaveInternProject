@@ -12,6 +12,7 @@ import ConfirmAlert from "../../../lib/ConfirmAlert/ConfirmAlert";
 
 function SubjectAdmin() {
     const [subject, setSubject] = useState([]);
+    const [grade, setGrade] = useState([]);
     const [dropValue, setDropValue] = useState("all");
     const [state, setState] = useState(false);
     const [isDelete, setIsDelete] = useState(false);
@@ -20,6 +21,7 @@ function SubjectAdmin() {
 
     useEffect(() => {
         getSubject();
+        getGrade();
     }, [dropValue, state]);
 
     const options = [
@@ -40,9 +42,12 @@ function SubjectAdmin() {
                     value={value}
                     onChange={onChange}
                 >
+                    <option key={0} value="All">
+                        All
+                    </option>
                     {options.map((option) => (
-                        <option key={option.key} value={option.value}>
-                            {option.label}
+                        <option key={option.key} value={option.name}>
+                            {option.name}
                         </option>
                     ))}
                 </select>
@@ -52,6 +57,12 @@ function SubjectAdmin() {
 
     const handleChange = (event) => {
         setDropValue(event.target.value);
+        console.log(grade);
+        grade.map((item) => {
+            if (event.target.value === item.name) {
+                getSubjectById(item.id);
+            }
+        });
         console.log(event.target.value);
     };
 
@@ -74,10 +85,28 @@ function SubjectAdmin() {
             });
     };
 
-    const getSubjectByGradeId = (id) => {
+    const getGrade = () => {
+        SubjectService.getGrades()
+            .then((response) => {
+                const dataSources = response.allGrades.map((item, index) => {
+                    return {
+                        key: index + 1,
+                        id: item._id,
+                        name: item.grade_name,
+                    };
+                });
+                console.log(dataSources);
+                setGrade(dataSources);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    };
+
+    const getSubjectById = (id) => {
         SubjectService.getSubjectsByGradeId(id)
             .then((response) => {
-                const dataSources = response.allSubjects.map((item, index) => {
+                const dataSources = response.subjects.map((item, index) => {
                     return {
                         key: index + 1,
                         id: item._id,
@@ -176,7 +205,7 @@ function SubjectAdmin() {
                     <h3>Manage Subject</h3>
                     <Dropdown
                         label="What do we eat?"
-                        options={options}
+                        options={grade}
                         value={dropValue}
                         onChange={handleChange}
                     />
