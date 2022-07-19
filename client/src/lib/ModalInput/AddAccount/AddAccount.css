@@ -1,0 +1,23 @@
+@import "../../../assets/css/variables.css";
+@import "../../../assets/css/custom.css";
+
+.add-account-form{
+    background: #fff;
+    border-radius: 8px;
+    padding: 30px;
+}
+
+.choose-account label{
+    display: block;
+}
+
+.choose-account .dropdown-account{
+    height: 35px;
+    margin-left: 10px;
+    width: 100px;
+    border: 1px solid var(--text-color);
+    border-radius: 4px;
+    margin: 20px;
+    background-color: var(--primary-color);
+    color: #fff;
+}

@@ -16,6 +16,7 @@
 
 .dropdown-avatar button {
     width: 100%;
+    margin:0;
 }
 
 .dropdown-avatar button .fa-solid, .fa-regular {

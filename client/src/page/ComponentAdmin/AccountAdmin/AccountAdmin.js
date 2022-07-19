@@ -9,6 +9,8 @@ import {
 import AccountService from "../../../config/service/AccountService";
 import ModalCustom from "../../../lib/ModalCustom/ModalCustom";
 import ConfirmAlert from "../../../lib/ConfirmAlert/ConfirmAlert";
+import ModalInput from '../../../lib/ModalInput/ModalInput'
+import AddAccount from '../../../lib/ModalInput/AddAccount/AddAccount'
 
 function AccountAdmin() {
   const [parents, setParents] = useState([]);
@@ -19,6 +21,8 @@ function AccountAdmin() {
   const [isDelete, setIsDelete] = useState(false);
   const [id, setId] = useState("");
   const [name, setName] = useState("");
+  const [addState, setAddState] = useState(true);
+
   useEffect(() => {
     getParents();
     getAdmins();
@@ -122,6 +126,7 @@ function AccountAdmin() {
         <td onClick={click}>
           <i className="fa-regular fa-pen-to-square btn-edit"></i>
           <i className="fa-regular fa-trash-can btn-delete"></i>
+          <i className="fa-regular fa-eye btn-view"></i>
         </td>
       </tr>
     ));
@@ -136,7 +141,10 @@ function AccountAdmin() {
             .textContent
         );
       } else if (e.target.className.includes("btn-edit")) {
-        //TODO edited
+        console.log("edit")
+      }
+      else if(e.target.className.includes("btn-view")){
+        console.log("view")
       }
     }
 
@@ -187,20 +195,35 @@ function AccountAdmin() {
     />
   );
 
+  const handleInputCustom = () => {
+    setAddState(false);
+  };
+
+  const DivAddAccount = (
+    <ModalInput show={addState}
+    handleInputCustom={handleInputCustom}
+    content={<AddAccount handleInputCustom={handleInputCustom}/>}/>
+  )
+
+  const handleAddAccount = () => {
+    setAddState(true);
+    console.log("add")
+  }
+  
+
   return (
     <div className="main-container">
       <header>
         <div>
           <h3>Manage Account</h3>
           <Dropdown
-            label="What do we eat?"
             options={options}
             value={dropValue}
             onChange={handleChange}
           />
         </div>
         <div className="right-header">
-          <button className="btn-account">Add account</button>
+          <button onClick={handleAddAccount} className="btn-account">Add account</button>
           <div className="search-box">
             <button className="btn-search">
               <FontAwesomeIcon
@@ -252,7 +275,8 @@ function AccountAdmin() {
             />
           </button>
         </div>
-        <div> {isDelete ? ConfirmDelete : null} </div>
+        {isDelete ? ConfirmDelete : null}
+       {addState ? DivAddAccount : null} 
       </footer>
     </div>
   );
