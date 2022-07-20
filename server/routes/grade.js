@@ -1,6 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const Grades = require("../model/Grade");
+const Classes = require("../model/Class");
+const Subjects = require("../model/Subject");
 const verifyJWTandAdmin = require("../middleware/verifyJWTandAdmin");
 
 // Create
@@ -81,6 +83,30 @@ router.put("/:gradeID", verifyJWTandAdmin, async (req, res) => {
 router.delete("/:gradeID", verifyJWTandAdmin, async (req, res) => {
     try {
         const postDeleteCondition = { _id: req.params.gradeID };
+        const grade = await Grades.findById(postDeleteCondition._id);
+        const allClasses = await Classes.find({
+            grade_id: postDeleteCondition._id,
+        });
+        const allSubjects = await Subjects.find({
+            grade_id: postDeleteCondition._id,
+        });
+        allSubjects.map((item) => {
+            item.grade_id = undefined;
+            item.grade_name = undefined;
+            item.save();
+        });
+        allClasses.map((item) => {
+            item.grade_id = undefined;
+            item.grade_name = undefined;
+            item.save();
+        });
+        if (!grade) {
+            return res.status(401).json({
+                success: false,
+                message: "Grade not found!",
+            });
+        }
+
         const deletedGrade = await Grades.findOneAndDelete(postDeleteCondition);
 
         if (!deletedGrade)

@@ -19,7 +19,7 @@ const GradeAdmin = () => {
 
     useEffect(() => {
         getGrade();
-    }, []);
+    }, [state]);
 
     const getGrade = () => {
         GradeService.getGrades()
@@ -38,7 +38,7 @@ const GradeAdmin = () => {
             });
     };
 
-    const TableGrades = ({ grades, value }) => {
+    const TableGrades = ({ grades }) => {
         const gradeItem = grades.map((item) => (
             <tr data-key={item.id} key={item.id}>
                 <td>{item.name}</td>
@@ -66,7 +66,7 @@ const GradeAdmin = () => {
         }
 
         let headerSubject;
-        if (!value) {
+        if (!headerSubject) {
             headerSubject = (
                 <tr>
                     <th>Name</th>
@@ -87,7 +87,8 @@ const GradeAdmin = () => {
     };
 
     const handleDelete = () => {
-        GradeService.deleteClassById(id).then((res) => res);
+        GradeService.deleteGradeById(id).then((res) => res);
+        // getGrade();
         setState(!state);
         setIsDelete(false);
     };
