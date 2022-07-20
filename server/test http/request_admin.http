@@ -16,9 +16,9 @@ Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbklkIjoiNjJjNjhkMTNiZWRlNTEwNzYzMzg4OTBmIiwiaWF0IjoxNjU3ODc0ODM3fQ.9JhTeeaGsDURamjVZrGeinDHOB4xO9YR6SYaYF6bbS8
 
 {
-    "admin_username": "dinhsss",
+    "admin_username": "caominhtri2",
     "admin_password": "123456",
-    "admin_email": "dinh2@gmail.com"
+    "admin_email": "leo100@gmail.com"
 }
 
 ###

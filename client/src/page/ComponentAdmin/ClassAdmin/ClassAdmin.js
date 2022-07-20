@@ -120,6 +120,7 @@ const ClassAdmin = () => {
                 e.target.parentElement.parentElement.getAttribute("data-key");
             if (e.target.className.includes("btn-delete")) {
                 setIsDelete(true);
+                console.log(id);
                 setId(id);
                 setName(
                     e.target.parentElement.parentElement.querySelectorAll(
@@ -162,7 +163,7 @@ const ClassAdmin = () => {
         setDropValue(event.target.value);
         grade.map((item) => {
             if (event.target.value === item.name) {
-                getClassByGradeId(item.id);              
+                getClassByGradeId(item.id);
             }
         });
     };

@@ -63,8 +63,8 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZWFjaGVySWQiOiI2M
 ###
 //delete class
 #DELETE http://localhost:8000/api/teacher/class/{{ class_id }}
-DELETE http://localhost:8000/api/teacher/class/62c7a916ef6c055a07106f13
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZWFjaGVySWQiOiI2MmMyYWVmMDM5YTc4ODBjZTRhMzg2YTQiLCJpYXQiOjE2NTcwODk0MTV9.JHRY3_KWwoyG8g4e0QNFiwXzGH6AUsannP8BWEc9lKs
+DELETE http://localhost:8000/api/teacher/class/62c69e9cdb14d59b81b46a85
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbklkIjoiNjJjNjhkMWViZWRlNTEwNzYzMzg4OTE0IiwiaWF0IjoxNjU4MjE3NzA1fQ.4OkN94PrFVZI7Zq_YKrfd8cilaJVIwEuC4_2v2LMAXE
 
 ###
 // get class by gradeID
