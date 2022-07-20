@@ -8,6 +8,7 @@ const Parents = require("../model/Parents");
 const Protectors = require("../model/Protector");
 const verifyJWTandAdmin = require("../middleware/verifyJWTandAdmin");
 const multer = require("multer");
+const fs = require("fs");
 
 const storage = multer.diskStorage({
     destination: function (req, res, cb) {
@@ -180,7 +181,6 @@ router.put(
         }
         try {
             const hashPassword = await argon2.hash(parent_password);
-
             let updateParent = {
                 parent_name,
                 parent_dateofbirth,
@@ -193,6 +193,13 @@ router.put(
                 parent_img: req.file.path,
             };
             const postUpdateCondition = { _id: req.params.parentID };
+
+            const parent = await Parents.findById(req.params.parentID);
+            console.log("./" + parent.parent_img);
+            fs.unlink("./" + parent.parent_img, (err) => {
+                if (err) throw err;
+                console.log("successfully deleted file");
+            });
             updatedParent = await Parents.findOneAndUpdate(
                 postUpdateCondition,
                 updateParent,

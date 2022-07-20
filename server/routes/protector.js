@@ -4,6 +4,7 @@ const Parents = require("../model/Parents");
 const Protectors = require("../model/Protector");
 const verifyJWTandParent = require("../middleware/verifyJWTandParent");
 const multer = require("multer");
+const fs = require("fs");
 
 // Storage
 const storage = multer.diskStorage({
@@ -150,6 +151,14 @@ router.put(
                 protector_img: req.file.path,
             };
             const postUpdateCondition = { _id: req.params.protectorID };
+
+            const protector = await Protectors.findById(req.params.protectorID);
+            console.log("./" + protector.protector_img);
+            fs.unlink("./" + protector.protector_img, (err) => {
+                if (err) throw err;
+                console.log("successfully deleted file");
+            });
+
             updatedProtector = await Teachers.findOneAndUpdate(
                 postUpdateCondition,
                 updateProtector,
