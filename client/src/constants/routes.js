@@ -1,8 +1,5 @@
 const ROUTES = {
     HOME_PAGE: {
-        // path: "/",
-        // isPrivate: false,
-        // component: Home,
         HOME_PATH: "/",
     },
 
@@ -29,8 +26,6 @@ const ROUTES = {
 
     NOT_FOUND_PAGE: {
         path: "*",
-        // component: NotFound,
-        // isPrivate: false,
     },
 };
 

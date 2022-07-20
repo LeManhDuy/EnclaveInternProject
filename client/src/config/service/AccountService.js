@@ -28,6 +28,10 @@ const deleteAccountTeacherById = async (id) => {
   return await HandleApi.APIDelete(`admin/teachers/${id}`)
 }
 
+const addAccountAdmin = async (params) => {
+  return await HandleApi.APIPostWithToken(`admin`, params)
+}
+
 // const updateProfile = async (params) => {
 //   return await HandleApi.APIPutWithToken("accounts", params)
 // }
@@ -41,6 +45,7 @@ const AccountService = {
   deleteAccountParentsById,
   deleteAccountAdminById,
   deleteAccountTeacherById,
+  addAccountAdmin,
 
 };
 

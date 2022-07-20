@@ -1,5 +1,4 @@
 import AuthenticationService from "../service/AuthenticationService"
-// import { errorAlert } from "../../utils/customAlert"
 
 const { REACT_APP_API_ENDPOINT } = process.env
 
@@ -74,19 +73,18 @@ function APIPost(url, params) {
     .then((response) =>response.json())
 }
 
-// function APIPostWithToken(url, params) {
-//   url = REACT_APP_API_ENDPOINT + "api/v1/" + url
-//   return fetch(url, {
-//     method: "POST",
-//     headers: {
-//       Authorization: getToken(),
-//       "Content-Type": "application/json"
-//     },
-//     body: JSON.stringify(params)
-//   })
-//     .then(checkStatus)
-//     .then((response) => response.text())
-// }
+function APIPostWithToken(url, params) {
+  url = REACT_APP_API_ENDPOINT + "api/" + url
+  return fetch(url, {
+    method: "POST",
+    headers: {
+      Authorization: getToken(),
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(params)
+  })
+    .then((response) => response.json())
+}
 
 // function APIPostWithFormData(url, body) {
 //   url = REACT_APP_API_ENDPOINT + "api/v1/" + url
@@ -141,7 +139,8 @@ function APIDelete(url) {
   return fetch(url, {
     method: "DELETE",
     headers: {
-      Authorization: getToken()
+      Authorization: getToken(),
+      // "Content-Type": "application/json"
     }
   })
     .then((response) => response.json())
@@ -154,7 +153,7 @@ const HandleApi = {
   APIPost,
 //   APIPut,
   APIGetWithToken,
-//   APIPostWithToken,
+  APIPostWithToken,
 //   APIPostWithFormData,
 //   APIPutWithFormData,
 APIDelete,

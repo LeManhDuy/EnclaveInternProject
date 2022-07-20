@@ -28,23 +28,23 @@ function Login(props) {
     event.preventDefault();
 
     var check = false;
-    if (validateEmail(email)===false) {
-      check = true;
-      setErrorEmail(true)
-      setErrorServer(false)
-    }
-    else{
-      setErrorEmail(false)
-    }
+    // if (validateEmail(email)===false) {
+    //   check = true;
+    //   setErrorEmail(true)
+    //   setErrorServer(false)
+    // }
+    // else{
+    //   setErrorEmail(false)
+    // }
 
-    if (password.length < 6) {
-      check = true;
-      setErrorServer(false)
-      setErrorPassword(true)
-    }
-    else{
-      setErrorPassword(false)
-    }
+    // if (password.length < 6) {
+    //   check = true;
+    //   setErrorServer(false)
+    //   setErrorPassword(true)
+    // }
+    // else{
+    //   setErrorPassword(false)
+    // }
 
     if (check) {
       return;
@@ -78,6 +78,7 @@ function Login(props) {
       setPassword(e.target.value);
     }
   };
+  
   return (
     <div>
       <ModalCustom
