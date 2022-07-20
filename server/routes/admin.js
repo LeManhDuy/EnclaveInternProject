@@ -8,7 +8,7 @@ const argon2 = require("argon2");
 const verifyJWTandAdmin = require("../middleware/verifyJWTandAdmin");
 
 // CREATE
-router.post("/", verifyJWTandAdmin, async (req, res) => {
+router.post("/", async (req, res) => {
     const { admin_username, admin_password, admin_email } = req.body;
     // Validation
     if (!admin_username || !admin_password || !admin_email)

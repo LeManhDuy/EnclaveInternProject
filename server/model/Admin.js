@@ -5,6 +5,7 @@ const adminSchema = new Schema({
     admin_username: {
         type: String,
         required: true,
+        unique: false,
     },
     admin_password: {
         type: String,

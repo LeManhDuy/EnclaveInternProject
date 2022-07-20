@@ -4,7 +4,7 @@ Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbklkIjoiNjJjNjhkMWViZWRlNTEwNzYzMzg4OTE0IiwiaWF0IjoxNjU4MTMwODgwfQ.CUWOwDELYZ7AOsm9SXhp4wi1adrTYj3dXlkT1GaHzVc
 
 {
-    "grade_name": "Grade 8"
+    "grade_name": "Grade 11"
 }
 
 ###
