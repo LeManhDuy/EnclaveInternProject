@@ -380,30 +380,40 @@ router.delete("/:id", verifyJWT, async (req, res) => {
                 message: "Class not found",
             });
         }
-        const teacher = await Teacher.findById(classDB.teacher_id.toString());
-        if (!teacher) {
-            return res.status(401).json({
-                success: false,
-                message: "Teacher not found",
+
+        if (classDB.teacher_id) {
+            const teacher = await Teacher.findById(classDB.teacher_id.toString());
+            if (!teacher) {
+                return res.status(401).json({
+                    success: false,
+                    message: "Teacher not found",
+                });
+            }
+            teacher.teacher_class = undefined
+            teacher.save();
+        }
+        if (classDB.grade_id) {
+            const grade = await Grade.findById(classDB.grade_id.toString());
+            if (!grade) {
+                return res.status(401).json({
+                    success: false,
+                    message: "Student not found",
+                });
+            }
+            grade.classes = grade.classes.filter(item => item.toString() !== classDB._id.toString());
+            grade.save();
+        }
+
+        if (classDB.students) {
+            classDB.students.map(async (item) => {
+                let student = await Student.findById(item._id.toString());
+                if (student) {
+                    student.class_id = undefined;
+                    student.save();
+                }
             });
         }
-        teacher.class_id = undefined;
-        const grade = await Grade.findById(classDB.grade_id.toString());
-        if (!grade) {
-            return res.status(401).json({
-                success: false,
-                message: "Student not found",
-            });
-        }
-        grade.classes.pop(classDB._id);
-        grade.save();
         const deleteClass = await Class.findOneAndDelete(classDeleteCondition);
-        classDB.students.map(async (item) => {
-            let student = await Student.findById(item._id.toString());
-            student.class_id = undefined;
-            student.save();
-        });
-        teacher.save();
         if (!deleteClass) {
             return res
                 .status(401)
