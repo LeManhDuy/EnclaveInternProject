@@ -330,30 +330,34 @@ router.delete('/:id', verifyJWT, async (req, res) => {
                     message: "Score not found"
                 })
         }
+        if (score.subject_id) {
+            const subject = await Subject.findById(score.subject_id.toString())
+            if (!subject) {
+                return res
+                    .status(401)
+                    .json({
+                        success: false,
+                        message: "Subject not found"
+                    })
+            }
+            subject.score_id = undefined
+            subject.save()
+        }
 
-        const subject = await Subject.findById(score.subject_id.toString())
-        if (!subject) {
-            return res
-                .status(401)
-                .json({
-                    success: false,
-                    message: "Subject not found"
-                })
+        if (score.student_id) {
+            const student = await Student.findById(score.student_id.toString())
+            if (!student) {
+                return res
+                    .status(401)
+                    .json({
+                        success: false,
+                        message: "Student not found"
+                    })
+            }
+            student.scores = student.scores.filter(item => item._id.toString() !== score._id.toString())
+            student.save()
         }
-        subject.score_id = undefined
-        subject.save()
-        const student = await Student.findById(score.student_id.toString())
-        if (!student) {
-            return res
-                .status(401)
-                .json({
-                    success: false,
-                    message: "Student not found"
-                })
-        }
-        student.scores = student.scores.filter(item => item._id.toString() !== score._id.toString())
-        console.log(student.scores)
-        student.save()
+
         const deleteScore = await Score.findOneAndDelete(scoreDeleteCondition)
         if (!deleteScore) {
             return res
