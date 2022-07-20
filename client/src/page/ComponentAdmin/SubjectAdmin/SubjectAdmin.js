@@ -22,7 +22,7 @@ function SubjectAdmin() {
     useEffect(() => {
         getSubject();
         getGrade();
-    }, [dropValue, state]);
+    }, [state]);
 
     const Dropdown = ({ value, options, onChange }) => {
         return (
@@ -33,11 +33,11 @@ function SubjectAdmin() {
                     value={value}
                     onChange={onChange}
                 >
-                    <option key={0} value="All">
+                    <option key={100} value="All">
                         All
                     </option>
                     {options.map((option) => (
-                        <option key={option.key} value={option.name}>
+                        <option value={option.name}>
                             {option.name}
                         </option>
                     ))}
@@ -48,13 +48,11 @@ function SubjectAdmin() {
 
     const handleChange = (event) => {
         setDropValue(event.target.value);
-        console.log(grade);
         grade.map((item) => {
             if (event.target.value === item.name) {
                 getSubjectById(item.id);
             }
         });
-        console.log(event.target.value);
     };
 
     const getSubject = () => {
@@ -86,7 +84,6 @@ function SubjectAdmin() {
                         name: item.grade_name,
                     };
                 });
-                console.log(dataSources);
                 setGrade(dataSources);
             })
             .catch((error) => {
@@ -115,7 +112,7 @@ function SubjectAdmin() {
 
     const TableSubjects = ({ subjects, value }) => {
         const subjectItem = subjects.map((item) => (
-            <tr data-key={item.id} key={item.id}>
+            <tr data-key={item.id}>
                 <td>{item.name}</td>
                 <td>{item.ratio}</td>
                 <td>{item.grade}</td>

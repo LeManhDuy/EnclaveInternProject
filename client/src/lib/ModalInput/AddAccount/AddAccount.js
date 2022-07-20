@@ -3,12 +3,27 @@ import "./AddAccount.css";
 
 const AddAccount = (props) => {
   const [dropValue, setDropValue] = useState("admin");
+  const [allValuesAdmin, setAllValuesAdmin] = useState({
+    name: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
+  const [isShowAdd, setIsShowAdd] = useState(false);
+  const [adminError, setAdminError] = useState({
+    name: false,
+    email: false,
+    password: false,
+    confirmPassword: false,
+  });
 
   const options = [
     { key: 1, label: "Admin", value: "admin" },
     { key: 2, label: "Parents", value: "parents" },
     { key: 3, label: "Teacher", value: "teacher" },
   ];
+
+
 
   const Dropdown = ({ value, options, onChange }) => {
     return (
@@ -36,33 +51,166 @@ const AddAccount = (props) => {
       <button onClick={props.handleInputCustom} className="btn-cancel">
         Cancel
       </button>
-      <button className="btn-ok">Ok</button>
+      <button onClick={() => setIsShowAdd(true)} className="btn-ok">
+        Ok
+      </button>
     </div>
   );
 
-  const FormAddAccount = ({ title, content }) => {
-    return (
-      <div className="form-add-account">
-        <h5>{title}</h5>
-        {content}
-        <button onClick={props.handleInputCustom} className="btn-cancel">
-          Cancel
-        </button>
-        <button className="btn-ok">Save</button>
-      </div>
-    );
+  const validateEmail = (email) => {
+    const re =
+      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(String(email).toLowerCase());
   };
 
-  const FormAccountAdmin = <div>hhee</div>;
+  const handleAddAdminAccount = () => {
+    let check = false;
+    let name=false;
+    let email=false;
+    let password=false;
+    let confirmPassword=false;
+    if (allValuesAdmin.name.length > 30||allValuesAdmin.name.length<2) {
+      name= true;
+      check = true;
+    }
+    else name=false
+    if (validateEmail(allValuesAdmin.email) === false) {
+      email= true;
+      check = true;
+    }
+    else email=false
+    if (allValuesAdmin.password.length < 6) {
+      password= true ;
+      check = true;
+    } else if(allValuesAdmin.confirmPassword!=allValuesAdmin.password) {
+      confirmPassword= true ;
+      check = true
+    }
+    else {password=false, confirmPassword=false}
+
+    setAdminError({
+      name: name,
+    email: email,
+    password: password,
+    confirmPassword: confirmPassword,
+    })
+    if (!check) {
+      props.handleConfirmAddAccount(allValuesAdmin);
+      props.handleInputCustom();
+    }
+  };
+  const clickSave = (e) => {
+    e.preventDefault()
+    handleAddAdminAccount();
+  };
+  const changeHandler = (e) => {
+    setAllValuesAdmin({ ...allValuesAdmin, [e.target.name]: e.target.value });
+    e.target.focus;
+  };
+
+  const FormAccountAdmin = (
+    <div class="form-admin-content">
+      <h4>Add admin account</h4>
+      <input
+        value={allValuesAdmin.name}
+        id="input-name"
+        type="text"
+        name="name"
+        placeholder="Name"
+        onChange={changeHandler}
+        required
+      />
+      <label
+        className={
+          "error" + (adminError.name ? " error-show" : " error-hidden")
+        }
+      >
+        Name must be at least 30 chars long
+      </label>
+      <input
+        id="input-email"
+        type="email"
+        name="email"
+        placeholder="Email"
+        value={allValuesAdmin.email}
+        onChange={changeHandler}
+      />
+      <label
+        className={
+          "error" + (adminError.email ? " error-show" : " error-hidden")
+        }
+      >
+        Invalid Email
+      </label>
+      <input
+        value={allValuesAdmin.password}
+        id="input-password"
+        type="text"
+        name="password"
+        placeholder="Password"
+        onChange={changeHandler}
+      />
+      <label
+        className={
+          "error" + (adminError.password ? " error-show" : " error-hidden")
+        }
+      >
+        Password must be at least 6 chars long
+      </label>
+
+      <input
+        value={allValuesAdmin.confirmPassword}
+        id="input-password-confirm"
+        type="text"
+        name="confirmPassword"
+        placeholder="Confirm Password"
+        onChange={changeHandler}
+      />
+      <label
+        className={
+          "error" + (adminError.confirmPassword ? " error-show" : " error-hidden")
+        }
+      >
+        Password incorrect
+      </label>
+    </div>
+  );
+  const FormAccountTeacher = (
+    <div class="form-admin-content">
+      <h4>Add Teacher account</h4>
+    </div>
+  );
+  const FormAccountParents = (
+    <div class="form-admin-content">
+      <h4>Add Parents account</h4>
+    </div>
+  );
+
+  const FormAddAccount = (
+    <div className="form-add-account">
+      <i
+        onClick={() => {
+          setIsShowAdd(false);
+        }}
+        class="fa-regular fa-circle-left"
+      ></i>
+      {dropValue === "admin"
+        ? FormAccountAdmin
+        : dropValue === "teacher"
+        ? FormAccountTeacher
+        : FormAccountParents}
+      <button onClick={props.handleInputCustom} className="btn-cancel">
+        Cancel
+      </button>
+      <button type="submit" onClick={clickSave} className="btn-ok">
+        Save
+      </button>
+    </div>
+  );
 
   return (
     <div className="add-account-form">
-      {
-        <FormAddAccount
-          title={"Add account admin"}
-          content={FormAccountAdmin}
-        />
-      }
+      {isShowAdd ? FormAddAccount : ChooseAccount}
     </div>
   );
 };

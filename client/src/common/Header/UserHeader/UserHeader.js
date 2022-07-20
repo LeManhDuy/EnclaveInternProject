@@ -100,6 +100,11 @@ function UserHeader() {
       label: "Subject",
       link: ROUTES.ADMIN_PAGE.SUBJECT_ADMIN,
     },
+    {
+      key: 7,
+      label: "Schedule",
+      link: ROUTES.ADMIN_PAGE.SCHEDULE_ADMIN,
+    },
   ];
 
   const ItemHeader = ({ options }) => {

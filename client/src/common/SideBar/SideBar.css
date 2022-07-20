@@ -16,6 +16,10 @@
   border-radius: 50%;
 }
 
+.logo h3{
+  color: #fff
+}
+
 .account {
   display: flex;
   flex-direction: row;
@@ -33,6 +37,7 @@
   border: 2px solid #fff;
   border-radius: 50%;
 }
+
 
 .name-role {
   margin-left: 8px;

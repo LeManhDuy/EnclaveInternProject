@@ -9,8 +9,8 @@ import {
 import AccountService from "../../../config/service/AccountService";
 import ModalCustom from "../../../lib/ModalCustom/ModalCustom";
 import ConfirmAlert from "../../../lib/ConfirmAlert/ConfirmAlert";
-import ModalInput from '../../../lib/ModalInput/ModalInput'
-import AddAccount from '../../../lib/ModalInput/AddAccount/AddAccount'
+import ModalInput from "../../../lib/ModalInput/ModalInput";
+import AddAccount from "../../../lib/ModalInput/AddAccount/AddAccount";
 
 function AccountAdmin() {
   const [parents, setParents] = useState([]);
@@ -141,10 +141,9 @@ function AccountAdmin() {
             .textContent
         );
       } else if (e.target.className.includes("btn-edit")) {
-        console.log("edit")
-      }
-      else if(e.target.className.includes("btn-view")){
-        console.log("view")
+        console.log("edit");
+      } else if (e.target.className.includes("btn-view")) {
+        console.log("view");
       }
     }
 
@@ -199,17 +198,31 @@ function AccountAdmin() {
     setAddState(false);
   };
 
+ const handleConfirmAddAccount = (allValue) => {
+
+  console.log(allValue)
+    AccountService.addAccountAdmin({
+      admin_username: allValue.name,
+      admin_password: allValue.password,
+      admin_email:allValue.email
+    //   admin_username: "dinhsss",
+    // admin_password: "123456",
+    // admin_email: "dinh5@gmail.com",
+    }).then((res)=>{if(res.success) setState(!state);})
+  };
+
   const DivAddAccount = (
-    <ModalInput show={addState}
-    handleInputCustom={handleInputCustom}
-    content={<AddAccount handleInputCustom={handleInputCustom}/>}/>
-  )
+    <ModalInput
+      show={addState}
+      handleInputCustom={handleInputCustom}
+      content={<AddAccount handleInputCustom={handleInputCustom}
+      handleConfirmAddAccount={handleConfirmAddAccount} />}
+    />
+  );
 
   const handleAddAccount = () => {
     setAddState(true);
-    console.log("add")
-  }
-  
+  };
 
   return (
     <div className="main-container">
@@ -223,7 +236,9 @@ function AccountAdmin() {
           />
         </div>
         <div className="right-header">
-          <button onClick={handleAddAccount} className="btn-account">Add account</button>
+          <button onClick={handleAddAccount} className="btn-account">
+            Add account
+          </button>
           <div className="search-box">
             <button className="btn-search">
               <FontAwesomeIcon
@@ -276,7 +291,7 @@ function AccountAdmin() {
           </button>
         </div>
         {isDelete ? ConfirmDelete : null}
-       {addState ? DivAddAccount : null} 
+        {addState ? DivAddAccount : null}
       </footer>
     </div>
   );

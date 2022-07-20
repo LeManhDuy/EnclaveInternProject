@@ -96,8 +96,6 @@ const ClassAdmin = () => {
                 } else {
                     setClass([]);
                 }
-                console.log(dataSources);
-                // setClass(dataSources);
             })
             .catch((error) => {
                 console.log(error);
@@ -162,19 +160,15 @@ const ClassAdmin = () => {
 
     const handleChange = (event) => {
         setDropValue(event.target.value);
-        console.log(grade);
         grade.map((item) => {
             if (event.target.value === item.name) {
-                getClassByGradeId(item.id);
-                console.log(getClassByGradeId(item.id));
-                console.log(item.name);
-                console.log(item.id);
+                getClassByGradeId(item.id);              
             }
         });
     };
 
     const handleDelete = () => {
-        ClassService.deleteClassById(id).then((res) => res);
+        ClassService.deleteClassById(id).then((res) => console.log(res));
         setState(!state);
         setIsDelete(false);
     };

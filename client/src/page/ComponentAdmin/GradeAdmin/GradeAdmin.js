@@ -31,7 +31,6 @@ const GradeAdmin = () => {
                         name: item.grade_name,
                     };
                 });
-                console.log(dataSources);
                 setGrade(dataSources);
             })
             .catch((error) => {
