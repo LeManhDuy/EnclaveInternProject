@@ -126,15 +126,17 @@ router.delete("/:scheduleId", verifyJWTandAdmin, async (req, res) => {
         const deletedSchedule = await Schedule.findOneAndDelete(
             postDeleteCondition
         );
-        const getClass = await Class.findById(scheduleDB.class.toString());
-        if (!getClass) {
-            return res.status(401).json({
-                success: false,
-                message: "Class is not found",
-            });
+        if (scheduleDB.class) {
+            const getClass = await Class.findById(scheduleDB.class.toString());
+            if (!getClass) {
+                return res.status(401).json({
+                    success: false,
+                    message: "Class is not found",
+                });
+            }
+            getClass.schedule_id = undefined;
+            getClass.save();
         }
-        getClass.schedule_id = undefined;
-        getClass.save();
         if (!deletedSchedule)
             return res
                 .status(401)
