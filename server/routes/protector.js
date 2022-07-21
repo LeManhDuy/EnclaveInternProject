@@ -164,7 +164,11 @@ router.put(
             const protector = await Protectors.findById(req.params.protectorID);
             console.log("./" + protector.protector_img);
             fs.unlink("./" + protector.protector_img, (err) => {
-                if (err) throw err;
+                if (err)
+                    res.status(400).json({
+                        success: false,
+                        message: "Image error: " + err,
+                    });
                 console.log("successfully deleted file");
             });
 
