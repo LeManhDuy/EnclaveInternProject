@@ -86,6 +86,18 @@ function APIPostWithToken(url, params) {
     .then((response) => response.json())
 }
 
+function APIDelete(url) {
+  url = REACT_APP_API_ENDPOINT + "api/" + url
+  return fetch(url, {
+    method: "DELETE",
+    headers: {
+      Authorization: getToken(),
+    }
+  })
+    .then((response) => response.json())
+}
+
+
 // function APIPostWithFormData(url, body) {
 //   url = REACT_APP_API_ENDPOINT + "api/v1/" + url
 //   return fetch(url, {
@@ -133,18 +145,6 @@ function APIPostWithToken(url, params) {
 //   }
 //   return response
 // }
-
-function APIDelete(url) {
-  url = REACT_APP_API_ENDPOINT + "api/" + url
-  return fetch(url, {
-    method: "DELETE",
-    headers: {
-      Authorization: getToken(),
-      // "Content-Type": "application/json"
-    }
-  })
-    .then((response) => response.json())
-}
 
 const HandleApi = {
 //   APIGetPublic,

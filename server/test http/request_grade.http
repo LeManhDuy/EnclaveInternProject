@@ -1,7 +1,7 @@
 //create grade
 POST http://localhost:8000/api/grades
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbklkIjoiNjJjNjhkMWViZWRlNTEwNzYzMzg4OTE0IiwiaWF0IjoxNjU4MTMwODgwfQ.CUWOwDELYZ7AOsm9SXhp4wi1adrTYj3dXlkT1GaHzVc
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbklkIjoiNjJkN2I4YjUyNmE1NTliZDhmOTRkNDBjIiwiaWF0IjoxNjU4MzA0ODc4fQ.oaa1XDi7Q82q6XY5YmzXlVPoXgLeaOfnPhioyY9DG40
 
 {
     "grade_name": "Grade 11"
