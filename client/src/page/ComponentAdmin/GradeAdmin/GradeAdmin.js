@@ -9,6 +9,8 @@ import {
 import GradeService from "../../../config/service/GradeService";
 import ModalCustom from "../../../lib/ModalCustom/ModalCustom";
 import ConfirmAlert from "../../../lib/ConfirmAlert/ConfirmAlert";
+import ModalInput from "../../../lib/ModalInput/ModalInput";
+import AddGrade from "../../../lib/ModalInput/AddGrade/AddGrade";
 
 const GradeAdmin = () => {
     const [grade, setGrade] = useState([]);
@@ -16,10 +18,11 @@ const GradeAdmin = () => {
     const [isDelete, setIsDelete] = useState(false);
     const [name, setName] = useState("");
     const [id, setId] = useState("");
+    const [addState, setAddState] = useState(false);
 
     useEffect(() => {
         getGrade();
-      }, [isChange]);
+    }, [isChange]);
 
     const getGrade = () => {
         GradeService.getGrades()
@@ -86,8 +89,10 @@ const GradeAdmin = () => {
         setIsDelete(false);
     };
 
-    const  handleDelete =  () => {
-        GradeService.deleteGradeById(id).then((res) => res.success?setIsChange(!isChange):null);
+    const handleDelete = () => {
+        GradeService.deleteGradeById(id).then((res) =>
+            res.success ? setIsChange(!isChange) : null
+        );
         setIsDelete(false);
     };
 
@@ -105,6 +110,35 @@ const GradeAdmin = () => {
         />
     );
 
+    const handleInputCustom = () => {
+        setAddState(false);
+    };
+
+    const handleConfirmAddGrade = (allValue) => {
+        GradeService.addGrade({
+            grade_name: allValue.name,
+        }).then((res) => {
+            res.success ? setIsChange(!isChange) : null;
+        });
+    };
+
+    const DivAddGrade = (
+        <ModalInput
+            show={addState}
+            handleInputCustom={handleInputCustom}
+            content={
+                <AddGrade
+                    handleInputCustom={handleInputCustom}
+                    handleConfirmAddAccount={handleConfirmAddGrade}
+                />
+            }
+        />
+    );
+
+    const handleAddGrade = () => {
+        setAddState(true);
+    };
+
     return (
         <div className="main-container">
             <header>
@@ -112,7 +146,9 @@ const GradeAdmin = () => {
                     <h3>Manage Grade</h3>
                 </div>
                 <div className="right-header">
-                    <button className="btn-account">Add Grade</button>
+                    <button className="btn-account" onClick={handleAddGrade}>
+                        Add Grade
+                    </button>
                     <div className="search-box">
                         <button className="btn-search">
                             <FontAwesomeIcon
@@ -158,7 +194,8 @@ const GradeAdmin = () => {
                         />
                     </button>
                 </div>
-                <div> {isDelete ? ConfirmDelete : null} </div>
+                {isDelete ? ConfirmDelete : null}
+                {addState ? DivAddGrade : null}
             </footer>
         </div>
     );
