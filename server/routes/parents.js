@@ -19,7 +19,16 @@ const storage = multer.diskStorage({
     },
 });
 
-const upload = multer({ storage: storage });
+const fileFilter = (req, file, cb) => {
+    // reject a file
+    if (file.mimetype === "image/jpeg" || file.mimetype === "image/png") {
+        cb(null, true);
+    } else {
+        cb(null, false);
+    }
+};
+
+const upload = multer({ storage: storage, fileFilter: fileFilter });
 
 // @route POST api/admin/parents/create
 // @desc Create parents
@@ -197,7 +206,7 @@ router.put(
             const parent = await Parents.findById(req.params.parentID);
             console.log("./" + parent.parent_img);
             fs.unlink("./" + parent.parent_img, (err) => {
-                if (err) throw err;
+                if (err) console.log(err);
                 console.log("successfully deleted file");
             });
             updatedParent = await Parents.findOneAndUpdate(
