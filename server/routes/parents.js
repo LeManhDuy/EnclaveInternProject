@@ -206,7 +206,11 @@ router.put(
             const parent = await Parents.findById(req.params.parentID);
             console.log("./" + parent.parent_img);
             fs.unlink("./" + parent.parent_img, (err) => {
-                if (err) console.log(err);
+                if (err)
+                    res.status(400).json({
+                        success: false,
+                        message: "Image error: " + err,
+                    });
                 console.log("successfully deleted file");
             });
             updatedParent = await Parents.findOneAndUpdate(

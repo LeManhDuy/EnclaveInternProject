@@ -8,6 +8,7 @@ const Parent = require("../model/Parents");
 const Score = require("../model/Score");
 const SummaryScore = require("../model/SummaryScore");
 const multer = require("multer");
+const fs = require("fs");
 
 const storage = multer.diskStorage({
     destination: function (req, res, cb) {
@@ -249,6 +250,15 @@ router.put(
                 _id: req.params.id,
                 user: req.userId,
             };
+            const student = await Student.findById(req.params.id);
+            fs.unlink("./" + student.student_image, (err) => {
+                if (err)
+                    res.status(400).json({
+                        success: false,
+                        message: "Image error: " + err,
+                    });
+                console.log("successfully deleted file");
+            });
             updatedStudent = await Student.findOneAndUpdate(
                 postUpdateCondition,
                 updateStudent,
