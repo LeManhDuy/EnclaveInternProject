@@ -12,14 +12,14 @@ import ConfirmAlert from "../../../lib/ConfirmAlert/ConfirmAlert";
 
 const GradeAdmin = () => {
     const [grade, setGrade] = useState([]);
-    const [state, setState] = useState(false);
+    const [isChange, setIsChange] = useState(false);
     const [isDelete, setIsDelete] = useState(false);
     const [name, setName] = useState("");
     const [id, setId] = useState("");
 
     useEffect(() => {
         getGrade();
-    }, [state]);
+      }, [isChange]);
 
     const getGrade = () => {
         GradeService.getGrades()
@@ -86,10 +86,8 @@ const GradeAdmin = () => {
         setIsDelete(false);
     };
 
-    const handleDelete = () => {
-        GradeService.deleteGradeById(id).then((res) => res);
-        // getGrade();
-        setState(!state);
+    const  handleDelete =  () => {
+        GradeService.deleteGradeById(id).then((res) => res.success?setIsChange(!isChange):null);
         setIsDelete(false);
     };
 

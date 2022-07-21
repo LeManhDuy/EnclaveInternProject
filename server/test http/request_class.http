@@ -48,7 +48,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbklkIjoiNjJjN
 //Get class from teacher
 #GET http://localhost:8000/api/teacher/class/teacher/{{ teacherId }}
 GET http://localhost:8000/api/teacher/class/teacher/62c68ad4bede5107633888f6
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbklkIjoiNjJjNjhkMWViZWRlNTEwNzYzMzg4OTE0IiwiaWF0IjoxNjU4MjE3NzA1fQ.4OkN94PrFVZI7Zq_YKrfd8cilaJVIwEuC4_2v2LMAXE
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbklkIjoiNjJkN2I4YWYyNmE1NTliZDhmOTRkNDA3IiwiaWF0IjoxNjU4MzA3OTAwfQ.ahcVi2rbv1lCEVYn8k5kEUuP2pYbH0-9zD-Vf13GXaU
 
 ###
 //Update class

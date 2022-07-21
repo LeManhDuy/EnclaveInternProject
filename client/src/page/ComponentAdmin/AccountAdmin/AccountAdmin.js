@@ -199,15 +199,10 @@ function AccountAdmin() {
   };
 
  const handleConfirmAddAccount = (allValue) => {
-
-  console.log(allValue)
     AccountService.addAccountAdmin({
       admin_username: allValue.name,
       admin_password: allValue.password,
       admin_email:allValue.email
-    //   admin_username: "dinhsss",
-    // admin_password: "123456",
-    // admin_email: "dinh5@gmail.com",
     }).then((res)=>{if(res.success) setState(!state);})
   };
 
