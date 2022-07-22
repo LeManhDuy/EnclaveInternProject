@@ -196,12 +196,66 @@ router.get(
     }
 );
 
-// @route POST dashboard/teacher/class/{{ gradeId }}&{{ teacherId }}&{{ scheduleId }}
+// @route POST api/teacher/class/add-schedule/{{ classID }}&{{ scheduleID }}
+router.post("/add-schedule/:classID&:scheduleID", verifyJWT, async (req, res) => {
+    const { classID, scheduleID} = req.params;
+    const classDB = await Class.findById(classID)
+    if (!classDB) {
+        return res.status(400).json({
+            success: false,
+            message: "This class does not exists.",
+        });
+    }
+    const schedule = await Schedule.findById(scheduleID)
+    if (!schedule) {
+        return res.status(400).json({
+            success: false,
+            message: "This schedule does not exists.",
+        });
+    }
+
+    if (classDB.schedule_id) {
+        return res.status(400).json({
+            success: false,
+            message: "This class has owned schedule.",
+        });
+    }
+    if (schedule.class) {
+        return res.status(400).json({
+            success: false,
+            message: "This schedule has belong to a class.",
+        });
+    }
+    try {
+        classDB.schedule_id = schedule
+        schedule.class = classDB
+        classDB.save()
+        schedule.save()
+        const showClass = await Class.findById(classId)
+            .populate("students", ["student_fullname"])
+            .populate("grade_id", ["grade_name"])
+            .populate("teacher_id", ["teacher_name"])
+            .populate("schedule_id", ["schedule_link"]);
+        return res.json({
+            success: true,
+            message: "Add schedule to class successfully",
+            class: classDB.class_name,
+            grade: showClass.grade_id,
+            teacher: showClass.teacher_id,
+            schedule: showClass.schedule_id,
+            students: showClass.students,
+        });
+    } catch (e) {
+        return res
+            .status(500)
+            .json({ success: false, message: "" + e });
+    }
+})
+// @route POST dashboard/teacher/class/{{ gradeId }}&{{ teacherId }}
 // @desc create class
 // @access Private
-// router.post('/:gradeId&:teacherId', verifyJWT, async (req, res) => {
-router.post("/:gradeId&:teacherId&:scheduleId", verifyJWT, async (req, res) => {
-    const { gradeId, teacherId, scheduleId } = req.params;
+router.post("/:gradeId&:teacherId", verifyJWT, async (req, res) => {
+    const { gradeId, teacherId} = req.params;
     const { class_name } = req.body;
     //Simple validation
     const classDB = await Class.findOne({
@@ -229,14 +283,6 @@ router.post("/:gradeId&:teacherId&:scheduleId", verifyJWT, async (req, res) => {
             message: "class is owning by this teacher",
         });
     }
-    if (scheduleId) {
-        const schedule = Schedule.findById(scheduleId);
-        if (schedule.class_id)
-            return res.status(400).json({
-                success: false,
-                message: "The class already have a schedule!",
-            });
-    }
     if (!class_name)
         return res.status(400).json({
             success: false,
@@ -261,7 +307,6 @@ router.post("/:gradeId&:teacherId&:scheduleId", verifyJWT, async (req, res) => {
             class: newClass.class_name,
             teacher: teacher.teacher_name,
             grade: grade.grade_name,
-            schedule: schedule.schedule_link,
             grade_name: grade.grade_name,
             teacher_name: teacher.teacher_name,
         });
@@ -272,6 +317,7 @@ router.post("/:gradeId&:teacherId&:scheduleId", verifyJWT, async (req, res) => {
         });
     }
 });
+
 
 // @route GET dashboard/teacher/class
 // @desc get class
