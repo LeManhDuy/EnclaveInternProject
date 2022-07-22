@@ -8,6 +8,7 @@ const jwt = require("jsonwebtoken");
 const argon2 = require("argon2");
 const verifyJWTandAdmin = require("../middleware/verifyJWTandAdmin");
 const multer = require("multer");
+const fs = require("fs");
 
 router.post("/teacher", verifyJWTandAdmin, (req, res) => {
     res.send("Teacher page");
@@ -23,7 +24,16 @@ const storage = multer.diskStorage({
     },
 });
 
-const upload = multer({ storage: storage });
+const fileFilter = (req, file, cb) => {
+    // reject a file
+    if (file.mimetype === "image/jpeg" || file.mimetype === "image/png") {
+        cb(null, true);
+    } else {
+        cb(null, false);
+    }
+};
+
+const upload = multer({ storage: storage, fileFilter: fileFilter });
 
 // Create
 router.post(
@@ -39,6 +49,10 @@ router.post(
             teacher_email,
             teacher_password,
         } = req.body;
+        let teacher_img = null;
+        if (req.file) {
+            teacher_img = req.file.path;
+        }
         // Validation
         if (
             !teacher_name ||
@@ -86,7 +100,7 @@ router.post(
                 teacher_phone,
                 teacher_email,
                 teacher_password: hashPassword,
-                teacher_img: req.file.path,
+                teacher_img,
             });
             await teacher.save();
             // Return token
@@ -175,6 +189,15 @@ router.put(
                 teacher_img: req.file.path,
             };
             const postUpdateCondition = { _id: req.params.teacherID };
+            const teacher = Teachers.findById(req.params.teacherID);
+            fs.unlink("./" + teacher.teacher_img, (err) => {
+                if (err)
+                    res.status(400).json({
+                        success: false,
+                        message: "Image error: " + err,
+                    });
+                console.log("successfully deleted file");
+            });
             updatedTeacher = await Teachers.findOneAndUpdate(
                 postUpdateCondition,
                 updateTeacher,

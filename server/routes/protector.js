@@ -41,6 +41,10 @@ router.post(
             protector_relationship,
             parent_id,
         } = req.body;
+        let protector = null;
+        if (req.file) {
+            protector_img = req.file.path;
+        }
         // Validation
         if (
             !protector_name ||
@@ -72,7 +76,7 @@ router.post(
                 protector_phone,
                 protector_relationship,
                 parent_id: parent,
-                protector_img: req.file.path,
+                protector_img,
             });
             await newProtector.save();
             parent.protectors.push(newProtector._id);

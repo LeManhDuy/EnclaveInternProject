@@ -49,6 +49,10 @@ router.post(
             parent_gender,
             parent_password,
         } = req.body;
+        let parent_img = null;
+        if (req.file) {
+            parent_img = req.file.path;
+        }
         // Validation
         if (
             !parent_name ||
@@ -97,7 +101,7 @@ router.post(
                 parent_job,
                 parent_gender,
                 parent_password: hashPassword,
-                parent_img: req.file.path,
+                parent_img,
             });
             await parents.save();
             // Return token
@@ -204,7 +208,6 @@ router.put(
             const postUpdateCondition = { _id: req.params.parentID };
 
             const parent = await Parents.findById(req.params.parentID);
-            console.log("./" + parent.parent_img);
             fs.unlink("./" + parent.parent_img, (err) => {
                 if (err)
                     res.status(400).json({

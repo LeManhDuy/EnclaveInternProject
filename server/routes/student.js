@@ -40,6 +40,10 @@ router.post(
         const { teacherID, parentID } = req.params;
         const { student_fullname, student_gender, student_dateofbirth } =
             req.body;
+        let student_image = null;
+        if (req.file) {
+            student_image = req.file.path;
+        }
         //Simple validation
         if (!student_fullname || student_gender == null || !student_dateofbirth)
             return res.status(400).json({
@@ -54,7 +58,7 @@ router.post(
                 student_fullname,
                 student_dateofbirth,
                 student_gender,
-                student_image: req.file.path,
+                student_image,
                 parent_id: parent._id,
                 teacher_id: teacher._id,
             });
