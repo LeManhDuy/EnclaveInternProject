@@ -86,6 +86,19 @@ function APIPostWithToken(url, params) {
     .then((response) => response.json())
 }
 
+function APIPostWithTokenIMG(url, params ) {
+  url = REACT_APP_API_ENDPOINT + "api/" + url
+  return fetch(url, {
+    method: "POST",
+    headers: {
+      Authorization: getToken(),
+    },
+    body: params,
+    redirect: 'follow'
+  })
+    .then((response) => response.json())
+}
+
 function APIDelete(url) {
   url = REACT_APP_API_ENDPOINT + "api/" + url
   return fetch(url, {
@@ -157,6 +170,7 @@ const HandleApi = {
 //   APIPostWithFormData,
 //   APIPutWithFormData,
 APIDelete,
+APIPostWithTokenIMG,
 }
 
 export default HandleApi
