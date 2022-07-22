@@ -234,6 +234,14 @@ const AddAccount = (props) => {
     const FormAccountAdmin = (
         <div class="form-admin-content">
             <h2>Add admin account</h2>
+            <label
+                className={
+                    "error" +
+                    (props.errorServer ? " error-show" : " error-hidden")
+                }
+            >
+                Account already exists
+            </label>
             <input
                 value={allValuesAdmin.name}
                 id="input-name"

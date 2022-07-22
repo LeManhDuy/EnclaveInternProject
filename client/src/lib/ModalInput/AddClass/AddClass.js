@@ -71,8 +71,7 @@ const AddClass = (props) => {
     const handleGradeChange = (event) => {
         setGradeDropValue(event.target.value);
         console.log(event.target.value);
-        if (!event.target.value === "Pick") {
-            console.log("Hello");
+        if (event.target.value !== "Pick") {
             setAllValuesClass({
                 ...allValuesClass,
                 grade: event.target.options[
@@ -86,8 +85,7 @@ const AddClass = (props) => {
     const handleTeacherChange = (event) => {
         setTeacherDropValue(event.target.value);
         console.log(event.target.value);
-        if (!event.target.value === "Pick") {
-            console.log("Hello");
+        if (event.target.value !== "Pick") {
             setAllValuesClass({
                 ...allValuesClass,
                 teacher:
@@ -149,7 +147,6 @@ const AddClass = (props) => {
         });
         if (!check) {
             props.handleConfirmAddClass(allValuesClass);
-            props.handleInputCustom();
         }
     };
     const clickSave = (e) => {
@@ -167,6 +164,14 @@ const AddClass = (props) => {
     const FormClass = (
         <div class="form-admin-content">
             <h2>Add class</h2>
+            <label
+                className={
+                    "error" +
+                    (props.errorServer ? " error-show" : " error-hidden")
+                }
+            >
+                Class already exists
+            </label>
             <input
                 value={allValuesClass.name}
                 id="input-name"

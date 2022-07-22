@@ -21,6 +21,7 @@ const ClassAdmin = () => {
     const [id, setId] = useState("");
     const [name, setName] = useState("");
     const [addState, setAddState] = useState(false);
+    const [errorServer, setErrorServer] = useState(false);
 
     useEffect(() => {
         getClasses();
@@ -197,13 +198,21 @@ const ClassAdmin = () => {
 
     const handleInputCustom = () => {
         setAddState(false);
+        setErrorServer(false);
     };
 
     const handleConfirmAddClass = (allValue) => {
         ClassService.addClass(allValue.grade, allValue.teacher, {
             class_name: allValue.name,
         }).then((res) => {
-            res.success ? setState(!state) : null;
+            if (res.success) {
+                setState(!state);
+                setErrorServer(false);
+                setAddState(false);
+            } else {
+                setErrorServer(true);
+                setAddState(true);
+            }
         });
     };
 
@@ -215,6 +224,7 @@ const ClassAdmin = () => {
                 <AddClass
                     handleInputCustom={handleInputCustom}
                     handleConfirmAddClass={handleConfirmAddClass}
+                    errorServer={errorServer}
                 />
             }
         />
