@@ -9,7 +9,7 @@ const Grade = require("../model/Grade");
 const Student = require("../model/Student");
 const Schedule = require("../model/Schedule");
 
-// @route GET dashboard/teacher/class/add-teacher-to-class/{{ classId }}&{{ teacherId }}
+// @route GET api/teacher/class/add-teacher-to-class/{{ classId }}&{{ teacherId }}
 // @desc add student to class
 // @access Private
 router.get(
@@ -71,7 +71,7 @@ router.get(
     }
 );
 
-// @route GET dashboard/teacher/class/add-schedult-to-class/{{ classId }}&{{ scheduleId }}
+// @route GET api/teacher/class/add-schedult-to-class/{{ classId }}&{{ scheduleId }}
 // @desc add student to class
 // @access Private
 router.get(
@@ -132,7 +132,7 @@ router.get(
     }
 );
 
-// @route GET dashboard/teacher/class/add-student-to-class/{{ classId }}&{{ studentId }}
+// @route GET api/teacher/class/add-student-to-class/{{ classId }}&{{ studentId }}
 // @desc add student to class
 // @access Private
 router.get(
@@ -251,7 +251,7 @@ router.post("/add-schedule/:classID&:scheduleID", verifyJWT, async (req, res) =>
             .json({ success: false, message: "" + e });
     }
 })
-// @route POST dashboard/teacher/class/{{ gradeId }}&{{ teacherId }}
+// @route POST api/teacher/class/{{ gradeId }}&{{ teacherId }}
 // @desc create class
 // @access Private
 router.post("/:gradeId&:teacherId", verifyJWT, async (req, res) => {
@@ -319,7 +319,7 @@ router.post("/:gradeId&:teacherId", verifyJWT, async (req, res) => {
 });
 
 
-// @route GET dashboard/teacher/class
+// @route GET api/teacher/class
 // @desc get class
 // @access Private
 router.get("/", verifyJWT, async (req, res) => {
@@ -331,7 +331,7 @@ router.get("/", verifyJWT, async (req, res) => {
     }
 });
 
-// @route GET dashboard/teacher/class/grade/{{ gradeId }}
+// @route GET api/teacher/class/grade/{{ gradeId }}
 // @desc get class from grade
 // @access Private
 router.get("/grade/:gradeId", verifyJWT, async (req, res) => {
@@ -349,7 +349,7 @@ router.get("/grade/:gradeId", verifyJWT, async (req, res) => {
     }
 });
 
-// @route GET dashboard/teacher/class/teacher/{{ teacherId }}
+// @route GET api/teacher/class/teacher/{{ teacherId }}
 // @desc get class from teacher
 // @access Private
 router.get("/teacher/:teacherId", verifyJWT, async (req, res) => {
@@ -368,7 +368,7 @@ router.get("/teacher/:teacherId", verifyJWT, async (req, res) => {
     }
 });
 
-// @route PUT dashboard/teacher/class/{{ class_id }}
+// @route PUT api/teacher/class/{{ class_id }}
 // @desc update class
 // @access Private
 router.put("/:id", verifyJWT, async (req, res) => {
@@ -413,7 +413,7 @@ router.put("/:id", verifyJWT, async (req, res) => {
     }
 });
 
-// @route DELETE dashboard/teacher/class/{{ class_id }}
+// @route DELETE api/teacher/class/{{ class_id }}
 // @desc delete class
 // @access Private
 router.delete("/:id", verifyJWT, async (req, res) => {
