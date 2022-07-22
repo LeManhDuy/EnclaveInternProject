@@ -9,15 +9,18 @@ import {
 import ClassService from "../../../config/service/ClassService";
 import ModalCustom from "../../../lib/ModalCustom/ModalCustom";
 import ConfirmAlert from "../../../lib/ConfirmAlert/ConfirmAlert";
+import ModalInput from "../../../lib/ModalInput/ModalInput";
+import AddClass from "../../../lib/ModalInput/AddClass/AddClass";
 
 const ClassAdmin = () => {
-    const [dropValue, setDropValue] = useState("admin");
+    const [dropValue, setDropValue] = useState("All");
     const [state, setState] = useState(false);
     const [classroom, setClass] = useState([]);
     const [grade, setGrade] = useState([]);
     const [isDelete, setIsDelete] = useState(false);
     const [id, setId] = useState("");
     const [name, setName] = useState("");
+    const [addState, setAddState] = useState(false);
 
     useEffect(() => {
         getClasses();
@@ -33,6 +36,7 @@ const ClassAdmin = () => {
                     value={value}
                     onChange={onChange}
                 >
+                    <option value="All">All</option>
                     {options.map((option) => (
                         <option key={option.key} value={option.name}>
                             {option.name}
@@ -164,13 +168,16 @@ const ClassAdmin = () => {
         grade.map((item) => {
             if (event.target.value === item.name) {
                 getClassByGradeId(item.id);
+            } else if (event.target.value === "All") {
+                getClasses();
             }
         });
     };
 
     const handleDelete = () => {
-        ClassService.deleteClassById(id).then((res) => console.log(res));
-        setState(!state);
+        ClassService.deleteClassById(id).then((res) =>
+            res.success ? setState(!state) : null
+        );
         setIsDelete(false);
     };
 
@@ -188,6 +195,35 @@ const ClassAdmin = () => {
         />
     );
 
+    const handleInputCustom = () => {
+        setAddState(false);
+    };
+
+    const handleConfirmAddClass = (allValue) => {
+        ClassService.addClass(allValue.grade, allValue.teacher, {
+            class_name: allValue.name,
+        }).then((res) => {
+            res.success ? setState(!state) : null;
+        });
+    };
+
+    const DivAddClass = (
+        <ModalInput
+            show={addState}
+            handleInputCustom={handleInputCustom}
+            content={
+                <AddClass
+                    handleInputCustom={handleInputCustom}
+                    handleConfirmAddClass={handleConfirmAddClass}
+                />
+            }
+        />
+    );
+
+    const handleAddClass = () => {
+        setAddState(true);
+    };
+
     return (
         <div className="main-container">
             <header>
@@ -201,7 +237,9 @@ const ClassAdmin = () => {
                     />
                 </div>
                 <div className="right-header">
-                    <button className="btn-account">Add class</button>
+                    <button className="btn-account" onClick={handleAddClass}>
+                        Add class
+                    </button>
                     <div className="search-box">
                         <button className="btn-search">
                             <FontAwesomeIcon
@@ -247,7 +285,8 @@ const ClassAdmin = () => {
                         />
                     </button>
                 </div>
-                <div> {isDelete ? ConfirmDelete : null} </div>
+                {isDelete ? ConfirmDelete : null}
+                {addState ? DivAddClass : null}
             </footer>
         </div>
     );

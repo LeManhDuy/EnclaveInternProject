@@ -2,45 +2,45 @@ import React, { useState } from "react";
 import "./AddGrade.css";
 
 const AddGrade = (props) => {
-    const [allValuesAdmin, setAllValuesAdmin] = useState({
+    const [allValuesGrade, setAllValuesGrade] = useState({
         name: "",
     });
-    const [adminError, setAdminError] = useState({
+    const [gradeError, setGradeError] = useState({
         name: false,
     });
 
-    const handleAddAdminAccount = () => {
+    const handleAddGrade = () => {
         let check = false;
         let name = false;
-        if (allValuesAdmin.name.length > 30 || allValuesAdmin.name.length < 2) {
+        if (allValuesGrade.name.length > 30 || allValuesGrade.name.length < 2) {
             name = true;
             check = true;
         } else name = false;
-        setAdminError({
+        setGradeError({
             name: name,
         });
         if (!check) {
-            props.handleConfirmAddAccount(allValuesAdmin);
+            props.handleConfirmAddGrade(allValuesGrade);
             props.handleInputCustom();
         }
     };
     const clickSave = (e) => {
         e.preventDefault();
-        handleAddAdminAccount();
+        handleAddGrade();
     };
     const changeHandler = (e) => {
-        setAllValuesAdmin({
-            ...allValuesAdmin,
+        setAllValuesGrade({
+            ...allValuesGrade,
             [e.target.name]: e.target.value,
         });
         e.target.focus;
     };
 
-    const FormAccountAdmin = (
+    const FormGrade = (
         <div class="form-admin-content">
             <h2>Add grade</h2>
             <input
-                value={allValuesAdmin.name}
+                value={allValuesGrade.name}
                 id="input-name"
                 type="text"
                 name="name"
@@ -51,7 +51,7 @@ const AddGrade = (props) => {
             <label
                 className={
                     "error" +
-                    (adminError.name ? " error-show" : " error-hidden")
+                    (gradeError.name ? " error-show" : " error-hidden")
                 }
             >
                 Name must be less than 30 chars long
@@ -59,9 +59,9 @@ const AddGrade = (props) => {
         </div>
     );
 
-    const FormAddAccount = (
+    const FormAddGrade = (
         <div className="form-add-account">
-            {FormAccountAdmin}
+            {FormGrade}
             <button onClick={props.handleInputCustom} className="btn-cancel">
                 Cancel
             </button>
@@ -71,7 +71,7 @@ const AddGrade = (props) => {
         </div>
     );
 
-    return <div className="add-account-form">{FormAddAccount}</div>;
+    return <div className="add-account-form">{FormAddGrade}</div>;
 };
 
 export default AddGrade;
