@@ -33,11 +33,9 @@ function SubjectAdmin() {
                     value={value}
                     onChange={onChange}
                 >
-                    <option key={100} value="All">
-                        All
-                    </option>
+                    <option value="All">All</option>
                     {options.map((option) => (
-                        <option value={option.name}>
+                        <option key={option.key} value={option.name}>
                             {option.name}
                         </option>
                     ))}
@@ -51,6 +49,8 @@ function SubjectAdmin() {
         grade.map((item) => {
             if (event.target.value === item.name) {
                 getSubjectById(item.id);
+            } else if (event.target.value === "All") {
+                getSubject();
             }
         });
     };

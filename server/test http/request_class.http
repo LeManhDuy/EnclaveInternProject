@@ -24,15 +24,15 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZWFjaGVySWQiOiI2M
 ###
 //add student to class
 #GET http://localhost:8000/api/teacher/class/add-student-to-class/{{ classId }}&{{ studentId }}
-GET http://localhost:8000/api/teacher/class/add-student-to-class/62c69e1ddb14d59b81b46a67&62cbc71228ed8bda747c4445
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZWFjaGVySWQiOiI2MmMyYWVmMDM5YTc4ODBjZTRhMzg2YTQiLCJpYXQiOjE2NTcwODk0MTV9.JHRY3_KWwoyG8g4e0QNFiwXzGH6AUsannP8BWEc9lKs
+GET http://localhost:8000/api/teacher/class/add-student-to-class/62c6999ebe8c86c9d3579865&62cf8ed35de98295391348ee
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbklkIjoiNjJkN2I4YWYyNmE1NTliZDhmOTRkNDA3IiwiaWF0IjoxNjU4NDcyMDk4fQ.TtHdSeMCbgHql_j9cgOyZD0XBQx4BQoeRo6NypzHoOE
 
 ###
 //teacher create class
-#POST http://localhost:8000/api/teacher/class/{{ gradeId }}&{{ teacherId }}&{{ scheduleId }}
-POST http://localhost:8000/api/teacher/class/62c69998be8c86c9d357985f&62c68ad4bede5107633888f6
+#POST http://localhost:8000/api/teacher/class/{{ gradeId }}&{{ teacherId }}
+POST http://localhost:8000/api/teacher/class/62c6999ebe8c86c9d3579865&62cf8ed35de98295391348ee
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZWFjaGVySWQiOiI2MmMyYWVmMDM5YTc4ODBjZTRhMzg2YTQiLCJpYXQiOjE2NTcwODk0MTV9.JHRY3_KWwoyG8g4e0QNFiwXzGH6AUsannP8BWEc9lKs
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbklkIjoiNjJkN2I4YWYyNmE1NTliZDhmOTRkNDA3IiwiaWF0IjoxNjU4NDcyMDk4fQ.TtHdSeMCbgHql_j9cgOyZD0XBQx4BQoeRo6NypzHoOE
 
 {
     "class_name": "E"

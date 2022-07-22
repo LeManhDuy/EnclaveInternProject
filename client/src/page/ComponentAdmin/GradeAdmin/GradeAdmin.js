@@ -129,7 +129,7 @@ const GradeAdmin = () => {
             content={
                 <AddGrade
                     handleInputCustom={handleInputCustom}
-                    handleConfirmAddAccount={handleConfirmAddGrade}
+                    handleConfirmAddGrade={handleConfirmAddGrade}
                 />
             }
         />
