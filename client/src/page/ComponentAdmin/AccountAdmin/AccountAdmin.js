@@ -22,6 +22,7 @@ function AccountAdmin() {
   const [id, setId] = useState("");
   const [name, setName] = useState("");
   const [addState, setAddState] = useState(true);
+  const [errorServer, setErrorServer] = useState(false);
 
   useEffect(() => {
     getParents();
@@ -196,28 +197,65 @@ function AccountAdmin() {
 
   const handleInputCustom = () => {
     setAddState(false);
+    setErrorServer(false);
   };
 
- const handleConfirmAddAccount = (allValue) => {
+ const handleConfirmAddAccount = (allValue, type) => {
+  if (type==="admin")
+  {
     AccountService.addAccountAdmin({
       admin_username: allValue.name,
       admin_password: allValue.password,
       admin_email:allValue.email
-    }).then((res)=>{if(res.success) setState(!state);})
+    }).then((res)=>{if(res.success){
+      setState(!state)
+      setDropValue(type)
+      setErrorServer(false)
+      setAddState(false);}
+      else {setErrorServer(true)
+      setAddState(true);}})
+   .catch(error => console.log('error', error));
+  }
+    else if (type==="teacher"){
+      var formData = new FormData();
+          formData.append("teacher_name", allValue.name);
+          formData.append("teacher_age", allValue.age);
+          formData.append("teacher_gender", "1");
+          formData.append("teacher_phone", allValue.phone);
+          formData.append("teacher_email", allValue.email);
+          formData.append("teacher_password", allValue.password);
+          if(!!allValue.img)
+          formData.append("teacher_img", allValue.img,allValue.img.name);
+      AccountService.addAccountTeacher(formData
+      ).then((res)=>{if(res.success){
+        setState(!state)
+        setDropValue(type)
+        setErrorServer(false)
+        setAddState(false);}
+        else {setErrorServer(true)
+        setAddState(true);}})
+      .catch(error => console.log('error', error));
+    }
+    else{
+      console.log("parents")
+    }
   };
 
   const DivAddAccount = (
     <ModalInput
       show={addState}
       handleInputCustom={handleInputCustom}
-      content={<AddAccount handleInputCustom={handleInputCustom}
-      handleConfirmAddAccount={handleConfirmAddAccount} />}
+      content={<AddAccount
+      handleConfirmAddAccount={handleConfirmAddAccount} 
+      errorServer={errorServer}/>}
     />
   );
 
   const handleAddAccount = () => {
     setAddState(true);
   };
+
+
 
   return (
     <div className="main-container">

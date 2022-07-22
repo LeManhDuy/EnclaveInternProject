@@ -87,20 +87,26 @@
   gap: 20px;
 }
 
-.radio-btn .radio label {
+.radio-btn .radio{
   display: flex;
   flex-direction: row;
   align-items: center;
 }
 
-.radio-btn .radio label input {
+.radio-btn .radio input {
   width: 20px;
-  margin-right: 10px;
+  margin-left: 10px;
+  margin-right: 4px;
   height: 20px;
 }
 
 .avatar-teacher img {
   height: 150px;
+  width: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+  background:#000;
+  border: 4px solid var(--primary-hover-color)
 }
 
 .form-teacher-content .teacher-content-right {
@@ -108,4 +114,23 @@
   display: flex;
   align-items: center;
   flex-direction: column;
+}
+
+#upload-photo{
+  opacity: 0;
+  position: absolute;
+  z-index: -1;
+}
+
+.avatar-teacher label.choose-file {
+  cursor: pointer;
+  background-color: var(--primary-color);
+  border-radius: 4px;
+  padding: 6px 8px;
+  margin: 10px;
+  color: #fff;
+}
+
+.avatar-teacher label.choose-file:hover {
+  background-color: var(--primary-hover-color);
 }
