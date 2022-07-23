@@ -33,7 +33,7 @@ const addAccountAdmin = async (params) => {
 }
 
 const addAccountParents = async (params) => {
-  return await HandleApi.APIPostWithToken(`admin/parents`, params)
+  return await HandleApi.APIPostWithTokenIMG(`admin/parents`, params)
 }
 
 const addAccountTeacher = async (params) => {

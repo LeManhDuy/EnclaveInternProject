@@ -13,16 +13,17 @@ import ModalInput from "../../../lib/ModalInput/ModalInput";
 import AddAccount from "../../../lib/ModalInput/AddAccount/AddAccount";
 
 function AccountAdmin() {
-    const [parents, setParents] = useState([]);
-    const [admin, setAdmin] = useState([]);
-    const [teacher, setTeacher] = useState([]);
-    const [dropValue, setDropValue] = useState("admin");
-    const [state, setState] = useState(false);
-    const [isDelete, setIsDelete] = useState(false);
-    const [id, setId] = useState("");
-    const [name, setName] = useState("");
-    const [addState, setAddState] = useState(true);
-    const [errorServer, setErrorServer] = useState(false);
+
+  const [parents, setParents] = useState([]);
+  const [admin, setAdmin] = useState([]);
+  const [teacher, setTeacher] = useState([]);
+  const [dropValue, setDropValue] = useState("admin");
+  const [state, setState] = useState(false);
+  const [isDelete, setIsDelete] = useState(false);
+  const [id, setId] = useState("");
+  const [name, setName] = useState("");
+  const [addState, setAddState] = useState(true);
+  const [errorServer, setErrorServer] = useState(false);
 
     useEffect(() => {
         getParents();
@@ -31,7 +32,6 @@ function AccountAdmin() {
     }, [dropValue, state]);
 
     const options = [
-        // { label: 'All', value: 'all' },
         { key: 1, label: "Admin", value: "admin" },
         { key: 2, label: "Parents", value: "parents" },
         { key: 3, label: "Teacher", value: "teacher" },
@@ -229,7 +229,7 @@ function AccountAdmin() {
             var formData = new FormData();
             formData.append("teacher_name", allValue.name);
             formData.append("teacher_age", allValue.age);
-            formData.append("teacher_gender", "1");
+            formData.append("teacher_gender", allValue.gender);
             formData.append("teacher_phone", allValue.phone);
             formData.append("teacher_email", allValue.email);
             formData.append("teacher_password", allValue.password);
@@ -249,7 +249,30 @@ function AccountAdmin() {
                 })
                 .catch((error) => console.log("error", error));
         } else {
-            console.log("parents");
+            var formData = new FormData();
+            formData.append("parent_name", allValue.name);
+            formData.append("parent_dateofbirth", allValue.dateOfBirth);
+            formData.append("parent_gender", allValue.gender);
+            formData.append("parent_phone", allValue.phone);
+            formData.append("parent_email", allValue.email);
+            formData.append("parent_password", allValue.password);
+            formData.append("parent_job", allValue.job);
+            formData.append("parent_address", allValue.address);
+            if (!!allValue.img)
+                formData.append("parent_img", allValue.img, allValue.img.name);
+            AccountService.addAccountParents(formData)
+                .then((res) => {
+                    if (res.success) {
+                        setState(!state);
+                        setDropValue(type);
+                        setErrorServer(false);
+                        setAddState(false);
+                    } else {
+                        setErrorServer(true);
+                        setAddState(true);
+                    }
+                })
+                .catch((error) => console.log("error", error));
         }
     };
 
