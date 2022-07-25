@@ -4,8 +4,16 @@ const getAccountsParents = async () => {
     return await HandleApi.APIGetWithToken("admin/parents");
 };
 
+const getAccountsParentsById = async (id) => {
+    return await HandleApi.APIGetWithToken(`admin/parents/${id}`);
+};
+
 const getAccountsAdmin = async () => {
     return await HandleApi.APIGetWithToken("admin");
+};
+
+const getAccountsAdminById = async (id) => {
+    return await HandleApi.APIGetWithToken(`admin/${id}`);
 };
 
 const getAccountsTeacher = async () => {
@@ -14,6 +22,10 @@ const getAccountsTeacher = async () => {
 
 const getFreeTeacher = async () => {
     return await HandleApi.APIGetWithToken("admin/teachers/get-teacher/");
+};
+
+const getAccountsTeacherById = async (id) => {
+    return await HandleApi.APIGetWithToken(`admin/teachers/${id}`);
 };
 
 // const getAccountById = async (id) => {
@@ -44,6 +56,18 @@ const addAccountTeacher = async (params) => {
     return await HandleApi.APIPostWithTokenIMG(`admin/teachers`, params);
 };
 
+const updateAccountAdmin = async (params, id) => {
+    return await HandleApi.APIPutWithToken(`admin/${id}`, params);
+};
+
+const updateAccountParents = async (params, id) => {
+    return await HandleApi.APIPutWithTokenIMG(`admin/parents/${id}`, params);
+};
+
+const updateAccountTeacher = async (params, id) => {
+    return await HandleApi.APIPutWithTokenIMG(`admin/teachers/${id}`, params);
+};
+
 // const updateProfile = async (params) => {
 //   return await HandleApi.APIPutWithToken("accounts", params)
 // }
@@ -60,6 +84,12 @@ const AccountService = {
     addAccountAdmin,
     addAccountParents,
     addAccountTeacher,
+    getAccountsParentsById,
+    getAccountsAdminById,
+    getAccountsTeacherById,
+    updateAccountAdmin,
+    updateAccountParents,
+    updateAccountTeacher,
     getFreeTeacher,
 };
 

@@ -71,6 +71,17 @@ router.get("/", verifyJWTandAdmin, async (req, res) => {
     }
 });
 
+// GET By ID
+router.get("/:id", verifyJWTandAdmin, async (req, res) => {
+    try {
+        // Return token
+        const alladmin = await Admin.findById(req.params.id);
+        res.json({ success: true, alladmin });
+    } catch (error) {
+        return res.status(500).json({ success: false, message: "" + error });
+    }
+});
+
 // PUT
 router.put("/:id", verifyJWTandAdmin, async (req, res) => {
     const { admin_username, admin_password, admin_email } = req.body;

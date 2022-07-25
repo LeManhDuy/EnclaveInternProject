@@ -4,7 +4,7 @@ import Logo from "../../../assets/image/Logo.png";
 
 const AddAccount = (props) => {
   let date = new Date().toLocaleDateString();
-  const [dropValue, setDropValue] = useState("parents");
+  const [dropValue, setDropValue] = useState("admin");
   const [allValuesAdmin, setAllValuesAdmin] = useState({
     name: "",
     email: "",
@@ -347,7 +347,7 @@ const AddAccount = (props) => {
   };
 
   const FormAccountAdmin = (
-    <div class="form-admin-content">
+    <div className="form-admin-content">
       <h2>Add admin account</h2>
       <label
         className={
