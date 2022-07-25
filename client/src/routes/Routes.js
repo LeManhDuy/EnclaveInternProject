@@ -13,14 +13,15 @@ import ClassAdmin from "../page/ComponentAdmin/ClassAdmin/ClassAdmin";
 import GradeAdmin from "../page/ComponentAdmin/GradeAdmin/GradeAdmin";
 import SubjectAdmin from "../page/ComponentAdmin/SubjectAdmin/SubjectAdmin";
 import ScheduleAdmin from "../page/ComponentAdmin/ScheduleAdmin/ScheduleAdmin";
+import StudentAdmin from "../page/ComponentAdmin/StudentAdmin/StudentAdmin";
 import PublicRoute from "./PublicRoute";
 import AdminRoute from "./AdminRoute/AdminRoute";
 import ParentsRoute from "./ParentsRoute/ParentsRoute";
 import TeacherRoute from "./TeacherRoute/TeacherRoute";
-import ScoreTeacher from "../page/Teacher/ScoreTeacher/ScoreTeacher"
-import ClassTeacher from "../page/Teacher/ClassTeacher/ClassTeacher"
-import ScheduleTeacher from "../page/Teacher/ScheduleTeacher/ScheduleTeacher"
-import NotificationTeacher from "../page/Teacher/NotificationTeacher/NotificationTeacher"
+import ScoreTeacher from "../page/Teacher/ScoreTeacher/ScoreTeacher";
+import ClassTeacher from "../page/Teacher/ClassTeacher/ClassTeacher";
+import ScheduleTeacher from "../page/Teacher/ScheduleTeacher/ScheduleTeacher";
+import NotificationTeacher from "../page/Teacher/NotificationTeacher/NotificationTeacher";
 
 const Routes = () => {
     return (
@@ -67,6 +68,12 @@ const Routes = () => {
                         component={ScheduleAdmin}
                         exact
                         path={ROUTES.ADMIN_PAGE.SCHEDULE_ADMIN}
+                    />
+
+                    <AdminRoute
+                        component={StudentAdmin}
+                        exact
+                        path={ROUTES.ADMIN_PAGE.STUDENT_ADMIN}
                     />
 
                     {/* <ParentsRoute

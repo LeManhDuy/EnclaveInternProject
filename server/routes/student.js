@@ -128,7 +128,7 @@ router.get(
 // @route GET dashboard/teacher/get-all-student
 // @desc get student information
 // @access Private
-router.get("/get-all-student", verifyJWTandTeacher, async (req, res) => {
+router.get("/get-all-student", async (req, res) => {
     try {
         // Return token
         const allStudent = await Student.find({})

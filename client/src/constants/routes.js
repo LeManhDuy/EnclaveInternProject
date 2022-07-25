@@ -10,6 +10,7 @@ const ROUTES = {
         GRADE_ADMIN: "/admin/grade",
         SUBJECT_ADMIN: "/admin/subject",
         SCHEDULE_ADMIN: "/admin/schedule",
+        STUDENT_ADMIN: "/admin/student",
     },
 
     PARENTS_PAGE: {
