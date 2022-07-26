@@ -17,7 +17,7 @@ function AccountAdmin() {
   const [parents, setParents] = useState([]);
   const [admin, setAdmin] = useState([]);
   const [teacher, setTeacher] = useState([]);
-  const [dropValue, setDropValue] = useState("admin");
+  const [dropValue, setDropValue] = useState("teacher");
   const [state, setState] = useState(false);
   const [isDelete, setIsDelete] = useState(false);
   const [id, setId] = useState("");
@@ -305,8 +305,30 @@ function AccountAdmin() {
           }
         })
         .catch((error) => console.log("error", error));
-    } else if (type === "teacher") {
-      console.log("teacher update")
+    } else if (dropValue === "teacher") {
+      console.log(allValue)
+      var formData = new FormData();
+      formData.append("teacher_name", allValue.name);
+      formData.append("teacher_age", allValue.age);
+      formData.append("teacher_gender", allValue.gender);
+      formData.append("teacher_phone", allValue.phone);
+      formData.append("teacher_email", allValue.email);
+      formData.append("teacher_password", allValue.password);
+      if (!!allValue.img)
+        formData.append("teacher_img", allValue.img, allValue.img.name);
+      AccountService.updateAccountTeacher(formData, id)
+        .then((res) => {
+          console.log(res)
+          if (res.success) {
+            setState(!state);
+            setErrorServer(false);
+            setUpdateState(false);
+          } else {
+            setErrorServer(true);
+            setUpdateState(true);
+          }
+        })
+        .catch((error) => console.log("error", error));
     }
     else if (type === "parents") {
       console.log("parents update")

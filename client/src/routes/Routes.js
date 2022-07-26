@@ -21,6 +21,10 @@ import ScoreTeacher from "../page/Teacher/ScoreTeacher/ScoreTeacher"
 import ClassTeacher from "../page/Teacher/ClassTeacher/ClassTeacher"
 import ScheduleTeacher from "../page/Teacher/ScheduleTeacher/ScheduleTeacher"
 import NotificationTeacher from "../page/Teacher/NotificationTeacher/NotificationTeacher"
+import StudentParents from "../page/Parents/StudentParents/StudentParents"
+import Parents from "../page/Parents/Parents"
+import ScoreParents from "../page/Parents/ScoreParents/ScoreParents"
+import NotificationParents from "../page/Parents/NotificationParents/NotificationParents"
 
 const Routes = () => {
     return (
@@ -97,6 +101,30 @@ const Routes = () => {
                         component={NotificationTeacher}
                         exact
                         path={ROUTES.TEACHER_PAGE.TEACHER_NOTIFICATION_PATH}
+                    />
+
+                    <ParentsRoute
+                        component={StudentParents}
+                        exact
+                        path={ROUTES.PARENTS_PAGE.PARENTS_STUDENT_PATH}
+                    />
+
+                    <ParentsRoute
+                        component={Parents}
+                        exact
+                        path={ROUTES.PARENTS_PAGE.PARENTS_PARENTS_PATH}
+                    />
+
+                    <ParentsRoute
+                        component={ScoreParents}
+                        exact
+                        path={ROUTES.PARENTS_PAGE.PARENTS_SCORE_PATH}
+                    />
+
+                    <ParentsRoute
+                        component={NotificationParents}
+                        exact
+                        path={ROUTES.PARENTS_PAGE.PARENTS_NOTIFICATION_PATH}
                     />
 
                     <PublicRoute
