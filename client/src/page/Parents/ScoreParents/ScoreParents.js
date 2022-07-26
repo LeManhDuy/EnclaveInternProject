@@ -77,7 +77,7 @@ const ScoreParents = () => {
                         </thead>
                         <tbody>
                         <tr>
-                            <td className="th-content">7.5</td>
+                            <td className="th-content">7.8</td>
                             <td className="th-content">Excellent</td>
                             <td className="th-content">Good</td>
                         </tr>
@@ -146,7 +146,7 @@ const ScoreParents = () => {
                         <button>1</button>
                         <button>2</button>
                         <button>3</button>
-                        <button>...</button>
+                        <button>..</button>
                         <button>4</button>
                         <button>5</button>
                         <button>6</button>
