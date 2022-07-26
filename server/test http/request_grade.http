@@ -15,9 +15,9 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbklkIjoiNjJjN
 
 ###
 // Get grade by id
-GET http://localhost:8000/api/grades/62c69998be8c86c9d357985f
+GET http://localhost:8000/api/grades/62df64a3f6b86c656f06349a
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbklkIjoiNjJjNjhkMWViZWRlNTEwNzYzMzg4OTE0IiwiaWF0IjoxNjU4MTMwODgwfQ.CUWOwDELYZ7AOsm9SXhp4wi1adrTYj3dXlkT1GaHzVc
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbklkIjoiNjJkN2I4YWYyNmE1NTliZDhmOTRkNDA3IiwiaWF0IjoxNjU4Nzk5MDIyfQ.Xi-0E_F_5aqI_zICxPre-4XgRUIazLVIk3iJUviN1gk
 
 
 ###

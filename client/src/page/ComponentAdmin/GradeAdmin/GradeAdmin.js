@@ -10,6 +10,7 @@ import GradeService from "../../../config/service/GradeService";
 import ModalCustom from "../../../lib/ModalCustom/ModalCustom";
 import ConfirmAlert from "../../../lib/ConfirmAlert/ConfirmAlert";
 import ModalInput from "../../../lib/ModalInput/ModalInput";
+import UpdateGrade from "../../../lib/ModalInput/UpdateGrade/UpdateGrade";
 import AddGrade from "../../../lib/ModalInput/AddGrade/AddGrade";
 
 const GradeAdmin = () => {
@@ -19,6 +20,8 @@ const GradeAdmin = () => {
     const [name, setName] = useState("");
     const [id, setId] = useState("");
     const [addState, setAddState] = useState(false);
+    const [updateState, setUpdateState] = useState(false);
+    const [errorServer, setErrorServer] = useState(false);
 
     useEffect(() => {
         getGrade();
@@ -64,7 +67,8 @@ const GradeAdmin = () => {
                     )[0].textContent
                 );
             } else if (e.target.className.includes("btn-edit")) {
-                //TODO edited
+                setUpdateState(true);
+                setId(id);
             }
         }
 
@@ -112,14 +116,40 @@ const GradeAdmin = () => {
 
     const handleInputCustom = () => {
         setAddState(false);
+        setUpdateState(false);
+        setErrorServer(false);
     };
 
     const handleConfirmAddGrade = (allValue) => {
         GradeService.addGrade({
             grade_name: allValue.name,
         }).then((res) => {
-            res.success ? setIsChange(!isChange) : null;
+            if (res.success) {
+                setIsChange(!isChange);
+                setAddState(false);
+                setErrorServer(false);
+            } else {
+                setAddState(true);
+                setErrorServer(true);
+            }
         });
+    };
+
+    const handleConfirmUpdateGrade = (allValue) => {
+        GradeService.updateGradeById(id, {
+            grade_name: allValue.name,
+        })
+            .then((res) => {
+                if (res.success) {
+                    setIsChange(!isChange);
+                    setUpdateState(false);
+                    setErrorServer(false);
+                } else {
+                    setUpdateState(true);
+                    setErrorServer(true);
+                }
+            })
+            .catch((error) => console.log("error", error));
     };
 
     const DivAddGrade = (
@@ -130,6 +160,22 @@ const GradeAdmin = () => {
                 <AddGrade
                     handleInputCustom={handleInputCustom}
                     handleConfirmAddGrade={handleConfirmAddGrade}
+                    errorServer={errorServer}
+                />
+            }
+        />
+    );
+
+    const DivUpdateGrade = (
+        <ModalInput
+            show={updateState}
+            handleInputCustom={handleInputCustom}
+            content={
+                <UpdateGrade
+                    gradeID={id}
+                    handleInputCustom={handleInputCustom}
+                    handleConfirmUpdateGrade={handleConfirmUpdateGrade}
+                    errorServer={errorServer}
                 />
             }
         />
@@ -196,6 +242,7 @@ const GradeAdmin = () => {
                 </div>
                 {isDelete ? ConfirmDelete : null}
                 {addState ? DivAddGrade : null}
+                {updateState ? DivUpdateGrade : null}
             </footer>
         </div>
     );
