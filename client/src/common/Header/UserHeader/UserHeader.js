@@ -43,6 +43,16 @@ function UserHeader() {
       label: "Parents",
       link: ROUTES.PARENTS_PAGE.PARENTS_PARENTS_PATH,
     },
+    {
+      key: 4,
+      label: "Score",
+      link: ROUTES.PARENTS_PAGE.PARENTS_SCORE_PATH,
+    },
+    {
+      key: 5,
+      label: "Notification",
+      link: ROUTES.PARENTS_PAGE.PARENTS_NOTIFICATION_PATH,
+    },
   ];
 
   const optionsTeacher = [
@@ -70,11 +80,6 @@ function UserHeader() {
   ];
 
   const optionsAdmin = [
-    {
-      key: 1,
-      label: "Home",
-      link: ROUTES.HOME_PAGE.HOME_PATH,
-    },
     {
       key: 2,
       label: "Admin",

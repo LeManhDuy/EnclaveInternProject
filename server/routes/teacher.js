@@ -132,6 +132,17 @@ router.get("/", verifyJWTandAdmin, async (req, res) => {
     }
 });
 
+// Get teacher has no class
+router.get("/get-teacher/", verifyJWTandAdmin, async (req, res) => {
+    try {
+        // Return token
+        const allTeachers = await Teachers.find({ teacher_class: undefined });
+        res.json({ success: true, allTeachers });
+    } catch (error) {
+        return res.status(500).json({ success: false, message: "" + error });
+    }
+});
+
 router.get("/:teacherID", verifyJWTandAdmin, async (req, res) => {
     try {
         const teacher = await Teachers.findOne({ _id: req.params.teacherID });
