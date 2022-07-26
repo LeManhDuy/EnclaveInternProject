@@ -1,7 +1,8 @@
-import React, { useState } from "react";
-import "./AddGrade.css";
+import React, { useEffect, useState } from "react";
+import "./UpdateGrade.css";
+import GradeService from "../../../config/service/GradeService";
 
-const AddGrade = (props) => {
+const UpdateGrade = (props) => {
     const [allValuesGrade, setAllValuesGrade] = useState({
         name: "",
     });
@@ -9,7 +10,15 @@ const AddGrade = (props) => {
         name: false,
     });
 
-    const handleAddGrade = () => {
+    useEffect(() => {
+        GradeService.getGradeById(props.gradeID).then((res) =>
+            setAllValuesGrade({
+                name: res.grades.grade_name,
+            })
+        );
+    }, []);
+
+    const handleUpdateGrade = () => {
         let check = false;
         let name = false;
         if (allValuesGrade.name.length > 30 || allValuesGrade.name.length < 2) {
@@ -20,14 +29,16 @@ const AddGrade = (props) => {
             name: name,
         });
         if (!check) {
-            props.handleConfirmAddGrade(allValuesGrade);
+            props.handleConfirmUpdateGrade(allValuesGrade);
             props.handleInputCustom();
         }
     };
-    const clickSave = (e) => {
+
+    const clickUpdate = (e) => {
         e.preventDefault();
-        handleAddGrade();
+        handleUpdateGrade();
     };
+
     const changeHandler = (e) => {
         setAllValuesGrade({
             ...allValuesGrade,
@@ -38,7 +49,7 @@ const AddGrade = (props) => {
 
     const FormGrade = (
         <div class="form-admin-content">
-            <h2>Add grade</h2>
+            <h2>Update grade</h2>
             <label
                 className={
                     "error" +
@@ -67,19 +78,19 @@ const AddGrade = (props) => {
         </div>
     );
 
-    const FormAddGrade = (
+    const FormUpdateGrade = (
         <div className="form-add-account">
             {FormGrade}
             <button onClick={props.handleInputCustom} className="btn-cancel">
                 Cancel
             </button>
-            <button type="submit" onClick={clickSave} className="btn-ok">
-                Save
+            <button type="submit" onClick={clickUpdate} className="btn-ok">
+                Update
             </button>
         </div>
     );
 
-    return <div className="add-account-form">{FormAddGrade}</div>;
+    return <div className="add-account-form">{FormUpdateGrade}</div>;
 };
 
-export default AddGrade;
+export default UpdateGrade;
