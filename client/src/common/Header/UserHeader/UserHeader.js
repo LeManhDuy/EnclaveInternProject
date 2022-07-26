@@ -43,6 +43,16 @@ function UserHeader() {
       label: "Parents",
       link: ROUTES.PARENTS_PAGE.PARENTS_PARENTS_PATH,
     },
+    {
+      key: 4,
+      label: "Score",
+      link: ROUTES.PARENTS_PAGE.PARENTS_SCORE_PATH,
+    },
+    {
+      key: 5,
+      label: "Notification",
+      link: ROUTES.PARENTS_PAGE.PARENTS_NOTIFICATION_PATH,
+    },
   ];
 
   const optionsTeacher = [

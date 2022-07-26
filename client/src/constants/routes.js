@@ -16,6 +16,8 @@ const ROUTES = {
     PARENTS_PAGE: {
         PARENTS_STUDENT_PATH: "/parents/student",
         PARENTS_PARENTS_PATH: "/parents/parents",
+        PARENTS_SCORE_PATH: "/parents/score",
+        PARENTS_NOTIFICATION_PATH: "/parents/notification",
     },
 
     TEACHER_PAGE: {
