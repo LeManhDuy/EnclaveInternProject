@@ -118,7 +118,7 @@ router.post('/:teacher_id&:parent_id', async (req, res) => {
 // @route GET api/notification/
 // @desc get public notification
 // @access Private
-router.get('/', verifyJWT, async (req, res) => {
+router.get('/', async (req, res) => {
     try {
         let showNotification = []
         const notifications = await PublicNotification.find({})

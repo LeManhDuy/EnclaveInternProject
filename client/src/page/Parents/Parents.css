@@ -1,0 +1,96 @@
+@import "../../assets/css/variables.css";
+@import "../../assets/css/custom.css";
+
+.parents-info{
+  margin-top: 20px;
+}
+
+.parents-info h3{
+  background: var(--primary-color);
+  display: inline-block;
+  padding: 10px 20px;
+  border-radius: 6px;
+  color: #fff
+}
+
+.parents-content {
+  margin: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+  flex-wrap: wrap;
+}
+
+.parents-content p{
+  margin: 0;
+  padding: 0;
+}
+
+.parents-content .parents-item {
+  display: flex;
+  width: 40%;
+  box-sizing: border-box;
+  background-color: var(--primary-color);
+  align-items: center;
+  justify-content: space-around;
+  border-radius: 10px;
+  color: #fff;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+.parents-content .image{
+  width: 20%;
+}
+
+.parents-content img{
+  width: 100%;
+  border: 4px solid #fff;
+  border-radius: 50%;
+}
+
+
+
+.parents-item .detail-info .type{
+  display: flex;
+  text-align: left;
+  align-items: center;
+  gap: 20px;
+  margin: 20px 0;
+}
+
+.parents-item .detail-info .type .fa,.fas{
+  width: 30px;
+  font-size: 30px;
+  text-align: center;
+}
+
+.protector-item .detail-info .type{
+  display: flex;
+  text-align: left;
+  align-items: center;
+  gap: 20px;
+  margin: 20px 0;
+}
+
+.protector-item .detail-info .type .fa,.fas{
+  width: 30px;
+  font-size: 30px;
+  text-align: center;
+}
+
+.parents-content .protector-item {
+  display: flex;
+  width: 40%;
+  box-sizing: border-box;
+  background-color: #fff;
+  align-items: center;
+  justify-content: space-around;
+  border-radius: 10px;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+.parents-content .protector-item img{
+  width: 100%;
+  border: 4px solid;
+  border-radius: 50%;
+}
