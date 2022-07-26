@@ -8,6 +8,7 @@ const Class = require("../model/Class");
 const Parent = require("../model/Parents");
 const Score = require("../model/Score");
 const SummaryScore = require("../model/SummaryScore");
+const Subject = require("../model/Subject");
 const multer = require("multer");
 const fs = require("fs");
 
@@ -127,22 +128,22 @@ router.post(
 // // @route GET dashboard/teacher/get-all-student
 // // @desc get student information
 // // @access Private
-// router.get("/get-all-student", verifyJWTandTeacher, async (req, res) => {
-//     try {
-//         // Return token
-//         const allStudent = await Student.find({})
-//             .populate("class_id", ["class_name"])
-//             .populate("parent_id", ["parent_name"])
-//             .populate("subjects", ["subject_name"])
-//             .populate("summary", ["summary_score", "summary_behavior"])
-//             .select(["student_fullname", "student_gender", "student_image"]);
-//         return res.status(200).json({
-//             StudentInformation: allStudent,
-//         });
-//     } catch (error) {
-//         return res.status(500).json({ success: false, message: "" + error });
-//     }
-// });
+router.get("/get-all-student", verifyJWTandTeacher, async (req, res) => {
+    try {
+        // Return token
+        const allStudent = await Student.find({})
+            .populate("class_id", ["class_name"])
+            .populate("parent_id", ["parent_name"])
+            .populate("subjects", ["subject_name"])
+            .populate("summary", ["summary_score", "summary_behavior"])
+            .select(["student_fullname", "student_gender", "student_image"]);
+        return res.status(200).json({
+            StudentInformation: allStudent,
+        });
+    } catch (error) {
+        return res.status(500).json({ success: false, message: "" + error });
+    }
+});
 
 // @route GET dashboard/teacher/parent-get-student-information
 // @desc parent get student information
@@ -281,7 +282,7 @@ router.put(
             return res
                 .status(500)
                 .json({ success: false, message: "" + error });
-        } 
+        }
     }
 );
 
@@ -291,9 +292,71 @@ router.put(
 router.delete("/:id", verifyJWTandTeacher, async (req, res) => {
     try {
         const postDeleteCondition = { _id: req.params.id, user: req.userId };
-        const deleteStudent = await Student.findOneAndDelete(
-            postDeleteCondition
+        const studentDB = await Student.findById(
+            postDeleteCondition._id
         );
+        if (!studentDB) {
+            return res
+                .status(401)
+                .json({ success: false, message: "Student not found!" });
+        }
+
+        if (studentDB.parent_id) {
+            const parent = await Parent.findById(studentDB.parent_id.toString());
+            if (!parent) {
+                return res.status(401).json({
+                    success: false,
+                    message: "Parent not found",
+                });
+            }
+            parent.children = undefined
+            parent.save();
+        }
+
+        if (studentDB.class_id) {
+            const classId = await Class.findById(studentDB.class_id.toString());
+            if (!classId) {
+                return res.status(401).json({
+                    success: false,
+                    message: "Class not found",
+                });
+            }
+            classId.students = undefined
+            classId.save();
+        }
+
+        if (studentDB.subjects) {
+            studentDB.subjects.map(async (item) => {
+                let subject = await Subject.findById(item._id.toString());
+                if (subject) {
+                    subject.students = undefined;
+                    subject.save();
+                }
+            });
+        }
+
+        if (studentDB.scores) {
+            studentDB.scores.map(async (item) => {
+                let score = await Score.findById(item._id.toString());
+                if (score) {
+                    const deleteScore = await Score.findOneAndDelete(score._id);
+                }
+            });
+        }
+
+        if (studentDB.summary) {
+            const summary = await SummaryScore.findById(studentDB.summary.toString());
+            if (!summary) {
+                return res.status(401).json({
+                    success: false,
+                    message: "Summary score not found",
+                });
+            }
+            const deleteSummaryScore = await SummaryScore.findOneAndDelete(summary._id);
+            console.log(deleteSummaryScore)
+        }
+
+        const deleteStudent = await Student.findOneAndDelete(postDeleteCondition);
         if (!deleteStudent) {
             return res
                 .status(401)

@@ -29,7 +29,7 @@ Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZWFjaGVySWQiOiI2MmM2OGFkNGJlZGU1MTA3NjMzODg4ZjYiLCJpYXQiOjE2NTcxODMxNTB9.zr4B2yhwd-rn2LKywhbrkx-xLL1gwWU8kI5z9PmfeP4
 
 {
-    "student_fullname" : "Chris Evan",
+    "student_fullname" : "Chris Evan test 3",
     "student_dateofbirth": "2020-05-11T20:14:14.796Z",
     "student_age":20,
     "student_gender":false,
@@ -52,7 +52,7 @@ GET http://localhost:8000/api/student/parent-get-student-information/62cbc71228e
 Content-Type: application/json
 ###
 //parent get student score information by student id
-GET http://localhost:8000/api/student/parent-get-detailed-score-information/62cbc71228ed8bda747c4445
+GET http://localhost:8000/api/student/parent-get-detailed-score-information/62df8906bfeef3904cc3a0c2
 Content-Type: application/json
 ###
 //teacher update student by id_student
@@ -69,6 +69,6 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZWFjaGVySWQiOiI2M
 }
 ###
 //teacher delete student
-DELETE  http://localhost:8000/api/student/62df60b602c4d672c8507b40
+DELETE  http://localhost:8000/api/student/62df91905fb05fe06de52cda
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZWFjaGVySWQiOiI2MmM2OGFkNGJlZGU1MTA3NjMzODg4ZjYiLCJpYXQiOjE2NTcxODMxNTB9.zr4B2yhwd-rn2LKywhbrkx-xLL1gwWU8kI5z9PmfeP4
