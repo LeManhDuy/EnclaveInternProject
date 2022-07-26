@@ -9,7 +9,7 @@ const AdminRoute = ({ component: Component, ...rest }) => (
     {...rest}
     component={(props) =>
       (AuthenticationService.isLogin()&&JSON.parse(localStorage.getItem('@Login')).role === "admin") ? (
-          <div className="div-container">
+          <div className="">
             <div className="main-content">
               <Sidebar />
               <Component {...props} />
