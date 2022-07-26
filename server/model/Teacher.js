@@ -34,12 +34,6 @@ const teacherSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: "Class",
     },
-    students: [
-        {
-            type: Schema.Types.ObjectId,
-            ref: "Student",
-        },
-    ],
     notifications: [
         {
             type: Schema.Types.ObjectId,

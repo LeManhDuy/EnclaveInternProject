@@ -4,6 +4,7 @@ const router = express.Router();
 const verifyJWTandTeacher = require("../middleware/verifyJWTandTeacher");
 const Student = require("../model/Student");
 const Teacher = require("../model/Teacher");
+const Class = require("../model/Class");
 const Parent = require("../model/Parents");
 const Score = require("../model/Score");
 const SummaryScore = require("../model/SummaryScore");
@@ -33,11 +34,11 @@ const upload = multer({ storage: storage, fileFilter: fileFilter });
 // @desc create student information
 // @access Private
 router.post(
-    "/:teacherID&:parentID",
+    "/:classID&:parentID",
     verifyJWTandTeacher,
     upload.single("student_image"),
     async (req, res) => {
-        const { teacherID, parentID } = req.params;
+        const { classID, parentID } = req.params;
         const { student_fullname, student_gender, student_dateofbirth } =
             req.body;
         let student_image = null;
@@ -51,7 +52,7 @@ router.post(
                 message: "Please fill in complete information",
             });
         try {
-            const teacher = await Teacher.findById(teacherID);
+            const classInfor = await Class.findById(classID);
             const parent = await Parent.findById(parentID);
             //save collection
             const newStudent = new Student({
@@ -60,11 +61,11 @@ router.post(
                 student_gender,
                 student_image,
                 parent_id: parent._id,
-                teacher_id: teacher._id,
+                class_id: classInfor._id,
             });
             await newStudent.save();
-            teacher.students.push(newStudent._id);
-            await teacher.save();
+            classInfor.students.push(newStudent._id);
+            await classInfor.save();
             parent.children.push(newStudent._id);
             await parent.save();
             res.json({
@@ -74,7 +75,6 @@ router.post(
                 studentDateOfBirth: newStudent.student_dateofbirth,
                 studentGender: newStudent.student_gender,
                 studentImage: newStudent.student_image,
-                teacherName: teacher.teacher_name,
             });
         } catch (error) {
             return res
@@ -84,45 +84,45 @@ router.post(
     }
 );
 
-// @route GET dashboard/teacher/get-student-by-teacher-id
-// @desc get student information
-// @access Private
-router.get(
-    "/get-student-by-teacher-id/:teacherID",
-    verifyJWTandTeacher,
-    async (req, res) => {
-        const { teacherID } = req.params;
-        try {
-            const teacher = await Teacher.findById(teacherID).populate(
-                "students",
-                ["_id", "student_fullname", "student_gender", "student_image"]
-            );
+// // @route GET dashboard/teacher/get-student-by-teacher-id
+// // @desc get student information
+// // @access Private
+// router.get(
+//     "/get-student-by-teacher-id/:teacherID",
+//     verifyJWTandTeacher,
+//     async (req, res) => {
+//         const { teacherID } = req.params;
+//         try {
+//             const teacher = await Teacher.findById(teacherID).populate(
+//                 "students",
+//                 ["_id", "student_fullname", "student_gender", "student_image"]
+//             );
 
-            const arrStudentId = [];
-            teacher.students.map((item) => {
-                arrStudentId.push(item._id);
-            });
-            const getStudentById = await Student.find({ _id: arrStudentId })
-                .populate("class_id", ["class_name"])
-                .populate("subjects", ["subject_name"])
-                .populate("summary", ["summary_score", "summary_behavior"])
-                .select([
-                    "student_fullname",
-                    "student_gender",
-                    "student_image",
-                ]);
+//             const arrStudentId = [];
+//             teacher.students.map((item) => {
+//                 arrStudentId.push(item._id);
+//             });
+//             const getStudentById = await Student.find({ _id: arrStudentId })
+//                 .populate("class_id", ["class_name"])
+//                 .populate("subjects", ["subject_name"])
+//                 .populate("summary", ["summary_score", "summary_behavior"])
+//                 .select([
+//                     "student_fullname",
+//                     "student_gender",
+//                     "student_image",
+//                 ]);
 
-            return res.status(200).json({
-                teacherName: teacher.teacher_name,
-                studentInformation: getStudentById,
-            });
-        } catch (error) {
-            return res
-                .status(500)
-                .json({ success: false, message: "" + error });
-        }
-    }
-);
+//             return res.status(200).json({
+//                 teacherName: teacher.teacher_name,
+//                 studentInformation: getStudentById,
+//             });
+//         } catch (error) {
+//             return res
+//                 .status(500)
+//                 .json({ success: false, message: "" + error });
+//         }
+//     }
+// );
 
 // @route GET dashboard/teacher/get-all-student
 // @desc get student information
@@ -155,7 +155,6 @@ router.get("/parent-get-student-information/:studentID", async (req, res) => {
         //sutdent
         const getStudentById = await Student.findById(studentID)
             .populate("class_id", ["class_name"])
-            .populate("teacher_id", ["teacher_name"])
             .populate("parent_id", ["parent_name", "parent_address"]);
         if (!getStudentById)
             return res
@@ -167,7 +166,6 @@ router.get("/parent-get-student-information/:studentID", async (req, res) => {
             studentDateOfBirth: getStudentById.student_dateofbirth,
             studentGender: getStudentById.student_gender,
             studentAddress: getStudentById.parent_id.parent_address,
-            mainTeacher: getStudentById.teacher_id.teacher_name,
             className: getStudentById.class_id.class_name,
         });
     } catch (error) {
