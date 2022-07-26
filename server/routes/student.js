@@ -102,7 +102,6 @@ router.get(
             teacher.students.map((item) => {
                 arrStudentId.push(item._id);
             });
-
             const getStudentById = await Student.find({ _id: arrStudentId })
                 .populate("class_id", ["class_name"])
                 .populate("subjects", ["subject_name"])
