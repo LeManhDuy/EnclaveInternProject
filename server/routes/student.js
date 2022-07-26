@@ -2,6 +2,7 @@ require("dotenv").config();
 const express = require("express");
 const router = express.Router();
 const verifyJWTandTeacher = require("../middleware/verifyJWTandTeacher");
+const verifyJWTandAdmin = require("../middleware/verifyJWTandAdmin");
 const Student = require("../model/Student");
 const Teacher = require("../model/Teacher");
 const Class = require("../model/Class");
@@ -36,7 +37,7 @@ const upload = multer({ storage: storage, fileFilter: fileFilter });
 // @access Private
 router.post(
     "/:classID&:parentID",
-    verifyJWTandTeacher,
+    verifyJWTandAdmin,
     upload.single("student_image"),
     async (req, res) => {
         const { classID, parentID } = req.params;
@@ -125,10 +126,10 @@ router.post(
 //     }
 // );
 
-// // @route GET dashboard/teacher/get-all-student
-// // @desc get student information
-// // @access Private
-router.get("/get-all-student", verifyJWTandTeacher, async (req, res) => {
+// @route GET dashboard/teacher/get-all-student
+// @desc get student information
+// @access Private
+router.get("/get-all-student", async (req, res) => {
     try {
         // Return token
         const allStudent = await Student.find({})
@@ -292,9 +293,7 @@ router.put(
 router.delete("/:id", verifyJWTandTeacher, async (req, res) => {
     try {
         const postDeleteCondition = { _id: req.params.id, user: req.userId };
-        const studentDB = await Student.findById(
-            postDeleteCondition._id
-        );
+        const studentDB = await Student.findById(postDeleteCondition._id);
         if (!studentDB) {
             return res
                 .status(401)
@@ -302,14 +301,16 @@ router.delete("/:id", verifyJWTandTeacher, async (req, res) => {
         }
 
         if (studentDB.parent_id) {
-            const parent = await Parent.findById(studentDB.parent_id.toString());
+            const parent = await Parent.findById(
+                studentDB.parent_id.toString()
+            );
             if (!parent) {
                 return res.status(401).json({
                     success: false,
                     message: "Parent not found",
                 });
             }
-            parent.children = undefined
+            parent.children = undefined;
             parent.save();
         }
 
@@ -321,7 +322,7 @@ router.delete("/:id", verifyJWTandTeacher, async (req, res) => {
                     message: "Class not found",
                 });
             }
-            classId.students = undefined
+            classId.students = undefined;
             classId.save();
         }
 
@@ -345,18 +346,24 @@ router.delete("/:id", verifyJWTandTeacher, async (req, res) => {
         }
 
         if (studentDB.summary) {
-            const summary = await SummaryScore.findById(studentDB.summary.toString());
+            const summary = await SummaryScore.findById(
+                studentDB.summary.toString()
+            );
             if (!summary) {
                 return res.status(401).json({
                     success: false,
                     message: "Summary score not found",
                 });
             }
-            const deleteSummaryScore = await SummaryScore.findOneAndDelete(summary._id);
-            console.log(deleteSummaryScore)
+            const deleteSummaryScore = await SummaryScore.findOneAndDelete(
+                summary._id
+            );
+            console.log(deleteSummaryScore);
         }
 
-        const deleteStudent = await Student.findOneAndDelete(postDeleteCondition);
+        const deleteStudent = await Student.findOneAndDelete(
+            postDeleteCondition
+        );
         if (!deleteStudent) {
             return res
                 .status(401)
