@@ -11,11 +11,10 @@ import StudentService from "../../../config/service/StudentService";
 import ModalCustom from "../../../lib/ModalCustom/ModalCustom";
 import ConfirmAlert from "../../../lib/ConfirmAlert/ConfirmAlert";
 import ModalInput from "../../../lib/ModalInput/ModalInput";
-import AddGrade from "../../../lib/ModalInput/AddGrade/AddGrade";
+import AddStudent from "../../../lib/ModalInput/AddStudent/AddStudent";
 
 const StudentAdmin = () => {
     const [student, setStudent] = useState([]);
-    const [grade, setGrade] = useState([]);
     const [isChange, setIsChange] = useState(false);
     const [isDelete, setIsDelete] = useState(false);
     const [name, setName] = useState("");
@@ -39,6 +38,7 @@ const StudentAdmin = () => {
                             image: item.student_image,
                             parent: item.parent_id.parent_name,
                             teacher: item.teacher_id.teacher_name,
+                            class: item.class_id.class_name,
                         };
                     }
                 );
@@ -54,6 +54,7 @@ const StudentAdmin = () => {
             <tr data-key={item.id} key={item.id}>
                 <td>{item.name}</td>
                 <td>{item.gender ? "Male" : "Female"}</td>
+                <td>{item.class}</td>
                 <td>{item.parent}</td>
                 <td>{item.teacher}</td>
                 <td>
@@ -88,6 +89,7 @@ const StudentAdmin = () => {
                 <tr>
                     <th>Name</th>
                     <th>Gender</th>
+                    <th>Class</th>
                     <th>Parent</th>
                     <th>Teacher</th>
                     <th>Image</th>
@@ -132,12 +134,12 @@ const StudentAdmin = () => {
         setAddState(false);
     };
 
-    const handleConfirmAddGrade = (allValue) => {
-        GradeService.addGrade({
-            grade_name: allValue.name,
-        }).then((res) => {
-            res.success ? setIsChange(!isChange) : null;
-        });
+    const handleConfirmAddStudent = (allValue) => {
+        // GradeService.addGrade({
+        //     grade_name: allValue.name,
+        // }).then((res) => {
+        //     res.success ? setIsChange(!isChange) : null;
+        // });
     };
 
     const DivAddGrade = (
@@ -145,9 +147,9 @@ const StudentAdmin = () => {
             show={addState}
             handleInputCustom={handleInputCustom}
             content={
-                <AddGrade
+                <AddStudent
                     handleInputCustom={handleInputCustom}
-                    handleConfirmAddGrade={handleConfirmAddGrade}
+                    handleConfirmAddStudent={handleConfirmAddStudent}
                 />
             }
         />

@@ -121,7 +121,7 @@ const AddSubject = (props) => {
                 id="input-name"
                 type="text"
                 name="name"
-                placeholder="e.g: A, B, C, ..."
+                placeholder="e.g: Math, English, ..."
                 onChange={changeHandler}
                 required
             />
