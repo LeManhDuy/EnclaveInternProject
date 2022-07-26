@@ -23,8 +23,8 @@ Content-Type: application/json
 GET http://localhost:8000/api/authentication/logout
 Content-Type: application/json
 ###
-//teacher create student by teacher id and parent id
-POST http://localhost:8000/api/student/62c68b2ebede510763388900&62c68c3ebede510763388905
+//teacher create student by classID and parent id
+POST http://localhost:8000/api/student/62c69e1ddb14d59b81b46a67&62c68c3ebede510763388905
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZWFjaGVySWQiOiI2MmM2OGFkNGJlZGU1MTA3NjMzODg4ZjYiLCJpYXQiOjE2NTcxODMxNTB9.zr4B2yhwd-rn2LKywhbrkx-xLL1gwWU8kI5z9PmfeP4
 
@@ -36,7 +36,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZWFjaGVySWQiOiI2M
     "student_image": "image link"
 }
 ###
-//teacher get all student
+//get all student
 GET http://localhost:8000/api/student/get-all-student
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZWFjaGVySWQiOiI2MmM2OGFkNGJlZGU1MTA3NjMzODg4ZjYiLCJpYXQiOjE2NTcxODMxNTB9.zr4B2yhwd-rn2LKywhbrkx-xLL1gwWU8kI5z9PmfeP4
@@ -69,6 +69,6 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZWFjaGVySWQiOiI2M
 }
 ###
 //teacher delete student
-DELETE  http://localhost:8000/api/student/62c78fb46008f5e67d096b97
+DELETE  http://localhost:8000/api/student/62df60b602c4d672c8507b40
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZWFjaGVySWQiOiI2MmM2OGFkNGJlZGU1MTA3NjMzODg4ZjYiLCJpYXQiOjE2NTcxODMxNTB9.zr4B2yhwd-rn2LKywhbrkx-xLL1gwWU8kI5z9PmfeP4

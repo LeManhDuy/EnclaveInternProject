@@ -1,0 +1,107 @@
+.header-parent {
+    background-color: #83ACDC;
+    height: 70px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.main-student-container {
+    display: inline-block;
+    text-align: center;
+}
+
+.header-title {
+    display: inline-block;
+    margin: 20px 0px 20px 0px;
+}
+
+.header-title h1 {
+    width: 500px;
+    height: auto;
+    font-size: 30px;
+    color: white;
+    background-color: #83ACDC;
+    border-radius: 10px/10px;
+    padding: 10px 0px 10px 0px;
+    text-align: center;
+}
+
+.detail-content {
+    width: 100vw;
+    height: auto;
+    display: flex;
+}
+
+.left-student-content {
+    width: 60%;
+    height: auto;
+    display: inline-block;
+    text-align: end;
+}
+
+.left-student-content img {
+    height: 350px;
+    margin-right: 100px;
+    clip-path: circle();
+}
+
+.right-student-content i {
+    height: 50px;
+    width: 50px;
+    line-height: 50px;
+    font-size: 30px;
+    border-radius: 10px/10px;
+    text-align: center;
+    background-color: #83ACDC;
+    color: white;
+}
+
+.right-student-content {
+    width: 45%;
+    height: auto;
+    display: inline-block;
+    text-align: end;
+}
+
+.right-student-content h4 {
+    margin: 0;
+    display: inline-block;
+}
+
+.right-student-content p {
+    margin: 0%;
+}
+
+.item-content {
+    display: flex;
+}
+
+.detail-item-content {
+    text-align: justify;
+}
+
+.fas,
+.fa {
+    margin: 0 10px 25px 0px;
+}
+
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {}
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {}
+
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {
+
+}
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1200px) {
+    
+}
