@@ -25,8 +25,8 @@ Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZWFjaGVySWQiOiI2MmM2OGFkNGJlZGU1MTA3NjMzODg4ZjYiLCJpYXQiOjE2NTc1OTIyMjR9.eZqEyxqr5k-WEm6_xd5jUdquV7czVEJ6y_Or1zcqUlE
 
 {
-  "title": "Le tong ket",
-  "content": "Nha truong to chuc le tong ket cuoi nam vao ngay xx/xxx. kinh moi quy vi phu huynh den tham du"
+  "title": "avasa",
+  "content": "123412"
 }
 
 
@@ -38,8 +38,8 @@ Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZWFjaGVySWQiOiI2MmM2OGFkNGJlZGU1MTA3NjMzODg4ZjYiLCJpYXQiOjE2NTc1OTIyMjR9.eZqEyxqr5k-WEm6_xd5jUdquV7czVEJ6y_Or1zcqUlE
 
 {
-  "title": "Xin hoc lai",
-  "content": "xin cho chau hoc lai"
+  "title": "Kien nghi phuc khao diem",
+  "content": "xin duoc xem xet lai bai thi cua chau"
 }
 
 

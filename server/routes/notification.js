@@ -124,6 +124,7 @@ router.get('/', verifyJWT, async (req, res) => {
         const notifications = await PublicNotification.find({})
         for (let notification of notifications) {
             showNotification.push({
+                id: notification._id,
                 title: notification.notification_title,
                 content: notification.notification_content,
                 date: notification.notification_date,
@@ -163,6 +164,7 @@ router.get('/teacher/:teacher_id', async (req, res) => {
         for (let notification of notifications) {
             notification = await notification.populate('parent_id',['parent_name'])
             showNotification.push({
+                id: notification._id,
                 title: notification.notification_title,
                 content: notification.notification_content,
                 date: notification.notification_date,
@@ -204,6 +206,7 @@ router.get('/parent/:parent_id', verifyJWT, async (req, res) => {
         for (let notification of notifications) {
             notification = await notification.populate('teacher_id',['teacher_name'])
             showNotification.push({
+                id: notification._id,
                 title: notification.notification_title,
                 content: notification.notification_content,
                 date: notification.notification_date,
@@ -269,6 +272,7 @@ router.put('/public/:notification_id', verifyJWT,  async (req, res) => {
         res.json({
             success: true,
             message: 'Updated',
+            id: updateNotification._id,
             title: updateNotification.notification_title,
             content: updateNotification.notification_content,
             date: updateNotification.notification_date,
