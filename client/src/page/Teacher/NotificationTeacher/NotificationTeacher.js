@@ -1,8 +1,51 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./NotificationTeacher.css";
+import NotificationService from "../../../config/service/NotificationService";
 
 const NotificationTeacher = () => {
+  useEffect(() => {
+    getNotifications();
+  }, [])
+  
   const [isPublic, setIsPublic] = useState(true);
+  const [notifications, setNotifications] = useState([]);
+  const getNotifications = () => {
+    NotificationService.getNotifications()
+      .then((response) => {
+        const dataSources = response.notifications.map((item, index) => {
+          return {
+            key: index + 1,
+            // id: item._id,
+            title: item.title,
+            content: item.content,
+            date: item.date,
+          };
+        });
+        dataSources.sort(function (a, b) {
+          return new Date(b.date) - new Date(a.date);
+        });
+        setNotifications(dataSources);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const NotificationItem = ({ notifications }) =>
+  notifications.map((item) => (
+    <div className="notification-item" key={item.key}>
+      <div className="notification-content">
+        <div className="title-content">
+          <p className="date">{new Date(item.date).toLocaleString()}</p>
+          <p className="title">{item.title}</p>
+        </div>
+        <div className="description">
+          <p>{item.content}</p>
+        </div>
+      </div>
+    </div>
+  ));
+
   return (
     <div className="notification-teacher">
       {isPublic ? (
@@ -31,151 +74,7 @@ const NotificationTeacher = () => {
           <button className="create-notification">Create</button>
         </div>
         <div className="content-notification-teacher">
-          <div className="notification-item">
-            <div className="notification-content">
-              <div className="title-content">
-                <p className="date">19/02/2021:</p>
-                <p className="title">
-                  Thông báo về tổ chức đào tạo sau kì nghỉ lễ
-                </p>
-              </div>
-              <div className="description">
-                <p>Học sinh bắt đầu đi học lại vào ngày 21/02/2021.</p>
-              </div>
-            </div>
-            <div className="btn-function">
-              <i className="fa-regular fa-pen-to-square btn-edit"></i>
-              <i className="fa-regular fa-trash-can btn-delete"></i>
-            </div>
-          </div>
-          <div className="notification-item">
-            <div className="notification-content">
-              <div className="title-content">
-                <p className="date">19/02/2021:</p>
-                <p className="title">
-                  Thông báo về tổ chức đào tạo sau kì nghỉ lễ
-                </p>
-              </div>
-              <div className="description">
-                <p>
-                  Học sinh bắt đầu đi học lại vào ngày 21/02/2021. Học sinh bắt
-                  đầu đi học lại vào ngày 21/02/2021. Học sinh bắt đầu đi học
-                  lại vào ngày 21/02/2021.
-                </p>
-              </div>
-            </div>
-            <div className="btn-function">
-              <i className="fa-regular fa-pen-to-square btn-edit"></i>
-              <i className="fa-regular fa-trash-can btn-delete"></i>
-            </div>
-          </div>
-          <div className="notification-item">
-            <div className="notification-content">
-              <div className="title-content">
-                <p className="date">19/02/2021:</p>
-                <p className="title">
-                  Thông báo về tổ chức đào tạo sau kì nghỉ lễ
-                </p>
-              </div>
-              <div className="description">
-                <p>
-                  - Sinh viên kiểm tra học phí nợ tại đây, Đến hết ngày
-                  24/07/2022, nếu có thắc mắc về học phí sinh viên có thể liên
-                  hệ số điện thoại: 0914.200.444 (gặp cô Tâm) hoặc số
-                  0946.148.979, sinh viên chưa hoàn thành học phí sẽ bị hủy kết
-                  quả đăng ký học và bị khóa tài khoản WEBSITE,
-                </p>
-              </div>
-            </div>
-            <div className="btn-function">
-              <i className="fa-regular fa-pen-to-square btn-edit"></i>
-              <i className="fa-regular fa-trash-can btn-delete"></i>
-            </div>
-          </div>
-          <div className="notification-item">
-            <div className="notification-content">
-              <div className="title-content">
-                <p className="date">19/02/2021:</p>
-                <p className="title">
-                  Thông báo về tổ chức đào tạo sau kì nghỉ lễ
-                </p>
-              </div>
-              <div className="description">
-                <p>
-                  Học sinh bắt đầu đi học lại vào ngày 21/02/2021. Học sinh bắt
-                  đầu đi học lại vào ngày 21/02/2021. Học sinh bắt đầu đi học
-                  lại vào ngày 21/02/2021.
-                </p>
-              </div>
-            </div>
-            <div className="btn-function">
-              <i className="fa-regular fa-pen-to-square btn-edit"></i>
-              <i className="fa-regular fa-trash-can btn-delete"></i>
-            </div>
-          </div>
-          <div className="notification-item">
-            <div className="notification-content">
-              <div className="title-content">
-                <p className="date">19/02/2021:</p>
-                <p className="title">
-                  Thông báo về tổ chức đào tạo sau kì nghỉ lễ
-                </p>
-              </div>
-              <div className="description">
-                <p>
-                  Học sinh bắt đầu đi học lại vào ngày 21/02/2021. Học sinh bắt
-                  đầu đi học lại vào ngày 21/02/2021. Học sinh bắt đầu đi học
-                  lại vào ngày 21/02/2021.
-                </p>
-              </div>
-            </div>
-            <div className="btn-function">
-              <i className="fa-regular fa-pen-to-square btn-edit"></i>
-              <i className="fa-regular fa-trash-can btn-delete"></i>
-            </div>
-          </div>
-          <div className="notification-item">
-            <div className="notification-content">
-              <div className="title-content">
-                <p className="date">19/02/2021:</p>
-                <p className="title">
-                  Thông báo về tổ chức đào tạo sau kì nghỉ lễ
-                </p>
-              </div>
-              <div className="description">
-                <p>
-                  Học sinh bắt đầu đi học lại vào ngày 21/02/2021. Học sinh bắt
-                  đầu đi học lại vào ngày 21/02/2021. Học sinh bắt đầu đi học
-                  lại vào ngày 21/02/2021.
-                </p>
-              </div>
-            </div>
-            <div className="btn-function">
-              <i className="fa-regular fa-pen-to-square btn-edit"></i>
-              <i className="fa-regular fa-trash-can btn-delete"></i>
-            </div>
-          </div>
-          <div className="notification-item">
-            <div className="notification-content">
-              <div className="title-content">
-                <p className="date">19/02/2021:</p>
-                <p className="title">
-                  Thông báo về tổ chức đào tạo sau kì nghỉ lễ
-                </p>
-              </div>
-              <div className="description">
-                <p>
-                  Học sinh bắt đầu đi học lại vào ngày 21/02/2021. Học sinh bắt
-                  đầu đi học lại vào ngày 21/02/2021. Học sinh bắt đầu đi học
-                  lại vào ngày 21/02/2021.
-                </p>
-              </div>
-            </div>
-            <div className="btn-function">
-              <i className="fa-regular fa-pen-to-square btn-edit"></i>
-              <i className="fa-regular fa-trash-can btn-delete"></i>
-            </div>
-          </div>
+        {<NotificationItem notifications={notifications} />}
         </div>
       </div>
     </div>

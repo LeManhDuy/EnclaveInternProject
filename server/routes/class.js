@@ -453,9 +453,9 @@ router.delete("/:id", verifyJWT, async (req, res) => {
         if (classDB.students) {
             classDB.students.map(async (item) => {
                 let student = await Student.findById(item._id.toString());
-                if (student) {
+                if (student) {  
                     student.class_id = undefined;
-                    student.save();
+                    student.save(); 
                 }
             });
         }
