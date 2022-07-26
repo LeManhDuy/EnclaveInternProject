@@ -12,6 +12,7 @@ const SummaryScore = require("../model/SummaryScore");
 const Subject = require("../model/Subject");
 const multer = require("multer");
 const fs = require("fs");
+const { log } = require("console");
 
 const storage = multer.diskStorage({
     destination: function (req, res, cb) {
@@ -290,16 +291,27 @@ router.put(
 // @route DELETE dashboard/teacher/delete-student
 // @desc delete student
 // @access Private
-router.delete("/:id", verifyJWTandTeacher, async (req, res) => {
+router.delete("/:id", verifyJWTandAdmin, async (req, res) => {
     try {
-        const postDeleteCondition = { _id: req.params.id, user: req.userId };
+        const postDeleteCondition = { _id: req.params.id };
         const studentDB = await Student.findById(postDeleteCondition._id);
         if (!studentDB) {
             return res
                 .status(401)
                 .json({ success: false, message: "Student not found!" });
         }
-
+        console.log(studentDB);
+        console.log(studentDB.student_image);
+        if (studentDB.student_image) {
+            fs.unlink("./" + studentDB.student_image, (err) => {
+                if (err)
+                    res.status(400).json({
+                        success: false,
+                        message: "Image error: " + err,
+                    });
+                console.log("successfully deleted file");
+            });
+        }
         if (studentDB.parent_id) {
             const parent = await Parent.findById(
                 studentDB.parent_id.toString()

@@ -106,7 +106,7 @@ const StudentAdmin = () => {
     };
 
     const handleDelete = () => {
-        GradeService.deleteGradeById(id).then((res) =>
+        StudentService.deleteStudentById(id).then((res) =>
             res.success ? setIsChange(!isChange) : null
         );
         setIsDelete(false);
