@@ -20,6 +20,7 @@ const StudentAdmin = () => {
     const [name, setName] = useState("");
     const [id, setId] = useState("");
     const [addState, setAddState] = useState(false);
+    const [errorServer, setErrorServer] = useState(false);
 
     useEffect(() => {
         getStudent();
@@ -37,7 +38,6 @@ const StudentAdmin = () => {
                             gender: item.student_gender,
                             image: item.student_image,
                             parent: item.parent_id.parent_name,
-                            teacher: item.teacher_id.teacher_name,
                             class: item.class_id.class_name,
                         };
                     }
@@ -57,9 +57,6 @@ const StudentAdmin = () => {
                 <td>{item.class}</td>
                 <td>{item.parent}</td>
                 <td>{item.teacher}</td>
-                <td>
-                    <img src={`localhost:8000/${item.image}`} alt="image" />
-                </td>
                 <td onClick={click}>
                     <i className="fa-regular fa-pen-to-square btn-edit"></i>
                     <i className="fa-regular fa-trash-can btn-delete"></i>
@@ -92,7 +89,6 @@ const StudentAdmin = () => {
                     <th>Class</th>
                     <th>Parent</th>
                     <th>Teacher</th>
-                    <th>Image</th>
                     <th>Action</th>
                 </tr>
             );
@@ -132,14 +128,31 @@ const StudentAdmin = () => {
 
     const handleInputCustom = () => {
         setAddState(false);
+        setErrorServer(false);
     };
 
     const handleConfirmAddStudent = (allValue) => {
-        // GradeService.addGrade({
-        //     grade_name: allValue.name,
-        // }).then((res) => {
-        //     res.success ? setIsChange(!isChange) : null;
-        // });
+        var formData = new FormData();
+        formData.append("student_fullname", allValue.name);
+        formData.append("student_dateofbirth", allValue.dateOfBirth);
+        formData.append("student_gender", allValue.gender);
+        formData.append("student_image", allValue.img);
+
+        StudentService.addStudents(
+            allValue.classroom,
+            allValue.parent,
+            formData
+        ).then((res) => {
+            if (res.success) {
+                setIsChange(!isChange);
+                setErrorServer(false);
+                setAddState(false);
+            } else {
+                console.log(res.message);
+                setAddState(true);
+                setErrorServer(true);
+            }
+        });
     };
 
     const DivAddGrade = (
@@ -150,6 +163,7 @@ const StudentAdmin = () => {
                 <AddStudent
                     handleInputCustom={handleInputCustom}
                     handleConfirmAddStudent={handleConfirmAddStudent}
+                    errorServer={errorServer}
                 />
             }
         />
@@ -163,11 +177,11 @@ const StudentAdmin = () => {
         <div className="main-container">
             <header>
                 <div>
-                    <h3>Manage Grade</h3>
+                    <h3>Manage Student</h3>
                 </div>
                 <div className="right-header">
                     <button className="btn-account" onClick={handleAddGrade}>
-                        Add Grade
+                        Add Student
                     </button>
                     <div className="search-box">
                         <button className="btn-search">

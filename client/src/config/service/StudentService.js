@@ -4,7 +4,12 @@ const getStudents = async () => {
     return await HandleApi.APIGetWithToken("student/get-all-student/");
 };
 
-const addStudents = async () => {};
+const addStudents = async (gradeID, teacherID, params) => {
+    return await HandleApi.APIPostWithTokenIMG(
+        `student/${gradeID}&${teacherID}`,
+        params
+    );
+};
 
 const deleteStudentById = async () => {};
 

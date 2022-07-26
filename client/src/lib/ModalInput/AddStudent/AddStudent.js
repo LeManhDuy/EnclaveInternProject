@@ -79,7 +79,7 @@ const AddStudent = (props) => {
                 {options.map((option) => (
                     <option
                         key={option.key}
-                        value={option.name}
+                        value={option.name + " - " + option.grade}
                         data-key={option.id}
                         data-teacher={option.teacher}
                     >

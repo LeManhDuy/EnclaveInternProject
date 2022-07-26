@@ -2,6 +2,7 @@ require("dotenv").config();
 const express = require("express");
 const router = express.Router();
 const verifyJWTandTeacher = require("../middleware/verifyJWTandTeacher");
+const verifyJWTandAdmin = require("../middleware/verifyJWTandAdmin");
 const Student = require("../model/Student");
 const Teacher = require("../model/Teacher");
 const Class = require("../model/Class");
@@ -35,7 +36,7 @@ const upload = multer({ storage: storage, fileFilter: fileFilter });
 // @access Private
 router.post(
     "/:classID&:parentID",
-    verifyJWTandTeacher,
+    verifyJWTandAdmin,
     upload.single("student_image"),
     async (req, res) => {
         const { classID, parentID } = req.params;
@@ -132,7 +133,6 @@ router.get("/get-all-student", async (req, res) => {
         // Return token
         const allStudent = await Student.find({})
             .populate("class_id", ["class_name"])
-            .populate("teacher_id", ["teacher_name"])
             .populate("parent_id", ["parent_name"])
             .populate("subjects", ["subject_name"])
             .populate("summary", ["summary_score", "summary_behavior"])
