@@ -77,7 +77,7 @@ const ScoreParents = () => {
                         </thead>
                         <tbody>
                         <tr>
-                            <td className="th-content">7.5</td>
+                            <td className="th-content">7.8</td>
                             <td className="th-content">Excellent</td>
                             <td className="th-content">Good</td>
                         </tr>
