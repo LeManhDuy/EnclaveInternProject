@@ -99,6 +99,32 @@ function APIPostWithTokenIMG(url, params ) {
     .then((response) => response.json())
 }
 
+function APIPutWithToken(url, params) {
+  url = REACT_APP_API_ENDPOINT + "api/" + url
+  return fetch(url, {
+    method: "PUT",
+    headers: {
+      Authorization: getToken(),
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(params)
+  })
+    .then((response) => response.json())
+}
+
+function APIPutWithTokenIMG(url, params ) {
+  url = REACT_APP_API_ENDPOINT + "api/" + url
+  return fetch(url, {
+    method: "PUT",
+    headers: {
+      Authorization: getToken(),
+    },
+    body: params,
+    redirect: 'follow'
+  })
+    .then((response) => response.json())
+}
+
 function APIDelete(url) {
   url = REACT_APP_API_ENDPOINT + "api/" + url
   return fetch(url, {
@@ -171,6 +197,8 @@ const HandleApi = {
 //   APIPutWithFormData,
 APIDelete,
 APIPostWithTokenIMG,
+APIPutWithTokenIMG,
+APIPutWithToken,
 }
 
 export default HandleApi

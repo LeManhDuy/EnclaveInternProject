@@ -1,49 +1,23 @@
 import React, { useState, useEffect } from "react";
-import "./AddClass.css";
-import AccountService from "../../../config/service/AccountService";
+import "./AddSubject.css";
 import GradeService from "../../../config/service/GradeService";
 
-const AddClass = (props) => {
-    const [teacher, setTeacher] = useState([]);
+const AddSubject = (props) => {
     const [grade, setGrade] = useState([]);
-    const [teacherDropValue, setTeacherDropValue] = useState();
     const [gradeDropValue, setGradeDropValue] = useState();
-    const [allValuesClass, setAllValuesClass] = useState({
+    const [allValuesSubject, setAllValuesSubject] = useState({
         name: "",
-        teacher: "",
+        ratio: "",
         grade: "",
     });
     const [classError, setClassError] = useState({
         name: false,
+        ratio: false,
     });
 
     useEffect(() => {
-        getTeacher();
         getGrade();
     }, []);
-
-    const TeacherDropDown = ({ value, options, onChange }) => {
-        return (
-            <select
-                className="dropdown-class"
-                value={value}
-                onChange={onChange}
-            >
-                <option key={10000} value="Pick">
-                    Choose a main teacher
-                </option>
-                {options.map((option) => (
-                    <option
-                        key={option.key}
-                        value={option.name}
-                        data-key={option.id}
-                    >
-                        {option.name}
-                    </option>
-                ))}
-            </select>
-        );
-    };
 
     const GradeDropDown = ({ value, options, onChange }) => {
         return (
@@ -52,7 +26,7 @@ const AddClass = (props) => {
                 value={value}
                 onChange={onChange}
             >
-                <option key={10000} value="Pick">
+                <option key={10000} value="Pick" defaultChecked>
                     Choose grade
                 </option>
                 {options.map((option) => (
@@ -70,48 +44,14 @@ const AddClass = (props) => {
 
     const handleGradeChange = (event) => {
         setGradeDropValue(event.target.value);
-        console.log(event.target.value);
         if (event.target.value !== "Pick") {
-            setAllValuesClass({
-                ...allValuesClass,
+            setAllValuesSubject({
+                ...allValuesSubject,
                 grade: event.target.options[
                     event.target.selectedIndex
                 ].getAttribute("data-key"),
             });
-            console.log(allValuesClass.grade);
         }
-    };
-
-    const handleTeacherChange = (event) => {
-        setTeacherDropValue(event.target.value);
-        console.log(event.target.value);
-        if (event.target.value !== "Pick") {
-            setAllValuesClass({
-                ...allValuesClass,
-                teacher:
-                    event.target.options[
-                        event.target.selectedIndex
-                    ].getAttribute("data-key"),
-            });
-            console.log(allValuesClass.teacher);
-        }
-    };
-
-    const getTeacher = () => {
-        AccountService.getFreeTeacher()
-            .then((response) => {
-                const dataSources = response.allTeachers.map((item, index) => {
-                    return {
-                        key: index + 1,
-                        id: item._id,
-                        name: item.teacher_name,
-                    };
-                });
-                setTeacher(dataSources);
-            })
-            .catch((error) => {
-                console.log(error);
-            });
     };
 
     const getGrade = () => {
@@ -131,31 +71,35 @@ const AddClass = (props) => {
             });
     };
 
-    const handleAddClass = () => {
+    const handleAddSubject = () => {
         let check = false;
         let name = false;
-        let teacher = false;
+        let ratio = false;
         let grade = false;
-        if (allValuesClass.name.length > 30) {
+        if (allValuesSubject.name.length > 30) {
             name = true;
             check = true;
         } else name = false;
+        if (allValuesSubject.ratio > 5) {
+            ratio = true;
+            check = true;
+        } else ratio = false;
         setClassError({
             name: name,
-            teacher: teacher,
+            ratio: ratio,
             grade: grade,
         });
         if (!check) {
-            props.handleConfirmAddClass(allValuesClass);
+            props.handleConfirmAddSubject(allValuesSubject);
         }
     };
     const clickSave = (e) => {
         e.preventDefault();
-        handleAddClass();
+        handleAddSubject();
     };
     const changeHandler = (e) => {
-        setAllValuesClass({
-            ...allValuesClass,
+        setAllValuesSubject({
+            ...allValuesSubject,
             [e.target.name]: e.target.value,
         });
         e.target.focus;
@@ -163,17 +107,17 @@ const AddClass = (props) => {
 
     const FormClass = (
         <div class="form-admin-content">
-            <h2>Add class</h2>
+            <h2>Add subject</h2>
             <label
                 className={
                     "error" +
                     (props.errorServer ? " error-show" : " error-hidden")
                 }
             >
-                Class already exists
+                Subject already exists
             </label>
             <input
-                value={allValuesClass.name}
+                value={allValuesSubject.name}
                 id="input-name"
                 type="text"
                 name="name"
@@ -189,12 +133,25 @@ const AddClass = (props) => {
             >
                 Name must be less than 30 chars long
             </label>
-            <TeacherDropDown
-                value={teacherDropValue}
-                options={teacher}
-                onChange={handleTeacherChange}
-                name="teacher"
+            <input
+                value={allValuesSubject.ratio}
+                id="input-ratio"
+                type="number"
+                min="1"
+                max="5"
+                name="ratio"
+                placeholder="e.g: 1, 2,..."
+                onChange={changeHandler}
+                required
             />
+            <label
+                className={
+                    "error" +
+                    (classError.ratio ? " error-show" : " error-hidden")
+                }
+            >
+                Ratio must be less than 5.
+            </label>
             <GradeDropDown
                 value={gradeDropValue}
                 options={grade}
@@ -204,7 +161,7 @@ const AddClass = (props) => {
         </div>
     );
 
-    const FormAddClass = (
+    const FormAddSubject = (
         <div className="form-add-account">
             {FormClass}
             <button onClick={props.handleInputCustom} className="btn-cancel">
@@ -216,7 +173,7 @@ const AddClass = (props) => {
         </div>
     );
 
-    return <div className="add-account-form">{FormAddClass}</div>;
+    return <div className="add-account-form">{FormAddSubject}</div>;
 };
 
-export default AddClass;
+export default AddSubject;

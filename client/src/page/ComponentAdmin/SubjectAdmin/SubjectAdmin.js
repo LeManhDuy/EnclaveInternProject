@@ -9,6 +9,8 @@ import {
 import SubjectService from "../../../config/service/SubjectService";
 import ModalCustom from "../../../lib/ModalCustom/ModalCustom";
 import ConfirmAlert from "../../../lib/ConfirmAlert/ConfirmAlert";
+import ModalInput from "../../../lib/ModalInput/ModalInput";
+import AddSubject from "../../../lib/ModalInput/AddSubject/AddSubject";
 
 function SubjectAdmin() {
     const [subject, setSubject] = useState([]);
@@ -18,6 +20,8 @@ function SubjectAdmin() {
     const [isDelete, setIsDelete] = useState(false);
     const [id, setId] = useState("");
     const [name, setName] = useState("");
+    const [addState, setAddState] = useState(false);
+    const [errorServer, setErrorServer] = useState(false);
 
     useEffect(() => {
         getSubject();
@@ -167,8 +171,9 @@ function SubjectAdmin() {
     };
 
     const handleDelete = () => {
-        SubjectService.deleteSubjectsById(id).then((res) => res);
-        setState(!state);
+        SubjectService.deleteSubjectsById(id).then((res) =>
+            res.success ? setState(!state) : null
+        );
         setIsDelete(false);
     };
 
@@ -186,6 +191,49 @@ function SubjectAdmin() {
         />
     );
 
+    const handleInputCustom = () => {
+        setAddState(false);
+        setErrorServer(false);
+    };
+
+    const handleConfirmAddSubject = (allValue) => {
+        SubjectService.addSubject(allValue.grade, {
+            subject_name: allValue.name,
+            subject_ratio: allValue.ratio,
+        }).then((res) => {
+            if (res.success) {
+                setState(!state);
+                setErrorServer(false);
+                setAddState(false);
+            } else {
+                console.log(allValue.name);
+                console.log(allValue.ratio);
+                console.log(res.success);
+                console.log(res.message);
+                setErrorServer(true);
+                setAddState(true);
+            }
+        });
+    };
+
+    const DivAddSubject = (
+        <ModalInput
+            show={addState}
+            handleInputCustom={handleInputCustom}
+            content={
+                <AddSubject
+                    handleInputCustom={handleInputCustom}
+                    handleConfirmAddSubject={handleConfirmAddSubject}
+                    errorServer={errorServer}
+                />
+            }
+        />
+    );
+
+    const handleAddSubject = () => {
+        setAddState(true);
+    };
+
     return (
         <div className="main-container">
             <header>
@@ -199,7 +247,9 @@ function SubjectAdmin() {
                     />
                 </div>
                 <div className="right-header">
-                    <button className="btn-account">Add subject</button>
+                    <button className="btn-account" onClick={handleAddSubject}>
+                        Add subject
+                    </button>
                     <div className="search-box">
                         <button className="btn-search">
                             <FontAwesomeIcon
@@ -245,7 +295,8 @@ function SubjectAdmin() {
                         />
                     </button>
                 </div>
-                <div> {isDelete ? ConfirmDelete : null} </div>
+                {isDelete ? ConfirmDelete : null}
+                {addState ? DivAddSubject : null}
             </footer>
         </div>
     );

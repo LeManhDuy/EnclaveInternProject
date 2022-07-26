@@ -134,7 +134,7 @@ router.get(
 // Create
 router.post("/create-subject/:gradeID", verifyJWTandAdmin, async (req, res) => {
     const { gradeID } = req.params;
-    const { subject_name, subject_ratio, grade_id } = req.body;
+    const { subject_name, subject_ratio } = req.body;
     if (!subject_name || !subject_ratio) {
         return res.status(400).json({
             success: false,
@@ -143,7 +143,7 @@ router.post("/create-subject/:gradeID", verifyJWTandAdmin, async (req, res) => {
     }
     try {
         //Validate
-        const subjectValidate = await Subjects.findOne({
+        const subjectValidate = await Subjects.find({
             subject_name: subject_name,
         });
         let result = true;
@@ -283,6 +283,13 @@ router.put("/:id", verifyJWTandAdmin, async (req, res) => {
 router.delete("/:id", verifyJWTandAdmin, async (req, res) => {
     try {
         const postDeleteCondition = { _id: req.params.id };
+        //Delete the grade references
+        const subject = await Subjects.findById(req.params.id);
+        const grade = await Grades.findById(subject.grade_id.toString());
+
+        grade.subjects.remove(subject._id);
+        grade.subjects_name.remove(subject.subject_name);
+        await grade.save();
         const deletedSubject = await Subjects.findOneAndDelete(
             postDeleteCondition
         );

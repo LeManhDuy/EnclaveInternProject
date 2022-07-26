@@ -42,12 +42,12 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZWFjaGVySWQiOiI2M
 //grade 3 : 62c6999ebe8c86c9d3579865
 //grade 4 : 62c699a0be8c86c9d3579868
 //grade 5 : 62c699a4be8c86c9d357986b
-POST http://localhost:8000/api/teacher/subjects/create-subject/62d77fee517d0fa624998513
+POST http://localhost:8000/api/subjects/create-subject/62c69998be8c86c9d357985f
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbklkIjoiNjJjNjhkMWViZWRlNTEwNzYzMzg4OTE0IiwiaWF0IjoxNjU4MTMwODgwfQ.CUWOwDELYZ7AOsm9SXhp4wi1adrTYj3dXlkT1GaHzVc
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbklkIjoiNjJkN2I4YWYyNmE1NTliZDhmOTRkNDA3IiwiaWF0IjoxNjU4NzE0MzIwfQ.q04B8wBPSj4JUz-0AfTt2bGoUhEJ8VO_9RZ_s7_Nhpc
 
 {
-    "subject_name" : "text",
+    "subject_name" : "English",
     "subject_ratio" : 1
 }
 
@@ -75,3 +75,8 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbklkIjoiNjJjN
 GET http://localhost:8000/api/subjects/62c699b4be8c86c9d3579870
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbklkIjoiNjJjNjhkMWViZWRlNTEwNzYzMzg4OTE0IiwiaWF0IjoxNjU4MTMwODgwfQ.CUWOwDELYZ7AOsm9SXhp4wi1adrTYj3dXlkT1GaHzVc
+
+###
+DELETE http://localhost:8000/api/subjects/62de4c0494c3fb8d0a20d455
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbklkIjoiNjJkN2I4YWYyNmE1NTliZDhmOTRkNDA3IiwiaWF0IjoxNjU4NzE0MzIwfQ.q04B8wBPSj4JUz-0AfTt2bGoUhEJ8VO_9RZ_s7_Nhpc
