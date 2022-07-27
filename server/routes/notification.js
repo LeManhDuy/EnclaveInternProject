@@ -137,6 +137,39 @@ router.get('/', async (req, res) => {
     }
 })
 
+// @route GET api/notification/
+// @desc get by id notification
+// @access public
+router.get('/:notification_id', async (req, res) => {
+    const {notification_id} = req.params
+    let notification
+    let publicNotification = await PublicNotification.findById(notification_id)
+    let privateNotification = await PrivateNotification.findById(notification_id)
+    if (publicNotification) {
+        notification = await PublicNotification.findById(notification_id)
+    }
+    else if (privateNotification) {
+        notification = await PrivateNotification.findById(notification_id)
+    }
+    console.log({public:publicNotification,private:privateNotification})
+    if (!publicNotification&&!privateNotification) {
+        return res
+            .status(404)
+            .json({
+                success: false,
+                message: "notification is not existing!"
+            })
+    }
+    try {
+        res.json({
+            success: true,
+            notifications: notification
+        })
+    } catch (e) {
+        return res.status(500).json({success: false, message: e})
+    }
+})
+
 // @route GET api/notification/teacher/{{ teacher_id }}
 // @desc get private notification of teacher
 // @access Private
