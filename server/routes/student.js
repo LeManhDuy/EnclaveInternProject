@@ -126,14 +126,34 @@ router.post(
 //     }
 // );
 
+router.get("/get-student-by-id/:studentID", async (req, res) => {
+    try {
+        const student = await Student.findById(req.params.studentID)
+            .populate("class_id", ["class_name", ["teacher_name"]])
+            .select([
+                "student_fullname",
+                "student_gender",
+                "student_image",
+                "student_dateofbirth",
+                "parent_id",
+                "class_id",
+            ]);
+        return res.status(200).json({
+            student,
+        });
+    } catch (error) {
+        return res.status(500).json({ success: false, message: "" + error });
+    }
+});
+
 // @route GET dashboard/teacher/get-all-student
 // @desc get student information
 // @access Private
-router.get("/get-all-student", async (req, res) => {
+router.get("/get-all-student/", async (req, res) => {
     try {
         // Return token
         const allStudent = await Student.find({})
-            .populate("class_id", ["class_name"])
+            .populate("class_id", ["class_name", ["teacher_name"]])
             .populate("parent_id", ["parent_name"])
             .populate("subjects", ["subject_name"])
             .populate("summary", ["summary_score", "summary_behavior"])
@@ -230,7 +250,7 @@ router.get(
 // @access Private Only Admin
 router.put(
     "/:studentID&:parentID&:classID",
-    verifyJWTandTeacher,
+    verifyJWTandAdmin,
     upload.single("student_image"),
     async (req, res) => {
         const { student_fullname, student_dateofbirth, student_gender } =
@@ -247,7 +267,7 @@ router.put(
             student_image = req.file.path;
         }
         try {
-            const student = await Student.findById(req.params.id);
+            const student = await Student.findById(req.params.studentID);
             if (student.student_image) {
                 if (student_image === null) {
                     student_image = student.student_image;
