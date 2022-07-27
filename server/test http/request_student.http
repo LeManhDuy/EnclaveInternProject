@@ -55,8 +55,8 @@ Content-Type: application/json
 GET http://localhost:8000/api/student/parent-get-detailed-score-information/62df8906bfeef3904cc3a0c2
 Content-Type: application/json
 ###
-//teacher update student by id_student
-PUT http://localhost:8000/api/student/62cbc71228ed8bda747c4445
+//teacher update student by id_student and parent id and class id
+PUT http://localhost:8000/api/student/62df912835e45f351a0e93eb&62c68c94bede51076338890a&62da59e20bdba5be45e6b9f6
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZWFjaGVySWQiOiI2MmM2OGFkNGJlZGU1MTA3NjMzODg4ZjYiLCJpYXQiOjE2NTcxODMxNTB9.zr4B2yhwd-rn2LKywhbrkx-xLL1gwWU8kI5z9PmfeP4
 
