@@ -152,6 +152,11 @@ const UpdateStudent = (props) => {
     };
 
     const handleParentChange = (event) => {
+        console.log(
+            event.target.options[event.target.selectedIndex].getAttribute(
+                "data-key"
+            )
+        );
         setParentDropValue(event.target.value);
         if (event.target.value !== "Pick") {
             setAllValuesStudent({
@@ -164,6 +169,11 @@ const UpdateStudent = (props) => {
     };
 
     const handleClassChange = (event) => {
+        console.log(
+            event.target.options[event.target.selectedIndex].getAttribute(
+                "data-key"
+            )
+        );
         setClassDropValue(event.target.value);
         if (event.target.value !== "Pick") {
             setAllValuesStudent({

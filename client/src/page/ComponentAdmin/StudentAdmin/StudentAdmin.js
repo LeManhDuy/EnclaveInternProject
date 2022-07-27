@@ -169,8 +169,8 @@ const StudentAdmin = () => {
 
         StudentService.updateStudent(
             id,
-            allValue.classroom,
             allValue.parent,
+            allValue.classroom,
             formData
         ).then((res) => {
             if (res.success) {
