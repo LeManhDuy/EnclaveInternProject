@@ -169,6 +169,10 @@ router.put(
             teacher_email,
             teacher_password,
         } = req.body;
+        let teacher_img = null;
+        if (req.file) {
+            teacher_img = req.file.path;
+        }
         // Validation
         if (!teacher_name || !teacher_phone) {
             return res.status(400).json({
@@ -189,6 +193,21 @@ router.put(
             });
         }
         try {
+            const teacher = await Teachers.findById(req.params.teacherID);
+            if (teacher.teacher_img) {
+                if (teacher_img === null) {
+                    teacher_img = teacher.teacher_img;
+                } else {
+                    fs.unlink("./" + teacher.teacher_img, (err) => {
+                        if (err)
+                            res.status(400).json({
+                                success: false,
+                                message: "Image error: " + err,
+                            });
+                        console.log("successfully deleted file");
+                    });
+                }
+            }
             const hashPassword = await argon2.hash(teacher_password);
             let updateTeacher = {
                 teacher_name,
@@ -197,18 +216,10 @@ router.put(
                 teacher_phone,
                 teacher_email,
                 teacher_password: hashPassword,
-                teacher_img: req.file.path,
+                teacher_img,
             };
             const postUpdateCondition = { _id: req.params.teacherID };
-            const teacher = Teachers.findById(req.params.teacherID);
-            fs.unlink("./" + teacher.teacher_img, (err) => {
-                if (err)
-                    res.status(400).json({
-                        success: false,
-                        message: "Image error: " + err,
-                    });
-                console.log("successfully deleted file");
-            });
+
             updatedTeacher = await Teachers.findOneAndUpdate(
                 postUpdateCondition,
                 updateTeacher,
@@ -234,6 +245,17 @@ router.put(
 
 router.delete("/:teacherID", verifyJWTandAdmin, async (req, res) => {
     try {
+        const teacher = await Teachers.findById(req.params.teacherID);
+        if (teacher.teacher_img) {
+            fs.unlink("./" + teacher.teacher_img, (err) => {
+                if (err)
+                    res.status(400).json({
+                        success: false,
+                        message: "Image error: " + err,
+                    });
+                console.log("successfully deleted file");
+            });
+        }
         const postDeleteCondition = { _id: req.params.teacherID };
         const deletedTeacher = await Teachers.findOneAndDelete(
             postDeleteCondition

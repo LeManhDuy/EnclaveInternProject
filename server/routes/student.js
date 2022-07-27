@@ -12,7 +12,6 @@ const SummaryScore = require("../model/SummaryScore");
 const Subject = require("../model/Subject");
 const multer = require("multer");
 const fs = require("fs");
-const { log } = require("console");
 
 const storage = multer.diskStorage({
     destination: function (req, res, cb) {
@@ -242,26 +241,38 @@ router.put(
                 success: false,
                 message: "Please fill in complete information",
             });
+        let student_image = null;
+        if (req.file) {
+            student_image = req.file.path;
+        }
         try {
+            const student = await Student.findById(req.params.id);
+            if (student.student_image) {
+                if (student_image === null) {
+                    student_image = student.student_image;
+                } else {
+                    fs.unlink("./" + student.student_image, (err) => {
+                        if (err)
+                            res.status(400).json({
+                                success: false,
+                                message: "Image error: " + err,
+                            });
+                        console.log("successfully deleted file");
+                    });
+                }
+            }
+
             let updateStudent = {
                 student_fullname,
                 student_dateofbirth,
                 student_gender,
-                student_image: req.file.path,
+                student_image,
             };
             const postUpdateCondition = {
                 _id: req.params.id,
                 user: req.userId,
             };
-            const student = await Student.findById(req.params.id);
-            fs.unlink("./" + student.student_image, (err) => {
-                if (err)
-                    res.status(400).json({
-                        success: false,
-                        message: "Image error: " + err,
-                    });
-                console.log("successfully deleted file");
-            });
+
             updatedStudent = await Student.findOneAndUpdate(
                 postUpdateCondition,
                 updateStudent,
@@ -300,8 +311,6 @@ router.delete("/:id", verifyJWTandAdmin, async (req, res) => {
                 .status(401)
                 .json({ success: false, message: "Student not found!" });
         }
-        console.log(studentDB);
-        console.log(studentDB.student_image);
         if (studentDB.student_image) {
             fs.unlink("./" + studentDB.student_image, (err) => {
                 if (err)
