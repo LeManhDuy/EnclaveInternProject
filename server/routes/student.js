@@ -229,12 +229,13 @@ router.get(
 // @desc Update stduent
 // @access Private Only Admin
 router.put(
-    "/:id",
+    "/:studentID&:parentID&:classID",
     verifyJWTandTeacher,
     upload.single("student_image"),
-    async (req, res) => {
+    async (req, res) => { 
         const { student_fullname, student_dateofbirth, student_gender } =
             req.body;
+        const { studentID, parentID, classID } = req.params;
         // Validation
         if (!student_fullname || student_gender == null || !student_dateofbirth)
             return res.status(400).json({
@@ -247,12 +248,14 @@ router.put(
                 student_dateofbirth,
                 student_gender,
                 student_image: req.file.path,
+                parent_id: parentID,
+                class_id: classID,
             };
             const postUpdateCondition = {
-                _id: req.params.id,
+                _id: req.params.studentID,
                 user: req.userId,
             };
-            const student = await Student.findById(req.params.id);
+            const student = await Student.findById(req.params.studentID);
             fs.unlink("./" + student.student_image, (err) => {
                 if (err)
                     res.status(400).json({
