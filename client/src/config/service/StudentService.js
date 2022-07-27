@@ -4,19 +4,34 @@ const getStudents = async () => {
     return await HandleApi.APIGetWithToken("student/get-all-student/");
 };
 
-const addStudents = async (gradeID, teacherID, params) => {
+const addStudents = async (classID, parentID, params) => {
     return await HandleApi.APIPostWithTokenIMG(
-        `student/${gradeID}&${teacherID}`,
+        `student/${classID}&${parentID}`,
         params
     );
 };
 
-const deleteStudentById = async () => {};
+const deleteStudentById = async (id) => {
+    return await HandleApi.APIDelete(`student/${id}`);
+};
+
+const getStudentById = async (id) => {
+    return await HandleApi.APIGetWithToken(`student/get-student-by-id/${id}`);
+};
+
+const updateStudent = async (studentID, parentID, classID, params) => {
+    return await HandleApi.APIPutWithTokenIMG(
+        `student/${studentID}&${parentID}&${classID}`,
+        params
+    );
+};
 
 const StudentService = {
     getStudents,
     addStudents,
     deleteStudentById,
+    getStudentById,
+    updateStudent,
 };
 
 export default StudentService;

@@ -126,14 +126,34 @@ router.post(
 //     }
 // );
 
+router.get("/get-student-by-id/:studentID", async (req, res) => {
+    try {
+        const student = await Student.findById(req.params.studentID)
+            .populate("class_id", ["class_name", ["teacher_name"]])
+            .select([
+                "student_fullname",
+                "student_gender",
+                "student_image",
+                "student_dateofbirth",
+                "parent_id",
+                "class_id",
+            ]);
+        return res.status(200).json({
+            student,
+        });
+    } catch (error) {
+        return res.status(500).json({ success: false, message: "" + error });
+    }
+});
+
 // @route GET dashboard/teacher/get-all-student
 // @desc get student information
 // @access Private
-router.get("/get-all-student", async (req, res) => {
+router.get("/get-all-student/", async (req, res) => {
     try {
         // Return token
         const allStudent = await Student.find({})
-            .populate("class_id", ["class_name"])
+            .populate("class_id", ["class_name", ["teacher_name"]])
             .populate("parent_id", ["parent_name"])
             .populate("subjects", ["subject_name"])
             .populate("summary", ["summary_score", "summary_behavior"])
@@ -230,9 +250,9 @@ router.get(
 // @access Private Only Admin
 router.put(
     "/:studentID&:parentID&:classID",
-    verifyJWTandTeacher,
+    verifyJWTandAdmin,
     upload.single("student_image"),
-    async (req, res) => { 
+    async (req, res) => {
         const { student_fullname, student_dateofbirth, student_gender } =
             req.body;
         const { studentID, parentID, classID } = req.params;
@@ -242,12 +262,32 @@ router.put(
                 success: false,
                 message: "Please fill in complete information",
             });
+        let student_image = null;
+        if (req.file) {
+            student_image = req.file.path;
+        }
         try {
+            const student = await Student.findById(req.params.studentID);
+            if (student.student_image) {
+                if (student_image === null) {
+                    student_image = student.student_image;
+                } else {
+                    fs.unlink("./" + student.student_image, (err) => {
+                        if (err)
+                            res.status(400).json({
+                                success: false,
+                                message: "Image error: " + err,
+                            });
+                        console.log("successfully deleted file");
+                    });
+                }
+            }
+
             let updateStudent = {
                 student_fullname,
                 student_dateofbirth,
                 student_gender,
-                student_image: req.file.path,
+                student_image,
                 parent_id: parentID,
                 class_id: classID,
             };
@@ -255,15 +295,6 @@ router.put(
                 _id: req.params.studentID,
                 user: req.userId,
             };
-            const student = await Student.findById(req.params.studentID);
-            fs.unlink("./" + student.student_image, (err) => {
-                if (err)
-                    res.status(400).json({
-                        success: false,
-                        message: "Image error: " + err,
-                    });
-                console.log("successfully deleted file");
-            });
             updatedStudent = await Student.findOneAndUpdate(
                 postUpdateCondition,
                 updateStudent,
@@ -293,16 +324,25 @@ router.put(
 // @route DELETE dashboard/teacher/delete-student
 // @desc delete student
 // @access Private
-router.delete("/:id", verifyJWTandTeacher, async (req, res) => {
+router.delete("/:id", verifyJWTandAdmin, async (req, res) => {
     try {
-        const postDeleteCondition = { _id: req.params.id, user: req.userId };
+        const postDeleteCondition = { _id: req.params.id };
         const studentDB = await Student.findById(postDeleteCondition._id);
         if (!studentDB) {
             return res
                 .status(401)
                 .json({ success: false, message: "Student not found!" });
         }
-
+        if (studentDB.student_image) {
+            fs.unlink("./" + studentDB.student_image, (err) => {
+                if (err)
+                    res.status(400).json({
+                        success: false,
+                        message: "Image error: " + err,
+                    });
+                console.log("successfully deleted file");
+            });
+        }
         if (studentDB.parent_id) {
             const parent = await Parent.findById(
                 studentDB.parent_id.toString()
