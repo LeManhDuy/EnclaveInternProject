@@ -23,12 +23,22 @@ const addClass = async (gradeID, teacherID, params) => {
     );
 };
 
+const getClassById = async (id) => {
+    return await HandleApi.APIGetWithToken(`teacher/class/${id}`);
+};
+
+const updateClassById = async (id) => {
+    return await HandleApi.APIPostWithToken(`teacher/class/${id}`);
+};
+
 const ClassService = {
     getClass,
     getGrades,
     getClassesByGradeId,
     deleteClassById,
     addClass,
+    getClassById,
+    updateClassById,
 };
 
 export default ClassService;
