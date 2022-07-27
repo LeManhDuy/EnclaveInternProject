@@ -14,11 +14,6 @@ const privateNotificationSchema = new Schema({
         type: String,
         required: true,
     },
-    is_completed: {
-        type: Boolean,
-        required: true,
-        default: false
-    },
     teacher_id: {
         type: Schema.Types.ObjectId,
         ref: 'Teacher'

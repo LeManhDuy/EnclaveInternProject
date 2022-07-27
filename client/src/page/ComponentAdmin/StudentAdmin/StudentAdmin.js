@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import "./GradeAdmin.css";
+import "./StudentAdmin.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
     faMagnifyingGlass,
@@ -7,47 +7,56 @@ import {
     faArrowRightLong,
 } from "@fortawesome/free-solid-svg-icons";
 import GradeService from "../../../config/service/GradeService";
+import StudentService from "../../../config/service/StudentService";
 import ModalCustom from "../../../lib/ModalCustom/ModalCustom";
 import ConfirmAlert from "../../../lib/ConfirmAlert/ConfirmAlert";
 import ModalInput from "../../../lib/ModalInput/ModalInput";
-import UpdateGrade from "../../../lib/ModalInput/UpdateGrade/UpdateGrade";
-import AddGrade from "../../../lib/ModalInput/AddGrade/AddGrade";
+import AddStudent from "../../../lib/ModalInput/AddStudent/AddStudent";
 
-const GradeAdmin = () => {
-    const [grade, setGrade] = useState([]);
+const StudentAdmin = () => {
+    const [student, setStudent] = useState([]);
     const [isChange, setIsChange] = useState(false);
     const [isDelete, setIsDelete] = useState(false);
     const [name, setName] = useState("");
     const [id, setId] = useState("");
     const [addState, setAddState] = useState(false);
-    const [updateState, setUpdateState] = useState(false);
     const [errorServer, setErrorServer] = useState(false);
 
     useEffect(() => {
-        getGrade();
+        getStudent();
     }, [isChange]);
 
-    const getGrade = () => {
-        GradeService.getGrades()
+    const getStudent = () => {
+        StudentService.getStudents()
             .then((response) => {
-                const dataSources = response.allGrades.map((item, index) => {
-                    return {
-                        key: index + 1,
-                        id: item._id,
-                        name: item.grade_name,
-                    };
-                });
-                setGrade(dataSources);
+                const dataSources = response.StudentInformation.map(
+                    (item, index) => {
+                        return {
+                            key: index + 1,
+                            id: item._id,
+                            name: item.student_fullname,
+                            gender: item.student_gender,
+                            image: item.student_image,
+                            parent: item.parent_id.parent_name,
+                            class: item.class_id.class_name,
+                        };
+                    }
+                );
+                setStudent(dataSources);
             })
             .catch((error) => {
                 console.log(error);
             });
     };
 
-    const TableGrades = ({ grades }) => {
-        const gradeItem = grades.map((item) => (
+    const TableStudent = ({ students }) => {
+        const studentItem = students.map((item) => (
             <tr data-key={item.id} key={item.id}>
                 <td>{item.name}</td>
+                <td>{item.gender ? "Male" : "Female"}</td>
+                <td>{item.class}</td>
+                <td>{item.parent}</td>
+                <td>{item.teacher}</td>
                 <td onClick={click}>
                     <i className="fa-regular fa-pen-to-square btn-edit"></i>
                     <i className="fa-regular fa-trash-can btn-delete"></i>
@@ -67,24 +76,27 @@ const GradeAdmin = () => {
                     )[0].textContent
                 );
             } else if (e.target.className.includes("btn-edit")) {
-                setUpdateState(true);
-                setId(id);
+                //TODO edited
             }
         }
 
-        let headerSubject;
-        if (!headerSubject) {
-            headerSubject = (
+        let headerStudent;
+        if (!headerStudent) {
+            headerStudent = (
                 <tr>
                     <th>Name</th>
+                    <th>Gender</th>
+                    <th>Class</th>
+                    <th>Parent</th>
+                    <th>Teacher</th>
                     <th>Action</th>
                 </tr>
             );
         }
         return (
             <table id="table">
-                <thead className="table-head-row">{headerSubject}</thead>
-                <tbody className="table-row">{gradeItem}</tbody>
+                <thead className="table-head-row">{headerStudent}</thead>
+                <tbody className="table-row">{studentItem}</tbody>
             </table>
         );
     };
@@ -116,40 +128,31 @@ const GradeAdmin = () => {
 
     const handleInputCustom = () => {
         setAddState(false);
-        setUpdateState(false);
         setErrorServer(false);
     };
 
-    const handleConfirmAddGrade = (allValue) => {
-        GradeService.addGrade({
-            grade_name: allValue.name,
-        }).then((res) => {
+    const handleConfirmAddStudent = (allValue) => {
+        var formData = new FormData();
+        formData.append("student_fullname", allValue.name);
+        formData.append("student_dateofbirth", allValue.dateOfBirth);
+        formData.append("student_gender", allValue.gender);
+        formData.append("student_image", allValue.img);
+
+        StudentService.addStudents(
+            allValue.classroom,
+            allValue.parent,
+            formData
+        ).then((res) => {
             if (res.success) {
                 setIsChange(!isChange);
-                setAddState(false);
                 setErrorServer(false);
+                setAddState(false);
             } else {
+                console.log(res.message);
                 setAddState(true);
                 setErrorServer(true);
             }
         });
-    };
-
-    const handleConfirmUpdateGrade = (allValue) => {
-        GradeService.updateGradeById(id, {
-            grade_name: allValue.name,
-        })
-            .then((res) => {
-                if (res.success) {
-                    setIsChange(!isChange);
-                    setUpdateState(false);
-                    setErrorServer(false);
-                } else {
-                    setUpdateState(true);
-                    setErrorServer(true);
-                }
-            })
-            .catch((error) => console.log("error", error));
     };
 
     const DivAddGrade = (
@@ -157,24 +160,9 @@ const GradeAdmin = () => {
             show={addState}
             handleInputCustom={handleInputCustom}
             content={
-                <AddGrade
+                <AddStudent
                     handleInputCustom={handleInputCustom}
-                    handleConfirmAddGrade={handleConfirmAddGrade}
-                    errorServer={errorServer}
-                />
-            }
-        />
-    );
-
-    const DivUpdateGrade = (
-        <ModalInput
-            show={updateState}
-            handleInputCustom={handleInputCustom}
-            content={
-                <UpdateGrade
-                    gradeID={id}
-                    handleInputCustom={handleInputCustom}
-                    handleConfirmUpdateGrade={handleConfirmUpdateGrade}
+                    handleConfirmAddStudent={handleConfirmAddStudent}
                     errorServer={errorServer}
                 />
             }
@@ -189,11 +177,11 @@ const GradeAdmin = () => {
         <div className="main-container">
             <header>
                 <div>
-                    <h3>Manage Grade</h3>
+                    <h3>Manage Student</h3>
                 </div>
                 <div className="right-header">
                     <button className="btn-account" onClick={handleAddGrade}>
-                        Add Grade
+                        Add Student
                     </button>
                     <div className="search-box">
                         <button className="btn-search">
@@ -211,7 +199,7 @@ const GradeAdmin = () => {
                 </div>
             </header>
             <div className="table-content">
-                <TableGrades grades={grade} />
+                <TableStudent students={student} />
             </div>
             <footer>
                 <hr></hr>
@@ -242,10 +230,9 @@ const GradeAdmin = () => {
                 </div>
                 {isDelete ? ConfirmDelete : null}
                 {addState ? DivAddGrade : null}
-                {updateState ? DivUpdateGrade : null}
             </footer>
         </div>
     );
 };
 
-export default GradeAdmin;
+export default StudentAdmin;

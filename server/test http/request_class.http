@@ -32,7 +32,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbklkIjoiNjJkN
 #POST http://localhost:8000/api/teacher/class/{{ gradeId }}&{{ teacherId }}
 POST http://localhost:8000/api/teacher/class/62c6999ebe8c86c9d3579865&62cf8ed35de98295391348ee
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbklkIjoiNjJkN2I4YWYyNmE1NTliZDhmOTRkNDA3IiwiaWF0IjoxNjU4NDcyMDk4fQ.TtHdSeMCbgHql_j9cgOyZD0XBQx4BQoeRo6NypzHoOE
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbklkIjoiNjJkN2I4YWYyNmE1NTliZDhmOTRkNDA3IiwiaWF0IjoxNjU4Nzk5MDIyfQ.Xi-0E_F_5aqI_zICxPre-4XgRUIazLVIk3iJUviN1gk
 
 {
     "class_name": "E"
@@ -42,7 +42,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbklkIjoiNjJkN
 ###
 //Get all class
 GET http://localhost:8000/api/teacher/class/
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbklkIjoiNjJjNjhkMWViZWRlNTEwNzYzMzg4OTE0IiwiaWF0IjoxNjU4MjE3NzA1fQ.4OkN94PrFVZI7Zq_YKrfd8cilaJVIwEuC4_2v2LMAXE
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbklkIjoiNjJkN2I4YWYyNmE1NTliZDhmOTRkNDA3IiwiaWF0IjoxNjU4Nzk5MDIyfQ.Xi-0E_F_5aqI_zICxPre-4XgRUIazLVIk3iJUviN1gk
 
 ###
 //Get class from teacher
