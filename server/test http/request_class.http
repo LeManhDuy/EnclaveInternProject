@@ -54,7 +54,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbklkIjoiNjJkN
 ###
 //Update class
 #PUT http://localhost:8000/api/teacher/class/{{ class_id }}&{{ teacher_id }}
-PUT http://localhost:8000/api/teacher/class/62e0ac3413f9b8682576247c&62e1f37728ac7c8177509751
+PUT http://localhost:8000/api/teacher/class/62e0ac3413f9b8682576247c&62c68b2ebede510763388900
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbklkIjoiNjJkN2I4YWYyNmE1NTliZDhmOTRkNDA3IiwiaWF0IjoxNjU4OTc4NjM5fQ.x2bzfYbnqizOlAeDTW_0x5bNOtBtxabFQNvhrb2-By8
 
