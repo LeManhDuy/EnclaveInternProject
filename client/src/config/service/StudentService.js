@@ -26,12 +26,23 @@ const updateStudent = async (studentID, parentID, classID, params) => {
     );
 };
 
+const getStudentByTeacherId = async (id) => {
+    return await HandleApi.APIGetWithToken(`teacher/class/teacher/${id}`);
+};
+
+const getStudentByStudentId = async (id) => {
+    return await HandleApi.APIGetPublic(`student/get-student-information/${id}`);
+};
+
 const StudentService = {
     getStudents,
     addStudents,
     deleteStudentById,
     getStudentById,
     updateStudent,
+    getStudentByTeacherId,
+    getStudentByStudentId
+
 };
 
 export default StudentService;

@@ -54,3 +54,11 @@
     display:block;
     position: relative;
 }
+
+.active-menu {
+    color: var(--text-color);
+    background: #4077b6;
+    width: 100%;
+    box-sizing: border-box;
+    color: #fff;
+}

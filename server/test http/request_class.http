@@ -18,14 +18,15 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZWFjaGVySWQiOiI2M
 ###
 //add schedule to class
 #GET http://localhost:8000/api/teacher/class/add-schedule-to-class/{{ classId }}&{{ scheduleId }}
-GET http://localhost:8000/api/teacher/class/add-schedule-to-class/62c69e1ddb14d59b81b46a67&62c7b0169d8181aea0858fd4
+GET http://localhost:8000/api/teacher/class/add-schedule-to-class/62c69e1ddb14d59b81b46a67&62e0ed996f936757ee2570b6
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZWFjaGVySWQiOiI2MmMyYWVmMDM5YTc4ODBjZTRhMzg2YTQiLCJpYXQiOjE2NTcwODk0MTV9.JHRY3_KWwoyG8g4e0QNFiwXzGH6AUsannP8BWEc9lKs
 
 ###
 //add student to class
 #GET http://localhost:8000/api/teacher/class/add-student-to-class/{{ classId }}&{{ studentId }}
-GET http://localhost:8000/api/teacher/class/add-student-to-class/62c6999ebe8c86c9d3579865&62cf8ed35de98295391348ee
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbklkIjoiNjJkN2I4YWYyNmE1NTliZDhmOTRkNDA3IiwiaWF0IjoxNjU4NDcyMDk4fQ.TtHdSeMCbgHql_j9cgOyZD0XBQx4BQoeRo6NypzHoOE
+GET http://localhost:8000/api/teacher/class/add-student-to-class/62da59e20bdba5be45e6b9f6&62e0ed996f936757ee2570b6
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbklkIjoiNjJkN2I4YWYyNmE1NTliZDhmOTRkNDA3IiwiaWF0IjoxNjU4OTA4MDQzfQ.SO2eK-IFZanvQoB3nNYAgVs8VXJ3nJMEZaOaFHkvfj4
+
 
 ###
 //teacher create class
