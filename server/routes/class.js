@@ -10,6 +10,37 @@ const Grade = require("../model/Grade");
 const Student = require("../model/Student");
 const Schedule = require("../model/Schedule");
 
+//get class by id
+router.get("/:classID", verifyJWT, async (req, res) => {
+    const { classID } = req.params
+    const classDB = await Class.findById(classID)
+        .populate("students", ["student_fullname"])
+        .populate("grade_id", ["grade_name"])
+        .populate("teacher_id", ["teacher_name"])
+        .populate("schedule_id", ["schedule_link"]);
+    if (!classDB) {
+        return res.status(400).json({
+            success: false,
+            message: "This class does not exists.",
+        });
+    }
+    try {
+        return res.json({
+            success: true,
+            message: "Add teacher to class successfully",
+            class: classDB.class_name,
+            grade: classDB.grade_id,
+            teacher: classDB.teacher_id,
+            schedule: classDB.schedule_id,
+            students: classDB.students,
+        });
+    } catch (e) {
+        return res
+            .status(500)
+            .json({ success: false, message: "" + e });
+    }
+})
+
 // @route GET api/teacher/class/add-teacher-to-class/{{ classId }}&{{ teacherId }}
 // @desc add student to class
 // @access Private
@@ -376,10 +407,11 @@ router.get("/teacher/:teacherId", verifyJWT, async (req, res) => {
 // @route PUT api/teacher/class/{{ class_id }}
 // @desc update class
 // @access Private
-router.put("/:id", verifyJWT, async (req, res) => {
-    const { id } = req.params;
+router.put("/:id&:teacherID", verifyJWT, async (req, res) => {
+    const { id,teacherID } = req.params;
     const { class_name } = req.body;
-    const classDB = await Class.findById(id);
+    const classDB = await Class.findById(id)
+    const teacher = await Teacher.findById(teacherID)
     if (!classDB)
         return res.status(404).json({
             success: false,
@@ -391,27 +423,46 @@ router.put("/:id", verifyJWT, async (req, res) => {
             message: "Missing information. Please fill in!",
         });
     }
+    if (!teacher)
+        return res.status(404).json({
+            success: false,
+            message: "Teacher is not existing!",
+        });
+    if (teacher.teacher_class)
+        return res.status(400).json({
+            success: false,
+            message: "This teacher already have a class",
+        });
     try {
-        const updateClass = {
+        if (classDB.teacher_id) {
+            const teacherOld = await Teacher.findById(classDB.teacher_id)
+            teacherOld.teacher_class = undefined
+            teacherOld.save()
+        }
+        let updateClass = {
             class_name,
-        };
-        const classUpdateCondition = { id, user: req.userId };
+            teacher_id:teacher._id,
+            teacher_name:teacher.teacher_name
+        }
+        const classUpdateCondition = { _id: id, user: req.userId };
         updatedClass = await Class.findOneAndUpdate(
             classUpdateCondition,
             updateClass,
             { new: true }
         );
+        teacher.teacher_class = classDB
+        teacher.save()
         if (!updateClass) {
             return res.status(401).json({
                 success: false,
                 message: "Class not found",
             });
         }
-        dbClass = await Class.findById(req.params.id);
         res.json({
             success: true,
             message: "Updated!",
-            class: updateClass.class_name,
+            db:classDB,
+            class: updateClass,
         });
     } catch (e) {
         return res.status(500).json({ success: false, message: e });
