@@ -138,7 +138,16 @@ router.get("/", verifyJWTandAdmin, async (req, res) => {
 
 router.get("/:parentID", async (req, res) => {
     try {
-        const parent = await Parents.findById(req.params.parentID);
+        const parent = await Parents.findById(req.params.parentID).select([
+            "parent_name",
+            "parent_dateofbirth",
+            "parent_address",
+            "parent_phone",
+            "parent_email",
+            "parent_job",
+            "parent_gender",
+            "parent_img",
+        ]);
         if (!parent)
             return res
                 .status(400)

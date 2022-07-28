@@ -90,3 +90,10 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbklkIjoiNjJjN
 DELETE  http://localhost:8000/api/admin/parents/62ce923b89445ec45e6021f2
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbklkIjoiNjJjNjhkMTNiZWRlNTEwNzYzMzg4OTBmIiwiaWF0IjoxNjU3NTI0NjU2fQ.7JCfNVSk22yZG5h0rpRMYaWLDquYQ_LDvk-JJIP_YjQ
+
+###
+// get parent by id
+GET  http://localhost:8000/api/admin/parents/62c68c3ebede510763388905
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbklkIjoiNjJkN2I4YWYyNmE1NTliZDhmOTRkNDA3IiwiaWF0IjoxNjU4OTA1MDExfQ.WOdIy-Kcc5rX47HbmSVe-XUQhu41asw5vo4zeSr56_o
+
