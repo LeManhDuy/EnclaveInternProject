@@ -60,8 +60,8 @@ function Login(props) {
             AuthenticationService.saveDataLogin(res);
             if (res.role == "admin") history.push(ROUTES.ADMIN_PAGE.ADMIN_HOME);
             else if (res.role == "parent")
-              history.push(ROUTES.PARENTS_PAGE.PARENTS_PATH);
-            else history.push(ROUTES.TEACHER_PAGE.TEACHER_PATH);
+              history.push(ROUTES.PARENTS_PAGE.PARENTS_NOTIFICATION_PATH);
+            else history.push(ROUTES.TEACHER_PAGE.TEACHER_NOTIFICATION_PATH);
           } else {
             setErrorServer(true)
             setErrorMessage("Does Not Exists");

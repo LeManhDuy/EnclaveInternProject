@@ -3,6 +3,7 @@ const express = require("express");
 const router = express.Router();
 const { authTeacher } = require("../middleware/verifyRoles");
 const verifyJWT = require("../../server/middleware/verifyJWTandAdmin");
+const verifyJWTAndTeacher = require("../../server/middleware/verifyJWTandTeacher");
 const Class = require("../model/Class");
 const Teacher = require("../model/Teacher");
 const Grade = require("../model/Grade");
@@ -197,14 +198,17 @@ router.get(
 );
 
 // @route POST api/teacher/class/add-schedule/{{ classID }}&{{ scheduleID }}
-router.post("/add-schedule/:classID&:scheduleID", verifyJWT, async (req, res) => {
-    const { classID, scheduleID} = req.params;
-    const classDB = await Class.findById(classID)
+router.post(
+  "/add-schedule/:classID&:scheduleID",
+  verifyJWT,
+  async (req, res) => {
+    const { classID, scheduleID } = req.params;
+    const classDB = await Class.findById(classID);
     if (!classDB) {
-        return res.status(400).json({
-            success: false,
-            message: "This class does not exists.",
-        });
+      return res.status(400).json({
+        success: false,
+        message: "This class does not exists.",
+      });
     }
     const schedule = await Schedule.findById(scheduleID)
     if (!schedule) {
@@ -250,8 +254,9 @@ router.post("/add-schedule/:classID&:scheduleID", verifyJWT, async (req, res) =>
             .status(500)
             .json({ success: false, message: "" + e });
     }
-})
-// @route POST api/teacher/class/{{ gradeId }}&{{ teacherId }}
+  }
+);
+// @route POST dashboard/teacher/class/{{ gradeId }}&{{ teacherId }}
 // @desc create class
 // @access Private
 router.post("/:gradeId&:teacherId", verifyJWT, async (req, res) => {

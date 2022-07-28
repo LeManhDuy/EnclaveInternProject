@@ -4,6 +4,7 @@ const mongoose = require('mongoose')
 const router = express.Router()
 const {authTeacher} = require('../middleware/verifyRoles')
 const verifyJWT = require('../../server/middleware/verifyJWTandTeacher')
+const verifyJWTParent = require('../../server/middleware/verifyJWTandParent')
 const Teacher = require('../model/Teacher')
 const Parent = require('../model/Parents')
 const PublicNotification = require("../model/PublicNotification")
@@ -41,7 +42,6 @@ router.post('/', async (req, res) => {
             title: newNotification.notification_title,
             content: newNotification.notification_content,
             date: newNotification.notification_date,
-            completed: newNotification.is_completed,
         })
     } catch (error) {
         return res.status(500).json({success: false, message: '' + error})
@@ -106,7 +106,6 @@ router.post('/:teacher_id&:parent_id', async (req, res) => {
             title: newNotification.notification_title,
             content: newNotification.notification_content,
             date: newNotification.notification_date,
-            completed: newNotification.is_completed,
             teacher: teacher.teacher_name,
             parent: parent.parent_name
         })
@@ -117,17 +116,17 @@ router.post('/:teacher_id&:parent_id', async (req, res) => {
 
 // @route GET api/notification/
 // @desc get public notification
-// @access Private
-router.get('/', verifyJWT, async (req, res) => {
+// @access public
+router.get('/', async (req, res) => {
     try {
         let showNotification = []
         const notifications = await PublicNotification.find({})
         for (let notification of notifications) {
             showNotification.push({
+                id: notification._id,
                 title: notification.notification_title,
                 content: notification.notification_content,
                 date: notification.notification_date,
-                completed: notification.is_completed,
             })
         }
         res.json({
@@ -139,10 +138,42 @@ router.get('/', verifyJWT, async (req, res) => {
     }
 })
 
+// @route GET api/notification/
+// @desc get by id notification
+// @access public
+router.get('/:notification_id', async (req, res) => {
+    const {notification_id} = req.params
+    let notification
+    let publicNotification = await PublicNotification.findById(notification_id)
+    let privateNotification = await PrivateNotification.findById(notification_id)
+    if (publicNotification) {
+        notification = await PublicNotification.findById(notification_id)
+    }
+    else if (privateNotification) {
+        notification = await PrivateNotification.findById(notification_id)
+    }
+    if (!publicNotification&&!privateNotification) {
+        return res
+            .status(404)
+            .json({
+                success: false,
+                message: "notification is not existing!"
+            })
+    }
+    try {
+        res.json({
+            success: true,
+            notifications: notification
+        })
+    } catch (e) {
+        return res.status(500).json({success: false, message: e})
+    }
+})
+
 // @route GET api/notification/teacher/{{ teacher_id }}
 // @desc get private notification of teacher
 // @access Private
-router.get('/teacher/:teacher_id', async (req, res) => {
+router.get('/teacher/:teacher_id', verifyJWT, async (req, res) => {
     const {teacher_id} = req.params
     try {
         const teacher = await Teacher.findById(teacher_id)
@@ -163,12 +194,55 @@ router.get('/teacher/:teacher_id', async (req, res) => {
         for (let notification of notifications) {
             notification = await notification.populate('parent_id',['parent_name'])
             showNotification.push({
+                id: notification._id,
                 title: notification.notification_title,
                 content: notification.notification_content,
                 date: notification.notification_date,
-                completed: notification.is_completed,
-                parent: notification.parent_id.parent_name
+                parent: notification.parent_id.parent_name,
+                teacher: teacher.teacher_name
             })
+        }
+        res.json({
+            success: true,
+            notifications: showNotification
+        })
+    } catch (e) {
+        return res.status(500).json({success: false, message: e})
+    }
+})
+
+// @route GET api/notification/my-notification/{{ teacher_id }}&{{ parent_id }}
+// @desc get private notification of teacher
+// @access Private
+router.get('/my-notification/:teacher_id&:parent_id', verifyJWTParent, async (req, res) => {
+    const {teacher_id,parent_id} = req.params
+    try {
+        const teacher = await Teacher.findById(teacher_id)
+        if (!teacher) {
+            return res
+                .status(404)
+                .json({
+                    success: false,
+                    message: "Teacher is not existing!"
+                })
+        }
+        const arrNotification = []
+        teacher.notifications.map(item => {
+            arrNotification.push(item._id)
+        })
+        let showNotification = []
+        const notifications = await PrivateNotification.find({'_id': arrNotification})
+        for (let notification of notifications) {
+            notification = await notification
+            if (notification.parent_id.toString() === parent_id.toString()){
+                showNotification.push({
+                    id: notification._id,
+                    title: notification.notification_title,
+                    content: notification.notification_content,
+                    date: notification.notification_date,
+                    teacher: teacher.teacher_name
+                })
+            }
         }
         res.json({
             success: true,
@@ -183,7 +257,7 @@ router.get('/teacher/:teacher_id', async (req, res) => {
 // @route GET api/notification/parent/{{ parent_id }}
 // @desc get private notification by parent
 // @access Private
-router.get('/parent/:parent_id', verifyJWT, async (req, res) => {
+router.get('/parent/:parent_id', verifyJWTParent, async (req, res) => {
     const {parent_id} = req.params
     try {
         const parent = await Parent.findById(parent_id)
@@ -204,6 +278,7 @@ router.get('/parent/:parent_id', verifyJWT, async (req, res) => {
         for (let notification of notifications) {
             notification = await notification.populate('teacher_id',['teacher_name'])
             showNotification.push({
+                id: notification._id,
                 title: notification.notification_title,
                 content: notification.notification_content,
                 date: notification.notification_date,
@@ -269,6 +344,7 @@ router.put('/public/:notification_id', verifyJWT,  async (req, res) => {
         res.json({
             success: true,
             message: 'Updated',
+            id: updateNotification._id,
             title: updateNotification.notification_title,
             content: updateNotification.notification_content,
             date: updateNotification.notification_date,
@@ -390,7 +466,6 @@ router.delete('/private/:id', verifyJWT, async (req, res) => {
             _id: req.params.id,
             user: req.userId
         }
-        // console.log(notificationDeleteCondition._id)
         const notification = await PrivateNotification.findById(notificationDeleteCondition._id.toString())
         if (!notification) {
             return res
@@ -412,7 +487,6 @@ router.delete('/private/:id', verifyJWT, async (req, res) => {
                 })
         }
         teacher.notifications = teacher.notifications.filter(item => item._id.toString() !== notification._id.toString())
-        // console.log(teacher.notifications)
         await teacher.save()
 
         // xoa notification ra khoi parent
@@ -426,7 +500,6 @@ router.delete('/private/:id', verifyJWT, async (req, res) => {
                 })
         }
         parent.notifications = parent.notifications.filter(item => item._id.toString() !== notification._id.toString())
-        // console.log(parent.notifications)
         await parent.save()
 
         const deleteNotification = await PrivateNotification.findOneAndDelete(notificationDeleteCondition)

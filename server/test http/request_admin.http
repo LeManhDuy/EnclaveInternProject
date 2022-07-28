@@ -30,10 +30,9 @@ PUT http://localhost:8000/api/admin/62d0d6ef7fdc3b0205a2749e
 }
 
 ###
-GET http://localhost:8000/api/admin
+GET http://localhost:8000/api/admin/62d7b8a626a559bd8f94d402
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbklkIjoiNjJjNjhkMTNiZWRlNTEwNzYzMzg4OTBmIiwiaWF0IjoxNjU3ODc0ODM3fQ.9JhTeeaGsDURamjVZrGeinDHOB4xO9YR6SYaYF6bbS8
-
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbklkIjoiNjJkN2I4YWYyNmE1NTliZDhmOTRkNDA3IiwiaWF0IjoxNjU4NzE0MzIwfQ.q04B8wBPSj4JUz-0AfTt2bGoUhEJ8VO_9RZ_s7_Nhpc
 
 
 ###

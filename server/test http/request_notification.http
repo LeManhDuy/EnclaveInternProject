@@ -4,6 +4,12 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZWFjaGVySWQiOiI2M
 
 
 ###
+//get Notification by id
+GET http://localhost:8000/api/notification/62ccf976f0b91fba281523e5
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZWFjaGVySWQiOiI2MmM2OGFkNGJlZGU1MTA3NjMzODg4ZjYiLCJpYXQiOjE2NTc1OTIyMjR9.eZqEyxqr5k-WEm6_xd5jUdquV7czVEJ6y_Or1zcqUlE
+
+
+###
 //get Private Notification of teacher
 #GET http://localhost:8000/api/notification/teacher/{{ teacher_id }}
 GET http://localhost:8000/api/notification/teacher/62c68ad4bede5107633888f6
@@ -17,6 +23,14 @@ GET http://localhost:8000/api/notification/parent/62c68c94bede51076338890a
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZWFjaGVySWQiOiI2MmM2OGFkNGJlZGU1MTA3NjMzODg4ZjYiLCJpYXQiOjE2NTc1OTIyMjR9.eZqEyxqr5k-WEm6_xd5jUdquV7czVEJ6y_Or1zcqUlE
 
 
+
+###
+//get Private Notification of parent
+#GET http://localhost:8000/api/notification/my-notification/{{ teacher_id }}&{{ parent_id }}
+GET http://localhost:8000/api/notification/my-notification/62c68b2abede5107633888fb&62c68c3ebede510763388905
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZWFjaGVySWQiOiI2MmM2OGFkNGJlZGU1MTA3NjMzODg4ZjYiLCJpYXQiOjE2NTc1OTIyMjR9.eZqEyxqr5k-WEm6_xd5jUdquV7czVEJ6y_Or1zcqUlE
+
+
 ###
 // create public notification
 #POST http://localhost:8000/api/notification/
@@ -25,21 +39,21 @@ Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZWFjaGVySWQiOiI2MmM2OGFkNGJlZGU1MTA3NjMzODg4ZjYiLCJpYXQiOjE2NTc1OTIyMjR9.eZqEyxqr5k-WEm6_xd5jUdquV7czVEJ6y_Or1zcqUlE
 
 {
-  "title": "Le tong ket",
-  "content": "Nha truong to chuc le tong ket cuoi nam vao ngay xx/xxx. kinh moi quy vi phu huynh den tham du"
+  "title": "avasa",
+  "content": "123412"
 }
 
 
 ###
 // create private notification
 #POST http://localhost:8000/api/notification/{{ teacher_id }}&{{ parent_id }}
-POST http://localhost:8000/api/notification/62c68ad4bede5107633888f6&62c68c3ebede510763388905
+POST http://localhost:8000/api/notification/62c68b2abede5107633888fb&62c68c3ebede510763388905
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZWFjaGVySWQiOiI2MmM2OGFkNGJlZGU1MTA3NjMzODg4ZjYiLCJpYXQiOjE2NTc1OTIyMjR9.eZqEyxqr5k-WEm6_xd5jUdquV7czVEJ6y_Or1zcqUlE
 
 {
-  "title": "Xin hoc lai",
-  "content": "xin cho chau hoc lai"
+  "title": "Kien nghi phuc  diem",
+  "content": "xin duoc xem xet lai bai thi cua chau"
 }
 
 
