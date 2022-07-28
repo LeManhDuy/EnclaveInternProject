@@ -5,10 +5,12 @@ import NotificationService from "../../../config/service/NotificationService";
 const NotificationParents = () => {
   useEffect(() => {
     getNotifications();
+    getNotificationsParents();
   }, []);
 
   const [isPublic, setIsPublic] = useState(true);
   const [notifications, setNotifications] = useState([]);
+  const [notificationsPrivate, setNotificationsPrivate] = useState([]);
 
   const getNotifications = () => {
     NotificationService.getNotifications()
@@ -16,7 +18,7 @@ const NotificationParents = () => {
         const dataSources = response.notifications.map((item, index) => {
           return {
             key: index + 1,
-            // id: item._id,
+            id: item.id,
             title: item.title,
             content: item.content,
             date: item.date,
@@ -25,16 +27,59 @@ const NotificationParents = () => {
         dataSources.sort(function (a, b) {
           return new Date(b.date) - new Date(a.date);
         });
+
         setNotifications(dataSources);
       })
       .catch((error) => {
         console.log(error);
       });
   };
+
+  const getNotificationsParents = () => {
+    NotificationService.getNotificationsParents(
+      JSON.parse(localStorage.getItem("@Login")).parent._id
+    )
+      .then((response) => {
+        const dataSources = response.notifications.map((item, index) => {
+          return {
+            key: index + 1,
+            id: item.id,
+            title: item.title,
+            content: item.content,
+            date: item.date,
+            teacher: item.teacher,
+          };
+        });
+        dataSources.sort(function (a, b) {
+          return new Date(b.date) - new Date(a.date);
+        });
+        setNotificationsPrivate(dataSources);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+  
   const NotificationItem = ({ notifications }) =>
     notifications.map((item) => (
       <div className="notification-item" key={item.key}>
         <div className="notification-content">
+          <div className="title-content">
+            <p className="date">{new Date(item.date).toLocaleString()}</p>
+            <p className="title">{item.title}</p>
+          </div>
+          <div className="description">
+            <p>{item.content}</p>
+          </div>
+        </div>
+      </div>
+    ));
+
+  const NotificationItemPrivate = ({ notificationsPrivate }) =>
+    notificationsPrivate.map((item) => (
+      <div className="notification-item" key={item.key}>
+        <div className="notification-content">
+          <p className="title">{item.teacher}</p>
           <div className="title-content">
             <p className="date">{new Date(item.date).toLocaleString()}</p>
             <p className="title">{item.title}</p>
@@ -73,7 +118,13 @@ const NotificationParents = () => {
           </div>
         </div>
         <div className="content-notification-teacher">
-          {<NotificationItem notifications={notifications} />}
+          {isPublic ? (
+            <NotificationItem notifications={notifications} />
+          ) : (
+            <NotificationItemPrivate
+              notificationsPrivate={notificationsPrivate}
+            />
+          )}
         </div>
       </div>
     </div>

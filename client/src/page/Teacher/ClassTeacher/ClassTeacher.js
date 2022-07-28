@@ -10,7 +10,7 @@ import {
 
 const ClassTeacher = () => {
   useEffect(() =>{
-    TeacherService.getStudents().then(res =>console.log(res))
+    TeacherService.getStudents().then(res =>res)
   },[])
   return (
     <div className="class-teacher">
