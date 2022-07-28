@@ -41,7 +41,7 @@ router.post(
             protector_relationship,
             parent_id,
         } = req.body;
-        let protector = null;
+        let protector_img = null;
         if (req.file) {
             protector_img = req.file.path;
         }
@@ -155,26 +155,35 @@ router.put(
                 message: "Phone number must have 10 numbers",
             });
         }
+        let protector_img = null;
+        if (req.file) {
+            protector_img = req.file.path;
+        }
         try {
+            const protector = await Protectors.findById(req.params.protectorID);
+            if (protector.protector_img) {
+                if (protector_img === null) {
+                    protector_img = protector.protector_img;
+                } else {
+                    fs.unlink("./" + protector.protector_img, (err) => {
+                        if (err)
+                            res.status(400).json({
+                                success: false,
+                                message: "Image error: " + err,
+                            });
+                        console.log("successfully deleted file");
+                    });
+                }
+            }
+
             const updateProtector = {
                 protector_name,
                 protector_address,
                 protector_phone,
                 protector_relationship,
-                protector_img: req.file.path,
+                protector_img,
             };
             const postUpdateCondition = { _id: req.params.protectorID };
-
-            const protector = await Protectors.findById(req.params.protectorID);
-            console.log("./" + protector.protector_img);
-            fs.unlink("./" + protector.protector_img, (err) => {
-                if (err)
-                    res.status(400).json({
-                        success: false,
-                        message: "Image error: " + err,
-                    });
-                console.log("successfully deleted file");
-            });
 
             updatedProtector = await Teachers.findOneAndUpdate(
                 postUpdateCondition,
@@ -197,6 +206,17 @@ router.put(
 // Delete
 router.delete("/:protectorID", verifyJWTandParent, async (req, res) => {
     try {
+        const protector = await Protectors.findById(req.params.protectorID);
+        if (protector.protector_img) {
+            fs.unlink("./" + protector.protector_img, (err) => {
+                if (err)
+                    res.status(400).json({
+                        success: false,
+                        message: "Image error: " + err,
+                    });
+                console.log("successfully deleted file");
+            });
+        }
         const postDeleteCondition = { _id: req.params.id };
         const deletedProtector = await Protectors.findOneAndDelete(
             postDeleteCondition

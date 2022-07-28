@@ -1,0 +1,18 @@
+@import "../../../../assets/css/variables.css";
+@import "../../../../assets/css/custom.css";
+
+.main-formAddNotification{
+  background-color: #fff;
+  padding: 30px;
+  border-radius: 8px;
+}
+
+.main-formAddNotification .content-formNotification{
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.content-formNotification .content-text-area{
+  height: 150px;
+}

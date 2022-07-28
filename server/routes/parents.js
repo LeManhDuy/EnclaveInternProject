@@ -166,7 +166,6 @@ router.put(
             parent_job,
             parent_gender,
             parent_password,
-            parent_img,
         } = req.body;
         // Validation
         if (
@@ -179,6 +178,10 @@ router.put(
                 success: false,
                 message: "Missing information.Please fill in!",
             });
+        }
+        let parent_img = null;
+        if (req.file) {
+            parent_img = req.file.path;
         }
         if (parent_phone.length != 10) {
             return res.status(400).json({
@@ -193,6 +196,21 @@ router.put(
             });
         }
         try {
+            const parent = await Parents.findById(req.params.parentID);
+            if (parent.parent_img) {
+                if (parent_img === null) {
+                    parent_img = parent.parent_img;
+                } else {
+                    fs.unlink("./" + parent.parent_img, (err) => {
+                        if (err)
+                            res.status(400).json({
+                                success: false,
+                                message: "Image error: " + err,
+                            });
+                        console.log("successfully deleted file");
+                    });
+                }
+            }
             const hashPassword = await argon2.hash(parent_password);
             let updateParent = {
                 parent_name,
@@ -203,19 +221,10 @@ router.put(
                 parent_job,
                 parent_gender,
                 parent_password: hashPassword,
-                parent_img: req.file.path,
+                parent_img,
             };
             const postUpdateCondition = { _id: req.params.parentID };
 
-            const parent = await Parents.findById(req.params.parentID);
-            fs.unlink("./" + parent.parent_img, (err) => {
-                if (err)
-                    res.status(400).json({
-                        success: false,
-                        message: "Image error: " + err,
-                    });
-                console.log("successfully deleted file");
-            });
             updatedParent = await Parents.findOneAndUpdate(
                 postUpdateCondition,
                 updateParent,
@@ -244,6 +253,17 @@ router.put(
 // @access Private Only Admin
 router.delete("/:parentID", verifyJWTandAdmin, async (req, res) => {
     try {
+        const parent = await Parents.findById(req.params.parentID);
+        if (parent.parent_img) {
+            fs.unlink("./" + parent.parent_img, (err) => {
+                if (err)
+                    res.status(400).json({
+                        success: false,
+                        message: "Image error: " + err,
+                    });
+                console.log("successfully deleted file");
+            });
+        }
         const postDeleteCondition = {
             _id: req.params.parentID,
         };
