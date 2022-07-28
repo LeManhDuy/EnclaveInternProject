@@ -11,6 +11,7 @@ import ModalCustom from "../../../lib/ModalCustom/ModalCustom";
 import ConfirmAlert from "../../../lib/ConfirmAlert/ConfirmAlert";
 import ModalInput from "../../../lib/ModalInput/ModalInput";
 import AddSubject from "../../../lib/ModalInput/AddSubject/AddSubject";
+import UpdateSubject from "../../../lib/ModalInput/UpdateSubject/UpdateSubject";
 
 function SubjectAdmin() {
     const [subject, setSubject] = useState([]);
@@ -21,6 +22,7 @@ function SubjectAdmin() {
     const [id, setId] = useState("");
     const [name, setName] = useState("");
     const [addState, setAddState] = useState(false);
+    const [updateState, setUpdateState] = useState(false);
     const [errorServer, setErrorServer] = useState(false);
 
     useEffect(() => {
@@ -144,6 +146,8 @@ function SubjectAdmin() {
                 );
             } else if (e.target.className.includes("btn-edit")) {
                 //TODO edited
+                setUpdateState(true);
+                setId(id);
             }
         }
 
@@ -193,6 +197,7 @@ function SubjectAdmin() {
 
     const handleInputCustom = () => {
         setAddState(false);
+        setUpdateState(false);
         setErrorServer(false);
     };
 
@@ -206,12 +211,24 @@ function SubjectAdmin() {
                 setErrorServer(false);
                 setAddState(false);
             } else {
-                console.log(allValue.name);
-                console.log(allValue.ratio);
-                console.log(res.success);
-                console.log(res.message);
                 setErrorServer(true);
                 setAddState(true);
+            }
+        });
+    };
+
+    const handleConfirmUpdateSubject = (allValue) => {
+        SubjectService.updateSubject(id, {
+            subject_name: allValue.name,
+            subject_ratio: allValue.ratio,
+        }).then((res) => {
+            if (res.success) {
+                setState(!state);
+                setErrorServer(false);
+                setUpdateState(false);
+            } else {
+                setErrorServer(true);
+                setUpdateState(true);
             }
         });
     };
@@ -224,6 +241,21 @@ function SubjectAdmin() {
                 <AddSubject
                     handleInputCustom={handleInputCustom}
                     handleConfirmAddSubject={handleConfirmAddSubject}
+                    errorServer={errorServer}
+                />
+            }
+        />
+    );
+
+    const DivUpdateSubject = (
+        <ModalInput
+            show={updateState}
+            handleInputCustom={handleInputCustom}
+            content={
+                <UpdateSubject
+                    subjectID={id}
+                    handleInputCustom={handleInputCustom}
+                    handleConfirmUpdateSubject={handleConfirmUpdateSubject}
                     errorServer={errorServer}
                 />
             }
@@ -297,6 +329,7 @@ function SubjectAdmin() {
                 </div>
                 {isDelete ? ConfirmDelete : null}
                 {addState ? DivAddSubject : null}
+                {updateState ? DivUpdateSubject : null}
             </footer>
         </div>
     );
