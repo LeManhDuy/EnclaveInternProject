@@ -15,7 +15,7 @@ POST http://localhost:8000/api/authentication/login
 Content-Type: application/json
 
 {
-    "email": "nkd@gmail.com",
+    "email": "keren@gmail.com",
     "password": "123456"
 }
 ###
@@ -24,9 +24,9 @@ GET http://localhost:8000/api/authentication/logout
 Content-Type: application/json
 ###
 //teacher create student by classID and parent id
-POST http://localhost:8000/api/student/62c69e1ddb14d59b81b46a67&62c68c3ebede510763388905
+POST http://localhost:8000/api/student/62da59e20bdba5be45e6b9f6&62c68c94bede51076338890a
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZWFjaGVySWQiOiI2MmM2OGFkNGJlZGU1MTA3NjMzODg4ZjYiLCJpYXQiOjE2NTcxODMxNTB9.zr4B2yhwd-rn2LKywhbrkx-xLL1gwWU8kI5z9PmfeP4
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbklkIjoiNjJkN2I4YWYyNmE1NTliZDhmOTRkNDA3IiwiaWF0IjoxNjU4OTEyOTAyfQ.LEfbDfTcV-jXcCrG3cAazCbNS4fRBugQZqdhc0eR1So
 
 {
     "student_fullname" : "Chris Evan test 3",
