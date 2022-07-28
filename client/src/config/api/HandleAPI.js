@@ -15,24 +15,22 @@ function getToken() {
   }
 }
 
-// function APIGetPublic(url, params) {
-//   url = REACT_APP_API_ENDPOINT + "api/v1/public/" + url
-//   return fetch(url, {
-//     method: "GET",
-//     body: JSON.stringify(params)
-//   })
-//     .then(checkStatus)
-//     .then((response) => response.json())
-// }
+function APIGetPublic(url, params) {
+  url = REACT_APP_API_ENDPOINT + "api/" + url
+  return fetch(url, {
+    method: "GET",
+    body: JSON.stringify(params)
+  })
+    .then((response) => response.json())
+}
 
-function APIPostPublic(url, params) {
+function APIPostPublic(url) {
   url = REACT_APP_API_ENDPOINT + "api/" + url
   return fetch(url, {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
     },
-    body: JSON.stringify(params)
   })
     .then((response) => response.json())
 }
@@ -199,6 +197,7 @@ APIDelete,
 APIPostWithTokenIMG,
 APIPutWithTokenIMG,
 APIPutWithToken,
+APIGetPublic
 }
 
 export default HandleApi

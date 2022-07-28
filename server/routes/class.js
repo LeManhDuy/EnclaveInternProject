@@ -3,13 +3,45 @@ const express = require("express");
 const router = express.Router();
 const { authTeacher } = require("../middleware/verifyRoles");
 const verifyJWT = require("../../server/middleware/verifyJWTandAdmin");
+const verifyJWTAndTeacher = require("../../server/middleware/verifyJWTandTeacher");
 const Class = require("../model/Class");
 const Teacher = require("../model/Teacher");
 const Grade = require("../model/Grade");
 const Student = require("../model/Student");
 const Schedule = require("../model/Schedule");
 
-// @route GET dashboard/teacher/class/add-teacher-to-class/{{ classId }}&{{ teacherId }}
+//get class by id
+router.get("/:classID", verifyJWT, async (req, res) => {
+    const { classID } = req.params
+    const classDB = await Class.findById(classID)
+        .populate("students", ["student_fullname"])
+        .populate("grade_id", ["grade_name"])
+        .populate("teacher_id", ["teacher_name"])
+        .populate("schedule_id", ["schedule_link"]);
+    if (!classDB) {
+        return res.status(400).json({
+            success: false,
+            message: "This class does not exists.",
+        });
+    }
+    try {
+        return res.json({
+            success: true,
+            message: "Add teacher to class successfully",
+            class: classDB.class_name,
+            grade: classDB.grade_id,
+            teacher: classDB.teacher_id,
+            schedule: classDB.schedule_id,
+            students: classDB.students,
+        });
+    } catch (e) {
+        return res
+            .status(500)
+            .json({ success: false, message: "" + e });
+    }
+})
+
+// @route GET api/teacher/class/add-teacher-to-class/{{ classId }}&{{ teacherId }}
 // @desc add student to class
 // @access Private
 router.get(
@@ -71,7 +103,7 @@ router.get(
     }
 );
 
-// @route GET dashboard/teacher/class/add-schedult-to-class/{{ classId }}&{{ scheduleId }}
+// @route GET api/teacher/class/add-schedult-to-class/{{ classId }}&{{ scheduleId }}
 // @desc add student to class
 // @access Private
 router.get(
@@ -132,7 +164,7 @@ router.get(
     }
 );
 
-// @route GET dashboard/teacher/class/add-student-to-class/{{ classId }}&{{ studentId }}
+// @route GET api/teacher/class/add-student-to-class/{{ classId }}&{{ studentId }}
 // @desc add student to class
 // @access Private
 router.get(
@@ -197,14 +229,17 @@ router.get(
 );
 
 // @route POST api/teacher/class/add-schedule/{{ classID }}&{{ scheduleID }}
-router.post("/add-schedule/:classID&:scheduleID", verifyJWT, async (req, res) => {
-    const { classID, scheduleID} = req.params;
-    const classDB = await Class.findById(classID)
+router.post(
+  "/add-schedule/:classID&:scheduleID",
+  verifyJWT,
+  async (req, res) => {
+    const { classID, scheduleID } = req.params;
+    const classDB = await Class.findById(classID);
     if (!classDB) {
-        return res.status(400).json({
-            success: false,
-            message: "This class does not exists.",
-        });
+      return res.status(400).json({
+        success: false,
+        message: "This class does not exists.",
+      });
     }
     const schedule = await Schedule.findById(scheduleID)
     if (!schedule) {
@@ -250,7 +285,8 @@ router.post("/add-schedule/:classID&:scheduleID", verifyJWT, async (req, res) =>
             .status(500)
             .json({ success: false, message: "" + e });
     }
-})
+  }
+);
 // @route POST dashboard/teacher/class/{{ gradeId }}&{{ teacherId }}
 // @desc create class
 // @access Private
@@ -319,7 +355,7 @@ router.post("/:gradeId&:teacherId", verifyJWT, async (req, res) => {
 });
 
 
-// @route GET dashboard/teacher/class
+// @route GET api/teacher/class
 // @desc get class
 // @access Private
 router.get("/", verifyJWT, async (req, res) => {
@@ -331,7 +367,7 @@ router.get("/", verifyJWT, async (req, res) => {
     }
 });
 
-// @route GET dashboard/teacher/class/grade/{{ gradeId }}
+// @route GET api/teacher/class/grade/{{ gradeId }}
 // @desc get class from grade
 // @access Private
 router.get("/grade/:gradeId", verifyJWT, async (req, res) => {
@@ -349,7 +385,7 @@ router.get("/grade/:gradeId", verifyJWT, async (req, res) => {
     }
 });
 
-// @route GET dashboard/teacher/class/teacher/{{ teacherId }}
+// @route GET api/teacher/class/teacher/{{ teacherId }}
 // @desc get class from teacher
 // @access Private
 router.get("/teacher/:teacherId", verifyJWT, async (req, res) => {
@@ -368,13 +404,14 @@ router.get("/teacher/:teacherId", verifyJWT, async (req, res) => {
     }
 });
 
-// @route PUT dashboard/teacher/class/{{ class_id }}
+// @route PUT api/teacher/class/{{ class_id }}
 // @desc update class
 // @access Private
-router.put("/:id", verifyJWT, async (req, res) => {
-    const { id } = req.params;
+router.put("/:id&:teacherID", verifyJWT, async (req, res) => {
+    const { id,teacherID } = req.params;
     const { class_name } = req.body;
-    const classDB = await Class.findById(id);
+    const classDB = await Class.findById(id)
+    const teacher = await Teacher.findById(teacherID)
     if (!classDB)
         return res.status(404).json({
             success: false,
@@ -386,34 +423,53 @@ router.put("/:id", verifyJWT, async (req, res) => {
             message: "Missing information. Please fill in!",
         });
     }
+    if (!teacher)
+        return res.status(404).json({
+            success: false,
+            message: "Teacher is not existing!",
+        });
+    if (teacher.teacher_class)
+        return res.status(400).json({
+            success: false,
+            message: "This teacher already have a class",
+        });
     try {
-        const updateClass = {
+        if (classDB.teacher_id) {
+            const teacherOld = await Teacher.findById(classDB.teacher_id)
+            teacherOld.teacher_class = undefined
+            teacherOld.save()
+        }
+        let updateClass = {
             class_name,
-        };
-        const classUpdateCondition = { id, user: req.userId };
+            teacher_id:teacher._id,
+            teacher_name:teacher.teacher_name
+        }
+        const classUpdateCondition = { _id: id, user: req.userId };
         updatedClass = await Class.findOneAndUpdate(
             classUpdateCondition,
             updateClass,
             { new: true }
         );
+        teacher.teacher_class = classDB
+        teacher.save()
         if (!updateClass) {
             return res.status(401).json({
                 success: false,
                 message: "Class not found",
             });
         }
-        dbClass = await Class.findById(req.params.id);
         res.json({
             success: true,
             message: "Updated!",
-            class: updateClass.class_name,
+            db:classDB,
+            class: updateClass,
         });
     } catch (e) {
         return res.status(500).json({ success: false, message: e });
     }
 });
 
-// @route DELETE dashboard/teacher/class/{{ class_id }}
+// @route DELETE api/teacher/class/{{ class_id }}
 // @desc delete class
 // @access Private
 router.delete("/:id", verifyJWT, async (req, res) => {
@@ -453,9 +509,9 @@ router.delete("/:id", verifyJWT, async (req, res) => {
         if (classDB.students) {
             classDB.students.map(async (item) => {
                 let student = await Student.findById(item._id.toString());
-                if (student) {  
+                if (student) {
                     student.class_id = undefined;
-                    student.save(); 
+                    student.save();
                 }
             });
         }
