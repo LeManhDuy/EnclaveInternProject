@@ -223,9 +223,28 @@ router.get("/:gradeID", verifyJWTandAdmin, async (req, res) => {
     }
 });
 
+// Get subject by id
+router.get(
+    "/get-subject-by-id/:subjectID",
+    verifyJWTandAdmin,
+    async (req, res) => {
+        try {
+            const subject = await Subjects.findById(req.params.subjectID);
+            console.log(subject);
+            return res.status(200).json({
+                subject: subject,
+            });
+        } catch (error) {
+            return res
+                .status(500)
+                .json({ success: false, message: " " + error });
+        }
+    }
+);
+
 // Get subject from student
 router.get(
-    "/get-subject-by-id/:studentID",
+    "/get-subject-from-student/:studentID",
     verifyJWTandAdmin,
     async (req, res) => {
         const { studentID } = req.params;
@@ -248,19 +267,36 @@ router.get(
 
 // Update
 router.put("/:id", verifyJWTandAdmin, async (req, res) => {
-    const { subject_name, subject_ratio, grade_id } = req.body;
+    const { subject_name, subject_ratio } = req.body;
+    const subject = await Subjects.findById(req.params.id);
+    const grade = await Grades.findById(subject.grade_id.toString());
+    let check = false;
     // Validation
-    if (!subject_name || !subject_ratio || !grade_id) {
+    if (!subject_name || !subject_ratio) {
         return res.status(400).json({
             success: false,
             message: "Missing information.Please fill in!",
         });
     }
+    grade.subjects_name.map((item) => {
+        if (item === subject_name) {
+            check = true;
+        }
+    });
+    if (check) {
+        return res.status(400).json({
+            success: false,
+            message: "This subject is already exist in this grade.",
+        });
+    } else {
+        grade.subjects_name.remove(subject.subject_name);
+        grade.subjects_name.push(subject_name);
+        await grade.save();
+    }
     try {
         let updateSubject = {
             subject_name,
             subject_ratio,
-            grade_id,
         };
         const postUpdateCondition = { _id: req.params.id };
         updatedSubject = await Subjects.findOneAndUpdate(
@@ -273,7 +309,11 @@ router.put("/:id", verifyJWTandAdmin, async (req, res) => {
             return res
                 .status(401)
                 .json({ success: false, message: "Subject not found" });
-        res.json({ success: true, message: "Updated!", parent: updateParent });
+        res.json({
+            success: true,
+            message: "Updated!",
+            subject: updateSubject,
+        });
     } catch (error) {
         return res.status(500).json({ success: false, message: "" + error });
     }
