@@ -24,6 +24,9 @@ GET http://localhost:8000/api/authentication/logout
 Content-Type: application/json
 ###
 //teacher create student by classID and parent id
+# POST http://localhost:8000/api/student/62da59e20bdba5be45e6b9f6&62c68c94bede51076338890a
+# Content-Type: application/json
+# Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbklkIjoiNjJkN2I4YWYyNmE1NTliZDhmOTRkNDA3IiwiaWF0IjoxNjU4OTEyOTAyfQ.LEfbDfTcV-jXcCrG3cAazCbNS4fRBugQZqdhc0eR1So
 POST http://localhost:8000/api/student/62da59e20bdba5be45e6b9f6&62dc1e91b7bcb962511407fb
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbklkIjoiNjJkN2I4YWYyNmE1NTliZDhmOTRkNDA3IiwiaWF0IjoxNjU4OTA4MDQzfQ.SO2eK-IFZanvQoB3nNYAgVs8VXJ3nJMEZaOaFHkvfj4
