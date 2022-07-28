@@ -56,7 +56,7 @@ router.post('/:subjectID&:studentID', verifyJWT, async (req, res) => {
         let score = await Score.findById(score_id)
         if (score.subject_id.toString() === subjectID && score.student_id.toString() === studentID) {
             return res.status(400).json({
-                success: false,
+                success: false, 
                 message: "This student already have this score of subject.",
             })
         }
