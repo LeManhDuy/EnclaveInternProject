@@ -27,8 +27,11 @@ const getClassById = async (id) => {
     return await HandleApi.APIGetWithToken(`teacher/class/${id}`);
 };
 
-const updateClassById = async (id) => {
-    return await HandleApi.APIPostWithToken(`teacher/class/${id}`);
+const updateClassById = async (id, teacherID, params) => {
+    return await HandleApi.APIPutWithToken(
+        `teacher/class/${id}&${teacherID}`,
+        params
+    );
 };
 
 const ClassService = {

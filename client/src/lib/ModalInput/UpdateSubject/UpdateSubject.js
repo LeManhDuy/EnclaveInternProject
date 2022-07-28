@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./UpdateSubject.css";
+import SubjectService from "../../../config/service/SubjectService";
 
 const UpdateSubject = (props) => {
     const [allValuesSubject, setAllValuesSubject] = useState({
@@ -11,7 +12,14 @@ const UpdateSubject = (props) => {
         ratio: false,
     });
 
-    useEffect(() => {}, []);
+    useEffect(() => {
+        SubjectService.getSubjectById(props.subjectID).then((res) => {
+            setAllValuesSubject({
+                name: res.subject.subject_name,
+                ratio: res.subject.subject_ratio,
+            });
+        });
+    }, []);
 
     const handleUpdateSubject = () => {
         let check = false;
