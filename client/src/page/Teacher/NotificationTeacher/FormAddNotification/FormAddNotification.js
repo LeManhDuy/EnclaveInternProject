@@ -72,7 +72,7 @@ const FormAddNotification = (props) => {
       ...publicNotification,
       [e.target.name]: e.target.value,
     });
-    e.target.focus;
+    // e.target.focus;
   };
 
   const clickSave = (e) => {

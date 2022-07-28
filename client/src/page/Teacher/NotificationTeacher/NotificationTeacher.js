@@ -276,7 +276,7 @@ const NotificationTeacher = () => {
       {isPublic ? (
         <h2 className="public">Public notification</h2>
       ) : (
-        <h2 className="private">Private notification</h2>
+        <h2 className="private">Private notification </h2>
       )}
       <div
         className={"main-content-teacher" + (isPublic ? " public" : " private")}
