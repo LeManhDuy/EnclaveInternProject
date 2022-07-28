@@ -52,15 +52,18 @@ router.post('/:subjectID&:studentID', verifyJWT, async (req, res) => {
         })
     }
 
-    for (let score_id of student.scores) {
-        let score = await Score.findById(score_id)
-        if (score.subject_id.toString() === subjectID && score.student_id.toString() === studentID) {
-            return res.status(400).json({
-                success: false,
-                message: "This student already have this score of subject.",
-            })
+    if (student.scores)
+        for (let score_id of student.scores) {
+            let score = await Score.findById(score_id)
+            if (score) {
+                if (score.subject_id.toString() === subjectID && score.student_id.toString() === studentID) {
+                    return res.status(400).json({
+                        success: false,
+                        message: "This student already have this score of subject.",
+                    })
+                }
+            }
         }
-    }
     let notHaveSubject = true
     for (let subject_id of student.subjects) {
         console.log(subject_id.toString() === subjectID.toString())
