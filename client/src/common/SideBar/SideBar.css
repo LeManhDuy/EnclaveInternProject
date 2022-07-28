@@ -3,11 +3,11 @@
 
 .side-bar-main {
   background-color: var(--primary-color);
-  height: 105vh;
-  color: #fff;
+  height: 114vh;
+  color: #fff; 
   padding: 30px 20px;
   position: relative;
-  width: 350px;
+  width: 270px;
 }
 
 .logo img {
@@ -44,12 +44,12 @@
 }
 
 .name-role h5 {
-  width: 200px;
+  width: 120px;
   margin: 0;
 }
 
 .name-role p {
-  width: 200px;
+  width: 120px;
 }
 
 .logout {
@@ -144,17 +144,5 @@
 
 /* Large devices (laptops/desktops) */
 @media only screen and (max-width: 992px) {
-  .side-bar-main {
-    background-color: var(--primary-color);
-    height: 100vh;
-    color: #fff;
-    padding: 30px 20px;
-    position: relative;
-    width: 260px;
-  }
 
-  .table-content table .fa-regular {
-    margin-right: 8px;
-    cursor: pointer;
-  }
 }

@@ -288,7 +288,7 @@ router.put(
         }
         try {
             const student = await Student.findById(req.params.studentID);
-            if (student.student_image) {
+            if (student.student_image) {  
                 if (student_image === null) {
                     student_image = student.student_image;
                 } else {
