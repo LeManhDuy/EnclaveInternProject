@@ -46,7 +46,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZWFjaGVySWQiOiI2M
 
 ###
 //teacher get student by teacher id
-GET http://localhost:8000/api/student/get-student-by-teacher-id/62c68ad4bede5107633888f6
+GET http://localhost:8000/api/student/get-student-by-teacher-id/62e345b35e8db746fb2108ad
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZWFjaGVySWQiOiI2MmM2OGFkNGJlZGU1MTA3NjMzODg4ZjYiLCJpYXQiOjE2NTgzMDc5NzR9.7z8REzGVhH4xQLg7cy8fvqOl3PsBixm9HQDPnFnpYMc
 ###

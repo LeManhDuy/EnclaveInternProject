@@ -22,7 +22,7 @@ Content-Type: application/json
 ###
 //add subject to student
 //subjectID&&:studentID
-GET  http://localhost:8000/api/teacher/subjects/add-subjects-to-student/62de5146fe0fad80d70e8de7&62cbc71228ed8bda747c4445
+GET  http://localhost:8000/api/teacher/subjects/add-subjects-to-student/62e3436805cdd37818974354&62e343d605cdd378189743af
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbklkIjoiNjJkN2I4YWYyNmE1NTliZDhmOTRkNDA3IiwiaWF0IjoxNjU4ODE2ODc0fQ.Qo7_Z9Tc5Py6me16qa6g18DZeUhc2YHyfH12S6fLAJU
 

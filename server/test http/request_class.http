@@ -6,7 +6,7 @@ POST http://localhost:8000/api/authentication/login/
 Content-Type: application/json
 
 {
-    "email": "keren@gmail.com",
+    "email": "nkd@gmail.com",
     "password": "123456"
 }
 ###
@@ -31,7 +31,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbklkIjoiNjJkN
 ###
 //teacher create class
 #POST http://localhost:8000/api/teacher/class/{{ gradeId }}&{{ teacherId }}
-POST http://localhost:8000/api/teacher/class/62c6999ebe8c86c9d3579865&62cf8ed35de98295391348ee
+PUT http://localhost:8000/api/teacher/class/62e344aaf75a8611daacc314&62e344a3f75a8611daacc2f8
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbklkIjoiNjJkN2I4YWYyNmE1NTliZDhmOTRkNDA3IiwiaWF0IjoxNjU4Nzk5MDIyfQ.Xi-0E_F_5aqI_zICxPre-4XgRUIazLVIk3iJUviN1gk
 
@@ -48,7 +48,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbklkIjoiNjJkN
 ###
 //Get class from teacher
 #GET http://localhost:8000/api/teacher/class/teacher/{{ teacherId }}
-GET http://localhost:8000/api/teacher/class/teacher/62c68ad4bede5107633888f6
+GET http://localhost:8000/api/teacher/class/teacher/62e344a3f75a8611daacc2f8
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbklkIjoiNjJkN2I4YWYyNmE1NTliZDhmOTRkNDA3IiwiaWF0IjoxNjU4MzA3OTAwfQ.ahcVi2rbv1lCEVYn8k5kEUuP2pYbH0-9zD-Vf13GXaU
 
 ###

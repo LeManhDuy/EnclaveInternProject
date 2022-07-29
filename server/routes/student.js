@@ -72,11 +72,12 @@ router.post(
       await parent.save();
       res.json({
         success: true,
-        message: "Create student successfully",
+        message: "Create student suctcessfully",
         studentFullName: newStudent.student_fullname,
         studentDateOfBirth: newStudent.student_dateofbirth,
         studentGender: newStudent.student_gender,
         studentImage: newStudent.student_image,
+        classInfor : classInfor.teacher_name,
       });
     } catch (error) {
       return res.status(500).json({ success: false, message: "" + error });
@@ -276,6 +277,18 @@ router.put(
     const { student_fullname, student_dateofbirth, student_gender } =
       req.body;
     const { studentID, parentID, classID } = req.params;
+    const parent = await Parent.findById(parentID)
+    const classDB = await Class.findById(classID)
+    if (!classDB)
+      return res.status(404).json({
+        success: false,
+        message: "Class is not existing!",
+      });
+    if (!parent)
+      return res.status(404).json({
+        success: false,
+        message: "Parent is not existing!",
+      });
     // Validation
     if (!student_fullname || student_gender == null || !student_dateofbirth)
       return res.status(400).json({
@@ -288,6 +301,16 @@ router.put(
     }
     try {
       const student = await Student.findById(req.params.studentID);
+      if (student.parent_id) {
+        const parentOld = await Parent.findById(student.parent_id.toString())
+        parentOld.children.remove(student._id.toString())
+        parentOld.save()
+      }
+      if (student.class_id) {
+        const classOld = await Class.findById(student.class_id.toString())
+        classOld.students.remove(student._id.toString())
+        classOld.save()
+      }
       if (student.student_image) {
         if (student_image === null) {
           student_image = student.student_image;
@@ -302,7 +325,6 @@ router.put(
           });
         }
       }
-
       let updateStudent = {
         student_fullname,
         student_dateofbirth,
@@ -320,9 +342,10 @@ router.put(
         updateStudent,
         { new: true }
       );
-
-      
-
+      parent.children.push(student)
+      parent.save()
+      classDB.students.push(student)
+      classDB.save()
       if (!updateStudent)
         return res
           .status(401)
