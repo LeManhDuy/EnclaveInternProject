@@ -14,7 +14,11 @@ const Schedule = require("../model/Schedule");
 router.get("/:classID", verifyJWT, async (req, res) => {
     const { classID } = req.params;
     const classDB = await Class.findById(classID)
-        .populate("students", ["student_fullname"])
+        .populate("students", [
+            "student_fullname",
+            "student_dateofbirth",
+            "student_gender",
+        ])
         .populate("grade_id", ["grade_name"])
         .populate("teacher_id", ["teacher_name"])
         .populate("schedule_id", ["schedule_link"]);
@@ -27,7 +31,6 @@ router.get("/:classID", verifyJWT, async (req, res) => {
     try {
         return res.json({
             success: true,
-            message: "Add teacher to class successfully",
             class: classDB.class_name,
             grade: classDB.grade_id,
             teacher: classDB.teacher_id,
@@ -532,6 +535,27 @@ router.delete("/:id", verifyJWT, async (req, res) => {
         res.json({ success: true, message: "Deleted!" });
     } catch (e) {
         return res.status(500).json({ success: false, message: e });
+    }
+});
+
+//get student by class id
+router.get("/get-student/:classID", verifyJWT, async (req, res) => {
+    const { classID } = req.params;
+    const students = await Student.find({ class_id: classID });
+    const classroom = await Class.findById(classID);
+    if (!classroom) {
+        return res.status(400).json({
+            success: false,
+            message: "This class does not exists.",
+        });
+    }
+    try {
+        return res.json({
+            classroom,
+            students,
+        });
+    } catch (e) {
+        return res.status(500).json({ success: false, message: "" + e });
     }
 });
 

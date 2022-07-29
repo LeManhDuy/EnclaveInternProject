@@ -12,6 +12,7 @@ import ConfirmAlert from "../../../lib/ConfirmAlert/ConfirmAlert";
 import ModalInput from "../../../lib/ModalInput/ModalInput";
 import AddClass from "../../../lib/ModalInput/AddClass/AddClass";
 import UpdateClass from "../../../lib/ModalInput/UpdateClass/UpdateClass";
+import ViewStudentClass from "../../../lib/ModalInput/ViewStudentClass/ViewStudentClass";
 
 const ClassAdmin = () => {
     const [dropValue, setDropValue] = useState("All");
@@ -23,6 +24,7 @@ const ClassAdmin = () => {
     const [name, setName] = useState("");
     const [addState, setAddState] = useState(false);
     const [updateState, setUpdateState] = useState(false);
+    const [viewState, setViewState] = useState(false);
     const [errorServer, setErrorServer] = useState(false);
 
     useEffect(() => {
@@ -118,6 +120,7 @@ const ClassAdmin = () => {
                 <td onClick={click}>
                     <i className="fa-regular fa-pen-to-square btn-edit"></i>
                     <i className="fa-regular fa-trash-can btn-delete"></i>
+                    <i className="fa-regular fa-eye btn-view"></i>
                 </td>
             </tr>
         ));
@@ -141,6 +144,9 @@ const ClassAdmin = () => {
             } else if (e.target.className.includes("btn-edit")) {
                 //TODO edited
                 setUpdateState(true);
+                setId(id);
+            } else if (e.target.className.includes("btn-view")) {
+                setViewState(true);
                 setId(id);
             }
         }
@@ -203,6 +209,7 @@ const ClassAdmin = () => {
     const handleInputCustom = () => {
         setAddState(false);
         setUpdateState(false);
+        setViewState(false);
         setErrorServer(false);
     };
 
@@ -222,7 +229,6 @@ const ClassAdmin = () => {
     };
 
     const handleConfirmUpdateClass = (allValue) => {
-        console.log(allValue);
         if (allValue.teacher === allValue.currentlyTeacher) {
             ClassService.updateClassById(id, allValue.currentlyTeacher, {
                 class_name: allValue.name,
@@ -277,6 +283,19 @@ const ClassAdmin = () => {
                     handleInputCustom={handleInputCustom}
                     handleConfirmUpdateClass={handleConfirmUpdateClass}
                     errorServer={errorServer}
+                />
+            }
+        />
+    );
+
+    const DivViewClass = (
+        <ModalInput
+            show={viewState}
+            handleInputCustom={handleInputCustom}
+            content={
+                <ViewStudentClass
+                    classID={id}
+                    handleInputCustom={handleInputCustom}
                 />
             }
         />
@@ -350,6 +369,7 @@ const ClassAdmin = () => {
                 {isDelete ? ConfirmDelete : null}
                 {addState ? DivAddClass : null}
                 {updateState ? DivUpdateClass : null}
+                {viewState ? DivViewClass : null}
             </footer>
         </div>
     );
