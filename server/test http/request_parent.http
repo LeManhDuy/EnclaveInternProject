@@ -49,8 +49,8 @@ POST http://localhost:8000/api/authentication/login
 Content-Type: application/json
 
 {
-    "email": "cmt@gmail.com",
-    "password": "2"
+    "email": "lmd@gmail.com",
+    "password": "123456"
 }
 
 ###
@@ -102,3 +102,8 @@ GET  http://localhost:8000/api/admin/parents/62c68c3ebede510763388905
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbklkIjoiNjJkN2I4YWYyNmE1NTliZDhmOTRkNDA3IiwiaWF0IjoxNjU4OTA1MDExfQ.WOdIy-Kcc5rX47HbmSVe-XUQhu41asw5vo4zeSr56_o
 
+###
+// delete
+DELETE  http://localhost:8000/api/protectors/62e3971fd00aaeddd6719835
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXJlbnRJZCI6IjYyZTM0NTljNWU4ZGI3NDZmYjIxMDg5YiIsImlhdCI6MTY1OTA4MjM2Mn0.ERsbrIHtouoxuwf3fFgglLC_WtNyJsuy_csoHO7iF78

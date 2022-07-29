@@ -207,6 +207,7 @@ router.put(
 router.delete("/:protectorID", verifyJWTandParent, async (req, res) => {
     try {
         const protector = await Protectors.findById(req.params.protectorID);
+        const parent = await Parents.findById(protector.parent_id);
         if (protector.protector_img) {
             fs.unlink("./" + protector.protector_img, (err) => {
                 if (err)
@@ -217,7 +218,10 @@ router.delete("/:protectorID", verifyJWTandParent, async (req, res) => {
                 console.log("successfully deleted file");
             });
         }
-        const postDeleteCondition = { _id: req.params.id };
+        if (parent) {
+            parent.protectors.remove(protector._id.toString());
+        }
+        const postDeleteCondition = { _id: req.params.protectorID };
         const deletedProtector = await Protectors.findOneAndDelete(
             postDeleteCondition
         );

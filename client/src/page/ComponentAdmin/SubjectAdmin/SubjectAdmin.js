@@ -12,6 +12,7 @@ import ConfirmAlert from "../../../lib/ConfirmAlert/ConfirmAlert";
 import ModalInput from "../../../lib/ModalInput/ModalInput";
 import AddSubject from "../../../lib/ModalInput/AddSubject/AddSubject";
 import UpdateSubject from "../../../lib/ModalInput/UpdateSubject/UpdateSubject";
+import AddSubjectToStudent from "../../../lib/ModalInput/AddSubjectToStudent/AddSubjectToStudent";
 
 function SubjectAdmin() {
     const [subject, setSubject] = useState([]);
@@ -23,6 +24,7 @@ function SubjectAdmin() {
     const [name, setName] = useState("");
     const [addState, setAddState] = useState(false);
     const [updateState, setUpdateState] = useState(false);
+    const [addSubject, setAddSubject] = useState(false);
     const [errorServer, setErrorServer] = useState(false);
 
     useEffect(() => {
@@ -125,6 +127,7 @@ function SubjectAdmin() {
                 <td onClick={click}>
                     <i className="fa-regular fa-pen-to-square btn-edit"></i>
                     <i className="fa-regular fa-trash-can btn-delete"></i>
+                    <i className="fa-regular fa-address-book btn-add-subject"></i>
                 </td>
             </tr>
         ));
@@ -147,6 +150,9 @@ function SubjectAdmin() {
             } else if (e.target.className.includes("btn-edit")) {
                 //TODO edited
                 setUpdateState(true);
+                setId(id);
+            } else if (e.target.className.includes("btn-add-subject")) {
+                setAddSubject(true);
                 setId(id);
             }
         }
@@ -198,6 +204,7 @@ function SubjectAdmin() {
     const handleInputCustom = () => {
         setAddState(false);
         setUpdateState(false);
+        setAddSubject(false);
         setErrorServer(false);
     };
 
@@ -233,6 +240,10 @@ function SubjectAdmin() {
         });
     };
 
+    const handleConfirmAddSubjectToStudent = (allStudent) => {
+        console.log(allStudent);
+    };
+
     const DivAddSubject = (
         <ModalInput
             show={addState}
@@ -257,6 +268,21 @@ function SubjectAdmin() {
                     handleInputCustom={handleInputCustom}
                     handleConfirmUpdateSubject={handleConfirmUpdateSubject}
                     errorServer={errorServer}
+                />
+            }
+        />
+    );
+
+    const DivAddSubjectToStudent = (
+        <ModalInput
+            show={addSubject}
+            handleInputCustom={handleInputCustom}
+            content={
+                <AddSubjectToStudent
+                    handleInputCustom={handleInputCustom}
+                    handleConfirmAddSubjectToStudent={
+                        handleConfirmAddSubjectToStudent
+                    }
                 />
             }
         />
@@ -330,6 +356,7 @@ function SubjectAdmin() {
                 {isDelete ? ConfirmDelete : null}
                 {addState ? DivAddSubject : null}
                 {updateState ? DivUpdateSubject : null}
+                {addSubject ? DivAddSubjectToStudent : null}
             </footer>
         </div>
     );
