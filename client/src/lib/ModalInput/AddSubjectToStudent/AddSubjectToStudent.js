@@ -2,8 +2,9 @@ import React, { useEffect, useState } from "react";
 import "./AddSubjectToStudent.css";
 import StudentService from "../../../config/service/StudentService";
 
-const AddSubjectToStudent = () => {
+const AddSubjectToStudent = (props) => {
     const [student, setStudent] = useState([]);
+    const [listStudent, setListStudent] = useState([]);
 
     useEffect(() => {
         getStudent();
@@ -18,8 +19,8 @@ const AddSubjectToStudent = () => {
                             key: index + 1,
                             id: item._id,
                             name: item.student_fullname,
-                            gender: item.student_gender,
                             class: item.class_id.class_name,
+                            teacher: item.class_id.teacher_name,
                         };
                     }
                 );
@@ -34,9 +35,15 @@ const AddSubjectToStudent = () => {
         const classItem = students.map((item) => (
             <tr key={item.key}>
                 <td>{item.name}</td>
-                <td>{item.date}</td>
-                <td>{item.gender ? "Male" : "Female"}</td>
+                <td>{item.teacher}</td>
                 <td>{item.class}</td>
+                <td>
+                    <input
+                        type="checkbox"
+                        value={item.id}
+                        onChange={handleChange}
+                    ></input>
+                </td>
             </tr>
         ));
 
@@ -45,9 +52,9 @@ const AddSubjectToStudent = () => {
             headerClass = (
                 <tr>
                     <th>Name</th>
-                    <th>DateOfBirth</th>
-                    <th>Gender</th>
+                    <th>Teacher</th>
                     <th>Class</th>
+                    <th>Action</th>
                 </tr>
             );
         }
@@ -57,6 +64,34 @@ const AddSubjectToStudent = () => {
                 <tbody>{classItem}</tbody>
             </table>
         );
+    };
+
+    const handleChange = (e) => {
+        if (e.target.checked) {
+            console.log(e.target.value);
+            listStudent.push(e.target.value);
+            // setListStudent((listStudent) => [...listStudent, e.target.value]);
+        } else {
+            listStudent.splice(listStudent.indexOf(e.target.value), 1);
+            // studentArray.splice(studentArray.indexOf(e.target.value), 1);
+        }
+        console.log(listStudent);
+        // setListStudent(studentArray);
+        // if (e.currentTarget.checked) {
+        //     console.log(e.target.value);
+        //     setListStudent((listStudent) => [...listStudent, e.target.value]);
+        // } else {
+        //     setListStudent((listStudent) => [...listStudent, e.target.value]);
+        // }
+    };
+
+    const handleAddSubject = () => {
+        props.handleConfirmAddSubjectToStudent(listStudent);
+    };
+
+    const clickAdd = (e) => {
+        e.preventDefault();
+        handleAddSubject();
     };
 
     return (
@@ -69,6 +104,12 @@ const AddSubjectToStudent = () => {
             <div className="table-content">
                 <TableClasses students={student} />
             </div>
+            <button onClick={props.handleInputCustom} className="btn-cancel">
+                Cancel
+            </button>
+            <button type="submit" onClick={clickAdd} className="btn-ok">
+                Update
+            </button>
         </div>
     );
 };
