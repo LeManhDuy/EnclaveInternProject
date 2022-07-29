@@ -41,6 +41,7 @@ const StudentAdmin = () => {
                             image: item.student_image,
                             parent: item.parent_id.parent_name,
                             class: item.class_id.class_name,
+                            teacher: item.class_id.teacher_name,
                         };
                     }
                 );
