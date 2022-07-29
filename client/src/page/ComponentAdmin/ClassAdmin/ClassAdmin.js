@@ -11,6 +11,7 @@ import ModalCustom from "../../../lib/ModalCustom/ModalCustom";
 import ConfirmAlert from "../../../lib/ConfirmAlert/ConfirmAlert";
 import ModalInput from "../../../lib/ModalInput/ModalInput";
 import AddClass from "../../../lib/ModalInput/AddClass/AddClass";
+import UpdateClass from "../../../lib/ModalInput/UpdateClass/UpdateClass";
 
 const ClassAdmin = () => {
     const [dropValue, setDropValue] = useState("All");
@@ -21,6 +22,7 @@ const ClassAdmin = () => {
     const [id, setId] = useState("");
     const [name, setName] = useState("");
     const [addState, setAddState] = useState(false);
+    const [updateState, setUpdateState] = useState(false);
     const [errorServer, setErrorServer] = useState(false);
 
     useEffect(() => {
@@ -138,6 +140,8 @@ const ClassAdmin = () => {
                 );
             } else if (e.target.className.includes("btn-edit")) {
                 //TODO edited
+                setUpdateState(true);
+                setId(id);
             }
         }
 
@@ -198,6 +202,7 @@ const ClassAdmin = () => {
 
     const handleInputCustom = () => {
         setAddState(false);
+        setUpdateState(false);
         setErrorServer(false);
     };
 
@@ -216,6 +221,38 @@ const ClassAdmin = () => {
         });
     };
 
+    const handleConfirmUpdateClass = (allValue) => {
+        console.log(allValue);
+        if (allValue.teacher === allValue.currentlyTeacher) {
+            ClassService.updateClassById(id, allValue.currentlyTeacher, {
+                class_name: allValue.name,
+            }).then((res) => {
+                if (res.success) {
+                    setState(!state);
+                    setErrorServer(false);
+                    setUpdateState(false);
+                } else {
+                    console.log(res);
+                    setErrorServer(true);
+                    setUpdateState(true);
+                }
+            });
+        } else {
+            ClassService.updateClassById(id, allValue.teacher, {
+                class_name: allValue.name,
+            }).then((res) => {
+                if (res.success) {
+                    setState(!state);
+                    setErrorServer(false);
+                    setUpdateState(false);
+                } else {
+                    setErrorServer(true);
+                    setUpdateState(true);
+                }
+            });
+        }
+    };
+
     const DivAddClass = (
         <ModalInput
             show={addState}
@@ -224,6 +261,21 @@ const ClassAdmin = () => {
                 <AddClass
                     handleInputCustom={handleInputCustom}
                     handleConfirmAddClass={handleConfirmAddClass}
+                    errorServer={errorServer}
+                />
+            }
+        />
+    );
+
+    const DivUpdateClass = (
+        <ModalInput
+            show={updateState}
+            handleInputCustom={handleInputCustom}
+            content={
+                <UpdateClass
+                    classID={id}
+                    handleInputCustom={handleInputCustom}
+                    handleConfirmUpdateClass={handleConfirmUpdateClass}
                     errorServer={errorServer}
                 />
             }
@@ -297,6 +349,7 @@ const ClassAdmin = () => {
                 </div>
                 {isDelete ? ConfirmDelete : null}
                 {addState ? DivAddClass : null}
+                {updateState ? DivUpdateClass : null}
             </footer>
         </div>
     );
