@@ -18,9 +18,9 @@ router.get("/:classID", verifyJWT, async (req, res) => {
         .populate("grade_id", ["grade_name"])
         .populate("teacher_id", ["teacher_name"])
         .populate("schedule_id", ["schedule_link"]);
-    if (!classDB) {
+    if (!classDB) { 
         return res.status(400).json({
-            success: false,
+            success: false, 
             message: "This class does not exists.",
         });
     }
