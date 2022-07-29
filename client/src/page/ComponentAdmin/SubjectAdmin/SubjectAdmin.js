@@ -12,6 +12,7 @@ import ConfirmAlert from "../../../lib/ConfirmAlert/ConfirmAlert";
 import ModalInput from "../../../lib/ModalInput/ModalInput";
 import AddSubject from "../../../lib/ModalInput/AddSubject/AddSubject";
 import UpdateSubject from "../../../lib/ModalInput/UpdateSubject/UpdateSubject";
+import AddSubjectToStudent from "../../../lib/ModalInput/AddSubjectToStudent/AddSubjectToStudent";
 
 function SubjectAdmin() {
     const [subject, setSubject] = useState([]);
@@ -23,6 +24,7 @@ function SubjectAdmin() {
     const [name, setName] = useState("");
     const [addState, setAddState] = useState(false);
     const [updateState, setUpdateState] = useState(false);
+    const [addSubject, setAddSubject] = useState(false);
     const [errorServer, setErrorServer] = useState(false);
 
     useEffect(() => {
@@ -198,6 +200,7 @@ function SubjectAdmin() {
     const handleInputCustom = () => {
         setAddState(false);
         setUpdateState(false);
+        setAddSubject(false);
         setErrorServer(false);
     };
 
@@ -262,8 +265,26 @@ function SubjectAdmin() {
         />
     );
 
+    const DivAddSubjectToStudent = (
+        <ModalInput
+            show={addSubject}
+            handleInputCustom={handleInputCustom}
+            content={
+                <AddSubjectToStudent
+                    handleInputCustom={handleInputCustom}
+                    // handleConfirmUpdateSubject={handleConfirmUpdateSubject}
+                    // errorServer={errorServer}
+                />
+            }
+        />
+    );
+
     const handleAddSubject = () => {
         setAddState(true);
+    };
+
+    const handleAddSubjectToStudent = () => {
+        setAddSubject(true);
     };
 
     return (
@@ -281,6 +302,12 @@ function SubjectAdmin() {
                 <div className="right-header">
                     <button className="btn-account" onClick={handleAddSubject}>
                         Add subject
+                    </button>
+                    <button
+                        className="btn-account"
+                        onClick={handleAddSubjectToStudent}
+                    >
+                        Add student to subject
                     </button>
                     <div className="search-box">
                         <button className="btn-search">
@@ -330,6 +357,7 @@ function SubjectAdmin() {
                 {isDelete ? ConfirmDelete : null}
                 {addState ? DivAddSubject : null}
                 {updateState ? DivUpdateSubject : null}
+                {addSubject ? DivAddSubjectToStudent : null}
             </footer>
         </div>
     );
