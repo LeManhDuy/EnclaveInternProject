@@ -237,19 +237,20 @@ const ClassAdmin = () => {
                     setUpdateState(true);
                 }
             });
+        } else {
+            ClassService.updateClassById(id, allValue.teacher, {
+                class_name: allValue.name,
+            }).then((res) => {
+                if (res.success) {
+                    setState(!state);
+                    setErrorServer(false);
+                    setUpdateState(false);
+                } else {
+                    setErrorServer(true);
+                    setUpdateState(true);
+                }
+            });
         }
-        // ClassService.updateClassById(id, allValue.teacher, {
-        //     class_name: allValue.name,
-        // }).then((res) => {
-        //     if (res.success) {
-        //         setState(!state);
-        //         setErrorServer(false);
-        //         setUpdateState(false);
-        //     } else {
-        //         setErrorServer(true);
-        //         setUpdateState(true);
-        //     }
-        // });
     };
 
     const DivAddClass = (

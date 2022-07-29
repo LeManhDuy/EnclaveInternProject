@@ -423,23 +423,33 @@ router.put("/:id&:teacherID", verifyJWT, async (req, res) => {
             success: false,
             message: "Teacher is not existing!",
         });
-    if (teacher.teacher_class)
-        return res.status(400).json({
-            success: false,
-            message: "This teacher already have a class",
-        });
+    if (teacher.teacher_class) {
+        if (teacher._id.toString() !== teacherID) {
+            return res.status(400).json({
+                success: false,
+                message: "This teacher already have a class",
+            });
+        }
+    }
     try {
         if (classDB.teacher_id) {
             const teacherOld = await Teacher.findById(classDB.teacher_id);
             teacherOld.teacher_class = undefined;
             teacherOld.save();
         }
-        let updateClass = {
-            class_name,
-            teacher_id: teacher._id,
-            teacher_name: teacher.teacher_name,
-        };
-        const classUpdateCondition = { _id: id, user: req.userId };
+        let updateClass;
+        if (teacher._id === teacherID) {
+            updateClass = {
+                class_name,
+            };
+        } else {
+            updateClass = {
+                class_name,
+                teacher_id: teacher._id.toString(),
+                teacher_name: teacher.teacher_name,
+            };
+        }
+        const classUpdateCondition = { _id: id };
         updatedClass = await Class.findOneAndUpdate(
             classUpdateCondition,
             updateClass,

@@ -71,6 +71,12 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXJlbnRJZCI6IjYyY
 GET http://localhost:8000/api/protectors/get-protector/62c68c3ebede510763388905
 Content-Type: application/json
 
+###
+// Show student information
+GET http://localhost:8000/api/student/get-student/62e3459c5e8db746fb21089b
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbklkIjoiNjJkN2I4YWYyNmE1NTliZDhmOTRkNDA3IiwiaWF0IjoxNjU4OTA1MDExfQ.WOdIy-Kcc5rX47HbmSVe-XUQhu41asw5vo4zeSr56_o
+
 
 ###
 // Show Parent information
@@ -83,8 +89,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXJlbnRJZCI6IjYyY
 // GET
 GET http://localhost:8000/api/admin/parents
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbklkIjoiNjJjNjhkMTNiZWRlNTEwNzYzMzg4OTBmIiwiaWF0IjoxNjU3NTI0NjU2fQ.7JCfNVSk22yZG5h0rpRMYaWLDquYQ_LDvk-JJIP_YjQ
-
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbklkIjoiNjJkN2I4YWYyNmE1NTliZDhmOTRkNDA3IiwiaWF0IjoxNjU5MDYxMzk3fQ.bwA4PyzZDd_h3oT1gUnVryWlCS4P_2BuQzKsHgvVw_Y
 ###
 // delete
 DELETE  http://localhost:8000/api/admin/parents/62ce923b89445ec45e6021f2

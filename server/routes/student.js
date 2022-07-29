@@ -11,25 +11,26 @@ const Score = require("../model/Score");
 const SummaryScore = require("../model/SummaryScore");
 const Protector = require("../model/Protector");
 const Subject = require("../model/Subject");
+const Parents = require("../model/Parents");
 const multer = require("multer");
 const fs = require("fs");
 
 const storage = multer.diskStorage({
-  destination: function (req, res, cb) {
-    cb(null, "./uploads/students");
-  },
-  filename: function (req, file, cb) {
-    cb(null, Date.now() + file.originalname);
-  },
+    destination: function (req, res, cb) {
+        cb(null, "./uploads/students");
+    },
+    filename: function (req, file, cb) {
+        cb(null, Date.now() + file.originalname);
+    },
 });
 
 const fileFilter = (req, file, cb) => {
-  // reject a file
-  if (file.mimetype === "image/jpeg" || file.mimetype === "image/png") {
-    cb(null, true);
-  } else {
-    cb(null, false);
-  }
+    // reject a file
+    if (file.mimetype === "image/jpeg" || file.mimetype === "image/png") {
+        cb(null, true);
+    } else {
+        cb(null, false);
+    }
 };
 
 const upload = multer({ storage: storage, fileFilter: fileFilter });
@@ -37,51 +38,54 @@ const upload = multer({ storage: storage, fileFilter: fileFilter });
 // @desc create student information
 // @access Private
 router.post(
-  "/:classID&:parentID",
-  verifyJWTandAdmin,
-  upload.single("student_image"),
-  async (req, res) => {
-    const { classID, parentID } = req.params;
-    const { student_fullname, student_gender, student_dateofbirth } = req.body;
-    let student_image = null;
-    if (req.file) {
-      student_image = req.file.path;
+    "/:classID&:parentID",
+    verifyJWTandAdmin,
+    upload.single("student_image"),
+    async (req, res) => {
+        const { classID, parentID } = req.params;
+        const { student_fullname, student_gender, student_dateofbirth } =
+            req.body;
+        let student_image = null;
+        if (req.file) {
+            student_image = req.file.path;
+        }
+        //Simple validation
+        if (!student_fullname || student_gender == null || !student_dateofbirth)
+            return res.status(400).json({
+                success: false,
+                message: "Please fill in complete information",
+            });
+        try {
+            const classInfor = await Class.findById(classID);
+            const parent = await Parent.findById(parentID);
+            //save collection
+            const newStudent = new Student({
+                student_fullname,
+                student_dateofbirth,
+                student_gender,
+                student_image,
+                parent_id: parent._id,
+                class_id: classInfor._id,
+            });
+            await newStudent.save();
+            classInfor.students.push(newStudent._id);
+            await classInfor.save();
+            parent.children.push(newStudent._id);
+            await parent.save();
+            res.json({
+                success: true,
+                message: "Create student successfully",
+                studentFullName: newStudent.student_fullname,
+                studentDateOfBirth: newStudent.student_dateofbirth,
+                studentGender: newStudent.student_gender,
+                studentImage: newStudent.student_image,
+            });
+        } catch (error) {
+            return res
+                .status(500)
+                .json({ success: false, message: "" + error });
+        }
     }
-    //Simple validation
-    if (!student_fullname || student_gender == null || !student_dateofbirth)
-      return res.status(400).json({
-        success: false,
-        message: "Please fill in complete information",
-      });
-    try {
-      const classInfor = await Class.findById(classID);
-      const parent = await Parent.findById(parentID);
-      //save collection
-      const newStudent = new Student({
-        student_fullname,
-        student_dateofbirth,
-        student_gender,
-        student_image,
-        parent_id: parent._id,
-        class_id: classInfor._id,
-      });
-      await newStudent.save();
-      classInfor.students.push(newStudent._id);
-      await classInfor.save();
-      parent.children.push(newStudent._id);
-      await parent.save();
-      res.json({
-        success: true,
-        message: "Create student successfully",
-        studentFullName: newStudent.student_fullname,
-        studentDateOfBirth: newStudent.student_dateofbirth,
-        studentGender: newStudent.student_gender,
-        studentImage: newStudent.student_image,
-      });
-    } catch (error) {
-      return res.status(500).json({ success: false, message: "" + error });
-    }
-  }
 );
 
 // // @route GET dashboard/teacher/get-student-by-teacher-id
@@ -168,101 +172,110 @@ router.get("/get-all-student/", async (req, res) => {
 // @desc parent get student information
 // @access Private
 router.get("/get-student-information/:studentID", async (req, res) => {
-  const { studentID } = req.params;
-  try {
-    // Return token
-    //sutdent
-    const getStudentById = await Student.findById(studentID)
-      .populate("class_id", ["class_name"])
-      .populate("parent_id", [
-        "parent_name",
-        "parent_address",
-        "parent_phone",
-        "parent_email",
-        "parent_job",
-        "parent_gender",
-        "parent_img",
-      ]);
-    if (!getStudentById)
-      return res
-        .status(401)
-        .json({ success: false, message: "Student is not found!" });
+    const { studentID } = req.params;
+    try {
+        // Return token
+        //sutdent
+        const getStudentById = await Student.findById(studentID)
+            .populate("class_id", ["class_name"])
+            .populate("parent_id", [
+                "parent_name",
+                "parent_address",
+                "parent_phone",
+                "parent_email",
+                "parent_job",
+                "parent_gender",
+                "parent_img",
+            ]);
+        if (!getStudentById)
+            return res
+                .status(401)
+                .json({ success: false, message: "Student is not found!" });
 
-    const parent = await Parent.findById(getStudentById.parent_id)
+        const parent = await Parent.findById(getStudentById.parent_id);
 
-    const arrProtectorId = [];
-    parent.protectors.map((item) => {
-        arrProtectorId.push(item._id);
-    });
-    const getProtector = await Protector.find({ _id: arrProtectorId })
-      .select(["protector_name", "protector_address", "protector_phone","protector_relationship","protector_img"]);
-    return res.status(200).json({
-      studentImage: getStudentById.student_image,
-      studentFullName: getStudentById.student_fullname,
-      studentDateOfBirth: getStudentById.student_dateofbirth,
-      studentGender: getStudentById.student_gender,
-      className: getStudentById.class_id.class_name,
-      ParentName: getStudentById.parent_id.parent_name,
-      ParentPhone: getStudentById.parent_id.parent_phone,
-      studentAddress: getStudentById.parent_id.parent_address,
-      ParentEmail: getStudentById.parent_id.parent_email,
-      ParentJob: getStudentById.parent_id.parent_job,
-      ParentGender: getStudentById.parent_id.parent_gender,
-      ParentImg: getStudentById.parent_id.parent_img,
-      ProtectorInformation:getProtector
-    });
-  } catch (error) {
-    return res.status(500).json({ success: false, message: "" + error });
-  }
+        const arrProtectorId = [];
+        parent.protectors.map((item) => {
+            arrProtectorId.push(item._id);
+        });
+        const getProtector = await Protector.find({
+            _id: arrProtectorId,
+        }).select([
+            "protector_name",
+            "protector_address",
+            "protector_phone",
+            "protector_relationship",
+            "protector_img",
+        ]);
+        return res.status(200).json({
+            studentImage: getStudentById.student_image,
+            studentFullName: getStudentById.student_fullname,
+            studentDateOfBirth: getStudentById.student_dateofbirth,
+            studentGender: getStudentById.student_gender,
+            className: getStudentById.class_id.class_name,
+            ParentName: getStudentById.parent_id.parent_name,
+            ParentPhone: getStudentById.parent_id.parent_phone,
+            studentAddress: getStudentById.parent_id.parent_address,
+            ParentEmail: getStudentById.parent_id.parent_email,
+            ParentJob: getStudentById.parent_id.parent_job,
+            ParentGender: getStudentById.parent_id.parent_gender,
+            ParentImg: getStudentById.parent_id.parent_img,
+            ProtectorInformation: getProtector,
+        });
+    } catch (error) {
+        return res.status(500).json({ success: false, message: "" + error });
+    }
 });
 
 // @route GET dashboard/teacher/parent-get-student-score-information
 // @desc parent get student score information by student id
 // @access Private
 router.get(
-  "/parent-get-detailed-score-information/:studentID",
-  async (req, res) => {
-    const { studentID } = req.params;
-    try {
-      // Return token
-      //sutdent
-      const getStudentById = await Student.findById(studentID)
-        .populate("subjects", ["_id"])
-        .select("student_fullname");
+    "/parent-get-detailed-score-information/:studentID",
+    async (req, res) => {
+        const { studentID } = req.params;
+        try {
+            // Return token
+            //sutdent
+            const getStudentById = await Student.findById(studentID)
+                .populate("subjects", ["_id"])
+                .select("student_fullname");
 
-      const arrSubjectId = [];
-      getStudentById.subjects.map((item) => {
-        arrSubjectId.push(item._id);
-      });
+            const arrSubjectId = [];
+            getStudentById.subjects.map((item) => {
+                arrSubjectId.push(item._id);
+            });
 
-      const getScorebySubjectId = await Score.find({
-        subject_id: arrSubjectId,
-      }).populate("subject_id", ["subject_name"]);
+            const getScorebySubjectId = await Score.find({
+                subject_id: arrSubjectId,
+            }).populate("subject_id", ["subject_name"]);
 
-      const getSummaryScoreByStudentId = await SummaryScore.find({
-        student_id: studentID,
-      });
+            const getSummaryScoreByStudentId = await SummaryScore.find({
+                student_id: studentID,
+            });
 
-      if (!getStudentById)
-        return res
-          .status(401)
-          .json({ success: false, message: "Student is not found!" });
-      return res.status(200).json({
-        studentFullName: getStudentById.student_fullname,
-        detailedScoreInformation: getScorebySubjectId,
-        summaryScore: getSummaryScoreByStudentId.map(
-          (getSummaryScoreByStudentId) =>
-            getSummaryScoreByStudentId.summary_score
-        ),
-        summaryBehavior: getSummaryScoreByStudentId.map(
-          (getSummaryScoreByStudentId) =>
-            getSummaryScoreByStudentId.summary_behavior
-        ),
-      });
-    } catch (error) {
-      return res.status(500).json({ success: false, message: "" + error });
+            if (!getStudentById)
+                return res
+                    .status(401)
+                    .json({ success: false, message: "Student is not found!" });
+            return res.status(200).json({
+                studentFullName: getStudentById.student_fullname,
+                detailedScoreInformation: getScorebySubjectId,
+                summaryScore: getSummaryScoreByStudentId.map(
+                    (getSummaryScoreByStudentId) =>
+                        getSummaryScoreByStudentId.summary_score
+                ),
+                summaryBehavior: getSummaryScoreByStudentId.map(
+                    (getSummaryScoreByStudentId) =>
+                        getSummaryScoreByStudentId.summary_behavior
+                ),
+            });
+        } catch (error) {
+            return res
+                .status(500)
+                .json({ success: false, message: "" + error });
+        }
     }
-  }
 );
 
 // @route PUT dashboard/teacher/update-student
@@ -288,7 +301,7 @@ router.put(
         }
         try {
             const student = await Student.findById(req.params.studentID);
-            if (student.student_image) {  
+            if (student.student_image) {
                 if (student_image === null) {
                     student_image = student.student_image;
                 } else {
@@ -320,22 +333,24 @@ router.put(
                 updateStudent,
                 { new: true }
             );
-      if (!updateStudent)
-        return res
-          .status(401)
-          .json({ success: false, message: "Student is not found" });
-      res.json({
-        success: true,
-        message: "Update succesfully!",
-        studentFullName: updatedStudent.student_fullname,
-        studentDateOfBirth: updatedStudent.student_dateofbirth,
-        studentGender: updatedStudent.student_gender,
-        studentImage: updatedStudent.student_image,
-      });
-    } catch (error) {
-      return res.status(500).json({ success: false, message: "" + error });
+            if (!updateStudent)
+                return res
+                    .status(401)
+                    .json({ success: false, message: "Student is not found" });
+            res.json({
+                success: true,
+                message: "Update succesfully!",
+                studentFullName: updatedStudent.student_fullname,
+                studentDateOfBirth: updatedStudent.student_dateofbirth,
+                studentGender: updatedStudent.student_gender,
+                studentImage: updatedStudent.student_image,
+            });
+        } catch (error) {
+            return res
+                .status(500)
+                .json({ success: false, message: "" + error });
+        }
     }
-  }
 );
 
 // @route DELETE dashboard/teacher/delete-student
@@ -373,60 +388,80 @@ router.delete("/:id", verifyJWTandAdmin, async (req, res) => {
             parent.children = undefined;
             parent.save();
         }
-    if (studentDB.class_id) {
-      const classId = await Class.findById(studentDB.class_id.toString());
-      if (!classId) {
-        return res.status(401).json({
-          success: false,
-          message: "Class not found",
-        });
-      }
-      classId.students = undefined;
-      classId.save();
-    }
-
-    if (studentDB.subjects) {
-      studentDB.subjects.map(async (item) => {
-        let subject = await Subject.findById(item._id.toString());
-        if (subject) {
-          subject.students = undefined;
-          subject.save();
+        if (studentDB.class_id) {
+            const classId = await Class.findById(studentDB.class_id.toString());
+            if (!classId) {
+                return res.status(401).json({
+                    success: false,
+                    message: "Class not found",
+                });
+            }
+            classId.students = undefined;
+            classId.save();
         }
-      });
-    }
 
-    if (studentDB.scores) {
-      studentDB.scores.map(async (item) => {
-        let score = await Score.findById(item._id.toString());
-        if (score) {
-          const deleteScore = await Score.findOneAndDelete(score._id);
+        if (studentDB.subjects) {
+            studentDB.subjects.map(async (item) => {
+                let subject = await Subject.findById(item._id.toString());
+                if (subject) {
+                    subject.students = undefined;
+                    subject.save();
+                }
+            });
         }
-      });
-    }
 
-    if (studentDB.summary) {
-      const summary = await SummaryScore.findById(studentDB.summary.toString());
-      if (!summary) {
-        return res.status(401).json({
-          success: false,
-          message: "Summary score not found",
-        });
-      }
-      const deleteSummaryScore = await SummaryScore.findOneAndDelete(
-        summary._id
-      );
-      console.log(deleteSummaryScore);
-    }
+        if (studentDB.scores) {
+            studentDB.scores.map(async (item) => {
+                let score = await Score.findById(item._id.toString());
+                if (score) {
+                    const deleteScore = await Score.findOneAndDelete(score._id);
+                }
+            });
+        }
 
-    const deleteStudent = await Student.findOneAndDelete(postDeleteCondition);
-    if (!deleteStudent) {
-      return res
-        .status(401)
-        .json({ success: false, message: "Student not found!" });
+        if (studentDB.summary) {
+            const summary = await SummaryScore.findById(
+                studentDB.summary.toString()
+            );
+            if (!summary) {
+                return res.status(401).json({
+                    success: false,
+                    message: "Summary score not found",
+                });
+            }
+            const deleteSummaryScore = await SummaryScore.findOneAndDelete(
+                summary._id
+            );
+            console.log(deleteSummaryScore);
+        }
+
+        const deleteStudent = await Student.findOneAndDelete(
+            postDeleteCondition
+        );
+        if (!deleteStudent) {
+            return res
+                .status(401)
+                .json({ success: false, message: "Student not found!" });
+        }
+        res.json({ success: true, message: "Delete succesfully!" });
+    } catch (error) {
+        return res.status(500).json({ success: false, message: "" + error });
     }
-    res.json({ success: true, message: "Delete succesfully!" });
-  } catch (error) {
-    return res.status(500).json({ success: false, message: "" + error });
-  }
 });
+
+//get student by parent ID
+router.get("/get-student/:parentID", async (req, res) => {
+    const { parentID } = req.params;
+
+    try {
+        const parent = await Parents.findById(parentID).populate("children");
+        return res.status(200).json({
+            parent_name: parent.parent_name,
+            children: parent.children,
+        });
+    } catch (error) {
+        return res.status(500).json({ success: false, message: "" + error });
+    }
+});
+
 module.exports = router;
