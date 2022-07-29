@@ -125,43 +125,43 @@ router.post(
 // );
 
 router.get("/get-student-by-id/:studentID", async (req, res) => {
-    try {
-        const student = await Student.findById(req.params.studentID)
-            .populate("class_id", ["class_name", ["teacher_name"]])
-            .select([
-                "student_fullname",
-                "student_gender",
-                "student_image",
-                "student_dateofbirth",
-                "parent_id",
-                "class_id",
-            ]);
-        return res.status(200).json({
-            student,
-        });
-    } catch (error) {
-        return res.status(500).json({ success: false, message: "" + error });
-    }
+  try {
+    const student = await Student.findById(req.params.studentID)
+      .populate("class_id", ["class_name", ["teacher_name"]])
+      .select([
+        "student_fullname",
+        "student_gender",
+        "student_image",
+        "student_dateofbirth",
+        "parent_id",
+        "class_id",
+      ]);
+    return res.status(200).json({
+      student,
+    });
+  } catch (error) {
+    return res.status(500).json({ success: false, message: "" + error });
+  }
 });
 
 // @route GET dashboard/teacher/get-all-student
 // @desc get student information
 // @access Private
 router.get("/get-all-student/", async (req, res) => {
-    try {
-        // Return token
-        const allStudent = await Student.find({})
-            .populate("class_id", ["class_name", ["teacher_name"]])
-            .populate("parent_id", ["parent_name"])
-            .populate("subjects", ["subject_name"])
-            .populate("summary", ["summary_score", "summary_behavior"])
-            .select(["student_fullname", "student_gender", "student_image"]);
-        return res.status(200).json({
-            StudentInformation: allStudent,
-        });
-    } catch (error) {
-        return res.status(500).json({ success: false, message: "" + error });
-    }
+  try {
+    // Return token
+    const allStudent = await Student.find({})
+      .populate("class_id", ["class_name", ["teacher_name"]])
+      .populate("parent_id", ["parent_name"])
+      .populate("subjects", ["subject_name"])
+      .populate("summary", ["summary_score", "summary_behavior"])
+      .select(["student_fullname", "student_gender", "student_image"]);
+    return res.status(200).json({
+      StudentInformation: allStudent,
+    });
+  } catch (error) {
+    return res.status(500).json({ success: false, message: "" + error });
+  }
 });
 
 // @route GET dashboard/teacher/parent-get-student-information
@@ -192,10 +192,10 @@ router.get("/get-student-information/:studentID", async (req, res) => {
 
     const arrProtectorId = [];
     parent.protectors.map((item) => {
-        arrProtectorId.push(item._id);
+      arrProtectorId.push(item._id);
     });
     const getProtector = await Protector.find({ _id: arrProtectorId })
-      .select(["protector_name", "protector_address", "protector_phone","protector_relationship","protector_img"]);
+      .select(["protector_name", "protector_address", "protector_phone", "protector_relationship", "protector_img"]);
     return res.status(200).json({
       studentImage: getStudentById.student_image,
       studentFullName: getStudentById.student_fullname,
@@ -209,7 +209,7 @@ router.get("/get-student-information/:studentID", async (req, res) => {
       ParentJob: getStudentById.parent_id.parent_job,
       ParentGender: getStudentById.parent_id.parent_gender,
       ParentImg: getStudentById.parent_id.parent_img,
-      ProtectorInformation:getProtector
+      ProtectorInformation: getProtector
     });
   } catch (error) {
     return res.status(500).json({ success: false, message: "" + error });
@@ -269,57 +269,60 @@ router.get(
 // @desc Update stduent
 // @access Private Only Admin
 router.put(
-    "/:studentID&:parentID&:classID",
-    verifyJWTandAdmin,
-    upload.single("student_image"),
-    async (req, res) => {
-        const { student_fullname, student_dateofbirth, student_gender } =
-            req.body;
-        const { studentID, parentID, classID } = req.params;
-        // Validation
-        if (!student_fullname || student_gender == null || !student_dateofbirth)
-            return res.status(400).json({
+  "/:studentID&:parentID&:classID",
+  verifyJWTandAdmin,
+  upload.single("student_image"),
+  async (req, res) => {
+    const { student_fullname, student_dateofbirth, student_gender } =
+      req.body;
+    const { studentID, parentID, classID } = req.params;
+    // Validation
+    if (!student_fullname || student_gender == null || !student_dateofbirth)
+      return res.status(400).json({
+        success: false,
+        message: "Please fill in complete information",
+      });
+    let student_image = null;
+    if (req.file) {
+      student_image = req.file.path;
+    }
+    try {
+      const student = await Student.findById(req.params.studentID);
+      if (student.student_image) {
+        if (student_image === null) {
+          student_image = student.student_image;
+        } else {
+          fs.unlink("./" + student.student_image, (err) => {
+            if (err)
+              res.status(400).json({
                 success: false,
-                message: "Please fill in complete information",
-            });
-        let student_image = null;
-        if (req.file) {
-            student_image = req.file.path;
+                message: "Image error: " + err,
+              });
+            console.log("successfully deleted file");
+          });
         }
-        try {
-            const student = await Student.findById(req.params.studentID);
-            if (student.student_image) {  
-                if (student_image === null) {
-                    student_image = student.student_image;
-                } else {
-                    fs.unlink("./" + student.student_image, (err) => {
-                        if (err)
-                            res.status(400).json({
-                                success: false,
-                                message: "Image error: " + err,
-                            });
-                        console.log("successfully deleted file");
-                    });
-                }
-            }
+      }
 
-            let updateStudent = {
-                student_fullname,
-                student_dateofbirth,
-                student_gender,
-                student_image,
-                parent_id: parentID,
-                class_id: classID,
-            };
-            const postUpdateCondition = {
-                _id: req.params.studentID,
-                user: req.userId,
-            };
-            updatedStudent = await Student.findOneAndUpdate(
-                postUpdateCondition,
-                updateStudent,
-                { new: true }
-            );
+      let updateStudent = {
+        student_fullname,
+        student_dateofbirth,
+        student_gender,
+        student_image,
+        parent_id: parentID,
+        class_id: classID,
+      };
+      const postUpdateCondition = {
+        _id: req.params.studentID,
+        user: req.userId,
+      };
+      updatedStudent = await Student.findOneAndUpdate(
+        postUpdateCondition,
+        updateStudent,
+        { new: true }
+      );
+
+      
+
       if (!updateStudent)
         return res
           .status(401)
@@ -342,37 +345,37 @@ router.put(
 // @desc delete student
 // @access Private
 router.delete("/:id", verifyJWTandAdmin, async (req, res) => {
-    try {
-        const postDeleteCondition = { _id: req.params.id };
-        const studentDB = await Student.findById(postDeleteCondition._id);
-        if (!studentDB) {
-            return res
-                .status(401)
-                .json({ success: false, message: "Student not found!" });
-        }
-        if (studentDB.student_image) {
-            fs.unlink("./" + studentDB.student_image, (err) => {
-                if (err)
-                    res.status(400).json({
-                        success: false,
-                        message: "Image error: " + err,
-                    });
-                console.log("successfully deleted file");
-            });
-        }
-        if (studentDB.parent_id) {
-            const parent = await Parent.findById(
-                studentDB.parent_id.toString()
-            );
-            if (!parent) {
-                return res.status(401).json({
-                    success: false,
-                    message: "Parent not found",
-                });
-            }
-            parent.children = undefined;
-            parent.save();
-        }
+  try {
+    const postDeleteCondition = { _id: req.params.id };
+    const studentDB = await Student.findById(postDeleteCondition._id);
+    if (!studentDB) {
+      return res
+        .status(401)
+        .json({ success: false, message: "Student not found!" });
+    }
+    if (studentDB.student_image) {
+      fs.unlink("./" + studentDB.student_image, (err) => {
+        if (err)
+          res.status(400).json({
+            success: false,
+            message: "Image error: " + err,
+          });
+        console.log("successfully deleted file");
+      });
+    }
+    if (studentDB.parent_id) {
+      const parent = await Parent.findById(
+        studentDB.parent_id.toString()
+      );
+      if (!parent) {
+        return res.status(401).json({
+          success: false,
+          message: "Parent not found",
+        });
+      }
+      parent.children.remove(studentDB._id.toString())
+      parent.save();
+    }
     if (studentDB.class_id) {
       const classId = await Class.findById(studentDB.class_id.toString());
       if (!classId) {
