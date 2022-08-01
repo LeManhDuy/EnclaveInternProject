@@ -76,7 +76,7 @@ router.get("", verifyJWTandAdmin, async (req, res) => {
     try {
         // Return token
         const allSchedule = await Schedule.find()
-            .populate("class", ["class_name"])
+            .populate("class", ["class_name", "grade_name"])
             .select("schedule_link");
         res.status(200).json({
             success: true,
