@@ -55,7 +55,20 @@ router.post(
         }
     }
 );
-
+router.get("/get-schedule-by-class-id/:classID", async (req, res) => {
+    try {
+        // Return token
+        const schedule = await Schedule.find({
+            class: req.params.classID
+        })
+        res.status(200).json({
+            success: true,
+            schedulelink: schedule,
+        });
+    } catch (error) {
+        return res.status(500).json({ success: false, message: "" + error });
+    }
+});
 // @route GET /api/schedule/get-schedule
 // @desc get schedule
 // @access Private
