@@ -12,6 +12,7 @@ import ModalCustom from "../../../lib/ModalCustom/ModalCustom";
 import ConfirmAlert from "../../../lib/ConfirmAlert/ConfirmAlert";
 import ModalInput from "../../../lib/ModalInput/ModalInput";
 import AddSchedule from "../../../lib/ModalInput/AddSchedule/AddSchedule";
+import UpdateSchedule from "../../../lib/ModalInput/UpdateSchedule/UpdateSchedule";
 
 const ScheduleAdmin = () => {
     const { REACT_APP_API_ENDPOINT } = process.env;
@@ -156,20 +157,19 @@ const ScheduleAdmin = () => {
     };
 
     const handleConfirmUpdateSchedule = (allValue) => {
-        // GradeService.updateGradeById(id, {
-        //     grade_name: allValue.name,
-        // })
-        //     .then((res) => {
-        //         if (res.success) {
-        //             setIsChange(!isChange);
-        //             setUpdateState(false);
-        //             setErrorServer(false);
-        //         } else {
-        //             setUpdateState(true);
-        //             setErrorServer(true);
-        //         }
-        //     })
-        //     .catch((error) => console.log("error", error));
+        var formData = new FormData();
+        if (!!allValue.img)
+            formData.append("schedule_link", allValue.img, allValue.img.name);
+        ScheduleService.updateScheduleById(id, formData).then((res) => {
+            if (res.success) {
+                setIsChange(!isChange);
+                setErrorServer(false);
+                setUpdateState(false);
+            } else {
+                setErrorServer(true);
+                setUpdateState(true);
+            }
+        });
     };
 
     const DivAddSchedule = (
@@ -186,20 +186,20 @@ const ScheduleAdmin = () => {
         />
     );
 
-    // const DivUpdateSchedule = (
-    //     <ModalInput
-    //         show={updateState}
-    //         handleInputCustom={handleInputCustom}
-    //         content={
-    //             <UpdateGrade
-    //                 scheduleID={id}
-    //                 handleInputCustom={handleInputCustom}
-    //                 handleConfirmUpdateSchedule={handleConfirmUpdateSchedule}
-    //                 errorServer={errorServer}
-    //             />
-    //         }
-    //     />
-    // );
+    const DivUpdateSchedule = (
+        <ModalInput
+            show={updateState}
+            handleInputCustom={handleInputCustom}
+            content={
+                <UpdateSchedule
+                    scheduleID={id}
+                    handleInputCustom={handleInputCustom}
+                    handleConfirmUpdateSchedule={handleConfirmUpdateSchedule}
+                    errorServer={errorServer}
+                />
+            }
+        />
+    );
 
     const handleAddSchedule = () => {
         setAddState(true);
@@ -262,7 +262,7 @@ const ScheduleAdmin = () => {
                 </div>
                 {isDelete ? ConfirmDelete : null}
                 {addState ? DivAddSchedule : null}
-                {updateState ? null : null}
+                {updateState ? DivUpdateSchedule : null}
             </footer>
         </div>
     );

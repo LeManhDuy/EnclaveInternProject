@@ -87,6 +87,21 @@ router.get("", verifyJWTandAdmin, async (req, res) => {
     }
 });
 
+router.get("/:scheduleID", verifyJWTandAdmin, async (req, res) => {
+    try {
+        // Return token
+        const allSchedule = await Schedule.findById(req.params.scheduleID)
+            .populate("class", ["class_name", "grade_name"])
+            .select("schedule_link");
+        res.status(200).json({
+            success: true,
+            schedule: allSchedule,
+        });
+    } catch (error) {
+        return res.status(500).json({ success: false, message: "" + error });
+    }
+});
+
 // @route PUT /api/schedule/update-schedule/{schedule-id}
 // @desc update schedule
 // @access Private
@@ -97,20 +112,15 @@ router.put(
     async (req, res) => {
         let schedule_link = null;
         if (req.file) {
-            console.log("Hello");
             schedule_link = req.file.path;
         }
         try {
             // Validate
             const schedule = await Schedule.findById(req.params.scheduleId);
-            console.log(schedule);
             if (schedule.schedule_link) {
-                console.log("Why");
                 if (schedule_link === null) {
-                    console.log("the hell");
                     schedule_link = schedule.schedule_link;
                 } else {
-                    console.log("Hello vao dc r ne");
                     fs.unlink("./" + schedule.schedule_link, (err) => {
                         if (err)
                             res.status(400).json({

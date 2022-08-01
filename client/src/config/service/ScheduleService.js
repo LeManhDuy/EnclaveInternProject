@@ -12,8 +12,8 @@ const addSchedule = async (classID, params) => {
     return await HandleApi.APIPostWithTokenIMG(`schedule/${classID}`, params);
 };
 
-const updateScheduleById = async (id, params) => {
-    return await HandleApi.APIPutWithToken(`schedule/${id}`, params);
+const updateScheduleById = async (scheduleID, params) => {
+    return await HandleApi.APIPutWithTokenIMG(`schedule/${scheduleID}`, params);
 };
 
 const getScheduleById = async (id) => {

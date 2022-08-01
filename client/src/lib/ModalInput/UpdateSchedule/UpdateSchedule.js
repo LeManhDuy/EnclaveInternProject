@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from "react";
-import "./AddSchedule.css";
+import "./UpdateSchedule.css";
 import ClassService from "../../../config/service/ClassService";
+import ScheduleService from "../../../config/service/ScheduleService";
 import Logo from "../../../assets/image/Logo.png";
 
-const AddSchedule = (props) => {
+const UpdateSchedule = (props) => {
     const { REACT_APP_API_ENDPOINT } = process.env;
     const [classroom, setClassroom] = useState([]);
     const [classDropValue, setClassDropValue] = useState();
     const [allValuesSchedule, setAllValuesSchedule] = useState({
         classroom: "",
+        grade: "",
         img: "",
     });
     const [scheduleError, setScheduleError] = useState({
@@ -18,49 +20,18 @@ const AddSchedule = (props) => {
     const [avatar, setAvatar] = useState(Logo);
 
     useEffect(() => {
-        getClass();
-    }, []);
-
-    const getClass = () => {
-        ClassService.getClass()
-            .then((response) => {
-                const dataSources = response.allClasses.map((item, index) => {
-                    return {
-                        key: index + 1,
-                        id: item._id,
-                        name: item.class_name,
-                        grade: item.grade_name,
-                    };
-                });
-                setClassroom(dataSources);
-            })
-            .catch((error) => {
-                console.log(error);
+        ScheduleService.getScheduleById(props.scheduleID).then((res) => {
+            !!res.schedule.schedule_link
+                ? setAvatar(
+                      `${REACT_APP_API_ENDPOINT}${res.schedule.schedule_link}`
+                  )
+                : setAvatar(Logo);
+            setAllValuesSchedule({
+                classroom: res.schedule.class.class_name,
+                grade: res.schedule.class.grade_name,
             });
-    };
-
-    const ClassDropDown = ({ value, options, onChange }) => {
-        return (
-            <select
-                className="dropdown-class"
-                value={value}
-                onChange={onChange}
-            >
-                <option selected value="Pick">
-                    Choose a class
-                </option>
-                {options.map((option) => (
-                    <option
-                        key={option.key}
-                        value={`${option.name} - ${option.grade}`}
-                        data-key={option.id}
-                    >
-                        {option.name} - {option.grade}
-                    </option>
-                ))}
-            </select>
-        );
-    };
+        });
+    }, []);
 
     const handleClassChange = (event) => {
         setClassDropValue(event.target.value);
@@ -85,10 +56,9 @@ const AddSchedule = (props) => {
         }
     };
 
-    const handleAddSchedule = () => {
+    const handleUpdateSchedule = () => {
         let check = false;
         let img = false;
-        let classroom = false;
         if (!!allValuesSchedule.img) {
             let imgList = allValuesSchedule.img.name.split(".");
             if (
@@ -101,10 +71,9 @@ const AddSchedule = (props) => {
         }
         setScheduleError({
             img: img,
-            classroom: classroom,
         });
         if (!check) {
-            props.handleConfirmAddSchedule(allValuesSchedule);
+            props.handleConfirmUpdateSchedule(allValuesSchedule);
         }
     };
 
@@ -120,14 +89,17 @@ const AddSchedule = (props) => {
         }
     };
 
-    const clickSave = (e) => {
+    const clickUpdate = (e) => {
         e.preventDefault();
-        handleAddSchedule();
+        handleUpdateSchedule();
     };
 
     const FormSchedule = (
         <div class="form-admin-content">
-            <h2>Add schedule</h2>
+            <h2>
+                Update schedule of class {allValuesSchedule.classroom} -
+                {allValuesSchedule.grade}
+            </h2>
             <div className="avatar-teacher">
                 <img src={avatar} />
                 <label className="choose-file" htmlFor="upload-photo">
@@ -148,29 +120,22 @@ const AddSchedule = (props) => {
                     The selected file is not valid
                 </label>
             </div>
-            <h4>Class Name</h4>
-            <ClassDropDown
-                value={classDropValue}
-                options={classroom}
-                onChange={handleClassChange}
-                name="class"
-            />
         </div>
     );
 
-    const FormAddSchedule = (
+    const FormUpdateSchedule = (
         <div className="form-add-account">
             {FormSchedule}
             <button onClick={props.handleInputCustom} className="btn-cancel">
                 Cancel
             </button>
-            <button type="submit" onClick={clickSave} className="btn-ok">
-                Save
+            <button type="submit" onClick={clickUpdate} className="btn-ok">
+                Update
             </button>
         </div>
     );
 
-    return <div className="add-account-form">{FormAddSchedule}</div>;
+    return <div className="add-account-form">{FormUpdateSchedule}</div>;
 };
 
-export default AddSchedule;
+export default UpdateSchedule;
