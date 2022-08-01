@@ -3,15 +3,21 @@
 GET http://localhost:8000/api/teacher/score
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZWFjaGVySWQiOiI2MmM2OGFkNGJlZGU1MTA3NjMzODg4ZjYiLCJpYXQiOjE2NTc1OTIyMjR9.eZqEyxqr5k-WEm6_xd5jUdquV7czVEJ6y_Or1zcqUlE
 
+###
+// get Score by subject and student
+#GET http://localhost:8000/api/teacher/score/{{ subjectID }}&{{ studentID }}
+GET http://localhost:8000/api/teacher/score/get-by-subject-and-student/62e737ed9d99bc625a0bd83c&62e73c089d99bc625a0bdd75
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZWFjaGVySWQiOiI2MmU3MzRkNDlkOTliYzYyNWEwYmQ1ZmEiLCJpYXQiOjE2NTkzMjczMzl9.TOkMWsiLFC45M4g-ui4Achpj0eNcaIkZ0bvhGYwT1PU
 
 
 ###
 // create Score
 #POST http://localhost:8000/dashboard/teacher/score/{{ subjectID }}&{{ studentID }}
-POST http://localhost:8000/api/teacher/score/62e3436805cdd37818974354&62e343d605cdd378189743af
+POST http://localhost:8000/api/teacher/score/62e737ed9d99bc625a0bd83c&62e73c089d99bc625a0bdd75
 //POST http://localhost:8000/dashboard/teacher/score/62c699b4be8c86c9d3579870&62cbc71228ed8bda747c4445
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZWFjaGVySWQiOiI2MmUzNDRhM2Y3NWE4NjExZGFhY2MyZjgiLCJpYXQiOjE2NTkwNjI2OTF9.-dko0HCODL8LMBIACG6uwHAFnhRqMUcZIThYA_APb4c
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZWFjaGVySWQiOiI2MmU3MzRkNDlkOTliYzYyNWEwYmQ1ZmEiLCJpYXQiOjE2NTkzMjczMzl9.TOkMWsiLFC45M4g-ui4Achpj0eNcaIkZ0bvhGYwT1PU
 
 {
   "score_ratio1": [2, 6],
