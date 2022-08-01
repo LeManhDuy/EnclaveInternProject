@@ -79,3 +79,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZWFjaGVySWQiOiI2M
 ###
 GET http://localhost:8000/api/student/get-student-by-id/62cbc71228ed8bda747c4445
 Content-Type: application/json
+###
+# get student by parent id
+GET http://localhost:8000/api/student/get-student/62e7326d9d99bc625a0bd54c
+Content-Type: application/json
