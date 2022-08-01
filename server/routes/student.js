@@ -155,7 +155,7 @@ router.get("/get-all-student/", async (req, res) => {
   try {
     // Return token
     const allStudent = await Student.find({})
-      .populate("class_id", ["class_name", ["teacher_name"]])
+      .populate("class_id", ["class_name", ["teacher_name"], "grade_name"])
       .populate("parent_id", ["parent_name"])
       .populate("subjects", ["subject_name"])
       .populate("summary", ["summary_score", "summary_behavior"])
