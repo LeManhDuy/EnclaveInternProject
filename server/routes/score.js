@@ -144,7 +144,35 @@ router.post('/:subjectID&:studentID', verifyJWT, async (req, res) => {
         return res.status(500).json({success: false, message: '' + error})
     }
 })
-
+// @route GET api/teacher/score
+// @desc get score by id subject and student
+// @access Private
+router.get('/get-by-subject-and-student/:subjectID&:studentID', verifyJWT, async (req, res) => {
+    const {subjectID,studentID} = req.params
+    const subject = await Subject.findById(subjectID)
+    if (!subject)
+        return res.status(404).json({
+            success: false,
+            message: "Subject is not existing!"
+        })
+    const student = await Student.findById(studentID)
+    if (!student)
+        return res.status(404).json({
+            success: false,
+            message: "Student is not existing!"
+        })
+    try {
+        const score = await Score.findOne({subject_id:subjectID,student_id:studentID})
+        if (!score)
+            return res.status(404).json({
+                success: false,
+                message: "Score is not existing!"
+            })
+        res.json({success: true, score, subject:subject.subject_name, student:student.student_fullname})
+    } catch (e) {
+        return res.status(500).json({success: false, message: e})
+    }
+})
 // @route GET dashboard/teacher/score
 // @desc get score
 // @access Private
