@@ -194,7 +194,7 @@ router.get("/", verifyJWTandAdmin, async (req, res) => {
         res.json({ success: true, allSubjects })
     } catch (error) {
         return res.status(500).json({ success: false, message: "" + error })
-    } 
+    }
 })
 //get student by subject id
 router.get("/get-student-by-subject-id/:subjectID", async (req, res) => {
@@ -207,8 +207,10 @@ router.get("/get-student-by-subject-id/:subjectID", async (req, res) => {
         })
         const getStudentDontHaveSubject = await Student.find({
             class_id: arrClassID,
-            subjects: [],
-        }).select(["student_fullname"])
+            subjects: { $nin: [req.params.subjectID] }
+        })
+            .populate("class_id", ["class_name", ["teacher_name"], "grade_name"])
+            .select(["student_fullname"])
         res.json({ success: true, getStudentDontHaveSubject })
     } catch (error) {
         return res.status(500).json({ success: false, message: "" + error })
