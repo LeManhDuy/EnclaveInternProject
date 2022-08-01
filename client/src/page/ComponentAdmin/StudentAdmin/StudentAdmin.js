@@ -42,6 +42,7 @@ const StudentAdmin = () => {
                             parent: item.parent_id.parent_name,
                             class: item.class_id.class_name,
                             teacher: item.class_id.teacher_name,
+                            grade: item.class_id.grade_name,
                         };
                     }
                 );
@@ -57,7 +58,7 @@ const StudentAdmin = () => {
             <tr data-key={item.id} key={item.id}>
                 <td>{item.name}</td>
                 <td>{item.gender ? "Male" : "Female"}</td>
-                <td>{item.class}</td>
+                <td>{`${item.grade}-${item.class}`}</td>
                 <td>{item.parent}</td>
                 <td>{item.teacher}</td>
                 <td onClick={click}>
