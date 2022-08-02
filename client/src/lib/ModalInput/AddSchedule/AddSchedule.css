@@ -1,0 +1,23 @@
+@import "../../../assets/css/variables.css";
+@import "../../../assets/css/custom.css";
+.avatar-schedule {
+    display: inline-block;
+    text-align: center;
+}
+.avatar-schedule img {
+    height: auto;
+    width: 400px;
+    border-radius: 10px;
+    border: 2px solid var(--text-color);
+    margin: 10px;
+}
+.avatar-schedule label {
+    color: var(--body-bg);
+    width: 60%;
+    background-color: var(--primary-color);
+    padding: 5px;
+    border-radius: 5px;
+}
+.drop-down-schedule {
+    text-align: center;
+}
