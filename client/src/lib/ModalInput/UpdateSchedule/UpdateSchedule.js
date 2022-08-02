@@ -100,7 +100,7 @@ const UpdateSchedule = (props) => {
                 Update schedule of class {allValuesSchedule.classroom} -
                 {allValuesSchedule.grade}
             </h2>
-            <div className="avatar-teacher">
+            <div className="avatar-schedule">
                 <img src={avatar} />
                 <label className="choose-file" htmlFor="upload-photo">
                     Choose image
