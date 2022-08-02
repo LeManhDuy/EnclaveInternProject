@@ -241,7 +241,18 @@ function SubjectAdmin() {
     };
 
     const handleConfirmAddSubjectToStudent = (allStudent) => {
-        console.log(allStudent);
+        allStudent.map((item) => {
+            SubjectService.addSubjectToStudent(id, item).then((res) => {
+                if (res.success) {
+                    setErrorServer(false);
+                    setAddSubject(false);
+                } else {
+                    setErrorServer(true);
+                    setAddSubject(true);
+                }
+            });
+        });
+        setState(!state);
     };
 
     const DivAddSubject = (
@@ -279,6 +290,7 @@ function SubjectAdmin() {
             handleInputCustom={handleInputCustom}
             content={
                 <AddSubjectToStudent
+                    subjectID={id}
                     handleInputCustom={handleInputCustom}
                     handleConfirmAddSubjectToStudent={
                         handleConfirmAddSubjectToStudent

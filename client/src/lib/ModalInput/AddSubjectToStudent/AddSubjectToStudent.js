@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./AddSubjectToStudent.css";
 import StudentService from "../../../config/service/StudentService";
+import SubjectService from "../../../config/service/SubjectService";
 
 const AddSubjectToStudent = (props) => {
     const [student, setStudent] = useState([]);
@@ -11,9 +12,9 @@ const AddSubjectToStudent = (props) => {
     }, []);
 
     const getStudent = () => {
-        StudentService.getStudents()
+        SubjectService.getStudentBySubject(props.subjectID)
             .then((response) => {
-                const dataSources = response.StudentInformation.map(
+                const dataSources = response.getStudentDontHaveSubject.map(
                     (item, index) => {
                         return {
                             key: index + 1,
@@ -21,6 +22,7 @@ const AddSubjectToStudent = (props) => {
                             name: item.student_fullname,
                             class: item.class_id.class_name,
                             teacher: item.class_id.teacher_name,
+                            grade: item.class_id.grade_name,
                         };
                     }
                 );
@@ -37,6 +39,7 @@ const AddSubjectToStudent = (props) => {
                 <td>{item.name}</td>
                 <td>{item.teacher}</td>
                 <td>{item.class}</td>
+                <td>{item.grade}</td>
                 <td>
                     <input
                         type="checkbox"
@@ -54,6 +57,7 @@ const AddSubjectToStudent = (props) => {
                     <th>Name</th>
                     <th>Teacher</th>
                     <th>Class</th>
+                    <th>Grade</th>
                     <th>Action</th>
                 </tr>
             );
@@ -68,21 +72,10 @@ const AddSubjectToStudent = (props) => {
 
     const handleChange = (e) => {
         if (e.target.checked) {
-            console.log(e.target.value);
             listStudent.push(e.target.value);
-            // setListStudent((listStudent) => [...listStudent, e.target.value]);
         } else {
             listStudent.splice(listStudent.indexOf(e.target.value), 1);
-            // studentArray.splice(studentArray.indexOf(e.target.value), 1);
         }
-        console.log(listStudent);
-        // setListStudent(studentArray);
-        // if (e.currentTarget.checked) {
-        //     console.log(e.target.value);
-        //     setListStudent((listStudent) => [...listStudent, e.target.value]);
-        // } else {
-        //     setListStudent((listStudent) => [...listStudent, e.target.value]);
-        // }
     };
 
     const handleAddSubject = () => {
@@ -108,7 +101,7 @@ const AddSubjectToStudent = (props) => {
                 Cancel
             </button>
             <button type="submit" onClick={clickAdd} className="btn-ok">
-                Update
+                Save
             </button>
         </div>
     );
