@@ -40,7 +40,6 @@ PUT http://localhost:8000/dashboard/teacher/score/62ccdaeadbf65536c822a6a3
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZWFjaGVySWQiOiI2MmM2OGFkNGJlZGU1MTA3NjMzODg4ZjYiLCJpYXQiOjE2NTc1OTIyMjR9.eZqEyxqr5k-WEm6_xd5jUdquV7czVEJ6y_Or1zcqUlE
 
-
 {
   "score_ratio1": [7, 5],
   "score_ratio2": [9, 9],

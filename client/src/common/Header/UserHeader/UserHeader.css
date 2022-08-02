@@ -48,6 +48,8 @@
     width: 50px;
     border: 4px solid white;
     border-radius: 50%;
+    height: 50px;
+    object-fit: cover;
 }
 
 .user-header .avatar{

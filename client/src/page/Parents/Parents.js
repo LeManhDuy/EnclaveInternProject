@@ -1,212 +1,269 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./Parents.css";
 import Logo from "../../assets/image/Logo.png";
+import ParentsService from "../../config/service/ParentsService";
+import ModalCustom from "../../lib/ModalCustom/ModalCustom";
+import ConfirmAlert from "../../lib/ConfirmAlert/ConfirmAlert";
+import ModalInput from "../../lib/ModalInput/ModalInput";
+import FormAddProtector from "./FormAddProtector/FormAddProtector";
 
 const Parents = () => {
+  const { REACT_APP_API_ENDPOINT } = process.env;
+  const [parentsInfo, setParentsInfo] = useState({
+    parent_img: "",
+    parent_name: "",
+    parent_email: "",
+    parent_phone: "",
+    parent_job: "",
+    parent_dateofbirth: "",
+    parent_gender: "",
+    parent_address: "",
+  });
+  const [protectorInfo, setProtectorInfo] = useState([]);
+  const [id, setId] = useState(false);
+  const [isDelete, setIsDelete] = useState(false);
+  const [state, setState] = useState(false);
+  const [isCreate, setIsCreate] = useState(false);
+
+  useEffect(() => {
+    getInfoParents();
+    getProtectors();
+  }, [state]);
+
+  const getInfoParents = () => {
+    const response = ParentsService.getInfoParents();
+    let parentsImg = "";
+    if (!!response.parent.parent_img) {
+      parentsImg = `${REACT_APP_API_ENDPOINT}${response.parent.parent_img}`;
+    } else parentsImg = Logo;
+    setParentsInfo({
+      parent_img: parentsImg,
+      parent_name: response.parent.parent_name,
+      parent_email: response.parent.parent_email,
+      parent_phone: response.parent.parent_phone,
+      parent_job: response.parent.parent_job,
+      parent_dateofbirth: response.parent.parent_dateofbirth,
+      parent_gender: response.parent.parent_gender,
+      parent_address: response.parent.parent_address,
+    });
+  };
+
+  const getProtectors = () => {
+    ParentsService.getProtectorByParentsId(
+      ParentsService.getInfoParents().parent._id
+    )
+      .then((response) => {
+        const dataSources = response.protectors.map((item, index) => {
+          return {
+            key: index + 1,
+            id: item._id,
+            protector_name: item.protector_name,
+            protector_address: item.protector_address,
+            protector_phone: item.protector_phone,
+            protector_relationship: item.protector_relationship,
+          };
+        });
+        setProtectorInfo(dataSources);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const ParentsContent = ({ parentsInfo }) => (
+    <div className="parents-item">
+      <div className="image">
+        <img src={parentsInfo.parent_img} />
+        <div className="type parents-name">
+          <div className="text">
+            <h3>{parentsInfo.parent_name}</h3>
+          </div>
+        </div>
+      </div>
+      <div className="detail-info">
+        <div className="type parents-email">
+          {/* <i class="fa fa-solid fa-envelope"></i> */}
+          <div className="text">
+            <p>Email</p>
+            <p>{parentsInfo.parent_email}</p>
+          </div>
+        </div>
+        <div className="type parents-phone">
+          {/* <i className="fa fa-phone"></i> */}
+          <div className="text">
+            <p>Phone Number</p>
+            <p>{parentsInfo.parent_phone}</p>
+          </div>
+        </div>
+        <div className="type parents-dateOfBirth">
+          {/* <i class="fa fa-solid fa-cake-candles"></i> */}
+          <div className="text">
+            <p>Date of birth</p>
+            <p>
+              {new Date(parentsInfo.parent_dateofbirth).toLocaleDateString()}
+            </p>
+          </div>
+        </div>
+        <div className="type parent-job">
+          {/* <i className="fa fa-suitcase" aria-hidden="true"></i> */}
+          <div className="text">
+            <p>Job</p>
+            <p>{parentsInfo.parent_job}</p>
+          </div>
+        </div>
+        <div className="type parents-gender">
+          {/* <i class="fa fa-solid fa-mars-and-venus"></i> */}
+          <div className="text">
+            <p>Gender</p>
+            <p>{parentsInfo.parent_gender ? "Male" : "Female"}</p>
+          </div>
+        </div>
+        <div className="type parents-address">
+          {/* <i className="fa fa-solid fa-location-dot"></i> */}
+          <div className="text">
+            <p>Address</p>
+            <p>{parentsInfo.parent_address}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
+  const handleCloseModalCustom = () => {
+    setIsDelete(false);
+  };
+
+  const handleDelete = () => {
+    ParentsService.deleteProtectorByIdProtector(id)
+      .then((res) => {
+        if (res.success) {
+          setIsDelete(false);
+          setState(!state);
+        }
+      })
+      .catch((error) => console.log("error", error));
+  };
+
+  const ConfirmDelete = (
+    <ModalCustom
+      show={isDelete}
+      content={
+        <ConfirmAlert
+          handleCloseModalCustom={handleCloseModalCustom}
+          handleDelete={handleDelete}
+          title={`Do you want to delete?`}
+        />
+      }
+      handleCloseModalCustom={handleCloseModalCustom}
+    />
+  );
+
+  const onClickDeleteProtector = (e) => {
+    const id = e.target.parentElement.getAttribute("data-key");
+    setId(id);
+    setIsDelete(true);
+  };
+
+  const handleCreateProtector = () => {
+    setIsCreate(true);
+  };
+
+  const handleInputCustom = () => {
+    setIsCreate(false);
+  };
+
+  const handleConfirmAddProtector = (Values) => {
+    ParentsService.createProtectorByParentsId(
+      ParentsService.getInfoParents().parent._id,
+      {
+        protector_name: Values.protector_name,
+        protector_address: Values.protector_address,
+        protector_phone: Values.protector_phone,
+        protector_relationship: Values.protector_relationship,
+      }
+    )
+      .then((res) => {
+        if (res.success) {
+          setState(!state);
+          setIsCreate(false);
+        } else {
+          setIsCreate(true);
+        }
+      })
+      .catch((error) => console.log("error", error));
+  };
+
+  const DivAddProtector = (
+    <ModalInput
+      show={isCreate}
+      handleInputCustom={handleInputCustom}
+      content={
+        <FormAddProtector
+          handleInputCustom={handleInputCustom}
+          isCreate={isCreate}
+          handleConfirmAddProtector={handleConfirmAddProtector}
+        />
+      }
+    />
+  );
+
+  const ProtectorInfo = ({ protectorInfo }) =>
+    protectorInfo.map((item) => (
+      <div className="protector-item" key={item.key} data-key={item.id}>
+        <div className="detail-info">
+          <div className="type protector-name">
+            <i className="fas fa-child"></i>
+            <div className="text">
+              <p>Protector Name</p>
+              <p>{item.protector_name}</p>
+            </div>
+          </div>
+          <div className="type protector-relationship">
+            <i className="fa fa-suitcase" aria-hidden="true"></i>
+            <div className="text">
+              <p>Relationship</p>
+              <p>{item.protector_relationship}</p>
+            </div>
+          </div>
+          <div className="type protector-phone">
+            <i className="fa fa-phone"></i>
+            <div className="text">
+              <p>Phone Number</p>
+              <p>{item.protector_phone}</p>
+            </div>
+          </div>
+          <div className="type protector-address">
+            <i className="fa fa-solid fa-location-dot"></i>
+            <div className="text">
+              <p>Address</p>
+              <p>{item.protector_address}</p>
+            </div>
+          </div>
+        </div>
+        <button className="btn-cancel" onClick={onClickDeleteProtector}>
+          Delete
+        </button>
+      </div>
+    ));
+
   return (
     <div className="parents-info">
       <h3>PARENT INFORMATION</h3>
       <div className="parents-content">
-        <div className="parents-item">
-          <div className="image">
-            <img src={Logo} />
-          </div>
-          <div className="detail-info">
-            <div className="type parents-name">
-              <i className="fas fa-child"></i>
-              <div className="text">
-                <p>Parents Name</p>
-                <p>Le Ta Cao Nguyen</p>
-              </div>
-            </div>
-            <div className="type parents-dateOfBirth">
-            <i class="fa fa-solid fa-cake-candles"></i>
-              <div className="text">
-                <p>Date of birth</p>
-                <p>11/11/1111</p>
-              </div>
-            </div>
-            <div className="type parent-job">
-              <i className="fa fa-suitcase" aria-hidden="true"></i>
-              <div className="text">
-                <p>Job</p>
-                <p>Develope Engineer</p>
-              </div>
-            </div>
-            <div className="type parents-phone">
-              <i className="fa fa-phone"></i>
-              <div className="text">
-                <p>Phone Number</p>
-                <p>0362789340</p>
-              </div>
-            </div>
-            <div className="type parents-address">
-              <i className="fa fa-solid fa-location-dot"></i>
-              <div className="text">
-                <p>Address</p>
-                <p>54 Nguyen Luong bang</p>
-              </div>
-            </div>
-            <div className="type parents-email">
-            <i class="fa fa-solid fa-envelope"></i>
-              <div className="text">
-                <p>Email</p>
-                <p>parents@gmail.com</p>
-              </div>
-            </div>
-            <div className="type parents-gender">
-            <i class="fa fa-solid fa-mars-and-venus"></i>
-              <div className="text">
-                <p>Gender</p>
-                <p>Male</p>
-              </div>
-            </div>
-          </div>
+        <ParentsContent parentsInfo={parentsInfo} />
+        <h3>PROTECTOR INFORMATION</h3>
+        <div className="protectors">
+          <ProtectorInfo protectorInfo={protectorInfo} />
         </div>
-        <div className="protector-item">
-          <div className="image">
-            <img src={Logo} />
-          </div>
-          <div className="detail-info">
-            <div className="type protector-name">
-              <i className="fas fa-child"></i>
-              <div className="text">
-                <p>Parents Name</p>
-                <p>Le Ta Cao Nguyen</p>
-              </div>
-            </div>
-            <div className="type protector-relationship">
-              <i className="fa fa-suitcase" aria-hidden="true"></i>
-              <div className="text">
-                <p>Relationship</p>
-                <p>Mother</p>
-              </div>
-            </div>
-            <div className="type protector-phone">
-              <i className="fa fa-phone"></i>
-              <div className="text">
-                <p>Phone Number</p>
-                <p>0362789340</p>
-              </div>
-            </div>
-            <div className="type protector-address">
-              <i className="fa fa-solid fa-location-dot"></i>
-              <div className="text">
-                <p>Address</p>
-                <p>54 Nguyen Luong bang</p>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="protector-item">
-          <div className="image">
-            <img src={Logo} />
-          </div>
-          <div className="detail-info">
-            <div className="type protector-name">
-              <i className="fas fa-child"></i>
-              <div className="text">
-                <p>Parents Name</p>
-                <p>Le Ta Cao Nguyen</p>
-              </div>
-            </div>
-            <div className="type protector-relationship">
-              <i className="fa fa-suitcase" aria-hidden="true"></i>
-              <div className="text">
-                <p>Relationship</p>
-                <p>Mother</p>
-              </div>
-            </div>
-            <div className="type protector-phone">
-              <i className="fa fa-phone"></i>
-              <div className="text">
-                <p>Phone Number</p>
-                <p>0362789340</p>
-              </div>
-            </div>
-            <div className="type protector-address">
-              <i className="fa fa-solid fa-location-dot"></i>
-              <div className="text">
-                <p>Address</p>
-                <p>54 Nguyen Luong bang</p>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="protector-item">
-          <div className="image">
-            <img src={Logo} />
-          </div>
-          <div className="detail-info">
-            <div className="type protector-name">
-              <i className="fas fa-child"></i>
-              <div className="text">
-                <p>Parents Name</p>
-                <p>Le Ta Cao Nguyen</p>
-              </div>
-            </div>
-            <div className="type protector-relationship">
-              <i className="fa fa-suitcase" aria-hidden="true"></i>
-              <div className="text">
-                <p>Relationship</p>
-                <p>Mother</p>
-              </div>
-            </div>
-            <div className="type protector-phone">
-              <i className="fa fa-phone"></i>
-              <div className="text">
-                <p>Phone Number</p>
-                <p>0362789340</p>
-              </div>
-            </div>
-            <div className="type protector-address">
-              <i className="fa fa-solid fa-location-dot"></i>
-              <div className="text">
-                <p>Address</p>
-                <p>54 Nguyen Luong bang</p>
-              </div>
-            </div>
-          </div>
-        </div>
-        {/* <div class="right">
-          <div class="image">
-            <img src={Logo} />
-          </div>
-          <div class="detailinfor">
-            <div class="detailinfor1">
-              <i class="fas fa-child"></i>
-              <div class="text">
-                <h4>Mother's Name</h4>
-                <p>Nguyen Thien Trang</p>
-              </div>
-            </div>
-            <div class="detailinfor1">
-              <i class="fa fa-suitcase" aria-hidden="true"></i>
-              <div class="text">
-                <h4>Career</h4>
-                <p>Tailor</p>
-              </div>
-            </div>
-            <div class="detailinfor1">
-              <i class="fa fa-phone"></i>
-              <div class="text">
-                <h4>Phone Number</h4>
-                <p>0362789341</p>
-              </div>
-            </div>
-          </div>
-        </div> */}
       </div>
       <div class="btn">
-        <button class="btnAdd">
+        <button id="btnAdd" onClick={handleCreateProtector}>
           <i class="fa fa-plus" aria-hidden="true"></i>
           Add Protector
         </button>
       </div>
-      {/* <button class="btnChat">
-            <i class="fa fa-comments"></i>
-            
-        </button> */}
+      {isCreate ? DivAddProtector : null}
+      {isDelete ? ConfirmDelete : null}
     </div>
   );
 };

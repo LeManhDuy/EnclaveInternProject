@@ -309,6 +309,9 @@ const UpdateStudent = (props) => {
             dateOfBirth: allValuesStudent.dateOfBirth,
             gender: allValuesStudent.gender,
             img: e.target.files[0],
+            parent: allValuesStudent.parent,
+            grade: allValuesStudent.grade,
+            classroom: allValuesStudent.classroom
         });
         try {
             setAvatar(URL.createObjectURL(e.target.files[0]));

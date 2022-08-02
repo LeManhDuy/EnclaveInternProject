@@ -73,7 +73,7 @@ router.get("/get-schedule-by-class-id/:classID", async (req, res) => {
         // Return token
         const schedule = await Schedule.find({
             class: req.params.classID
-        })
+        }).select(["schedule_link"])
         res.status(200).json({
             success: true,
             schedulelink: schedule,
@@ -85,7 +85,7 @@ router.get("/get-schedule-by-class-id/:classID", async (req, res) => {
 // @route GET /api/schedule/get-schedule
 // @desc get schedule
 // @access Private
-router.get("", verifyJWTandAdmin, async (req, res) => {
+router.get("", async (req, res) => {
     try {
         // Return token
         const allSchedule = await Schedule.find()

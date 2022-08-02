@@ -57,7 +57,6 @@ const FormDetailClass = (props) => {
             protector_relationship: item.protector_relationship,
           };
         });
-        console.log(dataSources);
         setProtectorInfo(dataSources);
       })
       .catch((error) => {
@@ -66,11 +65,11 @@ const FormDetailClass = (props) => {
   };
 
   const StudentContent = ({ studentsInfo }) => (
-    <div className="student-info">
-      <img src={avatarStudent}></img>
+    <div className="student-information ">
+      <img src={avatarStudent}/>
       <div className="info-item">
         <label>Name</label>
-        <p>{studentsInfo.ParentName}</p>
+        <p>{studentsInfo.studentFullName}</p>
       </div>
       <div className="info-item">
         <label>Date of birth</label>
@@ -84,12 +83,12 @@ const FormDetailClass = (props) => {
   );
 
   const ParentsInfo = ({ studentsInfo }) => (
-    <div className="parents-info">
+    <div className="parents-information">
       <div className="info-left">
         <img src={avatarParents}></img>
         <div className="info-item">
           <label>Name</label>
-          <p>{studentsInfo.studentFullName}</p>
+          <p>{studentsInfo.ParentName}</p>
         </div>
       </div>
       <div className="info-right">
@@ -123,7 +122,7 @@ const FormDetailClass = (props) => {
 
   const ProtectorInfo = ({ protectorInfo }) =>
     protectorInfo.map((item) => (
-      <div className="protector-info" key={item.key}>
+      <div className="protector-information" key={item.key}>
         <div>
           <div className="info-item">
             <label>Name</label>

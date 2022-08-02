@@ -24,7 +24,7 @@ Content-Type: application/json
 //subjectID&&:studentID
 GET  http://localhost:8000/api/teacher/subjects/add-subjects-to-student/62e3436805cdd37818974354&62e343d605cdd378189743af
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbklkIjoiNjJkN2I4YWYyNmE1NTliZDhmOTRkNDA3IiwiaWF0IjoxNjU4ODE2ODc0fQ.Qo7_Z9Tc5Py6me16qa6g18DZeUhc2YHyfH12S6fLAJU
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbklkIjoiNjJkN2I4YWYyNmE1NTliZDhmOTRkNDA3IiwiaWF0IjoxNjU5MDAwOTU0fQ.kuJAxoRBOlZeOLQ4sI1UN64ZTLcqhQXElMlkGEvoibc
 
 
 ###
@@ -96,3 +96,8 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbklkIjoiNjJkN
 DELETE http://localhost:8000/api/subjects/62e210ed5cb4fc239eed778e
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbklkIjoiNjJkN2I4YWYyNmE1NTliZDhmOTRkNDA3IiwiaWF0IjoxNjU4NzE0MzIwfQ.q04B8wBPSj4JUz-0AfTt2bGoUhEJ8VO_9RZ_s7_Nhpc
+
+###
+GET http://localhost:8000/api/subjects/get-subject-from-student/62e0e9689fe1de43d8845ffd
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbklkIjoiNjJkN2I4YWYyNmE1NTliZDhmOTRkNDA3IiwiaWF0IjoxNjU4OTc1NTU0fQ.7Kx5HA7FFfc9Hci0r1CJ1TZOq_FyI6reteRT__UCqLE
