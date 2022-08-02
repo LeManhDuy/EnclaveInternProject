@@ -29,4 +29,4 @@ const scoreSchema = new Schema({
     }
 });
 
-module.exports = mongoose.model('score', scoreSchema)
+module.exports = mongoose.model('Score', scoreSchema)
