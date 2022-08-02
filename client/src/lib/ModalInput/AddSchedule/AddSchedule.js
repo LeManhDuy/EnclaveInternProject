@@ -131,7 +131,7 @@ const AddSchedule = (props) => {
     const FormSchedule = (
         <div class="form-admin-content">
             <h2>Add schedule</h2>
-            <div className="avatar-teacher">
+            <div className="avatar-schedule">
                 <img src={avatar} />
                 <label className="choose-file" htmlFor="upload-photo">
                     Choose image
@@ -152,12 +152,14 @@ const AddSchedule = (props) => {
                 </label>
             </div>
             <h4>Class Name</h4>
+            <div className="drop-down-schedule">
             <ClassDropDown
                 value={classDropValue}
                 options={classroom}
                 onChange={handleClassChange}
                 name="class"
             />
+            </div>
         </div>
     );
 
