@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./AddSchedule.css";
 import ClassService from "../../../config/service/ClassService";
+import ScheduleService from "../../../config/service/ScheduleService";
 import Logo from "../../../assets/image/Logo.png";
 
 const AddSchedule = (props) => {
@@ -22,16 +23,18 @@ const AddSchedule = (props) => {
     }, []);
 
     const getClass = () => {
-        ClassService.getClass()
+        ScheduleService.getClassNoSchedule()
             .then((response) => {
-                const dataSources = response.allClasses.map((item, index) => {
-                    return {
-                        key: index + 1,
-                        id: item._id,
-                        name: item.class_name,
-                        grade: item.grade_name,
-                    };
-                });
+                const dataSources = response.classInformation.map(
+                    (item, index) => {
+                        return {
+                            key: index + 1,
+                            id: item._id,
+                            name: item.class_name,
+                            grade: item.grade_id.grade_name,
+                        };
+                    }
+                );
                 setClassroom(dataSources);
             })
             .catch((error) => {
