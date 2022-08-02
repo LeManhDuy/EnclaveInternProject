@@ -173,6 +173,53 @@ router.get('/get-by-subject-and-student/:subjectID&:studentID', verifyJWT, async
         return res.status(500).json({success: false, message: e})
     }
 })
+// @route GET api/teacher/score
+// @desc get score by id student
+// @access Private
+router.get('/get-by-student/:studentID', async (req, res) => {
+    const {studentID} = req.params
+    const student = await Student.findById(studentID).populate('scores')
+    if (!student)
+        return res.status(404).json({
+            success: false,
+            message: "Student is not existing!"
+        })
+    if (!student.scores)
+        return res.status(404).json({
+            success: false,
+            message: "Student don't have any scores!"
+        })
+    try {
+        const scores = await Score.find({student_id:studentID})
+        if (!scores)
+            return res.status(404).json({
+                success: false,
+                message: "Score is not existing!"
+            })
+        let showScores = []
+        // let subject
+        try {
+            for (let score of scores) {
+                console.log({score: score})
+                const subject = await Subject.findById(score.subject_id).populate('score_id')
+                console.log(subject)
+                if (subject)
+                    showScores.push({subject: subject})
+            }
+        } catch (e) {
+            console.log({error :e})
+            return res.status(400).json({success: false, message: e})
+        }
+
+        res.json({
+            success: true, student:{
+                id: student._id, name: student.student_fullname
+            }, detail: showScores
+        })
+    } catch (e) {
+        return res.status(500).json({success: false, message: e})
+    }
+})
 // @route GET dashboard/teacher/score
 // @desc get score
 // @access Private
