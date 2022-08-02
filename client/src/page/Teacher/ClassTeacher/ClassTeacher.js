@@ -26,23 +26,26 @@ const ClassTeacher = () => {
       JSON.parse(localStorage.getItem("@Login")).teacher._id
     )
       .then((response) => {
-        setNameClass(response.classes.class_name)
-        const dataSources = response.studentInformation.map((item, index) => {
-          return {
-            key: index + 1,
-            id: item._id,
-            student_name: item.student_fullname,
-            student_date_of_birth: item.student_dateofbirth,
-            student_image: item.student_image,
-            parentsId: item.parent_id._id,
-            parent_name: item.parent_id.parent_name,
-            parent_address: item.parent_id.parent_address,
-            parent_phone: item.parent_id.parent_phone,
-          };
-        });
-        setStudents(dataSources);
+        if (response.success==false) setStudents([]);
+        else {
+          setNameClass(response.classes.class_name);
+          const dataSources = response.studentInformation.map((item, index) => {
+            return {
+              key: index + 1,
+              id: item._id,
+              student_name: item.student_fullname,
+              student_date_of_birth: item.student_dateofbirth,
+              student_image: item.student_image,
+              parentsId: item.parent_id._id,
+              parent_name: item.parent_id.parent_name,
+              parent_address: item.parent_id.parent_address,
+              parent_phone: item.parent_id.parent_phone,
+            };
+          });
+          setStudents(dataSources);
+        }
       })
-      .catch(error => console.log('error', error));
+      .catch((error) => console.log("error", error));
   };
 
   const handleCloseModalCustom = () => {
@@ -103,13 +106,13 @@ const ClassTeacher = () => {
       <header>
         <div className="title">
           <h4>{"List Student Of The Class " + nameClass}</h4>
-          <h4>{"Total: "+ students.length}</h4>
+          <h4>{"Total: " + students.length}</h4>
         </div>
       </header>
       <div className="table-content">
         <TableAccounts students={students} />
       </div>
-      {(isDetail)?DivDetailClass:null}
+      {isDetail ? DivDetailClass : null}
     </div>
   );
 };

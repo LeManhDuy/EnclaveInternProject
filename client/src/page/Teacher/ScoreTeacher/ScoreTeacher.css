@@ -2,6 +2,10 @@
     margin: 30px 40px;
 }
 
+.main-container-edit .table-content{
+    height: auto;
+}
+
 .header-content {
     display: flex;
     justify-content: space-between;
@@ -35,3 +39,23 @@
     display: flex;
     flex-direction: row-reverse;
 }
+
+.main-container-edit .title {
+    background-color: var(--primary-color);
+    display: inline-block;
+    color: #fff;
+    border-radius: 4px;
+    padding: 10px 20px;
+    width: 300px;
+    text-align: center;
+}
+
+.student-score-item{
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    border-radius: 8px;
+    padding: 20px;
+}
+
+.student-score-item .table-content #table .th-content input{
+    width: 200px;
+} 

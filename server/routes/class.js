@@ -386,20 +386,29 @@ router.get("/grade/:gradeId", verifyJWT, async (req, res) => {
 // @route GET api/teacher/class/teacher/{{ teacherId }}
 // @desc get class from teacher
 // @access Private
-router.get("/teacher/:teacherId", verifyJWT, async (req, res) => {
-    const { teacherId } = req.params;
+router.get("/teacher/:teacherId", verifyJWTAndTeacher, async (req, res) => {
+  const { teacherId } = req.params;
 
-    try {
-        const teacher = await Teacher.findById(teacherId).populate(
-            "teacher_class"
-        );
-        return res.json({
-            teacher_name: teacher.teacher_name,
-            classes: teacher.teacher_class,
-        });
-    } catch (e) {
-        return res.status(500).json({ success: false, message: e });
-    }
+  try {
+    const teacher = await Teacher.findById(teacherId).populate("teacher_class");
+
+    const arrStudentId = [];
+    teacher.teacher_class.students.map((item) => {
+      arrStudentId.push(item._id);
+    });
+    const getStudentById = await Student.find({ _id: arrStudentId })
+      .populate("parent_id", ["parent_name", "parent_phone", "parent_address"])
+      .select(["student_fullname", "student_dateofbirth", "student_image"]);
+
+
+    return res.json({
+      teacher_name: teacher.teacher_name,
+      classes: teacher.teacher_class,
+      studentInformation: getStudentById,
+    });
+  } catch (e) {
+    return res.status(500).json({ success: false, message: e });
+  }
 });
 
 // @route PUT api/teacher/class/{{ class_id }}

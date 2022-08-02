@@ -10,21 +10,22 @@
   overflow: auto;
 }
 
-.student-info{
+.student-information{
   margin: 20px;
 }
 
 .form-detail-class img{
   width: 150px;
   border-radius: 50%;
-  border: 4px solid var(--text-color)
+  border: 4px solid var(--text-color);
+  height: 150px;
 }
 
 .form-detail-class label{
   margin: 0;
 }
 
-.parents-info{
+.parents-information{
   display: flex;
   width: 100%;
   align-items: center;
@@ -32,7 +33,7 @@
   gap: 60px;
 }
 
-.parents-info .info-right{
+.parents-information .info-right{
   display: flex;
   align-items: flex-start;
   justify-content: center;
@@ -40,7 +41,7 @@
   text-align: left;
 }
 
-.protector-info{
+.protector-information{
   display: flex;
   align-items: flex-start;
   justify-content: center;

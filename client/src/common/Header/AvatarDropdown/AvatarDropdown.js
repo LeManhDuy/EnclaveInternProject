@@ -4,9 +4,9 @@ import "./AvatarDropdown.css";
 const AvatarDropdown = (props) => {
   return (
     <div className="dropdown-avatar">
-      <button onClick={null}>
+      {/* <button onClick={null}>
         <i class="fa-regular fa-id-badge"></i>Profile
-      </button>
+      </button> */}
       <button onClick={props.HandleLogout}>
         <i class="fa-solid fa-right-from-bracket"></i>
         Logout
