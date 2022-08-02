@@ -75,6 +75,11 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbklkIjoiNjJjN
 GET http://localhost:8000/api/subjects/get-subject-by-id/62e210ed5cb4fc239eed778e
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbklkIjoiNjJkN2I4YWYyNmE1NTliZDhmOTRkNDA3IiwiaWF0IjoxNjU4OTc1NTU0fQ.7Kx5HA7FFfc9Hci0r1CJ1TZOq_FyI6reteRT__UCqLE
+###
+//get student by subject id
+GET http://localhost:8000/api/subjects/get-student-by-subject-id/62e737ed9d99bc625a0bd83c
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbklkIjoiNjJkN2I4YWYyNmE1NTliZDhmOTRkNDA3IiwiaWF0IjoxNjU4OTc1NTU0fQ.7Kx5HA7FFfc9Hci0r1CJ1TZOq_FyI6reteRT__UCqLE
 
 ###
 // update

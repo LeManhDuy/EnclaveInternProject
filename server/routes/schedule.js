@@ -6,6 +6,7 @@ const verifyJWTandAdmin = require("../middleware/verifyJWTandAdmin");
 const Schedule = require("../model/Schedule");
 const Class = require("../model/Class");
 const multer = require("multer");
+const fs = require("fs");
 
 const storage = multer.diskStorage({
     destination: function (req, res, cb) {
@@ -15,7 +16,17 @@ const storage = multer.diskStorage({
         cb(null, Date.now() + file.originalname);
     },
 });
-const upload = multer({ storage: storage });
+
+const fileFilter = (req, file, cb) => {
+    // reject a file
+    if (file.mimetype === "image/jpeg" || file.mimetype === "image/png") {
+        cb(null, true);
+    } else {
+        cb(null, false);
+    }
+};
+
+const upload = multer({ storage: storage, fileFilter: fileFilter });
 // @route POST /api/schedule/create-schedule/{classId}
 // @desc create schedule by class id
 // @access Private
@@ -30,15 +41,17 @@ router.post(
             const scheduleValidate = await Schedule.findOne({ class: classId });
             const getClass = await Class.findById(classId);
             if (scheduleValidate) {
-                return res
-                    .status(400)
-                    .json({
-                        success: false,
-                        message: "Schedule already exists in this class!",
-                    });
+                return res.status(400).json({
+                    success: false,
+                    message: "Schedule already exists in this class!",
+                });
+            }
+            let schedule_link = null;
+            if (req.file) {
+                schedule_link = req.file.path;
             }
             const newSchedule = new Schedule({
-                schedule_link: req.file.path,
+                schedule_link,
                 class: classId,
             });
             await newSchedule.save();
@@ -55,7 +68,20 @@ router.post(
         }
     }
 );
-
+router.get("/get-schedule-by-class-id/:classID", async (req, res) => {
+    try {
+        // Return token
+        const schedule = await Schedule.find({
+            class: req.params.classID
+        })
+        res.status(200).json({
+            success: true,
+            schedulelink: schedule,
+        });
+    } catch (error) {
+        return res.status(500).json({ success: false, message: "" + error });
+    }
+});
 // @route GET /api/schedule/get-schedule
 // @desc get schedule
 // @access Private
@@ -63,11 +89,26 @@ router.get("", verifyJWTandAdmin, async (req, res) => {
     try {
         // Return token
         const allSchedule = await Schedule.find()
-            .populate("class", ["class_name"])
+            .populate("class", ["class_name", "grade_name"])
             .select("schedule_link");
         res.status(200).json({
             success: true,
             schedulelink: allSchedule,
+        });
+    } catch (error) {
+        return res.status(500).json({ success: false, message: "" + error });
+    }
+});
+
+router.get("/:scheduleID", verifyJWTandAdmin, async (req, res) => {
+    try {
+        // Return token
+        const allSchedule = await Schedule.findById(req.params.scheduleID)
+            .populate("class", ["class_name", "grade_name"])
+            .select("schedule_link");
+        res.status(200).json({
+            success: true,
+            schedule: allSchedule,
         });
     } catch (error) {
         return res.status(500).json({ success: false, message: "" + error });
@@ -82,10 +123,29 @@ router.put(
     verifyJWTandAdmin,
     upload.single("schedule_link"),
     async (req, res) => {
+        let schedule_link = null;
+        if (req.file) {
+            schedule_link = req.file.path;
+        }
         try {
             // Validate
+            const schedule = await Schedule.findById(req.params.scheduleId);
+            if (schedule.schedule_link) {
+                if (schedule_link === null) {
+                    schedule_link = schedule.schedule_link;
+                } else {
+                    fs.unlink("./" + schedule.schedule_link, (err) => {
+                        if (err)
+                            res.status(400).json({
+                                success: false,
+                                message: "Image error: " + err,
+                            });
+                        console.log("successfully deleted file");
+                    });
+                }
+            }
             let updateSchedule = {
-                schedule_link: req.file.path,
+                schedule_link,
             };
             const postUpdateCondition = { _id: req.params.scheduleId };
             updateSchedule = await Schedule.findOneAndUpdate(
@@ -115,6 +175,17 @@ router.put(
 // @access Private
 router.delete("/:scheduleId", verifyJWTandAdmin, async (req, res) => {
     try {
+        const schedule = await Schedule.findById(req.params.scheduleId);
+        if (schedule.schedule_link) {
+            fs.unlink("./" + schedule.schedule_link, (err) => {
+                if (err)
+                    res.status(400).json({
+                        success: false,
+                        message: "Image error: " + err,
+                    });
+                console.log("successfully deleted file");
+            });
+        }
         const postDeleteCondition = { _id: req.params.scheduleId };
         const scheduleDB = await Schedule.findById(postDeleteCondition._id);
         if (!scheduleDB) {

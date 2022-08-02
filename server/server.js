@@ -22,7 +22,7 @@ app.use("/uploads/parents", express.static("uploads/parents"));
 app.use("/uploads/teachers", express.static("uploads/teachers"));
 app.use("/uploads/protectors", express.static("uploads/protectors"));
 app.use("/uploads/students", express.static("uploads/students"));
-app.use("/uploads/schedule", express.static("uploads/schedules"));
+app.use("/uploads/schedules", express.static("uploads/schedules"));
 
 //database
 const connectDB = async () => {
