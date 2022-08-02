@@ -31,9 +31,22 @@ const updateSubject = async (id, params) => {
     return await HandleApi.APIPutWithToken(`subjects/${id}`, params);
 };
 
+const getStudentBySubject = async (id) => {
+    return await HandleApi.APIGetWithToken(
+        `subjects/get-student-by-subject-id/${id}`
+    );
+};
+
+const addSubjectToStudent = async (subjectID, studentID) => {
+    return await HandleApi.APIGetWithToken(
+        `teacher/subjects/add-subjects-to-student/${subjectID}&${studentID}`
+    );
+};
 const getSubjectByStudentId = async (id) => {
-    return await HandleApi.APIGetWithToken(`subjects/get-subject-from-student/${id}`)
-}
+    return await HandleApi.APIGetWithToken(
+        `subjects/get-subject-from-student/${id}`
+    );
+};
 
 const SubjectService = {
     getSubjects,
@@ -43,6 +56,8 @@ const SubjectService = {
     addSubject,
     getSubjectById,
     updateSubject,
+    getStudentBySubject,
+    addSubjectToStudent,
     getSubjectByStudentId,
 };
 

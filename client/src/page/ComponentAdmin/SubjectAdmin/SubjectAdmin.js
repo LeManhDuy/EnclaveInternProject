@@ -127,6 +127,7 @@ function SubjectAdmin() {
                 <td onClick={click}>
                     <i className="fa-regular fa-pen-to-square btn-edit"></i>
                     <i className="fa-regular fa-trash-can btn-delete"></i>
+                    <i className="fa-regular fa-address-book btn-add-subject"></i>
                 </td>
             </tr>
         ));
@@ -149,6 +150,9 @@ function SubjectAdmin() {
             } else if (e.target.className.includes("btn-edit")) {
                 //TODO edited
                 setUpdateState(true);
+                setId(id);
+            } else if (e.target.className.includes("btn-add-subject")) {
+                setAddSubject(true);
                 setId(id);
             }
         }
@@ -236,6 +240,21 @@ function SubjectAdmin() {
         });
     };
 
+    const handleConfirmAddSubjectToStudent = (allStudent) => {
+        allStudent.map((item) => {
+            SubjectService.addSubjectToStudent(id, item).then((res) => {
+                if (res.success) {
+                    setErrorServer(false);
+                    setAddSubject(false);
+                } else {
+                    setErrorServer(true);
+                    setAddSubject(true);
+                }
+            });
+        });
+        setState(!state);
+    };
+
     const DivAddSubject = (
         <ModalInput
             show={addState}
@@ -271,9 +290,11 @@ function SubjectAdmin() {
             handleInputCustom={handleInputCustom}
             content={
                 <AddSubjectToStudent
+                    subjectID={id}
                     handleInputCustom={handleInputCustom}
-                    // handleConfirmUpdateSubject={handleConfirmUpdateSubject}
-                    // errorServer={errorServer}
+                    handleConfirmAddSubjectToStudent={
+                        handleConfirmAddSubjectToStudent
+                    }
                 />
             }
         />
@@ -281,10 +302,6 @@ function SubjectAdmin() {
 
     const handleAddSubject = () => {
         setAddState(true);
-    };
-
-    const handleAddSubjectToStudent = () => {
-        setAddSubject(true);
     };
 
     return (
@@ -302,12 +319,6 @@ function SubjectAdmin() {
                 <div className="right-header">
                     <button className="btn-account" onClick={handleAddSubject}>
                         Add subject
-                    </button>
-                    <button
-                        className="btn-account"
-                        onClick={handleAddSubjectToStudent}
-                    >
-                        Add student to subject
                     </button>
                     <div className="search-box">
                         <button className="btn-search">

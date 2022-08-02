@@ -21,7 +21,15 @@ const getScheduleById = async (id) => {
 };
 
 const getScheduleByClassId = async (id) => {
-    return await HandleApi.APIGetWithToken(`schedule/get-schedule-by-class-id/${id}`);
+    return await HandleApi.APIGetWithToken(
+        `schedule/get-schedule-by-class-id/${id}`
+    );
+};
+
+const getClassNoSchedule = async () => {
+    return await HandleApi.APIPostWithToken(
+        "teacher/class/get-class-dont-have-schedule/"
+    );
 };
 
 const ScheduleService = {
@@ -30,7 +38,8 @@ const ScheduleService = {
     addSchedule,
     updateScheduleById,
     getScheduleById,
-    getScheduleByClassId
+    getScheduleByClassId,
+    getClassNoSchedule,
 };
 
 export default ScheduleService;
