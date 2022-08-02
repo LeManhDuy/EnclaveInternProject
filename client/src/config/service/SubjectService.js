@@ -42,6 +42,11 @@ const addSubjectToStudent = async (subjectID, studentID) => {
         `teacher/subjects/add-subjects-to-student/${subjectID}&${studentID}`
     );
 };
+const getSubjectByStudentId = async (id) => {
+    return await HandleApi.APIGetWithToken(
+        `subjects/get-subject-from-student/${id}`
+    );
+};
 
 const SubjectService = {
     getSubjects,
@@ -53,6 +58,7 @@ const SubjectService = {
     updateSubject,
     getStudentBySubject,
     addSubjectToStudent,
+    getSubjectByStudentId,
 };
 
 export default SubjectService;

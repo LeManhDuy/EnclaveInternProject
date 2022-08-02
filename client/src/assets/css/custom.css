@@ -97,6 +97,16 @@ input::placeholder {
   display: none;
 }
 
+.error-hidden {
+  display: none;
+  opacity: 0;
+}
+
+.error-show {
+  display: block;
+  opacity: 1;
+}
+
 button {
   outline: none;
   border: none;

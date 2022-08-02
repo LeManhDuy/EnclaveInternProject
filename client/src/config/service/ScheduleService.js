@@ -20,12 +20,17 @@ const getScheduleById = async (id) => {
     return await HandleApi.APIGetWithToken(`schedule/${id}`);
 };
 
+const getScheduleByClassId = async (id) => {
+    return await HandleApi.APIGetWithToken(`schedule/get-schedule-by-class-id/${id}`);
+};
+
 const ScheduleService = {
     getSchedules,
     deleteScheduleById,
     addSchedule,
     updateScheduleById,
     getScheduleById,
+    getScheduleByClassId
 };
 
 export default ScheduleService;

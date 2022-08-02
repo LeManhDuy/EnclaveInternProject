@@ -4,8 +4,7 @@ import AuthenticationService from "../../../config/service/AuthenticationService
 import ROUTES from "../../../constants/routes";
 import { Link } from "react-router-dom";
 import Logo from "../../../assets/image/Logo.png";
-import AvatarDropdown from "../AvatarDropdown/AvatarDropdown";
-
+import AvatarDropdown from '../AvatarDropdown/AvatarDropdown'
 function useOutsideAlerter(ref, handle) {
   useEffect(() => {
     /**
@@ -26,11 +25,26 @@ function useOutsideAlerter(ref, handle) {
 }
 
 function UserHeader() {
+  const { REACT_APP_API_ENDPOINT } = process.env;
+  const [avatar, setAvatar] = useState(Logo)
   const [open, setOpen] = useState(false);
   const wrapperRef = useRef(null);
   useOutsideAlerter(wrapperRef, () => {
     setOpen(false);
   });
+
+  useEffect(() =>{
+    if(AuthenticationService.isTeacher()){
+      if (!!JSON.parse(localStorage.getItem("@Login")).teacher.teacher_img) {
+        setAvatar(`${REACT_APP_API_ENDPOINT}${JSON.parse(localStorage.getItem("@Login")).teacher.teacher_img}`);
+      }
+    }
+    else if(AuthenticationService.isParents()){
+      if (!!JSON.parse(localStorage.getItem("@Login")).parent.parent_img) {
+        setAvatar(`${REACT_APP_API_ENDPOINT}${JSON.parse(localStorage.getItem("@Login")).parent.parent_img}`);
+      }
+    }
+  }, [])
   const optionsParents = [
     { key: 1, label: "Home", link: ROUTES.HOME_PAGE.HOME_PATH },
     {
@@ -151,7 +165,7 @@ function UserHeader() {
         <h6>{AuthenticationService.getData().role.toUpperCase()}</h6>
       </div>
       <div className="avatar" ref={wrapperRef}>
-        <img src={Logo} onClick={() => setOpen(!open)} />
+        <img src={avatar} onClick={() => setOpen(!open)} />
         {open ? <AvatarDropdown HandleLogout={HandleLogout} /> : null}
       </div>
     </div>

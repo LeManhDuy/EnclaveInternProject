@@ -4,6 +4,7 @@
 .dropdown-avatar{
     background: #fff;
     position: absolute;
+    z-index: 999;
     right: 0px;
     top: 55px;
     color: var(--text-color);
@@ -12,11 +13,13 @@
     border-radius: 10px;
     width: 200px;
     display: block;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
 
 .dropdown-avatar button {
     width: 100%;
     margin:0;
+    background-color: rgb(255, 255, 255);
 }
 
 .dropdown-avatar button .fa-solid, .fa-regular {

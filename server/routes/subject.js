@@ -269,7 +269,7 @@ router.get(
 // Get subject from student
 router.get(
     "/get-subject-from-student/:studentID",
-    verifyJWTandAdmin,
+    verifyJWTandTeacher,
     async (req, res) => {
         const { studentID } = req.params;
         try {
