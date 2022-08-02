@@ -176,7 +176,7 @@ router.get('/get-by-subject-and-student/:subjectID&:studentID', verifyJWT, async
 // @route GET api/teacher/score
 // @desc get score by id student
 // @access Private
-router.get('/get-by-student/:studentID', async (req, res) => {
+router.get('/get-by-student/:studentID', verifyJWT,async (req, res) => {
     const {studentID} = req.params
     const student = await Student.findById(studentID).populate('scores')
     if (!student)
