@@ -23,7 +23,6 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZWFjaGVySWQiOiI2M
 // create Score
 #POST http://localhost:8000/dashboard/teacher/score/{{ subjectID }}&{{ studentID }}
 POST http://localhost:8000/api/teacher/score/62e7380d9d99bc625a0bd88f&62e73c089d99bc625a0bdd75
-//POST http://localhost:8000/dashboard/teacher/score/62c699b4be8c86c9d3579870&62cbc71228ed8bda747c4445
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZWFjaGVySWQiOiI2MmU3MzRkNDlkOTliYzYyNWEwYmQ1ZmEiLCJpYXQiOjE2NTkzMjczMzl9.TOkMWsiLFC45M4g-ui4Achpj0eNcaIkZ0bvhGYwT1PU
 
