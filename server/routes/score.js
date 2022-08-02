@@ -178,22 +178,25 @@ router.get('/get-by-subject-and-student/:subjectID&:studentID', verifyJWT, async
 // @access Private
 router.get('/get-by-student/:studentID',async (req, res) => {
     const {studentID} = req.params
-    const student = await Student.findById(studentID).populate('scores')
+    const student = await Student.findById(studentID)
     if (!student)
         return res.status(404).json({
             success: false,
             message: "Student is not existing!"
         })
-    if (!student.scores)
-        return res.status(404).json({
-            success: false,
-            message: "Student don't have any scores!"
-        })
+
     try {
-        const subjects = await Subject.find({students:studentID}).populate('score_id')
+        const subjects = await Subject.find({students:studentID})
         let showScores = []
         try {
             for (let subject of subjects) {
+                for (let score of student.scores) {
+                    if (subject.score_id) {
+                        if (subject.score_id.toString() === score.toString()) {
+                            await subject.populate('score_id')
+                        }
+                    }
+                }
                 showScores.push({subject:subject})
             }
         } catch (e) {
