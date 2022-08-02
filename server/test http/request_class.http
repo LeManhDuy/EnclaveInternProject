@@ -81,3 +81,8 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbklkIjoiNjJkN
 // get student by class id
 GET http://localhost:8000/api/teacher/class/get-student/62e345c15e8db746fb2108db
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbklkIjoiNjJkN2I4YWYyNmE1NTliZDhmOTRkNDA3IiwiaWF0IjoxNjU4OTc4NjM5fQ.x2bzfYbnqizOlAeDTW_0x5bNOtBtxabFQNvhrb2-By8
+###
+// get class by schedule id
+POST http://localhost:8000/api/teacher/class/get-class-dont-have-schedule/
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbklkIjoiNjJkN2I4YWYyNmE1NTliZDhmOTRkNDA3IiwiaWF0IjoxNjU5NDExNjE5fQ.igclHcLxx4QMEXQDSBBlN6xPHdAXOG3ywdclLTvJ6QQ
