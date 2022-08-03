@@ -54,6 +54,7 @@
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
     border-radius: 8px;
     padding: 20px;
+    margin: 30px 0;
 }
 
 .student-score-item .table-content #table .th-content input{
