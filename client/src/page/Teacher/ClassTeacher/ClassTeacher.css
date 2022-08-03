@@ -24,3 +24,13 @@
     background-color: var(--text-color);
     color: var(--body-bg);
 }
+
+#btn-detail{
+    background-color: var(--primary-color);
+    color: #fff;
+    padding: 0 10px;
+}
+
+#btn-detail:hover{
+    background-color: var(--text-color);
+}

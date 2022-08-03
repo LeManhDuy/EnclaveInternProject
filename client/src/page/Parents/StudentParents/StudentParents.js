@@ -33,7 +33,9 @@ const StudentParents = () => {
             student_dateofbirth: new Date(item.student_dateofbirth).toLocaleDateString(),
             student_gender: item.student_gender,
             student_image: studentIMG,
-            class_id: item.class_id
+            class_id: item.class_id._id,
+            class_name: item.class_id.class_name,
+            grade_name: item.class_id.grade_name
           };
         });
       })
@@ -50,6 +52,8 @@ const StudentParents = () => {
             student_dateofbirth: new Date(item.student_dateofbirth).toLocaleDateString(),
             student_gender: item.student_gender,
             student_image: item.studentIMG,
+            class_name: item.class_name,
+            grade_name: item.grade_name,
             scheduleLink: (!!res.schedulelink[0])?`${REACT_APP_API_ENDPOINT}${res.schedulelink[0].schedule_link}`:NotFound
           }
           newData.push(object)
@@ -84,6 +88,13 @@ const StudentParents = () => {
             <div className="detail-item-content">
               <h4>Gender</h4>
               <p>{(item.student_gender)?"Male":"Female"}</p>
+            </div>
+          </div>
+          <div className="item-content">
+          <i class="fa fa-solid fa-people-roof"></i>
+            <div className="detail-item-content">
+              <h4>Class</h4>
+              <p>{`${item.grade_name}-${item.class_name}`}</p>
             </div>
           </div>
         </div>

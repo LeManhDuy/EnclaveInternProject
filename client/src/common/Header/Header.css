@@ -1,6 +1,16 @@
 @import "../../assets/css/variables.css";
 @import "../../assets/css/custom.css";
 
+/* header {
+    position: relative;
+}
+
+nav{
+    position: fixed;
+    z-index: 998;
+    right: 0;
+    left: 0;
+} */
 .nav-content {
     height: 70px;
     width: 100%;
