@@ -195,6 +195,8 @@ router.get('/get-by-student/:studentID',async (req, res) => {
                         if (subject.score_id.toString() === score.toString()) {
                             await subject.populate('score_id')
                         }
+                    } else {
+                        subject.score_id = null
                     }
                 }
                 showScores.push({subject:subject})
