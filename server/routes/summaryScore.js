@@ -10,18 +10,19 @@ router.get("/:studentID", async (req, res) => {
     try {
         const { studentID } = req.params;
         //student
-        const student = await Student.findById(studentID)
-            .populate("subjects", ["score_id"])
-            .populate("summary", ["summary_score", "summary_behavior"])
-            .select(["student_fullname"]);
+        const student = await Student.findById(studentID);
+        // .populate("scores");
+        // .populate("summary", ["summary_score", "summary_behavior"])
+        // .select(["student_fullname"]);
         if (!student)
             return res
                 .status(401)
                 .json({ success: false, message: "Student is not found!" });
         //score
+        console.log(student.scores);
         const arrScoreId = [];
-        student.subjects.map((item) => {
-            arrScoreId.push(item.score_id);
+        student.scores.map((item) => {
+            arrScoreId.push(item.toString());
         });
         const getScoreById = await Score.find({ _id: arrScoreId })
             .populate("subject_id", ["subject_name", "subject_ratio"])
