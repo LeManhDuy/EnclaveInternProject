@@ -119,7 +119,7 @@ router.post('/:teacher_id&:parent_id', async (req, res) => {
 // @route POST api/notification/
 // @desc create notification to class
 // @access Private
-router.post('/notification-to-class/:classID', async (req, res) => {
+router.post('/notification-to-class/:classID',verifyJWT, async (req, res) => {
     const {
         classID
     } = req.params
@@ -156,7 +156,7 @@ router.post('/notification-to-class/:classID', async (req, res) => {
         let newNotification
         let studentDB
         let parent
-        for (let student in classDB.students) {
+        for (let student of classDB.students) {
             studentDB = await Student.findById(student)
             parent = await Parent.findById(studentDB.parent_id)
             let date = now().toString()
