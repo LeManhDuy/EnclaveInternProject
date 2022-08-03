@@ -475,9 +475,16 @@ router.get("/get-student/:parentID", async (req, res) => {
 
   try {
     const parent = await Parents.findById(parentID).populate("children")
+    const arrStudentID = [];
+    parent.children.map((item) => {
+      arrStudentID.push(item._id);
+    });
+    const getStudent = await Student.find({
+      _id: arrStudentID,
+    }).populate("class_id", ["grade_name", "class_name"])
     return res.status(200).json({
       parent_name: parent.parent_name,
-      children: parent.children
+      children: getStudent
     })
   } catch (error) {
     return res.status(500).json({ success: false, message: "" + error })
