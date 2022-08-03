@@ -30,10 +30,10 @@ const subjectSchema = new Schema({
             ref: "Student",
         },
     ],
-    score_id: {
+    score_id: [{
         type: Schema.Types.ObjectId,
         ref: "Score",
-    },
+    }],
 });
 
 module.exports = mongoose.model("Subject", subjectSchema);
