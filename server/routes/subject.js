@@ -3,6 +3,7 @@ const router = express.Router();
 const Subjects = require("../model/Subject");
 const Grades = require("../model/Grade");
 const Student = require("../model/Student");
+const Score = require("../model/Student");
 const { ObjectId } = require("mongodb");
 const verifyJWTandTeacher = require("../middleware/verifyJWTandTeacher");
 const verifyJWTandAdmin = require("../middleware/verifyJWTandAdmin");
@@ -71,8 +72,6 @@ router.get(
             const grade = await Grades.findById(gradeID);
             const student = await Student.findById(studentID);
             var result = false;
-            console.log(subject.students);
-            console.log(studentID);
             subject.students.map((item) => {
                 if (studentID === item.toString()) {
                     result = true;
@@ -149,7 +148,6 @@ router.post("/create-subject/:gradeID", verifyJWTandAdmin, async (req, res) => {
         });
         let result = true;
         const gradeValidate = await Grades.findById(gradeID);
-        console.log(subject_name);
         gradeValidate.subjects_name.map((item) => {
             if (item === subject_name) result = false;
         });
@@ -236,7 +234,6 @@ router.get("/get-student-by-subject-id/:subjectID", async (req, res) => {
 // Get subjects from grade
 router.get("/:gradeID", verifyJWTandAdmin, async (req, res) => {
     const { gradeID } = req.params;
-
     try {
         const grade = await Grades.findById(gradeID).populate("subjects");
         return res
@@ -254,7 +251,6 @@ router.get(
     async (req, res) => {
         try {
             const subject = await Subjects.findById(req.params.subjectID);
-            console.log(subject);
             return res.status(200).json({
                 subject: subject,
             });
@@ -350,7 +346,6 @@ router.delete("/:id", verifyJWTandAdmin, async (req, res) => {
         //Delete the grade references
         const subject = await Subjects.findById(req.params.id);
         const grade = await Grades.findById(subject.grade_id.toString());
-
         //Delete ref in grade
         grade.subjects.remove(subject._id);
         grade.subjects_name.remove(subject.subject_name);
@@ -364,6 +359,17 @@ router.delete("/:id", verifyJWTandAdmin, async (req, res) => {
                 await student.save();
             }
         });
+        //Delete ref in score
+        if (subject.score_id) {
+            subject.score_id.map(async (item) => {
+                let score = await Score.findById(item.toString());
+                if (score) {
+                    score.subject_id = undefined
+                    score.save();
+                }
+            });
+        }
+
         const deletedSubject = await Subjects.findOneAndDelete(
             postDeleteCondition
         );

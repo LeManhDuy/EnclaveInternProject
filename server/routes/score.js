@@ -52,7 +52,7 @@ router.post('/:subjectID&:studentID', verifyJWT, async (req, res) => {
         })
     }
 
-    if (student.scores)
+    if (student.scores[0])
         for (let score_id of student.scores) {
             let score = await Score.findById(score_id)
             if (score) {
@@ -126,7 +126,7 @@ router.post('/:subjectID&:studentID', verifyJWT, async (req, res) => {
             subject_id: subject
         })
         await newScore.save()
-        subject.score_id = newScore._id
+        subject.scores.push(newScore._id)
         await subject.save()
         student.scores.push(newScore._id)
         await student.save()
@@ -185,24 +185,11 @@ router.get('/get-by-student/:studentID',async (req, res) => {
             message: "Student is not existing!"
         })
     try {
-        const subjects = await Subject.find({students:studentID})
+        const subjects = await Subject.find({students:studentID}).populate({path:'score_id',
+            match:{student_id: studentID}})
         let showScores = []
         try {
             for (let subject of subjects) {
-                if (student.scores[0]) {
-                    for (let score of student.scores) {
-                        if (subject.score_id) {
-                            if (subject.score_id.toString() === score.toString()) {
-                                await subject.populate('score_id')
-                            }
-                        } else {
-                            subject.score_id = null
-                        }
-                    }
-                }
-                else {
-                    subject.score_id = null
-                }
                 showScores.push({subject:subject})
             }
         } catch (e) {
@@ -416,7 +403,7 @@ router.delete('/:id', verifyJWT, async (req, res) => {
                         message: "Subject not found"
                     })
             }
-            subject.score_id = undefined
+            subject.score_id.remove(score._id)
             subject.save()
         }
 
