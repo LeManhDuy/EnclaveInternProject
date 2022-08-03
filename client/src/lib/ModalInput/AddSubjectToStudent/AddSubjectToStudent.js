@@ -41,7 +41,7 @@ const AddSubjectToStudent = (props) => {
                 <td>{item.class}</td>
                 <td>{item.grade}</td>
                 <td>
-                    <input
+                    <input 
                         type="checkbox"
                         value={item.id}
                         onChange={handleChange}
