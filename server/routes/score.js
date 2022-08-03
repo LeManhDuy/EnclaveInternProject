@@ -184,20 +184,24 @@ router.get('/get-by-student/:studentID',async (req, res) => {
             success: false,
             message: "Student is not existing!"
         })
-
     try {
         const subjects = await Subject.find({students:studentID})
         let showScores = []
         try {
             for (let subject of subjects) {
-                for (let score of student.scores) {
-                    if (subject.score_id) {
-                        if (subject.score_id.toString() === score.toString()) {
-                            await subject.populate('score_id')
+                if (student.scores[0]) {
+                    for (let score of student.scores) {
+                        if (subject.score_id) {
+                            if (subject.score_id.toString() === score.toString()) {
+                                await subject.populate('score_id')
+                            }
+                        } else {
+                            subject.score_id = null
                         }
-                    } else {
-                        subject.score_id = null
                     }
+                }
+                else {
+                    subject.score_id = null
                 }
                 showScores.push({subject:subject})
             }
