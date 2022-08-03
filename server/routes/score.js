@@ -66,7 +66,6 @@ router.post('/:subjectID&:studentID', verifyJWT, async (req, res) => {
         }
     let notHaveSubject = true
     for (let subject_id of student.subjects) {
-        console.log(subject_id.toString() === subjectID.toString())
         if (subject_id.toString() === subjectID.toString()) {
             notHaveSubject = false
             break
@@ -126,7 +125,7 @@ router.post('/:subjectID&:studentID', verifyJWT, async (req, res) => {
             subject_id: subject
         })
         await newScore.save()
-        subject.scores.push(newScore._id)
+        subject.score_id.push(newScore._id)
         await subject.save()
         student.scores.push(newScore._id)
         await student.save()

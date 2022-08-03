@@ -7,6 +7,8 @@ const verifyJWT = require('../../server/middleware/verifyJWTandTeacher')
 const verifyJWTParent = require('../../server/middleware/verifyJWTandParent')
 const Teacher = require('../model/Teacher')
 const Parent = require('../model/Parents')
+const Student = require('../model/Student')
+const Class = require('../model/Class')
 const PublicNotification = require("../model/PublicNotification")
 const PrivateNotification = require("../model/PrivateNotification")
 const {now} = require("mongoose");
@@ -108,6 +110,74 @@ router.post('/:teacher_id&:parent_id', async (req, res) => {
             date: newNotification.notification_date,
             teacher: teacher.teacher_name,
             parent: parent.parent_name
+        })
+    } catch (error) {
+        return res.status(500).json({success: false, message: '' + error})
+    }
+})
+
+// @route POST api/notification/
+// @desc create notification to class
+// @access Private
+router.post('/notification-to-class/:classID', async (req, res) => {
+    const {
+        classID
+    } = req.params
+    let {
+        title,
+        content,
+    } = req.body
+    const classDB = await Class.findById(classID)
+    //Validation
+    if (!classDB)
+        return res
+            .status(404)
+            .json({
+                success: false,
+                message: "Class is not existing!"
+            })
+    if (!title && !content)
+        return res
+            .status(400)
+            .json({
+                success: false,
+                message: 'Please fill in complete information'
+            })
+    try {
+        const teacher = await Teacher.findById(classDB.teacher_id)
+        if (!teacher) {
+            return res
+                .status(404)
+                .json({
+                    success: false,
+                    message: "Teacher is not existing!"
+                })
+        }
+        let newNotification
+        let studentDB
+        let parent
+        for (let student in classDB.students) {
+            studentDB = await Student.findById(student)
+            parent = await Parent.findById(studentDB.parent_id)
+            let date = now().toString()
+            newNotification = new PublicNotification({
+                notification_title: title,
+                notification_date: date,
+                notification_content: content,
+            })
+            await newNotification.save()
+            teacher.notifications.push(newNotification._id)
+            parent.notifications.push(newNotification._id)
+            await teacher.save()
+            await parent.save()
+        }
+        res.json({
+            success: true,
+            message: 'Create notification successfully',
+            type: "public",
+            title: newNotification.notification_title,
+            content: newNotification.notification_content,
+            date: newNotification.notification_date,
         })
     } catch (error) {
         return res.status(500).json({success: false, message: '' + error})
