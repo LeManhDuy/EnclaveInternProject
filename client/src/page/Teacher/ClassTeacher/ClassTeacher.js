@@ -66,7 +66,7 @@ const ClassTeacher = () => {
         <td>{item.parent_phone}</td>
         <td>{item.parent_address}</td>
         <td>
-          <button onClick={handleDetail}>Detail</button>
+          <button id="btn-detail" onClick={handleDetail}>Detail</button>
         </td>
       </tr>
     ));
@@ -75,10 +75,10 @@ const ClassTeacher = () => {
       <table id="table">
         <thead>
           <tr>
-            <th>Full name</th>
-            <th>Date of Birth</th>
-            <th>Parent name</th>
-            <th>Phone number</th>
+            <th>Full Name</th>
+            <th>Date Of Birth</th>
+            <th>Parent Name</th>
+            <th>Phone Number</th>
             <th>Address</th>
             <th>Action</th>
           </tr>

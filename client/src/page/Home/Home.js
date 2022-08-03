@@ -61,7 +61,7 @@ function Home() {
                 </small>
               </div>
             </div>
-            <p className="mb-0">{item.content}</p>
+            <p id="content-home-notification" className="mb-0">{item.content}</p>
           </div>
         </div>
       </div>

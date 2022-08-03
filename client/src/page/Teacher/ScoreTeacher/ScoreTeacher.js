@@ -2,51 +2,79 @@ import React, { useEffect, useState } from "react";
 import "./ScoreTeacher.css";
 import StudentService from "../../../config/service/StudentService";
 import SubjectService from "../../../config/service/SubjectService";
+import TeacherService from "../../../config/service/TeacherService";
 
 const ScoreTeacher = () => {
   const [students, setStudents] = useState([]);
   const [state, setState] = useState(false);
+  const [id, setId] = useState("")
 
   useEffect(() => {
-    getStudentByTeacherId();
-    getScoreOfSubject();
-  }, []);
+    getSubjectAndScoreByStudentId();
+    // getScoreOfSubject();
+  }, [state]);
 
-  const getStudentByTeacherId = () => {
-    StudentService.getStudentByTeacherId(
+  const getSubjectAndScoreByStudentId = async () => {
+    let dataSources = [];
+    await StudentService.getStudentByTeacherId(
       JSON.parse(localStorage.getItem("@Login")).teacher._id
     )
       .then((response) => {
-        var subjects=[]
-        const dataSources = response.studentInformation.map((item, index) => {
-          SubjectService.getSubjectByStudentId(item._id).then((res)=>{
-            subjects = res.subjects
-            console.log(res.subjects)
-          })
+        dataSources = response.studentInformation.map((item, index) => {
           return {
             key: index + 1,
             id: item._id,
             student_name: item.student_fullname,
-            subjects: subjects
           };
         });
-        console.log(dataSources);
         setStudents(dataSources);
       })
       .catch((error) => console.log("error", error));
+
+    let dataNew = [];
+    for (let item of dataSources) {
+      await TeacherService.getSubjectAndScoreByStudentId(item.id).then(
+        (res) => {
+          console.log(res)
+          // console.log(res.detail, item.id)
+          const detail = res.detail.map((item)=>{
+            return{
+              subject:{
+                grade_id: item.subject.grade_id,
+                grade_name: item.subject.grade_name,
+                subject_name: item.subject.subject_name,
+                subject_ratio: item.subject.subject_ratio,
+                __v: item.subject.__v,
+                _id: item.subject._id,
+                score_id:{
+                  score_average: (!!item.subject.score_id[0])?item.subject.score_id[0].score_average:"",
+                  score_ratio1: (!!item.subject.score_id[0])?item.subject.score_id[0].score_ratio1:[],
+                  score_ratio2: (!!item.subject.score_id[0])?item.subject.score_id[0].score_ratio2:[],
+                  score_ratio3: (!!item.subject.score_id[0])?item.subject.score_id[0].score_ratio3: "",
+                  _id: (!!item.subject.score_id[0])?item.subject.score_id[0]._id: "",
+
+                }
+              }
+            }
+          })
+          let subject = {
+            key: item.key,
+            id: item.id,
+            student_name: item.student_name,
+            detail: detail,
+          };
+          dataNew.push(subject);
+        }
+      );
+    }
+    console.log(dataNew);
+    setStudents(dataNew);
   };
 
-  const getScoreOfSubject = () => {
-    for(let id of students){
-      console.log(id)
-    }
-  }
-  return (
-    <div className="main-container-edit">
-      <h3 className="title">Manage Score</h3>
-      <hr />
-      <div className="student-score-item">
-        <h3>Full Name : Le Manh Duy</h3>
+  const TableAccounts = ({ students }) =>
+    students.map((item) => (
+      <div className="student-score-item" data-key={item.id} key={item.id}>
+        <h3>Full Name : {item.student_name}</h3>
         <div className="table-content">
           <table id="table">
             <thead>
@@ -60,29 +88,64 @@ const ScoreTeacher = () => {
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td className="th-content">Math</td>
-                <td className="th-content">
-                  <input type="text" min="0" max="10"></input>
-                </td>
-                <td className="th-content">
-                  <input type="text" min="0" max="10"></input>
-                </td>
-                <td className="th-content">
-                  <input
-                    type="text"
-                    min="0"
-                    max="10"
-                    value=""
-                    disabled={false}
-                  ></input>
-                </td>
-                <td className="th-content">9.8</td>
-                <td className="th-content">
-                  {/* <i className="fa-regular fa-add btn-edit"></i> */}
-                  <i className="fa-regular fa-pen-to-square btn-edit"></i>
-                </td>
-              </tr>
+              {!!item.detail
+                ? item.detail.map((item) => (
+                    <tr>
+                      <td className="th-content">
+                        {item.subject.subject_name}
+                      </td>
+                      <td className="th-content">
+                        <input
+                          type="text"
+                          min="0"
+                          max="10"
+                          value={
+                            !!item.subject.score_id.score_ratio1
+                              ? item.subject.score_id.score_ratio1
+                                  .toString()
+                                  .replace(",", "-")
+                              : ""
+                          }
+                        ></input>
+                      </td>
+                      <td className="th-content">
+                        <input
+                          type="text"
+                          min="0"
+                          max="10"
+                          value={
+                            !!item.subject.score_id.score_ratio2
+                              ? item.subject.score_id.score_ratio2
+                                  .toString()
+                                  .replace(",", "-")
+                              : ""
+                          }
+                        ></input>
+                      </td>
+                      <td className="th-content">
+                        <input
+                          type="text"
+                          min="0"
+                          max="10"
+                          value={
+                            !!item.subject.score_id.score_ratio3
+                              ? item.subject.score_id.score_ratio3
+                              : ""
+                          }
+                          disabled={false}
+                        ></input>
+                      </td>
+                      <td className="th-content">
+                        {!!item.subject.score_id.score_average
+                          ? item.subject.score_id.score_average
+                          : ""}
+                      </td>
+                      <td className="th-content">
+                        <i className="fa-regular fa-pen-to-square btn-edit"></i>
+                      </td>
+                    </tr>
+                  ))
+                : null}
             </tbody>
           </table>
         </div>
@@ -90,6 +153,13 @@ const ScoreTeacher = () => {
           <button className="btn-save">Save</button>
         </div>
       </div>
+    ));
+
+  return (
+    <div className="main-container-edit">
+      <h3 className="title">Manage Score</h3>
+      <hr />
+      <TableAccounts students={students} />
 
       {/* <div className="table-content-edit">
         <table id="table">

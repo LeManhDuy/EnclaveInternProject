@@ -19,6 +19,7 @@
   border-radius: 50%;
   border: 4px solid var(--text-color);
   height: 150px;
+  object-fit: cover;
 }
 
 .form-detail-class label{
