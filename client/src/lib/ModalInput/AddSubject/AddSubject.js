@@ -22,7 +22,7 @@ const AddSubject = (props) => {
     const GradeDropDown = ({ value, options, onChange }) => {
         return (
             <select
-                className="dropdown-class"
+                className="dropdown-class-teacher"
                 value={value}
                 onChange={onChange}
             >
