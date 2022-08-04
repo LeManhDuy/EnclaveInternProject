@@ -8,10 +8,12 @@
     "npm": "8.11.0"
   },
   "scripts": {
-    "start" : "node server.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "server": "nodemon server",
-    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix ./client && npm run build ./client"
+    "build": "cd client && npm run build",
+    "install-client": "cd client && npm install",
+    "heroku-postbuild": "npm run install-client && npm run build",
+    "start": "node server.js",
+    "server": "nodemon server"
   },
   "author": "",
   "license": "ISC",
