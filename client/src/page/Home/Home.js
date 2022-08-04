@@ -147,7 +147,7 @@ function Home() {
               <div class="col-md-4 my-3">
                 <div class="team-wrapper text-center">
                   <img src={chromebook} className="w-round-image" />
-                  <h5 class="my-3">1 Chromebook for every Middle Schooler</h5>
+                  <h5 class="my-3">1 Chromebook for every Primary Schooler</h5>
                 </div>
               </div>
               <div class="col-md-4 my-3">

@@ -25,7 +25,7 @@ const AddClass = (props) => {
     const TeacherDropDown = ({ value, options, onChange }) => {
         return (
             <select
-                className="dropdown-class"
+                className="dropdown-class-teacher"
                 value={value}
                 onChange={onChange}
             >
@@ -48,7 +48,7 @@ const AddClass = (props) => {
     const GradeDropDown = ({ value, options, onChange }) => {
         return (
             <select
-                className="dropdown-class"
+                className="dropdown-class-teacher"
                 value={value}
                 onChange={onChange}
             >
