@@ -324,6 +324,10 @@ router.put(
         classOld.students.remove(student._id.toString())
         classOld.save()
       }
+      parent.children.push(student)
+      parent.save()
+      classDB.students.push(student)
+      classDB.save()
       if (student.student_image) {
         if (student_image === null) {
           student_image = student.student_image
@@ -352,17 +356,9 @@ router.put(
       }
       updatedStudent = await Student.findOneAndUpdate(
         postUpdateCondition,
-        updateStudent,
+        updateStudent,       
         { new: true }
       )
-      parent.children.push(student)
-      parent.save()
-      classDB.students.push(student)
-      classDB.save()
-      if (!updateStudent)
-        return res
-          .status(401)
-          .json({ success: false, message: "Student is not found" })
       res.json({
         success: true,
         message: "Update succesfully!",
@@ -371,6 +367,10 @@ router.put(
         studentGender: updatedStudent.student_gender,
         studentImage: updatedStudent.student_image,
       })
+      if (!updateStudent)
+        return res
+          .status(401)
+          .json({ success: false, message: "Student is not found" })
     } catch (error) {
       return res.status(500).json({ success: false, message: "" + error })
     }
