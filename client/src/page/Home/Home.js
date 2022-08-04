@@ -133,7 +133,7 @@ function Home() {
               <div class="col-md-4 my-3">
                 <div class="team-wrapper text-center">
                   <img src={athletic} className="w-round-image" />
-                  <h5 class="my-3">85% athletic participation grades 6-8</h5>
+                  <h5 class="my-3">85% athletic participation grades 1-5</h5>
                 </div>
               </div>
               <div class="col-md-4 my-3">
