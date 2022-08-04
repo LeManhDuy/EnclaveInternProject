@@ -29,7 +29,7 @@ app.use("/uploads/schedules", express.static("uploads/schedules"))
 const connectDB = async () => {
     try {
         await mongoose.connect(
-            `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@enclave-project.cnfw0.mongodb.net/?retryWrites=true&w=majority`
+            process.env.DATABASE
         )
         console.log("MongoDB connected")
     } catch (error) {
@@ -41,7 +41,9 @@ connectDB()
 
 //cors
 app.use(cors())
-
+app.get("/", (req, res) => {
+    res.json("Server Started")
+})
 //url
 //admin
 app.use("/api/admin/teachers", adminTeachersRouter)
@@ -79,7 +81,7 @@ if (process.env.NODE_ENV === 'production') {
     app.get('*', (req, res) => {
         res.sendFile(path.resolve(__dirname, './client', 'build', 'index.html'))
     })
-} 
+}
 //port
-const PORT = 8000
+const PORT = process.env.PORT || 8000
 app.listen(PORT, () => console.log(`Server started ${PORT}`))
