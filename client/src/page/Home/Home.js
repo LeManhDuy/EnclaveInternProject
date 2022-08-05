@@ -120,7 +120,7 @@ function Home() {
                 <div className="team-wrapper text-center">
                   <img src={graduate} className="w-round-image" />
                   <h5 className="my-3">
-                    30 high schools currently enroll our graduates
+                    30 Primary schools currently enroll our graduates
                   </h5>
                 </div>
               </div>
