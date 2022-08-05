@@ -426,7 +426,7 @@ function AccountAdmin() {
                     <TableAccounts accounts={teacher} value={dropValue} />
                 )}
             </div>
-            <footer>
+            {/* <footer>
                 <hr></hr>
                 <div className="paging">
                     <button className="previous">
@@ -456,7 +456,7 @@ function AccountAdmin() {
                 {isDelete ? ConfirmDelete : null}
                 {addState ? DivAddAccount : null}
                 {updateState ? DivUpdateAccount : null}
-            </footer>
+            </footer> */}
         </div>
     );
 }

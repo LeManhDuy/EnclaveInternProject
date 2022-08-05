@@ -249,7 +249,7 @@ const StudentAdmin = () => {
                 <TableStudent students={student} />
             </div>
             <footer>
-                <hr></hr>
+                {/* <hr></hr>
                 <div className="paging">
                     <button className="previous">
                         <FontAwesomeIcon
@@ -274,7 +274,7 @@ const StudentAdmin = () => {
                             icon={faArrowRightLong}
                         />
                     </button>
-                </div>
+                </div> */}
                 {isDelete ? ConfirmDelete : null}
                 {addState ? DivAddGrade : null}
                 {updateState ? DivUpdateGrade : null}

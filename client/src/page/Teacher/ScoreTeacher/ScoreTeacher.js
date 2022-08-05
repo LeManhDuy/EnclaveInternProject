@@ -3,15 +3,21 @@ import "./ScoreTeacher.css";
 import StudentService from "../../../config/service/StudentService";
 import SubjectService from "../../../config/service/SubjectService";
 import TeacherService from "../../../config/service/TeacherService";
+import ModalInput from "../../../lib/ModalInput/ModalInput";
+import UpdateScoreTeacher from "./UpdateScoreTeacher/UpdateScoreTeacher";
 
 const ScoreTeacher = () => {
   const [students, setStudents] = useState([]);
   const [state, setState] = useState(false);
-  const [id, setId] = useState("")
+  const [id, setId] = useState("");
+  const [isUpdate, setIsUpdate] = useState(false);
+  const [student, setStudent] = useState({
+    idSubject: "",
+    student: null,
+  });
 
   useEffect(() => {
     getSubjectAndScoreByStudentId();
-    // getScoreOfSubject();
   }, [state]);
 
   const getSubjectAndScoreByStudentId = async () => {
@@ -33,35 +39,48 @@ const ScoreTeacher = () => {
 
     let dataNew = [];
     for (let item of dataSources) {
+      let summary = "";
+      await TeacherService.getSummaryByStudentId(item.id).then((res) => {
+        summary = res.summary;
+      });
       await TeacherService.getSubjectAndScoreByStudentId(item.id).then(
         (res) => {
-          console.log(res)
-          // console.log(res.detail, item.id)
-          const detail = res.detail.map((item)=>{
-            return{
-              subject:{
+          console.log(res);
+          const detail = res.detail.map((item) => {
+            return {
+              subject: {
                 grade_id: item.subject.grade_id,
                 grade_name: item.subject.grade_name,
                 subject_name: item.subject.subject_name,
                 subject_ratio: item.subject.subject_ratio,
                 __v: item.subject.__v,
                 _id: item.subject._id,
-                score_id:{
-                  score_average: (!!item.subject.score_id[0])?item.subject.score_id[0].score_average:"",
-                  score_ratio1: (!!item.subject.score_id[0])?item.subject.score_id[0].score_ratio1:[],
-                  score_ratio2: (!!item.subject.score_id[0])?item.subject.score_id[0].score_ratio2:[],
-                  score_ratio3: (!!item.subject.score_id[0])?item.subject.score_id[0].score_ratio3: "",
-                  _id: (!!item.subject.score_id[0])?item.subject.score_id[0]._id: "",
-
-                }
-              }
-            }
-          })
+                score_id: {
+                  score_average: !!item.subject.score_id[0]
+                    ? item.subject.score_id[0].score_average
+                    : "",
+                  score_ratio1: !!item.subject.score_id[0]
+                    ? item.subject.score_id[0].score_ratio1
+                    : [],
+                  score_ratio2: !!item.subject.score_id[0]
+                    ? item.subject.score_id[0].score_ratio2
+                    : [],
+                  score_ratio3: !!item.subject.score_id[0]
+                    ? item.subject.score_id[0].score_ratio3
+                    : "",
+                  _id: !!item.subject.score_id[0]
+                    ? item.subject.score_id[0]._id
+                    : "",
+                },
+              },
+            };
+          });
           let subject = {
             key: item.key,
             id: item.id,
             student_name: item.student_name,
             detail: detail,
+            summary: summary,
           };
           dataNew.push(subject);
         }
@@ -69,6 +88,28 @@ const ScoreTeacher = () => {
     }
     console.log(dataNew);
     setStudents(dataNew);
+  };
+
+  const HandleClickEdit = (e) => {
+    if (e.target.className.includes("btn-edit")) {
+      setIsUpdate(true);
+      const data = students.find((a) => {
+        return (
+          a.id ==
+          e.target.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.getAttribute(
+            "data-key"
+          )
+        );
+      });
+
+      console.log(data);
+
+      setStudent({
+        idSubject:
+          e.target.parentElement.parentElement.getAttribute("data-key-s"),
+        student: data,
+      });
+    }
   };
 
   const TableAccounts = ({ students }) =>
@@ -90,7 +131,7 @@ const ScoreTeacher = () => {
             <tbody>
               {!!item.detail
                 ? item.detail.map((item) => (
-                    <tr>
+                    <tr data-key-s={item.subject._id}>
                       <td className="th-content">
                         {item.subject.subject_name}
                       </td>
@@ -99,11 +140,12 @@ const ScoreTeacher = () => {
                           type="text"
                           min="0"
                           max="10"
+                          disabled={true}
                           value={
                             !!item.subject.score_id.score_ratio1
                               ? item.subject.score_id.score_ratio1
                                   .toString()
-                                  .replace(",", "-")
+                                  .replaceAll(",", "-")
                               : ""
                           }
                         ></input>
@@ -113,11 +155,12 @@ const ScoreTeacher = () => {
                           type="text"
                           min="0"
                           max="10"
+                          disabled={true}
                           value={
                             !!item.subject.score_id.score_ratio2
                               ? item.subject.score_id.score_ratio2
                                   .toString()
-                                  .replace(",", "-")
+                                  .replaceAll(",", "-")
                               : ""
                           }
                         ></input>
@@ -132,7 +175,7 @@ const ScoreTeacher = () => {
                               ? item.subject.score_id.score_ratio3
                               : ""
                           }
-                          disabled={false}
+                          disabled={true}
                         ></input>
                       </td>
                       <td className="th-content">
@@ -141,7 +184,10 @@ const ScoreTeacher = () => {
                           : ""}
                       </td>
                       <td className="th-content">
-                        <i className="fa-regular fa-pen-to-square btn-edit"></i>
+                        <i
+                          onClick={HandleClickEdit}
+                          className="fa-regular fa-pen-to-square btn-edit"
+                        ></i>
                       </td>
                     </tr>
                   ))
@@ -149,11 +195,90 @@ const ScoreTeacher = () => {
             </tbody>
           </table>
         </div>
-        <div className="btn-position">
-          <button className="btn-save">Save</button>
-        </div>
+        <div className="table-content-edit-teacher">
+            <table id="table">
+              <thead>
+                <tr>
+                  <th className="th-content">Average Score</th>
+                  <th className="th-content">Perfomance</th>
+                </tr>
+              </thead>
+              <tbody>
+                {!!item.summary ? (
+                  <tr>
+                    <td className="th-content">{item.summary.summary_score}</td>
+                    <td className="th-content">
+                      {item.summary.summary_behavior}
+                    </td>
+                  </tr>
+                ) : (
+                  <tr>
+                    <td className="th-content">-</td>
+                    <td className="th-content">-</td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </div>
       </div>
     ));
+
+  const handleInputCustom = () => {
+    setIsUpdate(false);
+  };
+
+  const handleConfirmUpdateScore = (score, ids, type) => {
+    console.log(score, type, ids);
+    if (type === "POST") {
+      TeacherService.addScoreBySubjectIdAndStudentId(
+        ids.idSubject,
+        ids.idStudent,
+        {
+          score_ratio1: score.score_ratio1.split("-"),
+          score_ratio2: score.score_ratio2.split("-"),
+          score_ratio3: score.score_ratio3,
+        }
+      ).then((res) => {
+        if (res.success) {
+          setState(!state);
+          setIsUpdate(false);
+        } else {
+          setIsUpdate(true);
+        }
+      });
+    }
+    else{
+      TeacherService.updateScoreByScoreId(
+        ids.idScore,
+        {
+          score_ratio1: score.score_ratio1.split("-"),
+          score_ratio2: score.score_ratio2.split("-"),
+          score_ratio3: score.score_ratio3,
+        }
+      ).then((res) => {
+        if (res.success) {
+          setState(!state);
+          setIsUpdate(false);
+        } else {
+          setIsUpdate(true);
+        }
+      });
+    }
+  };
+
+  const DivUpdateScoreTeacher = (
+    <ModalInput
+      show={isUpdate ? true : false}
+      handleInputCustom={handleInputCustom}
+      content={
+        <UpdateScoreTeacher
+          student={student}
+          handleInputCustom={handleInputCustom}
+          handleConfirmUpdateScore={handleConfirmUpdateScore}
+        />
+      }
+    />
+  );
 
   return (
     <div className="main-container-edit">
@@ -179,6 +304,7 @@ const ScoreTeacher = () => {
           </tbody>
         </table>
       </div> */}
+      {isUpdate || isUpdate ? DivUpdateScoreTeacher : null}
     </div>
   );
 };

@@ -42,10 +42,10 @@ router.get("/:studentID", async (req, res) => {
                 sum = sum + ratio;
             });
             let result = sum / totalSubject;
-            if (result >= 9) behavior = "Xuất sắc";
-            else if (result >= 8 && result < 9) behavior = "Giỏi";
-            else if (result >= 7 && result < 8) behavior = "Khá";
-            else if (result >= 6 && result < 7) behavior = "Trung Bình";
+            if (result >= 9) behavior = "A";
+            else if (result >= 8 && result < 9) behavior = "B";
+            else if (result >= 7 && result < 8) behavior = "C";
+            else if (result >= 6 && result < 7) behavior = "D";
             else behavior = "Yếu";
             const newSummary = new Summary({
                 summary_behavior: behavior,
@@ -73,10 +73,10 @@ router.get("/:studentID", async (req, res) => {
                 sum = sum + ratio;
             });
             let result = sum / totalSubject;
-            if (result >= 9) behavior = "Xuất sắc";
-            else if (result >= 8 && result < 9) behavior = "Giỏi";
-            else if (result >= 7 && result < 8) behavior = "Khá";
-            else if (result >= 6 && result < 7) behavior = "Trung Bình";
+            if (result >= 9) behavior = "A";
+            else if (result >= 8 && result < 9) behavior = "B";
+            else if (result >= 7 && result < 8) behavior = "C";
+            else if (result >= 6 && result < 7) behavior = "D";
             else behavior = "Yếu";
             const newSummary = new Summary({
                 summary_behavior: behavior,

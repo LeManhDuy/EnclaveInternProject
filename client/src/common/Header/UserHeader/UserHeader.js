@@ -121,6 +121,11 @@ function UserHeader() {
     },
     {
       key: 7,
+      label: "Student",
+      link: ROUTES.ADMIN_PAGE.STUDENT_ADMIN,
+    },
+    {
+      key: 8,
       label: "Schedule",
       link: ROUTES.ADMIN_PAGE.SCHEDULE_ADMIN,
     },

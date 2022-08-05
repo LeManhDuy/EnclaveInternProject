@@ -339,7 +339,7 @@ const ClassAdmin = () => {
             <div className="table-content">
                 <TableClasses classes={classroom} />
             </div>
-            <footer>
+            {/* <footer>
                 <hr></hr>
                 <div className="paging">
                     <button className="previous">
@@ -370,7 +370,7 @@ const ClassAdmin = () => {
                 {addState ? DivAddClass : null}
                 {updateState ? DivUpdateClass : null}
                 {viewState ? DivViewClass : null}
-            </footer>
+            </footer> */}
         </div>
     );
 };
