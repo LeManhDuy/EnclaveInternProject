@@ -213,7 +213,7 @@ const GradeAdmin = () => {
             <div className="table-content">
                 <TableGrades grades={grade} />
             </div>
-            <footer>
+            {/* <footer>
                 <hr></hr>
                 <div className="paging">
                     <button className="previous">
@@ -243,7 +243,7 @@ const GradeAdmin = () => {
                 {isDelete ? ConfirmDelete : null}
                 {addState ? DivAddGrade : null}
                 {updateState ? DivUpdateGrade : null}
-            </footer>
+            </footer> */}
         </div>
     );
 };

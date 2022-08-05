@@ -54,7 +54,7 @@ function Header() {
           <Link to="/">
             <div className="nav-logo">
               <img src={Logo}></img>
-              <h3>Blue Shool</h3>
+              <h3>Blue School</h3>
             </div>
           </Link>
 

@@ -234,7 +234,7 @@ const ScheduleAdmin = () => {
                 <TableSchedules schedule={schedules} />
             </div>
             <footer>
-                <hr></hr>
+                {/* <hr></hr>
                 <div className="paging">
                     <button className="previous">
                         <FontAwesomeIcon
@@ -259,7 +259,7 @@ const ScheduleAdmin = () => {
                             icon={faArrowRightLong}
                         />
                     </button>
-                </div>
+                </div> */}
                 {isDelete ? ConfirmDelete : null}
                 {addState ? DivAddSchedule : null}
                 {updateState ? DivUpdateSchedule : null}

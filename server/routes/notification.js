@@ -160,10 +160,12 @@ router.post('/notification-to-class/:classID',verifyJWT, async (req, res) => {
             studentDB = await Student.findById(student)
             parent = await Parent.findById(studentDB.parent_id)
             let date = now().toString()
-            newNotification = new PublicNotification({
+            newNotification = new PrivateNotification({
                 notification_title: title,
                 notification_date: date,
                 notification_content: content,
+                teacher: teacher.teacher_name,
+                parent: parent.parent_name
             })
             await newNotification.save()
             teacher.notifications.push(newNotification._id)
@@ -174,7 +176,7 @@ router.post('/notification-to-class/:classID',verifyJWT, async (req, res) => {
         res.json({
             success: true,
             message: 'Create notification successfully',
-            type: "public",
+            type: "private",
             title: newNotification.notification_title,
             content: newNotification.notification_content,
             date: newNotification.notification_date,

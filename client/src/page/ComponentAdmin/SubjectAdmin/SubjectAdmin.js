@@ -339,7 +339,7 @@ function SubjectAdmin() {
                 <TableSubjects subjects={subject} />
             </div>
             <footer>
-                <hr></hr>
+                {/* <hr></hr>
                 <div className="paging">
                     <button className="previous">
                         <FontAwesomeIcon
@@ -364,7 +364,7 @@ function SubjectAdmin() {
                             icon={faArrowRightLong}
                         />
                     </button>
-                </div>
+                </div> */}
                 {isDelete ? ConfirmDelete : null}
                 {addState ? DivAddSubject : null}
                 {updateState ? DivUpdateSubject : null}
