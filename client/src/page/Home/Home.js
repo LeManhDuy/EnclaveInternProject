@@ -82,7 +82,7 @@ function Home() {
           <div className="container">
             <div className="row align-items-center">
               <div className="col-md-6">
-                <h3 className="section-title">Why Blue School Testing?</h3>
+                <h3 className="section-title">Why Blue School?</h3>
                 <p className="mb-1 font-weight-bold">
                   "At Blue School, we believe the foundation for a life of
                   integrity, service, and purpose begins with smaller, everyday
