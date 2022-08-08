@@ -7,6 +7,7 @@ import HandleApi from "../api/HandleAPI"
 const postLogin = async (params) => {
   return await HandleApi.APIPost("authentication/login", params)
 }
+
 const saveDataLogin = (data) => {
   localStorage.setItem("@Login", JSON.stringify(data))
 }

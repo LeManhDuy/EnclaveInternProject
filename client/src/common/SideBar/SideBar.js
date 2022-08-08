@@ -13,10 +13,11 @@ import {
     faCalendarDays,
     faPeopleGroup,
 } from "@fortawesome/free-solid-svg-icons";
-import { Link } from "react-router-dom";
+import { Link, useHistory  } from "react-router-dom";
 import AuthenticationService from "../../config/service/AuthenticationService";
 
 function SideBar() {
+    let history = useHistory();
     const [fullName, setFullName] = useState("");
     useEffect(() => {
         getAdmin();
@@ -32,7 +33,7 @@ function SideBar() {
     const handleLogout = () => {
         if (AuthenticationService.isLogin()) {
             AuthenticationService.clearDataLogin();
-            window.location.reload(false);
+            history.push('/')
         }
     };
 

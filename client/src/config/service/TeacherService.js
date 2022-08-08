@@ -16,11 +16,16 @@ const getSummaryByStudentId = async (id) => {
   return await HandleApi.APIGetWithToken(`summary/${id}`)
 }
 
+const getTeacherByTeacherId = async (id) => {
+  return await HandleApi.APIGetPublic(`admin/teachers/${id}`)
+}
+
 const TeacherService = {
   getSubjectAndScoreByStudentId,
   addScoreBySubjectIdAndStudentId,
   updateScoreByScoreId,
-  getSummaryByStudentId
+  getSummaryByStudentId,
+  getTeacherByTeacherId
 
 };
 

@@ -13,6 +13,7 @@ import ModalInput from "../../../lib/ModalInput/ModalInput";
 import AddSubject from "../../../lib/ModalInput/AddSubject/AddSubject";
 import UpdateSubject from "../../../lib/ModalInput/UpdateSubject/UpdateSubject";
 import AddSubjectToStudent from "../../../lib/ModalInput/AddSubjectToStudent/AddSubjectToStudent";
+import Loading from "../../../lib/Loading/Loading";
 
 function SubjectAdmin() {
     const [subject, setSubject] = useState([]);
@@ -27,6 +28,7 @@ function SubjectAdmin() {
     const [updateState, setUpdateState] = useState(false);
     const [addSubject, setAddSubject] = useState(false);
     const [errorServer, setErrorServer] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
         getSubject();
@@ -66,6 +68,7 @@ function SubjectAdmin() {
     };
 
     const getSubject = () => {
+        setIsLoading(true)
         SubjectService.getSubjects()
             .then((response) => {
                 const dataSources = response.allSubjects.map((item, index) => {
@@ -78,6 +81,7 @@ function SubjectAdmin() {
                     };
                 });
                 setSubject(dataSources);
+                setIsLoading(false)
             })
             .catch((error) => {
                 console.log(error);
@@ -85,6 +89,7 @@ function SubjectAdmin() {
     };
 
     const getGrade = () => {
+        setIsLoading(true)
         SubjectService.getGrades()
             .then((response) => {
                 const dataSources = response.allGrades.map((item, index) => {
@@ -95,6 +100,7 @@ function SubjectAdmin() {
                     };
                 });
                 setGrade(dataSources);
+                setIsLoading(false)
             })
             .catch((error) => {
                 console.log(error);
@@ -102,6 +108,7 @@ function SubjectAdmin() {
     };
 
     const getSubjectById = (id) => {
+        setIsLoading(true)
         SubjectService.getSubjectsByGradeId(id)
             .then((response) => {
                 const dataSources = response.subjects.map((item, index) => {
@@ -114,6 +121,7 @@ function SubjectAdmin() {
                     };
                 });
                 setSubject(dataSources);
+                setIsLoading(false);
             })
             .catch((error) => {
                 console.log(error);
@@ -388,6 +396,7 @@ function SubjectAdmin() {
                 {updateState ? DivUpdateSubject : null}
                 {addSubject ? DivAddSubjectToStudent : null}
             </footer>
+            <Loading isLoading={isLoading}/>
         </div>
     );
 }

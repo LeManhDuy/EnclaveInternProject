@@ -13,6 +13,7 @@ import ConfirmAlert from "../../../lib/ConfirmAlert/ConfirmAlert";
 import ModalInput from "../../../lib/ModalInput/ModalInput";
 import AddStudent from "../../../lib/ModalInput/AddStudent/AddStudent";
 import UpdateStudent from "../../../lib/ModalInput/UpdateStudent/UpdateStudent";
+import Loading from "../../../lib/Loading/Loading";
 
 const StudentAdmin = () => {
     const [student, setStudent] = useState([]);
@@ -24,12 +25,14 @@ const StudentAdmin = () => {
     const [addState, setAddState] = useState(false);
     const [updateState, setUpdateState] = useState(false);
     const [errorServer, setErrorServer] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
         getStudent();
     }, [isChange]);
 
     const getStudent = () => {
+        setIsLoading(true)
         StudentService.getStudents()
             .then((response) => {
                 const dataSources = response.StudentInformation.map(
@@ -48,6 +51,7 @@ const StudentAdmin = () => {
                     }
                 );
                 setStudent(dataSources);
+                setIsLoading(false)
             })
             .catch((error) => {
                 console.log(error);
@@ -297,6 +301,7 @@ const StudentAdmin = () => {
                 {addState ? DivAddGrade : null}
                 {updateState ? DivUpdateGrade : null}
             </footer>
+            <Loading isLoading={isLoading}/>
         </div>
     );
 };

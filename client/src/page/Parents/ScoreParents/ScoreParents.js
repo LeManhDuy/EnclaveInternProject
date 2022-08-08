@@ -31,6 +31,7 @@ const ScoreParents = () => {
                         student_fullname: item.student_fullname,
                         class_name: item.class_id.class_name,
                         grade_name: item.class_id.grade_name,
+                        teacher_name: item.class_id.teacher_name
                     };
                 });
             })
@@ -82,6 +83,7 @@ const ScoreParents = () => {
                         grade_name: item.grade_name,
                         detail: detail,
                         summary: summary,
+                        teacher_name: item.teacher_name
                     };
                     dataNew.push(subject);
                 }
@@ -99,10 +101,16 @@ const ScoreParents = () => {
                             <h3>Full Name : {item.student_name}</h3>
                         </header>
                         <header className="header-content">
-                            <h3>
+                            <h5>
                                 Class :{" "}
                                 {`${item.grade_name}-${item.class_name}`}
-                            </h3>
+                            </h5>
+                        </header>
+                        <header className="header-content">
+                            <h5>
+                                Teacher's Name :{" "}
+                                {`${item.teacher_name}`}
+                            </h5>
                         </header>
                     </div>
                     <div className="table-content-edit">

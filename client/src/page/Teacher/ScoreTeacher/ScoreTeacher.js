@@ -45,7 +45,6 @@ const ScoreTeacher = () => {
             });
             await TeacherService.getSubjectAndScoreByStudentId(item.id).then(
                 (res) => {
-                    console.log(res);
                     const detail = res.detail.map((item) => {
                         return {
                             subject: {

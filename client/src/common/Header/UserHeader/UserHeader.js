@@ -2,10 +2,11 @@ import React, { useEffect, useRef, useState } from "react";
 import "./UserHeader.css";
 import AuthenticationService from "../../../config/service/AuthenticationService";
 import ROUTES from "../../../constants/routes";
-import { Link } from "react-router-dom";
+import { Link, useHistory  } from "react-router-dom";
 import Logo from "../../../assets/image/Logo.png";
 import AvatarDropdown from '../AvatarDropdown/AvatarDropdown'
 function useOutsideAlerter(ref, handle) {
+  
   useEffect(() => {
     /**
      * Alert if clicked on outside of element
@@ -25,6 +26,7 @@ function useOutsideAlerter(ref, handle) {
 }
 
 function UserHeader() {
+  let history = useHistory();
   const { REACT_APP_API_ENDPOINT } = process.env;
   const [avatar, setAvatar] = useState(Logo)
   const [open, setOpen] = useState(false);
@@ -145,7 +147,7 @@ function UserHeader() {
 
   const HandleLogout = () => {
     AuthenticationService.clearDataLogin();
-    window.location.reload(false);
+    history.push('/')
   };
 
   return (

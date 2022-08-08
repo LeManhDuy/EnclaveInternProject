@@ -84,6 +84,7 @@
     height: 350px;
     margin-right: 100px;
     clip-path: circle();
+    object-fit: cover;
 }
 
 .right-student-content i {
@@ -98,10 +99,12 @@
 }
 
 .right-student-content {
-    width: 45%;
+    width: 100%;
     height: auto;
-    display: inline-block;
+    display: flex;
     text-align: end;
+    justify-content:center;
+    gap: 60px;
 }
 
 .right-student-content h4 {

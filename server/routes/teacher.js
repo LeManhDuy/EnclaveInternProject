@@ -143,7 +143,7 @@ router.get("/get-teacher/", verifyJWTandAdmin, async (req, res) => {
     }
 });
 
-router.get("/:teacherID", verifyJWTandAdmin, async (req, res) => {
+router.get("/:teacherID", async (req, res) => {
     try {
         const teacher = await Teachers.findOne({ _id: req.params.teacherID });
         if (!teacher)

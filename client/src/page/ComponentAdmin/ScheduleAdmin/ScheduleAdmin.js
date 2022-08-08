@@ -13,6 +13,7 @@ import ConfirmAlert from "../../../lib/ConfirmAlert/ConfirmAlert";
 import ModalInput from "../../../lib/ModalInput/ModalInput";
 import AddSchedule from "../../../lib/ModalInput/AddSchedule/AddSchedule";
 import UpdateSchedule from "../../../lib/ModalInput/UpdateSchedule/UpdateSchedule";
+import Loading from "../../../lib/Loading/Loading";
 
 const ScheduleAdmin = () => {
     const { REACT_APP_API_ENDPOINT } = process.env;
@@ -24,12 +25,14 @@ const ScheduleAdmin = () => {
     const [addState, setAddState] = useState(false);
     const [updateState, setUpdateState] = useState(false);
     const [errorServer, setErrorServer] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
         getSchedule();
     }, []);
 
     const getSchedule = () => {
+        setIsLoading(true)
         ScheduleService.getSchedules()
             .then((res) => {
                 const dataSources = res.schedulelink.map((item, index) => {
@@ -42,6 +45,7 @@ const ScheduleAdmin = () => {
                     };
                 });
                 setSchedule(dataSources);
+                setIsLoading(false)
             })
             .catch((err) => {
                 console.log(err);
@@ -264,6 +268,7 @@ const ScheduleAdmin = () => {
                 {addState ? DivAddSchedule : null}
                 {updateState ? DivUpdateSchedule : null}
             </footer>
+            <Loading isLoading={isLoading}/>
         </div>
     );
 };
