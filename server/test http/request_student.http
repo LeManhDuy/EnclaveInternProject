@@ -81,5 +81,5 @@ GET http://localhost:8000/api/student/get-student-by-id/62cbc71228ed8bda747c4445
 Content-Type: application/json
 ###
 # get student by parent id
-GET http://localhost:8000/api/student/get-student/62e732229d99bc625a0bd535
+GET http://localhost:8000/api/student/get-student/62e7326d9d99bc625a0bd54c
 Content-Type: application/json

@@ -195,7 +195,7 @@ const GradeAdmin = () => {
                     <button className="btn-account" onClick={handleAddGrade}>
                         Add Grade
                     </button>
-                    <div className="search-box">
+                    {/* <div className="search-box">
                         <button className="btn-search">
                             <FontAwesomeIcon
                                 className="icon-search"
@@ -207,7 +207,7 @@ const GradeAdmin = () => {
                             type="text"
                             placeholder="Search..."
                         ></input>
-                    </div>
+                    </div> */}
                 </div>
             </header>
             <div className="table-content">

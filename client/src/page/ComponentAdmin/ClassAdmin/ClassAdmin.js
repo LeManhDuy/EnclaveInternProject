@@ -22,6 +22,7 @@ const ClassAdmin = () => {
     const [isDelete, setIsDelete] = useState(false);
     const [id, setId] = useState("");
     const [name, setName] = useState("");
+    const [keyword, setKeyword] = useState("");
     const [addState, setAddState] = useState(false);
     const [updateState, setUpdateState] = useState(false);
     const [viewState, setViewState] = useState(false);
@@ -176,6 +177,7 @@ const ClassAdmin = () => {
 
     const handleChange = (event) => {
         setDropValue(event.target.value);
+        setKeyword("");
         grade.map((item) => {
             if (event.target.value === item.name) {
                 getClassByGradeId(item.id);
@@ -237,6 +239,7 @@ const ClassAdmin = () => {
                     setState(!state);
                     setErrorServer(false);
                     setUpdateState(false);
+                    setKeyword("");
                 } else {
                     console.log(res);
                     setErrorServer(true);
@@ -251,6 +254,7 @@ const ClassAdmin = () => {
                     setState(!state);
                     setErrorServer(false);
                     setUpdateState(false);
+                    setKeyword("");
                 } else {
                     setErrorServer(true);
                     setUpdateState(true);
@@ -305,6 +309,20 @@ const ClassAdmin = () => {
         setAddState(true);
     };
 
+    const searchClass = (classroom) => {
+        if (dropValue === "All") {
+            return classroom.filter((classroom) =>
+                classroom.teacher.toLowerCase().includes(keyword.toLowerCase())
+            );
+        } else {
+            return classroom;
+        }
+    };
+
+    const handleChangeSearch = (e) => {
+        setKeyword(e.target.value);
+    };
+
     return (
         <div className="main-container">
             <header>
@@ -329,15 +347,17 @@ const ClassAdmin = () => {
                             />
                         </button>
                         <input
+                            onChange={handleChangeSearch}
                             className="input-search"
                             type="text"
                             placeholder="Search..."
+                            value={keyword}
                         ></input>
                     </div>
                 </div>
             </header>
             <div className="table-content">
-                <TableClasses classes={classroom} />
+                <TableClasses classes={searchClass(classroom)} />
             </div>
             {/* <footer>
                 <hr></hr>

@@ -20,6 +20,7 @@ const StudentAdmin = () => {
     const [isDelete, setIsDelete] = useState(false);
     const [name, setName] = useState("");
     const [id, setId] = useState("");
+    const [keyword, setKeyword] = useState("");
     const [addState, setAddState] = useState(false);
     const [updateState, setUpdateState] = useState(false);
     const [errorServer, setErrorServer] = useState(false);
@@ -154,6 +155,7 @@ const StudentAdmin = () => {
                 setIsChange(!isChange);
                 setErrorServer(false);
                 setAddState(false);
+                setKeyword("");
             } else {
                 console.log(res.message);
                 setAddState(true);
@@ -179,6 +181,7 @@ const StudentAdmin = () => {
                 setIsChange(!isChange);
                 setUpdateState(false);
                 setErrorServer(false);
+                setKeyword("");
             } else {
                 console.log(res.message);
                 setUpdateState(true);
@@ -220,6 +223,19 @@ const StudentAdmin = () => {
         setAddState(true);
     };
 
+    const searchStudent = (students) => {
+        return students.filter(
+            (student) =>
+                student.name.toLowerCase().includes(keyword.toLowerCase()) ||
+                student.teacher.toLowerCase().includes(keyword.toLowerCase()) ||
+                student.parent.toLowerCase().includes(keyword.toLowerCase())
+        );
+    };
+
+    const handleChangeSearch = (e) => {
+        setKeyword(e.target.value);
+    };
+
     return (
         <div className="main-container">
             <header>
@@ -238,15 +254,17 @@ const StudentAdmin = () => {
                             />
                         </button>
                         <input
+                            onChange={handleChangeSearch}
                             className="input-search"
                             type="text"
                             placeholder="Search..."
+                            value={keyword}
                         ></input>
                     </div>
                 </div>
             </header>
             <div className="table-content">
-                <TableStudent students={student} />
+                <TableStudent students={searchStudent(student)} />
             </div>
             <footer>
                 {/* <hr></hr>
