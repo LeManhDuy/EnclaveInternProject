@@ -46,7 +46,7 @@ router.get("/:studentID", async (req, res) => {
             else if (result >= 8 && result < 9) behavior = "B";
             else if (result >= 7 && result < 8) behavior = "C";
             else if (result >= 6 && result < 7) behavior = "D";
-            else behavior = "Yếu";
+            else behavior = "F";
             const newSummary = new Summary({
                 summary_behavior: behavior,
                 summary_score: result,
@@ -77,7 +77,7 @@ router.get("/:studentID", async (req, res) => {
             else if (result >= 8 && result < 9) behavior = "B";
             else if (result >= 7 && result < 8) behavior = "C";
             else if (result >= 6 && result < 7) behavior = "D";
-            else behavior = "Yếu";
+            else behavior = "F";
             const newSummary = new Summary({
                 summary_behavior: behavior,
                 summary_score: result,

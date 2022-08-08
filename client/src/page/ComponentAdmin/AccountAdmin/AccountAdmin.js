@@ -22,6 +22,7 @@ function AccountAdmin() {
     const [isDelete, setIsDelete] = useState(false);
     const [id, setId] = useState("");
     const [name, setName] = useState("");
+    const [keyword, setKeyword] = useState("");
     const [addState, setAddState] = useState(false);
     const [updateState, setUpdateState] = useState(false);
     const [errorServer, setErrorServer] = useState(false);
@@ -59,6 +60,7 @@ function AccountAdmin() {
 
     const handleChange = (event) => {
         setDropValue(event.target.value);
+        setKeyword("");
     };
 
     const getParents = () => {
@@ -387,6 +389,40 @@ function AccountAdmin() {
         setAddState(true);
     };
 
+    const searchAccount = (account) => {
+        if (dropValue === "admin") {
+            return account.filter(
+                (account) =>
+                    account.name
+                        .toLowerCase()
+                        .includes(keyword.toLowerCase()) ||
+                    account.email.toLowerCase().includes(keyword.toLowerCase())
+            );
+        } else if (dropValue === "parents") {
+            return account.filter(
+                (account) =>
+                    account.name
+                        .toLowerCase()
+                        .includes(keyword.toLowerCase()) ||
+                    account.email.toLowerCase().includes(keyword.toLowerCase())
+            );
+        } else if (dropValue === "teacher") {
+            return account.filter(
+                (account) =>
+                    account.name
+                        .toLowerCase()
+                        .includes(keyword.toLowerCase()) ||
+                    account.email.toLowerCase().includes(keyword.toLowerCase())
+            );
+        } else {
+            return account;
+        }
+    };
+
+    const handleChangeSearch = (e) => {
+        setKeyword(e.target.value);
+    };
+
     return (
         <div className="main-container">
             <header>
@@ -410,20 +446,31 @@ function AccountAdmin() {
                             />
                         </button>
                         <input
+                            onChange={handleChangeSearch}
                             className="input-search"
                             type="text"
                             placeholder="Search..."
+                            value={keyword}
                         ></input>
                     </div>
                 </div>
             </header>
             <div className="table-content">
                 {dropValue === "parents" ? (
-                    <TableAccounts accounts={parents} value={dropValue} />
+                    <TableAccounts
+                        accounts={searchAccount(parents)}
+                        value={dropValue}
+                    />
                 ) : dropValue === "admin" ? (
-                    <TableAccounts accounts={admin} value={dropValue} />
+                    <TableAccounts
+                        accounts={searchAccount(admin)}
+                        value={dropValue}
+                    />
                 ) : (
-                    <TableAccounts accounts={teacher} value={dropValue} />
+                    <TableAccounts
+                        accounts={searchAccount(teacher)}
+                        value={dropValue}
+                    />
                 )}
             </div>
             {/* <footer>

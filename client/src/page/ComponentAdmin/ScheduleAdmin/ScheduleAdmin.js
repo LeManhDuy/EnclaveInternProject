@@ -215,7 +215,7 @@ const ScheduleAdmin = () => {
                     <button className="btn-account" onClick={handleAddSchedule}>
                         Add schedule
                     </button>
-                    <div className="search-box">
+                    {/* <div className="search-box">
                         <button className="btn-search">
                             <FontAwesomeIcon
                                 className="icon-search"
@@ -227,7 +227,7 @@ const ScheduleAdmin = () => {
                             type="text"
                             placeholder="Search..."
                         ></input>
-                    </div>
+                    </div> */}
                 </div>
             </header>
             <div className="table-content">

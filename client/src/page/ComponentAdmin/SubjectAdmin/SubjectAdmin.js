@@ -22,6 +22,7 @@ function SubjectAdmin() {
     const [isDelete, setIsDelete] = useState(false);
     const [id, setId] = useState("");
     const [name, setName] = useState("");
+    const [keyword, setKeyword] = useState("");
     const [addState, setAddState] = useState(false);
     const [updateState, setUpdateState] = useState(false);
     const [addSubject, setAddSubject] = useState(false);
@@ -54,6 +55,7 @@ function SubjectAdmin() {
 
     const handleChange = (event) => {
         setDropValue(event.target.value);
+        setKeyword("");
         grade.map((item) => {
             if (event.target.value === item.name) {
                 getSubjectById(item.id);
@@ -304,6 +306,20 @@ function SubjectAdmin() {
         setAddState(true);
     };
 
+    const searchSubject = (subject) => {
+        if (dropValue === "all") {
+            return subject.filter((subject) =>
+                subject.name.toLowerCase().includes(keyword.toLowerCase())
+            );
+        } else {
+            return subject;
+        }
+    };
+
+    const handleChangeSearch = (e) => {
+        setKeyword(e.target.value);
+    };
+
     return (
         <div className="main-container">
             <header>
@@ -328,15 +344,17 @@ function SubjectAdmin() {
                             />
                         </button>
                         <input
+                            onChange={handleChangeSearch}
                             className="input-search"
                             type="text"
                             placeholder="Search..."
+                            value={keyword}
                         ></input>
                     </div>
                 </div>
             </header>
             <div className="table-content">
-                <TableSubjects subjects={subject} />
+                <TableSubjects subjects={searchSubject(subject)} />
             </div>
             <footer>
                 {/* <hr></hr>
