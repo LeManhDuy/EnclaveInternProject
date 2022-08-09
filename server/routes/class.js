@@ -1,7 +1,6 @@
 require("dotenv").config();
 const express = require("express");
 const router = express.Router();
-const { authTeacher } = require("../middleware/verifyRoles");
 const verifyJWT = require("../middleware/verifyJWTandAdmin");
 const verifyJWTAndTeacher = require("../middleware/verifyJWTandTeacher");
 const Class = require("../model/Class");
