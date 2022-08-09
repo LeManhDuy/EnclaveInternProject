@@ -86,7 +86,7 @@ function Home() {
                 <p className="mb-1 font-weight-bold">
                   "At Blue School, we believe the foundation for a life of
                   integrity, service, and purpose begins with smaller, everyday
-                  moments. We educate intentionally in each moment--a
+                  moments. We educate intentionally in each moment-a
                   thought-provoking conversation in language arts, a first try
                   at a new technique in art class, or a hard-fought game on the
                   athletic field. We cherish every opportunity for our students
@@ -120,7 +120,7 @@ function Home() {
                 <div className="team-wrapper text-center">
                   <img src={graduate} className="w-round-image" />
                   <h5 className="my-3">
-                    30 Primary schools currently enroll our graduates
+                    30 primary schools currently enroll our graduates
                   </h5>
                 </div>
               </div>
