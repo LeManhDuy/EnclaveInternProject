@@ -43,7 +43,7 @@ const StudentAdmin = () => {
                             name: item.student_fullname,
                             gender: item.student_gender,
                             image: item.student_image,
-                            parent: item.parent_id.parent_name,
+                            parent: item.parent_id ? item.parent_id.parent_name : "Don't have parents",
                             class: item.class_id.class_name,
                             teacher: item.class_id.teacher_name,
                             grade: item.class_id.grade_name,
@@ -301,7 +301,7 @@ const StudentAdmin = () => {
                 {addState ? DivAddGrade : null}
                 {updateState ? DivUpdateGrade : null}
             </footer>
-            <Loading isLoading={isLoading}/>
+            <Loading isLoading={isLoading} />
         </div>
     );
 };

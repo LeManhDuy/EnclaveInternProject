@@ -26,7 +26,7 @@ const FormAddNotification = (props) => {
           content: res.notifications.notification_content,
         });
       });
-    }else if(!props.isPublic && props.isUpdate){
+    } else if (!props.isPublic && props.isUpdate) {
       NotificationService.getNotificationsById(props.id).then((res) => {
         setPrivateNotification({
           title: res.notifications.notification_title,
@@ -46,9 +46,10 @@ const FormAddNotification = (props) => {
           return {
             key: index + 1,
             id: item._id,
-            parentId: item.parent_id._id,
-            parent_name: item.parent_id.parent_name,
-            parent_phone: item.parent_id.parent_phone,
+            name: item.student_fullname,
+            parentId: item.parent_id ? item.parent_id._id : undefined,
+            parent_name: item.parent_id ? item.parent_id.parent_name : "Don't have parents",
+            parent_phone: item.parent_id ? item.parent_id.parent_phone : "Don't have phone number",
           };
         });
         dataSources = dataSources.reduce((acc, current) => {
@@ -92,7 +93,7 @@ const FormAddNotification = (props) => {
 
   const AddPublicNotification = (
     <div className="add-public-notification">
-      {(props.errorService)?<p className="error">You have entered missing information</p>:null}
+      {(props.errorService) ? <p className="error">You have entered missing information</p> : null}
       {props.isPublic && props.isCreate ? (
         <h4>Add Public Notification</h4>
       ) : (
@@ -133,7 +134,7 @@ const FormAddNotification = (props) => {
         <select className="dropdown-account" value={value} onChange={onChange}>
           {options.map((option) => (
             <option key={option.key} value={option.parentId}>
-              {`${option.parent_name}-${option.parent_phone}`}
+              {`${option.name} - ${option.parent_name} - ${option.parent_phone}`}
             </option>
           ))}
         </select>
@@ -154,14 +155,14 @@ const FormAddNotification = (props) => {
 
   const AddPrivateNotification = (
     <div className="add-public-notification">
-      {(props.errorService||options.length==0)?<p className="error">You entered missing information or the parent does not exist</p>:null}
+      {(props.errorService || options.length == 0) ? <p className="error">You entered missing information or the parent does not exist</p> : null}
       {!props.isPublic && props.isCreate ? (
         <h4>Add Private Notification</h4>
       ) : (
         <h4>Update Private Notification</h4>
       )}
       <div className="content-formNotification">
-        {(props.isCreate)?<Dropdown options={options} value={dropValue} onChange={handleChange} />:null}
+        {(props.isCreate) ? <Dropdown options={options} value={dropValue} onChange={handleChange} /> : null}
         <input
           value={privateNotification.title}
           id="input-password-confirm"

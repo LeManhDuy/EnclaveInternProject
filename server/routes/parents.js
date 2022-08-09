@@ -282,6 +282,9 @@ router.delete("/:parentID", verifyJWTandAdmin, async (req, res) => {
             student.parent_id = undefined;
             await student.save();
         })
+        parent.protectors.map(async (item) => {
+            const protector = await Protectors.findByIdAndDelete(item);
+        })
         const deletedParent = await Parents.findOneAndDelete(
             postDeleteCondition
         );
