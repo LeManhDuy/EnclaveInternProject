@@ -34,9 +34,9 @@ Demo : https://blue-school.netlify.app/
     </tr>
     <tr>
         <td><img src="https://i.pinimg.com/originals/b6/80/1c/b6801c2ddd33ecb1c61fc15de8c70281.jpg" alt="drawing" width="250"/></td>
-        <td><img src="https://i.pinimg.com/564x/ac/9c/77/ac9c77be24dcb3b3e5a3df682ff320ca.jpg" alt="drawing" width="250"/></td>
-        <td><img src="https://i.pinimg.com/564x/b0/22/b2/b022b28376cb8210c5a14a6af80875e5.jpg" alt="drawing" width="250"/></td>
-        <td><img src="https://i.pinimg.com/564x/02/32/d5/0232d52cea01ca0f2f59f96566244fa1.jpg" alt="drawing" width="250"/></td>
+        <td><img src="https://i.pinimg.com/originals/84/f4/bb/84f4bb9464eeaabfaee26b7e2ecb936d.jpg" alt="drawing" width="250"/></td>
+        <td><img src="https://i.pinimg.com/originals/a2/20/09/a22009dd52612d0677bf2fd524bb1048.jpg" alt="drawing" width="250"/></td>
+        <td><img src="https://i.pinimg.com/originals/e1/5b/76/e15b766be194a73a5543b099a42d04e1.jpg" alt="drawing" width="250"/></td>
     </tr>
 </table>
 
@@ -48,10 +48,10 @@ Demo : https://blue-school.netlify.app/
         <td><b><p align="center">Notification Screen<p></b></td>
     </tr>
     <tr>
-        <td><img src="https://i.pinimg.com/564x/51/07/ef/5107efe35277159309788e1ff596a81c.jpg" alt="drawing" width="250"/></td>
-        <td><img src="https://i.pinimg.com/564x/00/06/1c/00061c52aa87577badaf08d7a863d1dd.jpg" alt="drawing" width="250"/></td>
-        <td><img src="https://i.pinimg.com/564x/a3/93/86/a393867b87eae3a15c83eff771c40964.jpg" alt="drawing" width="250"/></td>
-        <td><img src="https://i.pinimg.com/564x/33/c4/43/33c443e1880f6c78e7ccd98f4b5acb6f.jpg" alt="drawing" width="250"/></td>
+        <td><img src="https://i.pinimg.com/originals/f9/57/d2/f957d247722717802c2048f561982458.jpg" alt="drawing" width="250"/></td>
+        <td><img src="https://i.pinimg.com/originals/de/3b/fd/de3bfd60738556985df5ba60470f7b97.jpg" alt="drawing" width="250"/></td>
+        <td><img src="https://i.pinimg.com/originals/22/59/3c/22593ceca607b6c5e2fd40f2e618f66e.jpg" alt="drawing" width="250"/></td>
+        <td><img src="https://i.pinimg.com/originals/a2/74/12/a27412282d3f4f4894edc0e9e419417c.jpg" alt="drawing" width="250"/></td>
     </tr>
 </table>
 
