@@ -11,7 +11,8 @@ Teacher can see the class they teach and schedule. Also they can add score for s
 Demo : https://blue-school.netlify.app/
 
 ## How to run project
-1. Open project in VS Code. Then open terminal.
+1. Dowload NodeJS : https://nodejs.org/en/download/
+2. Open project in VS Code. Then open terminal.
 
 ### With client site :
 1. Type : cd client and press enter.
