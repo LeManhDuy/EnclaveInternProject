@@ -1,4 +1,4 @@
-# EnclaveInternProject
+# Enclave Intern Project
 ## Primary School Management
 
 This is an app that allows parents to observe their kids in the school. For example, they can get the score information, the class, the teacher, and more.
