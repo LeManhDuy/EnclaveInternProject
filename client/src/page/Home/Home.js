@@ -127,33 +127,33 @@ function Home() {
               <div class="col-md-4 my-3">
                 <div class="team-wrapper text-center">
                   <img src={recess} className="w-round-image" />
-                  <h5 class="my-3">100% of students have recess every day</h5>
+                  <h5 class="my-3">100% of students have recess every day.</h5>
                 </div>
               </div>
               <div class="col-md-4 my-3">
                 <div class="team-wrapper text-center">
                   <img src={athletic} className="w-round-image" />
-                  <h5 class="my-3">85% athletic participation grades 1-5</h5>
+                  <h5 class="my-3">85% athletic participation grades 1-5.</h5>
                 </div>
               </div>
               <div class="col-md-4 my-3">
                 <div class="team-wrapper text-center">
                   <img src={financial} className="w-round-image" />
                   <h5 class="my-3">
-                    22% of families receive financial assistance
+                    22% of families receive financial assistance.
                   </h5>
                 </div>
               </div>
               <div class="col-md-4 my-3">
                 <div class="team-wrapper text-center">
                   <img src={chromebook} className="w-round-image" />
-                  <h5 class="my-3">1 Chromebook for every Primary Schooler</h5>
+                  <h5 class="my-3">1 Chromebook for every Primary Schooler.</h5>
                 </div>
               </div>
               <div class="col-md-4 my-3">
                 <div class="team-wrapper text-center">
                   <img src={teams} className="w-round-image" />
-                  <h5 class="my-3">19 athletic teams</h5>
+                  <h5 class="my-3">19 athletic teams.</h5>
                 </div>
               </div>
             </div>
