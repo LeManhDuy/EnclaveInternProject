@@ -24,6 +24,38 @@ Demo : https://blue-school.netlify.app/
 2. Type : npm install and press enter.
 3. Type : npm run server.
 
+## Preview :
+<table>
+    <tr>
+        <td><b><p align="center">Login Screen<p></b></td>
+        <td><b><p align="center">Register Screen<p></b></td>
+        <td><b><p align="center">Main Screen<p></b></td>
+        <td><b><p align="center">Add Project Screen<p></b></td>
+    </tr>
+    <tr>
+        <td><img src="https://i.pinimg.com/736x/e2/f2/1e/e2f21e3824e44d57135ad636720bf565.jpg" alt="drawing" width="250"/></td>
+        <td><img src="https://i.pinimg.com/564x/ac/9c/77/ac9c77be24dcb3b3e5a3df682ff320ca.jpg" alt="drawing" width="250"/></td>
+        <td><img src="https://i.pinimg.com/564x/b0/22/b2/b022b28376cb8210c5a14a6af80875e5.jpg" alt="drawing" width="250"/></td>
+        <td><img src="https://i.pinimg.com/564x/02/32/d5/0232d52cea01ca0f2f59f96566244fa1.jpg" alt="drawing" width="250"/></td>
+    </tr>
+</table>
+
+<table>
+    <tr>
+        <td><b><p align="center">Task Screen<p></b></td>
+        <td><b><p align="center">Add Task Screen</b><p></td>
+        <td><b><p align="center">Archive Screen<p></b></td>
+        <td><b><p align="center">Trash Screen<p></b></td>
+    </tr>
+    <tr>
+        <td><img src="https://i.pinimg.com/564x/51/07/ef/5107efe35277159309788e1ff596a81c.jpg" alt="drawing" width="250"/></td>
+        <td><img src="https://i.pinimg.com/564x/00/06/1c/00061c52aa87577badaf08d7a863d1dd.jpg" alt="drawing" width="250"/></td>
+        <td><img src="https://i.pinimg.com/564x/a3/93/86/a393867b87eae3a15c83eff771c40964.jpg" alt="drawing" width="250"/></td>
+        <td><img src="https://i.pinimg.com/564x/33/c4/43/33c443e1880f6c78e7ccd98f4b5acb6f.jpg" alt="drawing" width="250"/></td>
+    </tr>
+</table>
+
+
 If you have any questions, feel free contact me at my email address : lemanhduy311111@gmail.com.
 
 Thank you for being here!
