@@ -74,7 +74,7 @@ function Home() {
         <header className="header">
           <div className="overlay">
             <img src={logo} className="logo" />
-            <h1 className="subtitle">Your Child's Potentital Is Our Passion</h1>
+            <h1 className="subtitle">Your Child's Potential Is Our Passion</h1>
           </div>
         </header>
 
@@ -90,9 +90,9 @@ function Home() {
                   thought-provoking conversation in language arts, a first try
                   at a new technique in art class, or a hard-fought game on the
                   athletic field. We cherish every opportunity for our students
-                  to demonstrate compassion, to solve problems with diligence
-                  and creativity, to learn through a lens of both faith and
-                  reason, and to build the confidence and skills that will
+                  to demonstrate compassion, solve problems with diligence
+                  and creativity, learn through a lens of both faith and
+                  reason, and build the confidence and skills that will
                   prepare them for all that life's journey holds. Our Blue
                   School community knows that every moment matters because it
                   all starts here."-Rick Grimes
@@ -120,7 +120,7 @@ function Home() {
                 <div className="team-wrapper text-center">
                   <img src={graduate} className="w-round-image" />
                   <h5 className="my-3">
-                    30 primary schools currently enroll our graduates
+                    99% of students graduated with excellent certifications.
                   </h5>
                 </div>
               </div>
