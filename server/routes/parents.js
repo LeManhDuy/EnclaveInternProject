@@ -6,6 +6,7 @@ const Teachers = require("../model/Teacher");
 const Admin = require("../model/Admin");
 const Parents = require("../model/Parents");
 const Protectors = require("../model/Protector");
+const Students = require("../model/Student");
 const verifyJWTandAdmin = require("../middleware/verifyJWTandAdmin");
 const multer = require("multer");
 const fs = require("fs");
@@ -276,6 +277,11 @@ router.delete("/:parentID", verifyJWTandAdmin, async (req, res) => {
         const postDeleteCondition = {
             _id: req.params.parentID,
         };
+        parent.children.map(async (item) => {
+            const student = await Students.findById(item);
+            student.parent_id = undefined;
+            await student.save();
+        })
         const deletedParent = await Parents.findOneAndDelete(
             postDeleteCondition
         );
