@@ -27,13 +27,13 @@ Demo : https://blue-school.netlify.app/
 ## Preview :
 <table>
     <tr>
+        <td><b><p align="center">Home Screen<p></b></td>
         <td><b><p align="center">Login Screen<p></b></td>
-        <td><b><p align="center">Register Screen<p></b></td>
-        <td><b><p align="center">Main Screen<p></b></td>
-        <td><b><p align="center">Add Project Screen<p></b></td>
+        <td><b><p align="center">Admin Screen<p></b></td>
+        <td><b><p align="center">CRUD Account<p></b></td>
     </tr>
     <tr>
-        <td><img src="https://i.pinimg.com/736x/e2/f2/1e/e2f21e3824e44d57135ad636720bf565.jpg" alt="drawing" width="250"/></td>
+        <td><img src="https://i.pinimg.com/originals/b6/80/1c/b6801c2ddd33ecb1c61fc15de8c70281.jpg" alt="drawing" width="250"/></td>
         <td><img src="https://i.pinimg.com/564x/ac/9c/77/ac9c77be24dcb3b3e5a3df682ff320ca.jpg" alt="drawing" width="250"/></td>
         <td><img src="https://i.pinimg.com/564x/b0/22/b2/b022b28376cb8210c5a14a6af80875e5.jpg" alt="drawing" width="250"/></td>
         <td><img src="https://i.pinimg.com/564x/02/32/d5/0232d52cea01ca0f2f59f96566244fa1.jpg" alt="drawing" width="250"/></td>
@@ -42,10 +42,10 @@ Demo : https://blue-school.netlify.app/
 
 <table>
     <tr>
-        <td><b><p align="center">Task Screen<p></b></td>
-        <td><b><p align="center">Add Task Screen</b><p></td>
-        <td><b><p align="center">Archive Screen<p></b></td>
-        <td><b><p align="center">Trash Screen<p></b></td>
+        <td><b><p align="center">Parent Screen<p></b></td>
+        <td><b><p align="center">Teacher Screen</b><p></td>
+        <td><b><p align="center">Score Information Screen<p></b></td>
+        <td><b><p align="center">Notification Screen<p></b></td>
     </tr>
     <tr>
         <td><img src="https://i.pinimg.com/564x/51/07/ef/5107efe35277159309788e1ff596a81c.jpg" alt="drawing" width="250"/></td>
