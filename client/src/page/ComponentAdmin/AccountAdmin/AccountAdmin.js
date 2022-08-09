@@ -139,7 +139,6 @@ function AccountAdmin() {
         <td onClick={click}>
           <i className="fa-regular fa-pen-to-square btn-edit"></i>
           <i className="fa-regular fa-trash-can btn-delete"></i>
-          <i className="fa-regular fa-eye btn-view"></i>
         </td>
       </tr>
     ));
@@ -156,8 +155,6 @@ function AccountAdmin() {
       } else if (e.target.className.includes("btn-edit")) {
         setUpdateState(true);
         setId(id);
-      } else if (e.target.className.includes("btn-view")) {
-        console.log("view");
       }
     }
 
