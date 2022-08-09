@@ -18,6 +18,7 @@ const UpdateScoreTeacher = (props) => {
     idStudent: "",
     idScore: "",
   });
+  const [subject, setSubject] = useState("")
 
   useEffect(() => {
     setInitValue();
@@ -31,6 +32,8 @@ const UpdateScoreTeacher = (props) => {
     const subject = props.student.student.detail.find((a) => {
       return a.subject._id == props.student.idSubject;
     });
+
+    setSubject(subject.subject.subject_name)
 
     score_ratio1 = subject.subject.score_id.score_ratio1
       .toString()
@@ -125,10 +128,10 @@ const UpdateScoreTeacher = (props) => {
 
   return (
     <div className="form-update-score">
-      <h1>Nguyen Thi Meo</h1>
+      <h1>{props.student.student.student_name}</h1>
       <div>
         <h6>Subject</h6>
-        <h3>English</h3>
+        <h3>{subject}</h3>
       </div>
       <div>
         <div>
