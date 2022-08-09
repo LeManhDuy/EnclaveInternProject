@@ -1,0 +1,38 @@
+//create grade
+//class 1 : 62c69e1ddb14d59b81b46a67
+//class 2 : 62c69e80db14d59b81b46a71
+//POST http://localhost:8000/api/schedule/create-schedule/{class-id}
+POST http://localhost:8000/api/schedule/62c69e1ddb14d59b81b46a67
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZWFjaGVySWQiOiI2MmM2OGFkNGJlZGU1MTA3NjMzODg4ZjYiLCJpYXQiOjE2NTcxODMxNTB9.zr4B2yhwd-rn2LKywhbrkx-xLL1gwWU8kI5z9PmfeP4
+
+{
+    "schedule_link": "schedule link 5"
+}
+###
+//get schedule
+GET http://localhost:8000/api/schedule
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZWFjaGVySWQiOiI2MmM2OGFkNGJlZGU1MTA3NjMzODg4ZjYiLCJpYXQiOjE2NTcxODMxNTB9.zr4B2yhwd-rn2LKywhbrkx-xLL1gwWU8kI5z9PmfeP4
+
+###
+//update schedule
+//PUT http://localhost:8000/api/schedule/update-schedule/{schedule_id}
+PUT http://localhost:8000/api/schedule/62c7e05ab088747ec0ea7466
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZWFjaGVySWQiOiI2MmM2OGFkNGJlZGU1MTA3NjMzODg4ZjYiLCJpYXQiOjE2NTcxODMxNTB9.zr4B2yhwd-rn2LKywhbrkx-xLL1gwWU8kI5z9PmfeP4
+
+{
+    "schedule_link": "schedule link 3 "
+}
+
+###
+//delete schedule
+//PUT http://localhost:8000/api/schedule/delete-schedule/{schedule_id}
+DELETE  http://localhost:8000/api/schedule/62c7e75b4af316c118956b31
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZWFjaGVySWQiOiI2MmM2OGFkNGJlZGU1MTA3NjMzODg4ZjYiLCJpYXQiOjE2NTcxODMxNTB9.zr4B2yhwd-rn2LKywhbrkx-xLL1gwWU8kI5z9PmfeP4
+
+###
+# get schedule by class id
+GET http://localhost:8000/api/schedule/get-schedule-by-class-id/62e736229d99bc625a0bd68b
+Content-Type: application/json
