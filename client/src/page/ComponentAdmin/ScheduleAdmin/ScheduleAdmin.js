@@ -16,7 +16,7 @@ import UpdateSchedule from "../../../lib/ModalInput/UpdateSchedule/UpdateSchedul
 import Loading from "../../../lib/Loading/Loading";
 
 const ScheduleAdmin = () => {
-    const { REACT_APP_API_ENDPOINT } = process.env;
+    const REACT_APP_API_ENDPOINT = "https://blue-school-project.herokuapp.com/";
     const [schedules, setSchedule] = useState([]);
     const [isChange, setIsChange] = useState(false);
     const [isDelete, setIsDelete] = useState(false);
@@ -32,7 +32,7 @@ const ScheduleAdmin = () => {
     }, []);
 
     const getSchedule = () => {
-        setIsLoading(true)
+        setIsLoading(true);
         ScheduleService.getSchedules()
             .then((res) => {
                 const dataSources = res.schedulelink.map((item, index) => {
@@ -45,7 +45,7 @@ const ScheduleAdmin = () => {
                     };
                 });
                 setSchedule(dataSources);
-                setIsLoading(false)
+                setIsLoading(false);
             })
             .catch((err) => {
                 console.log(err);
@@ -268,7 +268,7 @@ const ScheduleAdmin = () => {
                 {addState ? DivAddSchedule : null}
                 {updateState ? DivUpdateSchedule : null}
             </footer>
-            <Loading isLoading={isLoading}/>
+            <Loading isLoading={isLoading} />
         </div>
     );
 };

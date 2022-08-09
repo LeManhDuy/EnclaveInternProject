@@ -7,7 +7,7 @@ import StudentService from "../../../config/service/StudentService";
 
 const UpdateStudent = (props) => {
     let date = new Date().toLocaleDateString();
-    const { REACT_APP_API_ENDPOINT } = process.env;
+    const REACT_APP_API_ENDPOINT = "https://blue-school-project.herokuapp.com/";
     const [classroom, setClassroom] = useState([]);
     const [parent, setParent] = useState([]);
     const [teacher, setTeacher] = useState();
@@ -311,7 +311,7 @@ const UpdateStudent = (props) => {
             img: e.target.files[0],
             parent: allValuesStudent.parent,
             grade: allValuesStudent.grade,
-            classroom: allValuesStudent.classroom
+            classroom: allValuesStudent.classroom,
         });
         try {
             setAvatar(URL.createObjectURL(e.target.files[0]));

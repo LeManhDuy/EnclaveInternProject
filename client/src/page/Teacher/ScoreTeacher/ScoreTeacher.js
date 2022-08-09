@@ -5,12 +5,14 @@ import SubjectService from "../../../config/service/SubjectService";
 import TeacherService from "../../../config/service/TeacherService";
 import ModalInput from "../../../lib/ModalInput/ModalInput";
 import UpdateScoreTeacher from "./UpdateScoreTeacher/UpdateScoreTeacher";
+import Loading from "../../../lib/Loading/Loading";
 
 const ScoreTeacher = () => {
     const [students, setStudents] = useState([]);
     const [state, setState] = useState(false);
     const [id, setId] = useState("");
     const [isUpdate, setIsUpdate] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
     const [student, setStudent] = useState({
         idSubject: "",
         student: null,
@@ -22,6 +24,7 @@ const ScoreTeacher = () => {
 
     const getSubjectAndScoreByStudentId = async () => {
         let dataSources = [];
+        setIsLoading(true);
         await StudentService.getStudentByTeacherId(
             JSON.parse(localStorage.getItem("@Login")).teacher._id
         )
@@ -86,6 +89,7 @@ const ScoreTeacher = () => {
             );
         }
         setStudents(dataNew);
+        setIsLoading(false);
     };
 
     const HandleClickEdit = (e) => {
@@ -318,6 +322,7 @@ const ScoreTeacher = () => {
         </table>
       </div> */}
             {isUpdate || isUpdate ? DivUpdateScoreTeacher : null}
+            <Loading isLoading={isLoading} />
         </div>
     );
 };

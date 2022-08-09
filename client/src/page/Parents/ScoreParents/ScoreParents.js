@@ -9,10 +9,12 @@ import {
 import TeacherService from "../../../config/service/TeacherService";
 import StudentService from "../../../config/service/StudentService";
 import ParentsService from "../../../config/service/ParentsService";
+import Loading from "../../../lib/Loading/Loading";
 
 const ScoreParents = () => {
     const [students, setStudents] = useState([]);
     const [state, setState] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
         getSubjectAndScoreByStudentId();
@@ -20,6 +22,7 @@ const ScoreParents = () => {
 
     const getSubjectAndScoreByStudentId = async () => {
         let studentsInfo = [];
+        setIsLoading(true);
         await ParentsService.getStudentByParentsId(
             ParentsService.getInfoParents().parent._id
         )
@@ -31,7 +34,7 @@ const ScoreParents = () => {
                         student_fullname: item.student_fullname,
                         class_name: item.class_id.class_name,
                         grade_name: item.class_id.grade_name,
-                        teacher_name: item.class_id.teacher_name
+                        teacher_name: item.class_id.teacher_name,
                     };
                 });
             })
@@ -83,13 +86,14 @@ const ScoreParents = () => {
                         grade_name: item.grade_name,
                         detail: detail,
                         summary: summary,
-                        teacher_name: item.teacher_name
+                        teacher_name: item.teacher_name,
                     };
                     dataNew.push(subject);
                 }
             );
         }
         setStudents(dataNew);
+        setIsLoading(false);
     };
 
     const TableAccounts = ({ students }) =>
@@ -107,10 +111,7 @@ const ScoreParents = () => {
                             </h5>
                         </header>
                         <header className="header-content">
-                            <h5>
-                                Teacher's Name :{" "}
-                                {`${item.teacher_name}`}
-                            </h5>
+                            <h5>Teacher's Name : {`${item.teacher_name}`}</h5>
                         </header>
                     </div>
                     <div className="table-content-edit">
@@ -239,6 +240,7 @@ const ScoreParents = () => {
                 <h3>Student Score</h3>
             </div>
             <TableAccounts students={students} />
+            <Loading isLoading={isLoading} />
         </div>
     );
 };

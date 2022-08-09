@@ -1,25 +1,31 @@
-import React,{useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import Schedule from "../../../assets/image/schedule.jpg";
 import "./ScheduleTeacher.css";
 import ScheduleService from "../../../config/service/ScheduleService";
+import Loading from "../../../lib/Loading/Loading";
 
 const ScheduleTeacher = () => {
-    const [schedule, setSchedule] = useState(Schedule)
+    const [schedule, setSchedule] = useState(Schedule);
+    const [isLoading, setIsLoading] = useState(false);
+    const REACT_APP_API_ENDPOINT = "https://blue-school-project.herokuapp.com/";
 
-    useEffect(()=>{
+    useEffect(() => {
         getStudentByClassId();
-    },[])
+    }, []);
     const getStudentByClassId = () => {
-        const { REACT_APP_API_ENDPOINT } = process.env;
+        setIsLoading(true);
         ScheduleService.getScheduleByClassId(
-          JSON.parse(localStorage.getItem("@Login")).teacher.teacher_class
+            JSON.parse(localStorage.getItem("@Login")).teacher.teacher_class
         )
-          .then((response) => {
-            setSchedule(`${REACT_APP_API_ENDPOINT}${response.schedulelink[0].schedule_link}`)
+            .then((response) => {
+                setSchedule(
+                    `${REACT_APP_API_ENDPOINT}${response.schedulelink[0].schedule_link}`
+                );
+                setIsLoading(false);
             })
-          .catch((error) => console.log("error", error));
-      };
-    
+            .catch((error) => console.log("error", error));
+    };
+
     return (
         <div>
             <div className="title-schedule">
@@ -28,6 +34,7 @@ const ScheduleTeacher = () => {
             <div className="schedule">
                 <img src={schedule}></img>
             </div>
+            <Loading isLoading={isLoading} />
         </div>
     );
 };

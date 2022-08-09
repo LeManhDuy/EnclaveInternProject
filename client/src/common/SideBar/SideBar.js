@@ -13,11 +13,14 @@ import {
     faCalendarDays,
     faPeopleGroup,
 } from "@fortawesome/free-solid-svg-icons";
-import { Link, useHistory  } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import AuthenticationService from "../../config/service/AuthenticationService";
+import ModalCustom from "../../lib/ModalCustom/ModalCustom";
+import ConfirmAlert from "../../lib/ConfirmAlert/ConfirmAlert";
 
 function SideBar() {
     let history = useHistory();
+    const [isLogout, setIsLogout] = useState(false);
     const [fullName, setFullName] = useState("");
     useEffect(() => {
         getAdmin();
@@ -33,9 +36,31 @@ function SideBar() {
     const handleLogout = () => {
         if (AuthenticationService.isLogin()) {
             AuthenticationService.clearDataLogin();
-            history.push('/')
+            history.push("/");
         }
     };
+
+    const handleCloseModalCustom = () => {
+        setIsLogout(false);
+    };
+
+    const handleClickLogout = () => {
+        setIsLogout(true);
+    };
+
+    const DivConfirmLogout = (
+        <ModalCustom
+            show={isLogout}
+            content={
+                <ConfirmAlert
+                    handleCloseModalCustom={handleCloseModalCustom}
+                    handleDelete={handleLogout}
+                    title={"Do you want to logout? "}
+                />
+            }
+            handleCloseModalCustom={handleCloseModalCustom}
+        />
+    );
 
     return (
         <div>
@@ -252,7 +277,7 @@ function SideBar() {
                         <h5>{fullName}</h5>
                         <p>Admin</p>
                     </div>
-                    <button onClick={handleLogout} className="logout">
+                    <button onClick={handleClickLogout} className="logout">
                         <FontAwesomeIcon
                             className="icon"
                             icon={faRightFromBracket}
@@ -260,6 +285,7 @@ function SideBar() {
                     </button>
                 </div>
             </div>
+            {isLogout ? DivConfirmLogout : null}
         </div>
     );
 }
