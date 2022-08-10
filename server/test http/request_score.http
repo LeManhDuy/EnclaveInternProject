@@ -35,9 +35,9 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZWFjaGVySWQiOiI2M
 ###
 // update Score
 #PUT http://localhost:8000/dashboard/teacher/score/{{ score_id }}
-PUT http://localhost:8000/dashboard/teacher/score/62ccdaeadbf65536c822a6a3
+PUT http://localhost:8000/api/teacher/score/62ea347fa3bd14c87b1b40b8
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZWFjaGVySWQiOiI2MmM2OGFkNGJlZGU1MTA3NjMzODg4ZjYiLCJpYXQiOjE2NTc1OTIyMjR9.eZqEyxqr5k-WEm6_xd5jUdquV7czVEJ6y_Or1zcqUlE
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZWFjaGVySWQiOiI2MmU3MzRkNDlkOTliYzYyNWEwYmQ1ZmEiLCJpYXQiOjE2NjAwOTU3OTB9.wDgMfuDur1wnuZWH_VD4U4QvNhIR-kWif_Sox5rI-S4
 
 {
   "score_ratio1": [7, 5],

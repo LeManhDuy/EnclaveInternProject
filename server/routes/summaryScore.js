@@ -41,7 +41,7 @@ router.get("/:studentID", async (req, res) => {
                 var ratio = point * multiple;
                 sum = sum + ratio;
             });
-            let result = sum / totalSubject;
+            let result = (sum / totalSubject).toFixed(1);
             if (result >= 9) behavior = "A";
             else if (result >= 8 && result < 9) behavior = "B";
             else if (result >= 7 && result < 8) behavior = "C";

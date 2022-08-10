@@ -137,79 +137,79 @@ const ScoreTeacher = () => {
                         <tbody>
                             {!!item.detail
                                 ? item.detail.map((item) => (
-                                      <tr data-key-s={item.subject._id}>
-                                          <td className="th-content">
-                                              {item.subject.subject_name}
-                                          </td>
-                                          <td className="th-content">
-                                              <input
-                                                  type="text"
-                                                  min="0"
-                                                  max="10"
-                                                  disabled={true}
-                                                  value={
-                                                      !!item.subject.score_id
-                                                          .score_ratio1
-                                                          ? item.subject.score_id.score_ratio1
-                                                                .toString()
-                                                                .replaceAll(
-                                                                    ",",
-                                                                    "-"
-                                                                )
-                                                          : ""
-                                                  }
-                                              ></input>
-                                          </td>
-                                          <td className="th-content">
-                                              <input
-                                                  type="text"
-                                                  min="0"
-                                                  max="10"
-                                                  disabled={true}
-                                                  value={
-                                                      !!item.subject.score_id
-                                                          .score_ratio2
-                                                          ? item.subject.score_id.score_ratio2
-                                                                .toString()
-                                                                .replaceAll(
-                                                                    ",",
-                                                                    "-"
-                                                                )
-                                                          : ""
-                                                  }
-                                              ></input>
-                                          </td>
-                                          <td className="th-content">
-                                              <input
-                                                  type="text"
-                                                  min="0"
-                                                  max="10"
-                                                  value={
-                                                      !!item.subject.score_id
-                                                          .score_ratio3
-                                                          ? item.subject
-                                                                .score_id
-                                                                .score_ratio3
-                                                          : ""
-                                                  }
-                                                  disabled={true}
-                                              ></input>
-                                          </td>
-                                          <td className="th-content">
-                                              {!!item.subject.score_id
-                                                  .score_average
-                                                  ? item.subject.score_id
-                                                        .score_average
-                                                  : ""}
-                                          </td>
-                                          <td className="th-content">
-                                              <i
-                                                  onClick={HandleClickEdit}
-                                                  className="fa-regular fa-pen-to-square btn-edit"
-                                              ></i>
-                                          </td>
-                                      </tr>
-                                  ))
+                                    <tr data-key-s={item.subject._id}>
+                                        <td className="th-content">
+                                            {item.subject.subject_name}
+                                        </td>
+                                        <td className="th-content">
+                                            <input
+                                                type="text"
+                                                min="0"
+                                                max="10"
+                                                disabled={true}
+                                                value={
+                                                    !!item.subject.score_id
+                                                        .score_ratio1
+                                                        ? item.subject.score_id.score_ratio1
+                                                            .toString()
+                                                            .replaceAll(
+                                                                ",",
+                                                                "-"
+                                                            )
+                                                        : ""
+                                                }
+                                            ></input>
+                                        </td>
+                                        <td className="th-content">
+                                            <input
+                                                type="text"
+                                                min="0"
+                                                max="10"
+                                                disabled={true}
+                                                value={
+                                                    !!item.subject.score_id
+                                                        .score_ratio2
+                                                        ? item.subject.score_id.score_ratio2
+                                                            .toString()
+                                                            .replaceAll(
+                                                                ",",
+                                                                "-"
+                                                            )
+                                                        : ""
+                                                }
+                                            ></input>
+                                        </td>
+                                        <td className="th-content">
+                                            <input
+                                                type="text"
+                                                min="0"
+                                                max="10"
+                                                value={
+                                                    !!item.subject.score_id
+                                                        .score_ratio3
+                                                        ? item.subject
+                                                            .score_id
+                                                            .score_ratio3
+                                                        : ""
+                                                }
+                                                disabled={true}
+                                            ></input>
+                                        </td>
+                                        <td className="th-content">
+                                            {!!item.subject.score_id
+                                                .score_average
+                                                ? item.subject.score_id
+                                                    .score_average
+                                                : ""}
+                                        </td>
+                                        <td className="th-content">
+                                            <i
+                                                onClick={HandleClickEdit}
+                                                className="fa-regular fa-pen-to-square btn-edit"
+                                            ></i>
+                                        </td>
+                                    </tr>
+                                ))
                                 : null}
                         </tbody>
                     </table>
@@ -247,17 +247,24 @@ const ScoreTeacher = () => {
     const handleInputCustom = () => {
         setIsUpdate(false);
     };
-
     const handleConfirmUpdateScore = (score, ids, type) => {
-        console.log(score, type, ids);
+        let arrOfStrScore1 = score.score_ratio1.split("-")
+        const arrOfNumScore1 = arrOfStrScore1.map(str => {
+            return Number(str);
+        });
+        let arrOfStrScore2 = score.score_ratio2.split("-")
+        const arrOfNumScore2 = arrOfStrScore2.map(str => {
+            return Number(str);
+        });
+        let arrOfNumScore3 = Number(score.score_ratio3);
         if (type === "POST") {
             TeacherService.addScoreBySubjectIdAndStudentId(
                 ids.idSubject,
                 ids.idStudent,
                 {
-                    score_ratio1: score.score_ratio1.split("-"),
-                    score_ratio2: score.score_ratio2.split("-"),
-                    score_ratio3: score.score_ratio3,
+                    score_ratio1: arrOfNumScore1,
+                    score_ratio2: arrOfNumScore2,
+                    score_ratio3: arrOfNumScore3,
                 }
             ).then((res) => {
                 if (res.success) {
@@ -269,9 +276,9 @@ const ScoreTeacher = () => {
             });
         } else {
             TeacherService.updateScoreByScoreId(ids.idScore, {
-                score_ratio1: score.score_ratio1.split("-"),
-                score_ratio2: score.score_ratio2.split("-"),
-                score_ratio3: score.score_ratio3,
+                score_ratio1: arrOfNumScore1,
+                score_ratio2: arrOfNumScore2,
+                score_ratio3: arrOfNumScore3,
             }).then((res) => {
                 if (res.success) {
                     setState(!state);
