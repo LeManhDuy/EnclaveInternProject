@@ -4,6 +4,7 @@ const verifyJWT = require("../middleware/verifyJWTandTeacher");
 const Teachers = require("../model/Teacher");
 const Admin = require("../model/Admin");
 const Parents = require("../model/Parents");
+const Classes = require("../model/Class");
 const jwt = require("jsonwebtoken");
 const argon2 = require("argon2");
 const verifyJWTandAdmin = require("../middleware/verifyJWTandAdmin");
@@ -255,6 +256,12 @@ router.delete("/:teacherID", verifyJWTandAdmin, async (req, res) => {
                     });
                 console.log("successfully deleted file");
             });
+        }
+        if (teacher.teacher_class) {
+            const classroom = await Classes.findById(teacher.teacher_class);
+            classroom.teacher_id = undefined;
+            classroom.teacher_name = "";
+            await classroom.save();
         }
         const postDeleteCondition = { _id: req.params.teacherID };
         const deletedTeacher = await Teachers.findOneAndDelete(

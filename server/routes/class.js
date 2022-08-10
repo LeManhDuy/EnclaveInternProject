@@ -513,6 +513,7 @@ router.delete("/:id", verifyJWT, async (req, res) => {
     try {
         const classDeleteCondition = { _id: req.params.id, user: req.userId };
         const classDB = await Class.findById(classDeleteCondition._id);
+        const scheduleDB = await Schedule.findByIdAndDelete(classDB.schedule_id)
         if (!classDB) {
             return res.status(401).json({
                 success: false,

@@ -47,3 +47,8 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbklkIjoiNjJjN
 //get all (Admin)
 GET http://localhost:8000/api/admin/teachers/get-teacher/
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbklkIjoiNjJkN2I4YWYyNmE1NTliZDhmOTRkNDA3IiwiaWF0IjoxNjU4NDcyMDk4fQ.TtHdSeMCbgHql_j9cgOyZD0XBQx4BQoeRo6NypzHoOE
+
+###
+//get all (Admin)
+DELETE http://localhost:8000/api/admin/teachers/62f31a65a6a8d87f2b064330
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbklkIjoiNjJkN2I4YWYyNmE1NTliZDhmOTRkNDA3IiwiaWF0IjoxNjYwMDk3ODkzfQ.wO3qoLPtQvYD53nQt2ksqJCJgL-61VymoVIvRVUTBto

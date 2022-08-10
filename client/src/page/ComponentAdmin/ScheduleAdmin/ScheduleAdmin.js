@@ -29,7 +29,7 @@ const ScheduleAdmin = () => {
 
     useEffect(() => {
         getSchedule();
-    }, []);
+    }, [isChange]);
 
     const getSchedule = () => {
         setIsLoading(true);
@@ -114,12 +114,9 @@ const ScheduleAdmin = () => {
         ScheduleService.deleteScheduleById(id).then((res) => {
             if (res.success) {
                 setIsChange(!isChange);
-                setErrorServer(false);
-            } else {
-                setErrorServer(true);
+                setIsDelete(false);
             }
         });
-        setIsDelete(false);
     };
 
     const ConfirmDelete = (
@@ -149,11 +146,9 @@ const ScheduleAdmin = () => {
         ScheduleService.addSchedule(allValue.classroom, formData)
             .then((res) => {
                 if (res.success) {
-                    setIsChange(!isChange);
-                    setErrorServer(false);
                     setAddState(false);
+                    setIsChange(!isChange);
                 } else {
-                    setErrorServer(true);
                     setAddState(true);
                 }
             })
@@ -166,11 +161,9 @@ const ScheduleAdmin = () => {
             formData.append("schedule_link", allValue.img, allValue.img.name);
         ScheduleService.updateScheduleById(id, formData).then((res) => {
             if (res.success) {
-                setIsChange(!isChange);
-                setErrorServer(false);
                 setUpdateState(false);
+                setIsChange(!isChange);
             } else {
-                setErrorServer(true);
                 setUpdateState(true);
             }
         });

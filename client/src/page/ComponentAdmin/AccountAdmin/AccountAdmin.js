@@ -183,12 +183,26 @@ function AccountAdmin() {
 
   const handleDelete = () => {
     if (dropValue === "admin")
-      AccountService.deleteAccountAdminById(id).then((res) => res);
+      AccountService.deleteAccountAdminById(id)
+        .then((res) => {
+          if (res.success) {
+            setState(!state);
+            setIsDelete(false);
+          }
+        });
     else if (dropValue === "parents")
-      AccountService.deleteAccountParentsById(id).then((res) => res);
-    else AccountService.deleteAccountTeacherById(id).then((res) => res);
-    setState(!state);
-    setIsDelete(false);
+      AccountService.deleteAccountParentsById(id).then((res) => {
+        if (res.success) {
+          setState(!state);
+          setIsDelete(false);
+        }
+      });
+    else AccountService.deleteAccountTeacherById(id).then((res) => {
+      if (res.success) {
+        setState(!state);
+        setIsDelete(false);
+      }
+    });
   };
 
   const ConfirmDelete = (

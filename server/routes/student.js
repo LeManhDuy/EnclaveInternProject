@@ -393,6 +393,7 @@ router.put(
 router.delete("/:id", verifyJWTandAdmin, async (req, res) => {
     try {
         const postDeleteCondition = { _id: req.params.id };
+        const student = req.params.id;
         const studentDB = await Student.findById(postDeleteCondition._id);
         if (!studentDB) {
             return res
@@ -438,7 +439,8 @@ router.delete("/:id", verifyJWTandAdmin, async (req, res) => {
             studentDB.subjects.map(async (item) => {
                 let subject = await Subject.findById(item._id.toString());
                 if (subject) {
-                    subject.students = undefined;
+                    subject.students.remove(student);
+                    subject.students_name.remove(studentDB.student_fullname);
                     subject.save();
                 }
             });
