@@ -237,7 +237,7 @@ const ScoreParents = () => {
     return (
         <div className="main-container-edit">
             <div>
-                <h3>Student Score</h3>
+                <h3>Student's Score</h3>
             </div>
             <TableAccounts students={students} />
             <Loading isLoading={isLoading} />
