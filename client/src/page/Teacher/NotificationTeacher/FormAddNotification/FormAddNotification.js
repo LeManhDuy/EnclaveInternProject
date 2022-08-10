@@ -134,7 +134,7 @@ const FormAddNotification = (props) => {
         <select className="dropdown-account" value={value} onChange={onChange}>
           {options.map((option) => (
             <option key={option.key} value={option.parentId}>
-              {`${option.name} - ${option.parent_name} - ${option.parent_phone}`}
+              {`${option.parent_name} - ${option.parent_phone}`}
             </option>
           ))}
         </select>
