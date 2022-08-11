@@ -17,8 +17,9 @@ Demo : https://blue-school.netlify.app/
 ### With client site :
 1. Type : cd client and press enter.
 2. Type : npm install and press enter.
-3. Go to directory : client/src/config/api/HandleAPI.js -> change const REACT_APP_API_ENDPOINT = "https://blue-school-project.herokuapp.com/" to const REACT_APP_API_ENDPOINT = "http://localhost:8000/". Because I deployed this project before so the first link is the link to BE Server. You should change it to local.
-4. Type : npm start.
+3. Go to directory link image below -> change const REACT_APP_API_ENDPOINT = "https://blue-school-project.herokuapp.com/" to const REACT_APP_API_ENDPOINT = "http://localhost:8000/". Because I deployed this project before so the first link is the link to BE Server. You should change it to local.
+<img src="https://i.pinimg.com/originals/a4/61/f8/a461f8daa1bfcad8f6460ff7e667f0ad.jpg" alt="drawing" width="250"/>
+5. Type : npm start.
 
 ### With server site:
 1. Type : cd server and press enter.
