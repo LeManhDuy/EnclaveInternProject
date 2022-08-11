@@ -8,7 +8,7 @@ import TeacherInfo from "./TeacherInfo/TeacherInfo";
 import Loading from "../../../lib/Loading/Loading";
 
 const StudentParents = () => {
-    const { REACT_APP_API_ENDPOINT } = "http://localhost:8000/";
+    const REACT_APP_API_ENDPOINT = "http://localhost:8000/";
     const [students, setStudents] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
 

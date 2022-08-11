@@ -5,7 +5,7 @@ import AccountService from "../../../config/service/AccountService";
 
 const UpdateAccount = (props) => {
     let date = new Date().toLocaleDateString();
-    const { REACT_APP_API_ENDPOINT } = "http://localhost:8000/";
+    const REACT_APP_API_ENDPOINT = "http://localhost:8000/";
     const [allValuesAdmin, setAllValuesAdmin] = useState({
         name: "",
         email: "",
@@ -42,15 +42,13 @@ const UpdateAccount = (props) => {
 
     const [allValuesParents, setAllValuesParents] = useState({
         name: "",
-        dateOfBirth: `${date.split("/")[2]}-${
-            date.split("/")[0] < 10
+        dateOfBirth: `${date.split("/")[2]}-${date.split("/")[0] < 10
                 ? "0" + date.split("/")[0]
                 : date.split("/")[0]
-        }-${
-            date.split("/")[1] < 10
+            }-${date.split("/")[1] < 10
                 ? "0" + date.split("/")[1]
                 : date.split("/")[1]
-        }`,
+            }`,
         address: "",
         phone: "",
         gender: null,
@@ -107,8 +105,8 @@ const UpdateAccount = (props) => {
                 (res) => {
                     !!res.teacher.teacher_img
                         ? setAvatar(
-                              `${REACT_APP_API_ENDPOINT}${res.teacher.teacher_img}`
-                          )
+                            `${REACT_APP_API_ENDPOINT}${res.teacher.teacher_img}`
+                        )
                         : setAvatar(Logo);
                     setAllValuesTeacher({
                         name: res.teacher.teacher_name,
@@ -127,8 +125,8 @@ const UpdateAccount = (props) => {
                 (res) => {
                     !!res.parent.parent_img
                         ? setAvatar(
-                              `${REACT_APP_API_ENDPOINT}${res.parent.parent_img}`
-                          )
+                            `${REACT_APP_API_ENDPOINT}${res.parent.parent_img}`
+                        )
                         : setAvatar(Logo);
                     setAllValuesParents({
                         name: res.parent.parent_name,
@@ -307,15 +305,13 @@ const UpdateAccount = (props) => {
 
         let dateNow = new Date().toLocaleDateString();
 
-        let dateConvert = `${dateNow.split("/")[2]}-${
-            dateNow.split("/")[0] < 10
+        let dateConvert = `${dateNow.split("/")[2]}-${dateNow.split("/")[0] < 10
                 ? "0" + dateNow.split("/")[0]
                 : dateNow.split("/")[0]
-        }-${
-            dateNow.split("/")[1] < 10
+            }-${dateNow.split("/")[1] < 10
                 ? "0" + dateNow.split("/")[1]
                 : dateNow.split("/")[1]
-        }`;
+            }`;
 
         if (dateConvert < allValuesParents.dateOfBirth) {
             dateOfBirth = true;
@@ -980,8 +976,8 @@ const UpdateAccount = (props) => {
             {props.dropValue === "admin"
                 ? FormAccountAdmin
                 : props.dropValue === "teacher"
-                ? FormAccountTeacher
-                : FormAccountParents}
+                    ? FormAccountTeacher
+                    : FormAccountParents}
             <button onClick={props.handleInputCustom} className="btn-cancel">
                 Cancel
             </button>

@@ -7,7 +7,7 @@ import StudentService from "../../../config/service/StudentService";
 
 const UpdateStudent = (props) => {
     let date = new Date().toLocaleDateString();
-    const { REACT_APP_API_ENDPOINT }  = "http://localhost:8000/";
+    const REACT_APP_API_ENDPOINT = "http://localhost:8000/";
     const [classroom, setClassroom] = useState([]);
     const [parent, setParent] = useState([]);
     const [teacher, setTeacher] = useState();
@@ -15,15 +15,13 @@ const UpdateStudent = (props) => {
     const [classDropValue, setClassDropValue] = useState();
     const [allValuesStudent, setAllValuesStudent] = useState({
         name: "",
-        dateOfBirth: `${date.split("/")[2]}-${
-            date.split("/")[0] < 10
+        dateOfBirth: `${date.split("/")[2]}-${date.split("/")[0] < 10
                 ? "0" + date.split("/")[0]
                 : date.split("/")[0]
-        }-${
-            date.split("/")[1] < 10
+            }-${date.split("/")[1] < 10
                 ? "0" + date.split("/")[1]
                 : date.split("/")[1]
-        }`,
+            }`,
         gender: null,
         img: null,
         parent: "",
@@ -46,8 +44,8 @@ const UpdateStudent = (props) => {
         StudentService.getStudentById(props.studentID).then((res) => {
             !!res.student.student_image
                 ? setAvatar(
-                      `${REACT_APP_API_ENDPOINT}${res.student.student_image}`
-                  )
+                    `${REACT_APP_API_ENDPOINT}${res.student.student_image}`
+                )
                 : setAvatar(Logo);
             setTeacher(res.student.class_id.teacher_name);
             setAllValuesStudent({
@@ -247,15 +245,13 @@ const UpdateStudent = (props) => {
 
         let dateNow = new Date().toLocaleDateString();
 
-        let dateConvert = `${dateNow.split("/")[2]}-${
-            dateNow.split("/")[0] < 10
+        let dateConvert = `${dateNow.split("/")[2]}-${dateNow.split("/")[0] < 10
                 ? "0" + dateNow.split("/")[0]
                 : dateNow.split("/")[0]
-        }-${
-            dateNow.split("/")[1] < 10
+            }-${dateNow.split("/")[1] < 10
                 ? "0" + dateNow.split("/")[1]
                 : dateNow.split("/")[1]
-        }`;
+            }`;
 
         if (dateConvert < allValuesStudent.dateOfBirth) {
             dateOfBirth = true;

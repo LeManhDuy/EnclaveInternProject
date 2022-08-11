@@ -16,7 +16,7 @@ import UpdateSchedule from "../../../lib/ModalInput/UpdateSchedule/UpdateSchedul
 import Loading from "../../../lib/Loading/Loading";
 
 const ScheduleAdmin = () => {
-    const { REACT_APP_API_ENDPOINT }  = "http://localhost:8000/";
+    const REACT_APP_API_ENDPOINT  = "http://localhost:8000/";
     const [schedules, setSchedule] = useState([]);
     const [isChange, setIsChange] = useState(false);
     const [isDelete, setIsDelete] = useState(false);

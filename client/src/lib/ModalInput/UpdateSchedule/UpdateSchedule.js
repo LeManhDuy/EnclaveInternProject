@@ -5,7 +5,7 @@ import ScheduleService from "../../../config/service/ScheduleService";
 import Logo from "../../../assets/image/Logo.png";
 
 const UpdateSchedule = (props) => {
-    const { REACT_APP_API_ENDPOINT }  = "http://localhost:8000/";
+    const REACT_APP_API_ENDPOINT  = "http://localhost:8000/";
     const [classroom, setClassroom] = useState([]);
     const [classDropValue, setClassDropValue] = useState();
     const [allValuesSchedule, setAllValuesSchedule] = useState({
