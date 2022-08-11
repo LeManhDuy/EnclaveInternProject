@@ -26,7 +26,7 @@ function useOutsideAlerter(ref, handle) {
 
 function UserHeader() {
     let history = useHistory();
-    const { REACT_APP_API_ENDPOINT } = process.env;
+    const { REACT_APP_API_ENDPOINT } = "http://localhost:8000/";
     const [avatar, setAvatar] = useState(Logo);
     const [open, setOpen] = useState(false);
     const wrapperRef = useRef(null);
