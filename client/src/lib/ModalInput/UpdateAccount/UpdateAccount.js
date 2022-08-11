@@ -5,7 +5,7 @@ import AccountService from "../../../config/service/AccountService";
 
 const UpdateAccount = (props) => {
     let date = new Date().toLocaleDateString();
-    const REACT_APP_API_ENDPOINT = "https://blue-school-project.herokuapp.com/";
+    const REACT_APP_API_ENDPOINT = "http://localhost:8000/";
     const [allValuesAdmin, setAllValuesAdmin] = useState({
         name: "",
         email: "",
