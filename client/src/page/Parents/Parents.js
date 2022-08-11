@@ -9,7 +9,7 @@ import FormAddProtector from "./FormAddProtector/FormAddProtector";
 import Loading from "../../lib/Loading/Loading";
 
 const Parents = () => {
-    const REACT_APP_API_ENDPOINT = process.env;
+    const { REACT_APP_API_ENDPOINT }  = process.env;
     const [parentsInfo, setParentsInfo] = useState({
         parent_img: "",
         parent_name: "",

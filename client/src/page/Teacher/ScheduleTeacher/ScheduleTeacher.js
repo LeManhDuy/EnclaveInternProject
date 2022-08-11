@@ -7,7 +7,7 @@ import Loading from "../../../lib/Loading/Loading";
 const ScheduleTeacher = () => {
     const [schedule, setSchedule] = useState(Schedule);
     const [isLoading, setIsLoading] = useState(false);
-    const REACT_APP_API_ENDPOINT = process.env;
+    const { REACT_APP_API_ENDPOINT } = process.env;
 
     useEffect(() => {
         getStudentByClassId();
