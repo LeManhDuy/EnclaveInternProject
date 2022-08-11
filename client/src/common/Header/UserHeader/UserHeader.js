@@ -26,7 +26,7 @@ function useOutsideAlerter(ref, handle) {
 
 function UserHeader() {
     let history = useHistory();
-    const REACT_APP_API_ENDPOINT = "https://blue-school-project.herokuapp.com/";
+    const REACT_APP_API_ENDPOINT = "http://localhost:8000/";
     const [avatar, setAvatar] = useState(Logo);
     const [open, setOpen] = useState(false);
     const wrapperRef = useRef(null);
@@ -40,9 +40,8 @@ function UserHeader() {
                 !!JSON.parse(localStorage.getItem("@Login")).teacher.teacher_img
             ) {
                 setAvatar(
-                    `${REACT_APP_API_ENDPOINT}${
-                        JSON.parse(localStorage.getItem("@Login")).teacher
-                            .teacher_img
+                    `${REACT_APP_API_ENDPOINT}${JSON.parse(localStorage.getItem("@Login")).teacher
+                        .teacher_img
                     }`
                 );
             }
@@ -51,9 +50,8 @@ function UserHeader() {
                 !!JSON.parse(localStorage.getItem("@Login")).parent.parent_img
             ) {
                 setAvatar(
-                    `${REACT_APP_API_ENDPOINT}${
-                        JSON.parse(localStorage.getItem("@Login")).parent
-                            .parent_img
+                    `${REACT_APP_API_ENDPOINT}${JSON.parse(localStorage.getItem("@Login")).parent
+                        .parent_img
                     }`
                 );
             }
@@ -177,8 +175,8 @@ function UserHeader() {
                     AuthenticationService.isAdmin()
                         ? optionsAdmin
                         : AuthenticationService.isParents()
-                        ? optionsParents
-                        : optionsTeacher
+                            ? optionsParents
+                            : optionsTeacher
                 }
             />
             <div className="info-header">
@@ -186,8 +184,8 @@ function UserHeader() {
                     {AuthenticationService.isAdmin()
                         ? AuthenticationService.getData().admin.admin_username.toString()
                         : AuthenticationService.isParents()
-                        ? AuthenticationService.getData().parent.parent_name
-                        : AuthenticationService.getData().teacher.teacher_name}
+                            ? AuthenticationService.getData().parent.parent_name
+                            : AuthenticationService.getData().teacher.teacher_name}
                 </h5>
                 <h6>{AuthenticationService.getData().role.toUpperCase()}</h6>
             </div>

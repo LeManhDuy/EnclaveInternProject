@@ -9,7 +9,7 @@ import FormAddProtector from "./FormAddProtector/FormAddProtector";
 import Loading from "../../lib/Loading/Loading";
 
 const Parents = () => {
-    const REACT_APP_API_ENDPOINT = "https://blue-school-project.herokuapp.com/";
+    const REACT_APP_API_ENDPOINT = "http://localhost:8000/";
     const [parentsInfo, setParentsInfo] = useState({
         parent_img: "",
         parent_name: "",

@@ -1,7 +1,7 @@
 import AuthenticationService from "../service/AuthenticationService"
 
 //const { REACT_APP_API_ENDPOINT } = process.env
-const REACT_APP_API_ENDPOINT = "https://blue-school-project.herokuapp.com/"
+const REACT_APP_API_ENDPOINT = "http://localhost:8000/"
 
 const header = {
   Accept: "application/json",
@@ -65,11 +65,11 @@ function APIPost(url, params) {
   return fetch(url, {
     method: "POST",
     headers: {
-        "Content-Type": "application/json",
+      "Content-Type": "application/json",
     },
     body: JSON.stringify(params)
   })
-    .then((response) =>response.json())
+    .then((response) => response.json())
 }
 
 function APIPostWithToken(url, params) {
@@ -85,7 +85,7 @@ function APIPostWithToken(url, params) {
     .then((response) => response.json())
 }
 
-function APIPostWithTokenIMG(url, params ) {
+function APIPostWithTokenIMG(url, params) {
   url = REACT_APP_API_ENDPOINT + "api/" + url
   return fetch(url, {
     method: "POST",
@@ -111,7 +111,7 @@ function APIPutWithToken(url, params) {
     .then((response) => response.json())
 }
 
-function APIPutWithTokenIMG(url, params ) {
+function APIPutWithTokenIMG(url, params) {
   url = REACT_APP_API_ENDPOINT + "api/" + url
   return fetch(url, {
     method: "PUT",
@@ -185,20 +185,20 @@ function APIDelete(url) {
 // }
 
 const HandleApi = {
-//   APIGetPublic,
+  //   APIGetPublic,
   APIPostPublic,
-//   APIPutPublic,
+  //   APIPutPublic,
   APIPost,
-//   APIPut,
+  //   APIPut,
   APIGetWithToken,
   APIPostWithToken,
-//   APIPostWithFormData,
-//   APIPutWithFormData,
-APIDelete,
-APIPostWithTokenIMG,
-APIPutWithTokenIMG,
-APIPutWithToken,
-APIGetPublic
+  //   APIPostWithFormData,
+  //   APIPutWithFormData,
+  APIDelete,
+  APIPostWithTokenIMG,
+  APIPutWithTokenIMG,
+  APIPutWithToken,
+  APIGetPublic
 }
 
 export default HandleApi
