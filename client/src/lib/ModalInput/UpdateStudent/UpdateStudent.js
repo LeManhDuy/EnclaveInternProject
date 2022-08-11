@@ -7,7 +7,7 @@ import StudentService from "../../../config/service/StudentService";
 
 const UpdateStudent = (props) => {
     let date = new Date().toLocaleDateString();
-    const REACT_APP_API_ENDPOINT = "http://localhost:8000/";
+    const REACT_APP_API_ENDPOINT = process.env;
     const [classroom, setClassroom] = useState([]);
     const [parent, setParent] = useState([]);
     const [teacher, setTeacher] = useState();
